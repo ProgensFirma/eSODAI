@@ -2,18 +2,27 @@ import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AuthService } from './services/auth.service';
+import { LoginWindowComponent } from './components/login-window.component';
+import { InfoWindowComponent } from './components/info-window.component';
 import { SkrzynkiTreeComponent } from './components/skrzynki-tree.component';
 import { DocumentsGridComponent } from './components/documents-grid.component';
 import { DocumentDetailsComponent } from './components/document-details.component';
 import { KontrahenciWindowComponent } from './components/kontrahenci-window.component';
 import { Dokument } from './models/dokument.model';
+import { SessionData } from './models/session.model';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent, KontrahenciWindowComponent],
+  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent, KontrahenciWindowComponent],
   template: `
-    <div class="app-container">
+    <app-login-window 
+      *ngIf="!isLoggedIn"
+      (loginSuccess)="onLoginSuccess()"
+    ></app-login-window>
+
+    <div class="app-container" *ngIf="isLoggedIn">
       <aside class="sidebar">
         <div class="sidebar-header">
           <div 
@@ -41,6 +50,10 @@ import { Dokument } from './models/dokument.model';
               <div class="menu-item" (click)="openJednostki()">
                 <span class="item-icon">🏢</span>
                 <span class="item-text">Jednostki</span>
+              </div>
+              <div class="menu-item" (click)="openInfo()">
+                <span class="item-icon">ℹ️</span>
+                <span class="item-text">Informacja</span>
               </div>
             </div>
           </div>
@@ -94,6 +107,11 @@ import { Dokument } from './models/dokument.model';
       *ngIf="showKontrahenciWindow"
       (closeRequested)="closeKontrahenciWindow()"
     ></app-kontrahenci-window>
+    
+    <app-info-window 
+      *ngIf="showInfoWindow"
+      (closeRequested)="closeInfoWindow()"
+    ></app-info-window>
   `,
   styles: [`
     .app-container {
@@ -395,7 +413,12 @@ export class App {
   selectedDocument: Dokument | null = null;
   showMenu = false;
   showKontrahenciWindow = false;
+  showInfoWindow = false;
+  isLoggedIn = false;
   private hideMenuTimeout: any;
+  sessionData: SessionData | null = null;
+
+  constructor(private authService: AuthService) {}
 
   onSkrzynkaSelected(skrzynka: string) {
     this.selectedSkrzynka = skrzynka;
@@ -438,6 +461,20 @@ export class App {
 
   closeKontrahenciWindow() {
     this.showKontrahenciWindow = false;
+  }
+
+  openInfo() {
+    this.showMenu = false;
+    this.showInfoWindow = true;
+  }
+
+  closeInfoWindow() {
+    this.showInfoWindow = false;
+  }
+
+  onLoginSuccess() {
+    this.isLoggedIn = true;
+    this.sessionData = this.authService.getCurrentSession();
   }
 }
 
