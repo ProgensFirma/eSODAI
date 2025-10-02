@@ -450,6 +450,8 @@ export class App {
   cancelHideMenu() {
     if (this.hideMenuTimeout) {
       clearTimeout(this.hideMenuTimeout);
+    }
+  }
   toggleMenu() {
     this.showMenu = !this.showMenu;
   }
