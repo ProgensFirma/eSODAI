@@ -5,6 +5,12 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { LoginWindowComponent } from './components/login-window.component';
 import { InfoWindowComponent } from './components/info-window.component';
+import { AuthService } from './services/auth.service';
+import { LoginWindowComponent } from './components/login-window.component';
+import { InfoWindowComponent } from './components/info-window.component';
+import { AuthService } from './services/auth.service';
+import { LoginWindowComponent } from './components/login-window.component';
+import { InfoWindowComponent } from './components/info-window.component';
 import { SkrzynkiTreeComponent } from './components/skrzynki-tree.component';
 import { DocumentsGridComponent } from './components/documents-grid.component';
 import { DocumentDetailsComponent } from './components/document-details.component';
@@ -438,8 +444,8 @@ export class App {
   cancelHideMenu() {
     if (this.hideMenuTimeout) {
       clearTimeout(this.hideMenuTimeout);
-      this.hideMenuTimeout = null;
-    }
+  toggleMenu() {
+    this.showMenu = !this.showMenu;
   }
 
   openKontrahenci() {
