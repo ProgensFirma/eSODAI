@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { LoginRequest, SessionData, LoginResponse } from '../models/session.model';
 
@@ -17,8 +17,13 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(loginData: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<SessionData>(this.apiUrl, loginData, { 
-      observe: 'response' 
+    const params = new HttpParams()
+      .set('login', loginData.login)
+      .set('haslo', loginData.haslo);
+
+    return this.http.get<SessionData>(this.apiUrl, { 
+      params,
+      observe: 'response'
     }).pipe(
       map((response: HttpResponse<SessionData>) => {
         const sessionData = response.body!;
