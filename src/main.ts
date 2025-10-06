@@ -463,6 +463,19 @@ export class App {
     this.isLoggedIn = true;
     this.sessionData = this.authService.getCurrentSession();
   }
+
+  hideMenuDelayed() {
+    this.hideMenuTimeout = setTimeout(() => {
+      this.showMenu = false;
+    }, 300);
+  }
+
+  cancelHideMenu() {
+    if (this.hideMenuTimeout) {
+      clearTimeout(this.hideMenuTimeout);
+      this.hideMenuTimeout = null;
+    }
+  }
 }
 
 bootstrapApplication(App, {
