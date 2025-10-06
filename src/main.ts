@@ -63,7 +63,7 @@ import { SessionData } from './models/session.model';
       
       <main class="main-content">
         <div class="content-header">
-          <h1 class="main-title">System Zarządzania Skrzynkami</h1>
+          <h1 class="main-title">System obiegu dokumentów eSOD</h1>
           <p class="subtitle" *ngIf="!selectedSkrzynka">Wybierz skrzynkę z menu po lewej stronie</p>
           <p class="subtitle" *ngIf="selectedSkrzynka">Skrzynka: {{ selectedSkrzynka }}</p>
         </div>
