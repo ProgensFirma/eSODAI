@@ -429,34 +429,20 @@ export class App {
     this.selectedDocument = document;
   }
 
-  hideMenuDelayed() {
-    this.hideMenuTimeout = setTimeout(() => {
-      this.showMenu = false;
-    }, 300);
-  }
-
-  cancelHideMenu() {
-    if (this.hideMenuTimeout) {
-      clearTimeout(this.hideMenuTimeout);
-    }
-  }
   toggleMenu() {
     this.showMenu = !this.showMenu;
   }
 
   openKontrahenci() {
-    this.showMenu = false;
     this.showKontrahenciWindow = true;
   }
 
   openPracownicy() {
-    this.showMenu = false;
     // TODO: Implement pracownicy window
     console.log('Opening Pracownicy...');
   }
 
   openJednostki() {
-    this.showMenu = false;
     // TODO: Implement jednostki window
     console.log('Opening Jednostki...');
   }
@@ -466,7 +452,6 @@ export class App {
   }
 
   openInfo() {
-    this.showMenu = false;
     this.showInfoWindow = true;
   }
 
