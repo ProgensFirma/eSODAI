@@ -27,8 +27,7 @@ import { SessionData } from './models/session.model';
         <div class="sidebar-header">
           <div 
             class="menu-trigger"
-            (mouseenter)="showMenu = true"
-            (mouseleave)="hideMenuDelayed()"
+            (click)="toggleMenu()"
           >
             <span class="menu-icon">☰</span>
             <span class="menu-text">Menu</span>
@@ -36,8 +35,6 @@ import { SessionData } from './models/session.model';
             <div 
               class="dropdown-menu"
               [class.visible]="showMenu"
-              (mouseenter)="cancelHideMenu()"
-              (mouseleave)="hideMenuDelayed()"
             >
               <div class="menu-item" (click)="openKontrahenci()">
                 <span class="item-icon">👥</span>
@@ -435,16 +432,19 @@ export class App {
 
   openKontrahenci() {
     this.showKontrahenciWindow = true;
+    this.showMenu = false;
   }
 
   openPracownicy() {
     // TODO: Implement pracownicy window
     console.log('Opening Pracownicy...');
+    this.showMenu = false;
   }
 
   openJednostki() {
     // TODO: Implement jednostki window
     console.log('Opening Jednostki...');
+    this.showMenu = false;
   }
 
   closeKontrahenciWindow() {
@@ -453,6 +453,7 @@ export class App {
 
   openInfo() {
     this.showInfoWindow = true;
+    this.showMenu = false;
   }
 
   closeInfoWindow() {
