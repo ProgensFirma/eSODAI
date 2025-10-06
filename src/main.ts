@@ -433,17 +433,20 @@ export class App {
   openKontrahenci() {
     this.showKontrahenciWindow = true;
     this.showMenu = false;
+    this.showMenu = false;
   }
 
   openPracownicy() {
     // TODO: Implement pracownicy window
     console.log('Opening Pracownicy...');
     this.showMenu = false;
+    this.showMenu = false;
   }
 
   openJednostki() {
     // TODO: Implement jednostki window
     console.log('Opening Jednostki...');
+    this.showMenu = false;
     this.showMenu = false;
   }
 
@@ -453,6 +456,7 @@ export class App {
 
   openInfo() {
     this.showInfoWindow = true;
+    this.showMenu = false;
     this.showMenu = false;
   }
 
