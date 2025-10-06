@@ -173,7 +173,7 @@ import { SessionData } from './models/session.model';
       border: 1px solid #e2e8f0;
       border-radius: 8px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-      z-index: 100;
+      z-index: 1000;
       opacity: 0;
       visibility: hidden;
       transform: translateY(-10px);
