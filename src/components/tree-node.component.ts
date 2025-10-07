@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TreeNode } from '../models/skrzynka.model';
+import { TreeNode, Skrzynka } from '../models/skrzynka.model';
 
 @Component({
   selector: 'app-tree-node',
@@ -200,7 +200,7 @@ import { TreeNode } from '../models/skrzynka.model';
 })
 export class TreeNodeComponent implements OnInit {
   @Input() node!: TreeNode;
-  @Output() nodeSelected = new EventEmitter<string>();
+  @Output() nodeSelected = new EventEmitter<Skrzynka>();
 
   ngOnInit() {
     // Auto-expand level 1 nodes by default
@@ -215,12 +215,12 @@ export class TreeNodeComponent implements OnInit {
     } else {
       // Emit the selected node for document types
       if (this.node.data.typ === 'ts_pisma' || this.node.data.typ === 'ts_sprawy' || this.node.data.typ === 'ts_korespEl') {
-        this.nodeSelected.emit(this.node.data.skrzynka);
+        this.nodeSelected.emit(this.node.data);
       }
     }
   }
 
-  onChildNodeSelected(skrzynka: string) {
+  onChildNodeSelected(skrzynka: Skrzynka) {
     this.nodeSelected.emit(skrzynka);
   }
 

@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { DokumentyService } from '../services/dokumenty.service';
 import { Dokument } from '../models/dokument.model';
+import { Skrzynka } from '../models/skrzynka.model';
 
 @Component({
   selector: 'app-documents-grid',
@@ -406,7 +407,7 @@ import { Dokument } from '../models/dokument.model';
   `]
 })
 export class DocumentsGridComponent implements OnChanges {
-  @Input() selectedSkrzynka: string | null = null;
+  @Input() selectedSkrzynka: Skrzynka | null = null;
   @Output() documentSelected = new EventEmitter<Dokument>();
 
   documents: Dokument[] = [];

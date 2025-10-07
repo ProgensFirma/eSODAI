@@ -188,11 +188,11 @@ import { Skrzynka, TreeNode } from '../models/skrzynka.model';
   `]
 })
 export class SkrzynkiTreeComponent implements OnInit {
-  @Output() skrzynkaSelected = new EventEmitter<string>();
+  @Output() skrzynkaSelected = new EventEmitter<Skrzynka>();
   
   treeNodes: TreeNode[] = [];
   loading = false;
-  selectedSkrzynka: string | null = null;
+  selectedSkrzynka: Skrzynka | null = null;
 
   constructor(private skrzynkiService: SkrzynkiService) {}
 
@@ -200,7 +200,7 @@ export class SkrzynkiTreeComponent implements OnInit {
     this.loadData();
   }
 
-  onNodeSelected(skrzynka: string) {
+  onNodeSelected(skrzynka: Skrzynka) {
     this.selectedSkrzynka = skrzynka;
     this.skrzynkaSelected.emit(skrzynka);
   }

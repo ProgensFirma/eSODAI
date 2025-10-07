@@ -11,6 +11,7 @@ import { DocumentDetailsComponent } from './components/document-details.componen
 import { KontrahenciWindowComponent } from './components/kontrahenci-window.component';
 import { Dokument } from './models/dokument.model';
 import { SessionData } from './models/session.model';
+import { Skrzynka } from './models/skrzynka.model';
 
 @Component({
   selector: 'app-root',
@@ -65,7 +66,7 @@ import { SessionData } from './models/session.model';
         <div class="content-header">
           <h1 class="main-title">System obiegu dokumentów eSOD</h1>
           <p class="subtitle" *ngIf="!selectedSkrzynka">Wybierz skrzynkę z menu po lewej stronie</p>
-          <p class="subtitle" *ngIf="selectedSkrzynka">Skrzynka: {{ selectedSkrzynka }}</p>
+          <p class="subtitle" *ngIf="selectedSkrzynka">Skrzynka: {{ selectedSkrzynka.nazwa }}</p>
         </div>
         
         <div class="content-body" *ngIf="!selectedSkrzynka">
@@ -406,7 +407,7 @@ import { SessionData } from './models/session.model';
   `]
 })
 export class App {
-  selectedSkrzynka: string | null = null;
+  selectedSkrzynka: Skrzynka | null = null;
   selectedDocument: Dokument | null = null;
   showMenu = false;
   showKontrahenciWindow = false;
@@ -417,9 +418,9 @@ export class App {
 
   constructor(private authService: AuthService) {}
 
-  onSkrzynkaSelected(skrzynka: string) {
+  onSkrzynkaSelected(skrzynka: Skrzynka) {
     this.selectedSkrzynka = skrzynka;
-    this.selectedDocument = null; // Reset selected document when changing skrzynka
+    this.selectedDocument = null;
   }
 
   onDocumentSelected(document: Dokument) {
