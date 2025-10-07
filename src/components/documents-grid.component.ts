@@ -16,13 +16,23 @@ import { Skrzynka } from '../models/skrzynka.model';
           Dokumenty
           <span class="document-count" *ngIf="documents.length > 0">({{ documents.length }})</span>
         </h3>
-        <button 
-          class="refresh-button"
-          (click)="loadDocuments()"
-          [disabled]="loading"
-        >
-          <span class="refresh-icon" [class.spinning]="loading">↻</span>
-        </button>
+        <div class="header-buttons">
+          <button
+            class="action-button button-new"
+            (click)="onNewDocument()"
+            [disabled]="!selectedSkrzynka"
+          >
+            <span class="button-icon">➕</span>
+            Nowy dokument
+          </button>
+          <button
+            class="action-button button-refresh"
+            (click)="loadDocuments()"
+            [disabled]="loading"
+          >
+            <span class="refresh-icon" [class.spinning]="loading">↻</span>
+          </button>
+        </div>
       </div>
       
       <div class="documents-content" *ngIf="!loading && documents.length > 0">
@@ -127,27 +137,51 @@ import { Skrzynka } from '../models/skrzynka.model';
       font-weight: 500;
     }
 
-    .refresh-button {
-      background: #2563eb;
-      color: white;
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-button {
       border: none;
       border-radius: 8px;
-      padding: 8px 12px;
+      padding: 8px 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 6px;
       transition: all 0.2s ease;
+      font-size: 14px;
+      font-weight: 600;
     }
 
-    .refresh-button:hover:not(:disabled) {
+    .button-new {
+      background: #16a34a;
+      color: white;
+    }
+
+    .button-new:hover:not(:disabled) {
+      background: #15803d;
+      transform: translateY(-1px);
+    }
+
+    .button-refresh {
+      background: #2563eb;
+      color: white;
+    }
+
+    .button-refresh:hover:not(:disabled) {
       background: #1d4ed8;
       transform: translateY(-1px);
     }
 
-    .refresh-button:disabled {
+    .action-button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+    }
+
+    .button-icon {
+      font-size: 16px;
     }
 
     .refresh-icon {
@@ -409,6 +443,7 @@ import { Skrzynka } from '../models/skrzynka.model';
 export class DocumentsGridComponent implements OnChanges {
   @Input() selectedSkrzynka: Skrzynka | null = null;
   @Output() documentSelected = new EventEmitter<Dokument>();
+  @Output() newDocumentRequested = new EventEmitter<void>();
 
   documents: Dokument[] = [];
   selectedDocument: Dokument | null = null;
@@ -472,5 +507,9 @@ export class DocumentsGridComponent implements OnChanges {
     if (type.includes('decyzja')) return 'type-decyzja';
     if (type.includes('postanowienie')) return 'type-postanowienie';
     return 'type-default';
+  }
+
+  onNewDocument() {
+    this.newDocumentRequested.emit();
   }
 }

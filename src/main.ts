@@ -9,6 +9,7 @@ import { SkrzynkiTreeComponent } from './components/skrzynki-tree.component';
 import { DocumentsGridComponent } from './components/documents-grid.component';
 import { DocumentDetailsComponent } from './components/document-details.component';
 import { KontrahenciWindowComponent } from './components/kontrahenci-window.component';
+import { DocumentEditWindowComponent } from './components/document-edit-window.component';
 import { Dokument } from './models/dokument.model';
 import { SessionData } from './models/session.model';
 import { Skrzynka } from './models/skrzynka.model';
@@ -16,7 +17,7 @@ import { Skrzynka } from './models/skrzynka.model';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent, KontrahenciWindowComponent],
+  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent, KontrahenciWindowComponent, DocumentEditWindowComponent],
   template: `
     <app-login-window 
       *ngIf="!isLoggedIn"
@@ -88,9 +89,10 @@ import { Skrzynka } from './models/skrzynka.model';
         
         <div class="documents-layout" *ngIf="selectedSkrzynka">
           <div class="documents-grid-section">
-            <app-documents-grid 
+            <app-documents-grid
               [selectedSkrzynka]="selectedSkrzynka"
-              (documentSelected)="onDocumentSelected($event)">
+              (documentSelected)="onDocumentSelected($event)"
+              (newDocumentRequested)="onNewDocumentRequested()">
             </app-documents-grid>
           </div>
           
@@ -106,10 +108,18 @@ import { Skrzynka } from './models/skrzynka.model';
       (closeRequested)="closeKontrahenciWindow()"
     ></app-kontrahenci-window>
     
-    <app-info-window 
+    <app-info-window
       *ngIf="showInfoWindow"
       (closeRequested)="closeInfoWindow()"
     ></app-info-window>
+
+    <app-document-edit-window
+      *ngIf="showDocumentEditWindow"
+      [mode]="documentEditMode"
+      [dokument]="editingDocument!"
+      (closeRequested)="closeDocumentEditWindow()"
+      (documentSaved)="onDocumentSaved()"
+    ></app-document-edit-window>
   `,
   styles: [`
     .app-container {
@@ -412,9 +422,12 @@ export class App {
   showMenu = false;
   showKontrahenciWindow = false;
   showInfoWindow = false;
+  showDocumentEditWindow = false;
   isLoggedIn = false;
   private hideMenuTimeout: any;
   sessionData: SessionData | null = null;
+  documentEditMode: 'add' | 'edit' = 'add';
+  editingDocument: Dokument | null = null;
 
   constructor(private authService: AuthService) {}
 
@@ -481,6 +494,71 @@ export class App {
       clearTimeout(this.hideMenuTimeout);
       this.hideMenuTimeout = null;
     }
+  }
+
+  onNewDocumentRequested() {
+    this.documentEditMode = 'add';
+    this.editingDocument = this.createEmptyDokument();
+    this.showDocumentEditWindow = true;
+  }
+
+  closeDocumentEditWindow() {
+    this.showDocumentEditWindow = false;
+    this.editingDocument = null;
+  }
+
+  onDocumentSaved() {
+    this.showDocumentEditWindow = false;
+    this.editingDocument = null;
+  }
+
+  private createEmptyDokument(): Dokument {
+    return {
+      numer: 0,
+      archiwum: false,
+      dokGlowny: 0,
+      wersja: '',
+      aktualny: true,
+      statusEdycji: '',
+      doWgladu: false,
+      typ: { nazwa: '', finansowy: false },
+      szablon: null,
+      nazwa: '',
+      opis: '',
+      sprawa: null,
+      rejestr: '',
+      rejestrNumer: 0,
+      rejestrRok: 0,
+      rejestrNrPozycji: '',
+      dataWplywu: '',
+      godzinaWplywu: 0,
+      numerNaDok: '',
+      dataNaDok: '',
+      kanalWe: '',
+      domKanalWy: '',
+      kontrahent: { numer: 0, identyfikator: '', firma: false, nIP: '' },
+      przekazujacy: { numer: 0, identyfikator: '' },
+      przekazujacyWydzial: { stanowisko: false, symbol: '', nazwa: '', kod: '' },
+      dataPrzekazania: '',
+      prowadzacy: { numer: 0, identyfikator: '' },
+      prowadzacyWydzial: { stanowisko: false, symbol: '', nazwa: '', kod: '' },
+      odpowiedzialny: { numer: 0, identyfikator: '' },
+      dataPrzyjecia: '',
+      uprawPoziom: '',
+      statusPrzek: '',
+      dataAlert: '',
+      dataPlan: '',
+      daneFinansowe: null,
+      grupa1: '',
+      grupa2: '',
+      grupa3: '',
+      publiczny: false,
+      dokGuid: '',
+      zalaczniki: [],
+      oper: '',
+      status: '',
+      statusDane: ''
+    };
   }
 }
 
