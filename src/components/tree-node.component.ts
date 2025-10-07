@@ -10,9 +10,9 @@ import { TreeNode, Skrzynka } from '../models/skrzynka.model';
     <div class="tree-node" [class.expanded]="node.expanded">
       <div 
         class="node-content" 
-        [class.level-0]="node.data.poziom === 0"
-        [class.level-1]="node.data.poziom === 1"
-        [class.level-2]="node.data.poziom === 2"
+        [class.level-0]="node.data.poziom === 1"
+        [class.level-1]="node.data.poziom === 2"
+        [class.level-2]="node.data.poziom === 3"
         (click)="handleNodeClick()"
       >
         <div class="node-info">
