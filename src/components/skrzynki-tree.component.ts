@@ -230,12 +230,12 @@ export class SkrzynkiTreeComponent implements OnInit {
         children: [],
         expanded: false
       };
-      nodeMap.set(skrzynka.skrzynka, node);
+      nodeMap.set(skrzynka.skrzynka+skrzynka.skrDef, node);
     });
 
     // Build hierarchy
     skrzynki.forEach(skrzynka => {
-      const node = nodeMap.get(skrzynka.skrzynka)!;
+      const node = nodeMap.get(skrzynka.skrzynka+skrzynka.skrDef)!;
       
       if (skrzynka.poziom === 0 || skrzynka.poziom === 1) {
         rootNodes.push(node);
