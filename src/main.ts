@@ -92,7 +92,8 @@ import { Skrzynka } from './models/skrzynka.model';
             <app-documents-grid
               [selectedSkrzynka]="selectedSkrzynka"
               (documentSelected)="onDocumentSelected($event)"
-              (newDocumentRequested)="onNewDocumentRequested()">
+              (newDocumentRequested)="onNewDocumentRequested()"
+              (editDocumentRequested)="onEditDocumentRequested($event)">
             </app-documents-grid>
           </div>
           
@@ -499,6 +500,12 @@ export class App {
   onNewDocumentRequested() {
     this.documentEditMode = 'add';
     this.editingDocument = this.createEmptyDokument();
+    this.showDocumentEditWindow = true;
+  }
+
+  onEditDocumentRequested(dokument: Dokument) {
+    this.documentEditMode = 'edit';
+    this.editingDocument = { ...dokument };
     this.showDocumentEditWindow = true;
   }
 

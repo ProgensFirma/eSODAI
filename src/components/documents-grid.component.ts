@@ -26,6 +26,14 @@ import { Skrzynka } from '../models/skrzynka.model';
             Nowy dokument
           </button>
           <button
+            class="action-button button-edit"
+            (click)="onEditDocument()"
+            [disabled]="!selectedDocument"
+          >
+            <span class="button-icon">✏️</span>
+            Edycja
+          </button>
+          <button
             class="action-button button-refresh"
             (click)="loadDocuments()"
             [disabled]="loading"
@@ -162,6 +170,16 @@ import { Skrzynka } from '../models/skrzynka.model';
 
     .button-new:hover:not(:disabled) {
       background: #15803d;
+      transform: translateY(-1px);
+    }
+
+    .button-edit {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .button-edit:hover:not(:disabled) {
+      background: #d97706;
       transform: translateY(-1px);
     }
 
@@ -444,6 +462,7 @@ export class DocumentsGridComponent implements OnChanges {
   @Input() selectedSkrzynka: Skrzynka | null = null;
   @Output() documentSelected = new EventEmitter<Dokument>();
   @Output() newDocumentRequested = new EventEmitter<void>();
+  @Output() editDocumentRequested = new EventEmitter<Dokument>();
 
   documents: Dokument[] = [];
   selectedDocument: Dokument | null = null;
@@ -511,5 +530,11 @@ export class DocumentsGridComponent implements OnChanges {
 
   onNewDocument() {
     this.newDocumentRequested.emit();
+  }
+
+  onEditDocument() {
+    if (this.selectedDocument) {
+      this.editDocumentRequested.emit(this.selectedDocument);
+    }
   }
 }
