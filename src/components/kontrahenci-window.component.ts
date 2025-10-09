@@ -1,12 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { KontrahenciService } from '../services/kontrahenci.service';
 import { KontrahentDetailed } from '../models/kontrahent.model';
 
 @Component({
   selector: 'app-kontrahenci-window',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="kontrahenci-overlay" (click)="closeWindow()">
       <div class="kontrahenci-window" (click)="$event.stopPropagation()">
@@ -32,7 +33,14 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
             <div class="list-header">
               <h3>Lista kontrahentów</h3>
               <div class="list-controls">
-                <button 
+                <input
+                  type="text"
+                  class="filter-input"
+                  [(ngModel)]="filterText"
+                  (ngModelChange)="onFilterChange()"
+                  placeholder="Filtruj kontrahentów..."
+                />
+                <button
                   class="refresh-button"
                   (click)="loadKontrahenci()"
                   [disabled]="loading"
@@ -363,6 +371,22 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
     .list-controls {
       display: flex;
       gap: 8px;
+      align-items: center;
+    }
+
+    .filter-input {
+      padding: 6px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 14px;
+      min-width: 200px;
+      transition: all 0.2s ease;
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     .refresh-button {
@@ -740,7 +764,8 @@ export class KontrahenciWindowComponent implements OnInit {
   kontrahenci: KontrahentDetailed[] = [];
   selectedKontrahent: KontrahentDetailed | null = null;
   loading = false;
-  
+  filterText = '';
+
   currentPage = 1;
   pageSize = 10;
   totalCount = 0;
@@ -752,11 +777,17 @@ export class KontrahenciWindowComponent implements OnInit {
     this.loadKontrahenci();
   }
 
+  onFilterChange() {
+    this.currentPage = 1;
+    this.selectedKontrahent = null;
+    this.loadKontrahenci();
+  }
+
   loadKontrahenci() {
     this.loading = true;
     const rekStart = (this.currentPage - 1) * this.pageSize + 1;
-    
-    this.kontrahenciService.getKontrahenci(rekStart, this.pageSize).subscribe({
+
+    this.kontrahenciService.getKontrahenci(rekStart, this.pageSize, this.filterText).subscribe({
       next: (response) => {
         this.kontrahenci = response.data;
         if (response.wynikIlosc !== undefined) {
@@ -766,8 +797,7 @@ export class KontrahenciWindowComponent implements OnInit {
           this.totalPages = Math.ceil(this.totalCount / this.pageSize);
         }
         this.loading = false;
-        
-        // Auto-select first item if none selected
+
         if (this.kontrahenci.length > 0 && !this.selectedKontrahent) {
           this.selectedKontrahent = this.kontrahenci[0];
         }

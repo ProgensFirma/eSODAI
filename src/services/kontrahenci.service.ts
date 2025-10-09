@@ -11,14 +11,18 @@ export class KontrahenciService {
 
   constructor(private http: HttpClient) {}
 
-  getKontrahenci(rekStart: number = 1, rekIlosc: number = 10): Observable<KontrahenciResponse> {
-    const params = new HttpParams()
+  getKontrahenci(rekStart: number = 1, rekIlosc: number = 10, fraza: string = ''): Observable<KontrahenciResponse> {
+    let params = new HttpParams()
       .set('rekStart', rekStart.toString())
       .set('rekIlosc', rekIlosc.toString());
 
-    return this.http.get<KontrahentDetailed[]>(this.apiUrl, { 
-      params, 
-      observe: 'response' 
+    if (fraza) {
+      params = params.set('fraza', fraza);
+    }
+
+    return this.http.get<KontrahentDetailed[]>(this.apiUrl, {
+      params,
+      observe: 'response'
     }).pipe(
       map((response: HttpResponse<KontrahentDetailed[]>) => {
         const wynikIlosc = response.headers.get('WynikIlosc');
@@ -29,7 +33,6 @@ export class KontrahenciService {
       }),
       catchError(error => {
         console.error('Error fetching kontrahenci:', error);
-        // Return mock data for development
         return of(this.getMockData(rekStart, rekIlosc));
       })
     );
