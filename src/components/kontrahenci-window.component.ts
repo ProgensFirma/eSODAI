@@ -33,6 +33,7 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
             <div class="list-header">
               <h3>Lista kontrahentów</h3>
               <div class="list-controls">
+                <label class="filter-label">filtr:</label>
                 <input
                   type="text"
                   class="filter-input"
@@ -372,6 +373,12 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
       display: flex;
       gap: 8px;
       align-items: center;
+    }
+
+    .filter-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
     }
 
     .filter-input {
