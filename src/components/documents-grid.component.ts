@@ -174,12 +174,12 @@ import { Skrzynka } from '../models/skrzynka.model';
     }
 
     .button-edit {
-      background: #f59e0b;
+      background: #16a34a;
       color: white;
     }
 
     .button-edit:hover:not(:disabled) {
-      background: #d97706;
+      background: #15803d;
       transform: translateY(-1px);
     }
 
