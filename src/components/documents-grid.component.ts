@@ -23,7 +23,7 @@ import { Skrzynka } from '../models/skrzynka.model';
             [disabled]="!selectedSkrzynka"
           >
             <span class="button-icon">➕</span>
-            Nowy dokument
+            Nowy
           </button>
           <button
             class="action-button button-edit"
