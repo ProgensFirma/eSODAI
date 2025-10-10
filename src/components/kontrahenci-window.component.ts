@@ -1,8 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { KontrahenciService } from '../services/kontrahenci.service';
-import { KontrahentDetailed } from '../models/kontrahent.model';
+import { KontrahentDetailed, KontrahentInfo } from '../models/kontrahent.model';
 
 @Component({
   selector: 'app-kontrahenci-window',
@@ -18,7 +18,11 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
             <span class="total-count" *ngIf="totalCount">({{ totalCount }})</span>
           </h2>
           <div class="header-actions">
-            <button class="edit-button" title="Edycja danych">
+            <button *ngIf="pWybor" class="select-button" (click)="selectAndClose()" [disabled]="!selectedKontrahent" title="Wybierz kontrahenta">
+              <span class="select-icon">✓</span>
+              Wybór
+            </button>
+            <button *ngIf="!pWybor" class="edit-button" title="Edycja danych">
               <span class="edit-icon">✏️</span>
               Edycja danych
             </button>
@@ -306,6 +310,7 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
       align-items: center;
     }
 
+    .select-button,
     .edit-button,
     .close-button {
       background: rgba(255, 255, 255, 0.2);
@@ -322,10 +327,17 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
       transition: all 0.2s ease;
     }
 
+    .select-button:hover:not(:disabled),
     .edit-button:hover,
     .close-button:hover {
       background: rgba(255, 255, 255, 0.3);
       transform: translateY(-1px);
+    }
+
+    .select-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .close-button {
@@ -766,7 +778,9 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
   `]
 })
 export class KontrahenciWindowComponent implements OnInit {
+  @Input() pWybor: boolean = false;
   @Output() closeRequested = new EventEmitter<void>();
+  @Output() kontrahentSelected = new EventEmitter<KontrahentInfo>();
 
   kontrahenci: KontrahentDetailed[] = [];
   selectedKontrahent: KontrahentDetailed | null = null;
@@ -853,6 +867,19 @@ export class KontrahenciWindowComponent implements OnInit {
 
   isValidDate(dateString: string): boolean {
     return !!(dateString && dateString !== '1899-12-30T00:00:00.000Z');
+  }
+
+  selectAndClose() {
+    if (this.selectedKontrahent && this.pWybor) {
+      const kontrahentInfo: KontrahentInfo = {
+        numer: this.selectedKontrahent.numer,
+        identyfikator: this.selectedKontrahent.identyfikator,
+        nazwa: this.selectedKontrahent.nazwa,
+        imie: this.selectedKontrahent.imie
+      };
+      this.kontrahentSelected.emit(kontrahentInfo);
+      this.closeRequested.emit();
+    }
   }
 
   closeWindow() {
