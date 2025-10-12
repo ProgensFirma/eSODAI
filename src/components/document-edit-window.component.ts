@@ -6,6 +6,8 @@ import { DokumentTyp } from '../models/dokument-typ.model';
 import { DokumentTypyService } from '../services/dokument-typy.service';
 import { KontrahentInfo } from '../models/kontrahent.model';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
+import { WykazAkt } from '../models/wykaz-akt.model';
+import { WykazAktService } from '../services/wykaz-akt.service';
 
 @Component({
   selector: 'app-document-edit-window',
@@ -156,8 +158,11 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
             <div class="form-group">
               <label class="form-label">JRWA</label>
-              <select class="form-select" disabled>
+              <select class="form-select" [(ngModel)]="selectedJrwa">
                 <option value="">-- Wybierz JRWA --</option>
+                <option *ngFor="let jrwa of wykazAktList" [value]="jrwa.symbol">
+                  {{ jrwa.symbol }} - {{ jrwa.nazwa }}
+                </option>
               </select>
             </div>
           </div>
@@ -543,11 +548,17 @@ export class DocumentEditWindowComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
   showKontrahentWindow = false;
+  wykazAktList: WykazAkt[] = [];
+  selectedJrwa: string = '';
 
-  constructor(private dokumentTypyService: DokumentTypyService) {}
+  constructor(
+    private dokumentTypyService: DokumentTypyService,
+    private wykazAktService: WykazAktService
+  ) {}
 
   ngOnInit() {
     this.loadDokumentTypy();
+    this.loadWykazAkt();
     this.initializeFormData();
   }
 
@@ -563,9 +574,24 @@ export class DocumentEditWindowComponent implements OnInit {
     });
   }
 
+  loadWykazAkt() {
+    this.wykazAktService.getWykazAkt().subscribe({
+      next: (wykazAkt) => {
+        this.wykazAktList = wykazAkt;
+      },
+      error: (error) => {
+        console.error('Error loading wykaz akt:', error);
+      }
+    });
+  }
+
   initializeFormData() {
     if (this.dokument.typ?.nazwa) {
       this.selectedTypNazwa = this.dokument.typ.nazwa;
+    }
+
+    if (this.dokument.jrwa) {
+      this.selectedJrwa = this.dokument.jrwa;
     }
 
     if (this.dokument.dataWplywu && this.dokument.dataWplywu !== '1899-12-30T00:00:00.000Z') {
@@ -617,6 +643,10 @@ export class DocumentEditWindowComponent implements OnInit {
     if (this.godzinaWplywuStr) {
       const [hours, minutes] = this.godzinaWplywuStr.split(':').map(Number);
       this.dokument.godzinaWplywu = (hours * 3600000) + (minutes * 60000);
+    }
+
+    if (this.selectedJrwa) {
+      this.dokument.jrwa = this.selectedJrwa;
     }
 
     this.dokumentTypyService.saveDokument(this.dokument).subscribe({

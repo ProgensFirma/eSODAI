@@ -80,6 +80,7 @@ export interface Dokument {
   grupa3: string;
   publiczny: boolean;
   dokGuid: string;
+  jrwa: string;
   zalaczniki: Zalacznik[];
   oper: string;
   status: string;

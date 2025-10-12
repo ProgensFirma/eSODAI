@@ -96,6 +96,7 @@ export class DokumentyService {
         "grupa3": "",
         "publiczny": false,
         "dokGuid": "",
+        "jrwa": "",
         "zalaczniki": [],
         "oper": "tboSelect",
         "status": "sOK",
@@ -169,6 +170,7 @@ export class DokumentyService {
         "grupa3": "",
         "publiczny": false,
         "dokGuid": "",
+        "jrwa": "",
         "zalaczniki": [],
         "oper": "tboSelect",
         "status": "sOK",
@@ -252,6 +254,7 @@ export class DokumentyService {
         "grupa3": "",
         "publiczny": false,
         "dokGuid": "",
+        "jrwa": "",
         "zalaczniki": [
           {
             "numer": 2827765,

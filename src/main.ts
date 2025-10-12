@@ -561,6 +561,7 @@ export class App {
       grupa3: '',
       publiczny: false,
       dokGuid: '',
+      jrwa: '',
       zalaczniki: [],
       oper: '',
       status: '',
