@@ -2,11 +2,12 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KontrahenciService } from '../services/kontrahenci.service';
 import { KontrahentDetailed } from '../models/kontrahent.model';
+import { KontrahentEditWindowComponent } from './kontrahent-edit-window.component';
 
 @Component({
   selector: 'app-kontrahenci-window',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, KontrahentEditWindowComponent],
   template: `
     <div class="kontrahenci-overlay" (click)="closeWindow()">
       <div class="kontrahenci-window" (click)="$event.stopPropagation()">
@@ -17,6 +18,10 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
             <span class="total-count" *ngIf="totalCount">({{ totalCount }})</span>
           </h2>
           <div class="header-actions">
+            <button class="new-button" (click)="openNewKontrahent()" title="Nowy kontrahent">
+              <span class="new-icon">➕</span>
+              Nowy kontrahent
+            </button>
             <button class="edit-button" title="Edycja danych">
               <span class="edit-icon">✏️</span>
               Edycja danych
@@ -234,6 +239,12 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
         </div>
       </div>
     </div>
+
+    <app-kontrahent-edit-window
+      *ngIf="showNewKontrahent"
+      (closeRequested)="closeNewKontrahent()"
+      (kontrahentSaved)="onKontrahentSaved($event)"
+    ></app-kontrahent-edit-window>
   `,
   styles: [`
     .kontrahenci-overlay {
@@ -297,6 +308,7 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
       align-items: center;
     }
 
+    .new-button,
     .edit-button,
     .close-button {
       background: rgba(255, 255, 255, 0.2);
@@ -313,6 +325,7 @@ import { KontrahentDetailed } from '../models/kontrahent.model';
       transition: all 0.2s ease;
     }
 
+    .new-button:hover,
     .edit-button:hover,
     .close-button:hover {
       background: rgba(255, 255, 255, 0.3);
@@ -740,7 +753,8 @@ export class KontrahenciWindowComponent implements OnInit {
   kontrahenci: KontrahentDetailed[] = [];
   selectedKontrahent: KontrahentDetailed | null = null;
   loading = false;
-  
+  showNewKontrahent = false;
+
   currentPage = 1;
   pageSize = 10;
   totalCount = 0;
@@ -816,6 +830,19 @@ export class KontrahenciWindowComponent implements OnInit {
 
   isValidDate(dateString: string): boolean {
     return !!(dateString && dateString !== '1899-12-30T00:00:00.000Z');
+  }
+
+  openNewKontrahent() {
+    this.showNewKontrahent = true;
+  }
+
+  closeNewKontrahent() {
+    this.showNewKontrahent = false;
+  }
+
+  onKontrahentSaved(formData: any) {
+    console.log('Nowy kontrahent:', formData);
+    this.loadKontrahenci();
   }
 
   closeWindow() {
