@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { Dokument } from '../models/dokument.model';
 import { DokumentTyp } from '../models/dokument-typ.model';
 import { DokumentTypyService } from '../services/dokument-typy.service';
+import { KontrahentInfo } from '../models/kontrahent.model';
+import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
 @Component({
   selector: 'app-document-edit-window',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, KontrahenciWindowComponent],
   template: `
     <div class="modal-overlay" (click)="onOverlayClick($event)">
       <div class="modal-window" (click)="$event.stopPropagation()">
@@ -126,7 +128,7 @@ import { DokumentTypyService } from '../services/dokument-typy.service';
                   readonly
                   placeholder="Wybierz kontrahenta"
                 />
-                <button class="select-button" type="button" disabled>
+                <button class="select-button" type="button" (click)="openKontrahentWindow()">
                   <span class="button-icon">🔍</span>
                 </button>
               </div>
@@ -187,6 +189,13 @@ import { DokumentTypyService } from '../services/dokument-typy.service';
           {{ successMessage }}
         </div>
       </div>
+
+      <app-kontrahenci-window
+        *ngIf="showKontrahentWindow"
+        [pWybor]="true"
+        (closeRequested)="closeKontrahentWindow()"
+        (kontrahentSelected)="onKontrahentSelected($event)"
+      ></app-kontrahenci-window>
     </div>
   `,
   styles: [`
@@ -382,6 +391,15 @@ import { DokumentTypyService } from '../services/dokument-typy.service';
       cursor: not-allowed;
     }
 
+    .select-button:not(:disabled) {
+      background: #2563eb;
+      color: white;
+    }
+
+    .select-button:not(:disabled):hover {
+      background: #1d4ed8;
+    }
+
     .button-icon {
       font-size: 16px;
     }
@@ -524,6 +542,7 @@ export class DocumentEditWindowComponent implements OnInit {
   saving = false;
   errorMessage: string = '';
   successMessage: string = '';
+  showKontrahentWindow = false;
 
   constructor(private dokumentTypyService: DokumentTypyService) {}
 
@@ -625,5 +644,22 @@ export class DocumentEditWindowComponent implements OnInit {
     if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
       this.onClose();
     }
+  }
+
+  openKontrahentWindow() {
+    this.showKontrahentWindow = true;
+  }
+
+  closeKontrahentWindow() {
+    this.showKontrahentWindow = false;
+  }
+
+  onKontrahentSelected(kontrahentInfo: KontrahentInfo) {
+    this.dokument.kontrahent = {
+      numer: kontrahentInfo.numer,
+      identyfikator: kontrahentInfo.identyfikator,
+      firma: false,
+      nIP: ''
+    };
   }
 }
