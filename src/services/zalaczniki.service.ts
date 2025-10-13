@@ -7,8 +7,7 @@ import { ZalacznikTresc } from '../models/zalacznik.model';
   providedIn: 'root'
 })
 export class ZalacznikiService {
-  private apiUrl = 'http://localhost:8448/skrzynki';
-  private uploadUrl = 'http://localhost:8448/zalacznik';
+  private apiUrl = 'http://localhost:8448/zalacznik';
 
   constructor(private http: HttpClient) {}
 
@@ -27,7 +26,7 @@ export class ZalacznikiService {
   }
 
   uploadZalacznik(zalacznik: ZalacznikTresc): Observable<any> {
-    return this.http.post(this.uploadUrl, zalacznik);
+    return this.http.post(this.apiUrl, zalacznik);
   }
 
   private getMockData(dokument: number, numer: number): ZalacznikTresc {
