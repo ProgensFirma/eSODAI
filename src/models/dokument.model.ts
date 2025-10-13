@@ -43,6 +43,7 @@ export interface Dokument {
   publiczny: boolean;
   dokGuid: string;
   jrwa: string;
+  obcyNumer: string;
   zalaczniki: TZalacznikInfo[];
   oper: string;
   status: string;
