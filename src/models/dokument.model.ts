@@ -10,7 +10,7 @@ export interface Dokument {
   statusEdycji: string;
   doWgladu: boolean;
   typ: TDokTypInfo;
-  szablon: string | null;
+  szablon: TSzablonInfo | null;
   nazwa: string;
   opis: string;
   sprawa: any;
