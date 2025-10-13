@@ -543,7 +543,7 @@ export class App {
       dataNaDok: '',
       kanalWe: '',
       domKanalWy: '',
-      kontrahent: { numer: 0, identyfikator: '', firma: false, nIP: '' },
+      kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '' },
       przekazujacy: { numer: 0, identyfikator: '' },
       przekazujacyWydzial: { stanowisko: false, symbol: '', nazwa: '', kod: '' },
       dataPrzekazania: '',
