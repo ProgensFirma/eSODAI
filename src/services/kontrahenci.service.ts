@@ -25,7 +25,7 @@ export class KontrahenciService {
       observe: 'response'
     }).pipe(
       map((response: HttpResponse<KontrahentDetailed[]>) => {
-        const wynikIlosc = response.headers.get('WynikIlosc');
+        const wynikIlosc = response.headers.get('qIlosc');
         return {
           data: response.body || [],
           wynikIlosc: wynikIlosc ? parseInt(wynikIlosc, 10) : undefined
