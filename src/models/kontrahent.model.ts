@@ -1,3 +1,5 @@
+import { TKontrahentInfo } from './typy-info.model';
+
 export interface KontaktKontrahenta {
   telefon: string;
   telefon2: string;
@@ -58,11 +60,4 @@ export interface KontrahentDetailed {
 export interface KontrahenciResponse {
   data: KontrahentDetailed[];
   wynikIlosc?: number;
-}
-
-export interface KontrahentInfo {
-  numer: number;
-  identyfikator: string;
-  nazwa: string;
-  imie: string;
 }
