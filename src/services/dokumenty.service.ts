@@ -38,7 +38,8 @@ export class DokumentyService {
         "doWgladu": false,
         "typ": {
           "nazwa": "E-PUAP",
-          "finansowy": false
+          "finansowy": false,
+          "poleceniezaplaty": false
         },
         "szablon": null,
         "nazwa": "Postanowienie o zawieszeniu postępowania.xml",
