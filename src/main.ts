@@ -562,6 +562,7 @@ export class App {
       publiczny: false,
       dokGuid: '',
       jrwa: '',
+      obcyNumer: '',
       zalaczniki: [],
       oper: '',
       status: '',

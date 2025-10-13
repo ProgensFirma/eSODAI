@@ -38,8 +38,7 @@ export class DokumentyService {
         "doWgladu": false,
         "typ": {
           "nazwa": "E-PUAP",
-          "finansowy": false,
-          "poleceniezaplaty": false
+          "finansowy": false
         },
         "szablon": null,
         "nazwa": "Postanowienie o zawieszeniu postępowania.xml",
@@ -258,6 +257,7 @@ export class DokumentyService {
         "publiczny": false,
         "dokGuid": "",
         "jrwa": "",
+        "obcyNumer": "",
         "zalaczniki": [
           {
             "numer": 2827765,
