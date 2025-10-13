@@ -1,5 +1,3 @@
-import { TKontrahentInfo } from './typy-info.model';
-
 export interface KontaktKontrahenta {
   telefon: string;
   telefon2: string;
