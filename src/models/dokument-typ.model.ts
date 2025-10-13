@@ -1,5 +1,3 @@
-//import { TDokTypInfo } from './typy-info.model';
-
 export interface DokumentTyp {
   nazwa: string;
   szablon: string;
