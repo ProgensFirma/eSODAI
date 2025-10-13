@@ -1,8 +1,8 @@
-export interface DokumentTyp {
-  nazwa: string;
+import { TDokTypInfo } from './typy-info.model';
+
+export interface DokumentTyp extends TDokTypInfo {
   szablon: string;
   rejestr: string;
-  finansowy: boolean;
   polecenieZaplaty: boolean;
   rWA: string;
   nazwaDomysl: string;
