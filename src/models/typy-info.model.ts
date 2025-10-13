@@ -4,6 +4,7 @@ export interface TOsobaInfo {
 }
 
 export interface TWydzialInfo {
+  stanowisko: boolean;
   symbol: string;
   nazwa: string;
   kod: string;
@@ -13,8 +14,7 @@ export interface TKontrahentInfo {
   numer: number;
   identyfikator: string;
   firma: boolean;
-  nip: string;
-  adres: string;
+  nIP: string;
 }
 
 export interface TSprawaInfo {
@@ -27,7 +27,6 @@ export interface TSprawaInfo {
 export interface TDokTypInfo {
   nazwa: string;
   finansowy: boolean;
-  poleceniezaplaty: boolean;
 }
 
 export interface TSzablonInfo {

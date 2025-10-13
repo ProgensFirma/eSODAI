@@ -61,3 +61,10 @@ export interface KontrahenciResponse {
   data: KontrahentDetailed[];
   wynikIlosc?: number;
 }
+
+export interface KontrahentInfo {
+  numer: number;
+  identyfikator: string;
+  nazwa: string;
+  imie: string;
+}
