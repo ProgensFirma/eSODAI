@@ -1,4 +1,4 @@
-import { TDokTypInfo, TKontrahentInfo, TOsobaInfo, TWydzialInfo, TZalacznikInfo } from './typy-info.model';
+import { TOsobaInfo, TWydzialInfo, TKontrahentInfo, TDokTypInfo, TSzablonInfo, TZalacznikInfo } from './typy-info.model';
 import { DaneFinansowe } from './dane-finansowe.model';
 
 export interface Dokument {
