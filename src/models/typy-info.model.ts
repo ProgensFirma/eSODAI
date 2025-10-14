@@ -15,6 +15,7 @@ export interface TKontrahentInfo {
   identyfikator: string;
   firma: boolean;
   nip: string;
+  adres: string | null;
 }
 
 export interface TSprawaInfo {
@@ -27,6 +28,7 @@ export interface TSprawaInfo {
 export interface TDokTypInfo {
   nazwa: string;
   finansowy: boolean;
+  poleceniezaplaty: boolean;
 }
 
 export interface TSzablonInfo {
