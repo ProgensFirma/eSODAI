@@ -85,7 +85,7 @@ import { TKontrahentInfo } from '../models/typy-info.model';
                     <span class="pesel">{{ kontrahent.pesel || '-' }}</span>
                   </div>
                   <div class="cell col-nip">
-                    <span class="nip">{{ kontrahent.nIP || '-' }}</span>
+                    <span class="nip">{{ kontrahent.nip || '-' }}</span>
                   </div>
                   <div class="cell col-place">
                     <span class="place">{{ kontrahent.adresStaly.miejscowosc || '-' }}</span>
