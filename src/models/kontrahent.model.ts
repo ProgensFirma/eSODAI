@@ -40,7 +40,7 @@ export interface KontrahentDetailed {
   firma: boolean;
   grupa: string;
   pesel: string;
-  nIP: string;
+  nip: string;
   regon: string;
   kRS: string;
   odID: string;
