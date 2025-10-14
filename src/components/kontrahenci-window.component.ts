@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { KontrahenciService } from '../services/kontrahenci.service';
 import { KontrahentDetailed, KontrahentInfo } from '../models/kontrahent.model';
+import { KontrahentInfo } from '../models/typy-info.model';
 
 @Component({
   selector: 'app-kontrahenci-window',
