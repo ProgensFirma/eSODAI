@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Dokument } from '../models/dokument.model';
 import { DokumentTyp } from '../models/dokument-typ.model';
 import { DokumentTypyService } from '../services/dokument-typy.service';
-import { KontrahentInfo } from '../models/kontrahent.model';
+import { TKontrahentInfo } from '../models/typy-info.model';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 import { WykazAkt } from '../models/wykaz-akt.model';
 import { WykazAktService } from '../services/wykaz-akt.service';
