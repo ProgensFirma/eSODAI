@@ -875,8 +875,8 @@ export class KontrahenciWindowComponent implements OnInit {
       const kontrahentInfo: TKontrahentInfo = {
         numer: this.selectedKontrahent.numer,
         identyfikator: this.selectedKontrahent.identyfikator,
-        nazwa: this.selectedKontrahent.nazwa,
-        imie: this.selectedKontrahent.imie
+        firma: this.selectedKontrahent.firma,
+        nip: this.selectedKontrahent.nip
       };
       this.kontrahentSelected.emit(kontrahentInfo);
       this.closeRequested.emit();
