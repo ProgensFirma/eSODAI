@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Dokument } from '../models/dokument.model';
 import { DokumentTyp } from '../models/dokument-typ.model';
 import { DokumentTypyService } from '../services/dokument-typy.service';
-import { TKontrahentInfo } from '../models/typy-info.model';
+import { KontrahentInfo } from '../models/kontrahent.model';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 import { WykazAkt } from '../models/wykaz-akt.model';
 import { WykazAktService } from '../services/wykaz-akt.service';
@@ -764,13 +764,12 @@ export class DocumentEditWindowComponent implements OnInit {
     this.showKontrahentWindow = false;
   }
 
-  onKontrahentSelected(kontrahentInfo: TKontrahentInfo) {
+  onKontrahentSelected(kontrahentInfo: KontrahentInfo) {
     this.dokument.kontrahent = {
       numer: kontrahentInfo.numer,
       identyfikator: kontrahentInfo.identyfikator,
-      firma: kontrahentInfo.firma,
-      nip: kontrahentInfo.nip,
-      adres: kontrahentInfo.adres
+      firma: false,
+      nIP: ''
     };
   }
 

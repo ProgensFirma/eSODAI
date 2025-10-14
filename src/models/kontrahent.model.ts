@@ -40,7 +40,7 @@ export interface KontrahentDetailed {
   firma: boolean;
   grupa: string;
   pesel: string;
-  nip: string;
+  nIP: string;
   regon: string;
   kRS: string;
   odID: string;
@@ -58,4 +58,11 @@ export interface KontrahentDetailed {
 export interface KontrahenciResponse {
   data: KontrahentDetailed[];
   wynikIlosc?: number;
+}
+
+export interface KontrahentInfo {
+  numer: number;
+  identyfikator: string;
+  nazwa: string;
+  imie: string;
 }
