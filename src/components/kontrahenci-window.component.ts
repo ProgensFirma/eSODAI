@@ -872,7 +872,7 @@ export class KontrahenciWindowComponent implements OnInit {
 
   selectAndClose() {
     if (this.selectedKontrahent && this.pWybor) {
-      const kontrahentInfo: KontrahentInfo = {
+      const kontrahentInfo: TKontrahentInfo = {
         numer: this.selectedKontrahent.numer,
         identyfikator: this.selectedKontrahent.identyfikator,
         nazwa: this.selectedKontrahent.nazwa,
