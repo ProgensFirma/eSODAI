@@ -687,7 +687,8 @@ export class DocumentEditWindowComponent implements OnInit {
     if (selectedTyp) {
       this.dokument.typ = {
         nazwa: selectedTyp.nazwa,
-        finansowy: selectedTyp.finansowy
+        finansowy: selectedTyp.finansowy,
+        poleceniezaplaty: selectedTyp.polecenieZaplaty
       };
 
       if (selectedTyp.nazwaDomysl) {

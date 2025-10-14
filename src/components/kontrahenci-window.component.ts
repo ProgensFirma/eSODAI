@@ -876,7 +876,8 @@ export class KontrahenciWindowComponent implements OnInit {
         numer: this.selectedKontrahent.numer,
         identyfikator: this.selectedKontrahent.identyfikator,
         firma: this.selectedKontrahent.firma,
-        nip: this.selectedKontrahent.nip
+        nip: this.selectedKontrahent.nip,
+        adres: null
       };
       this.kontrahentSelected.emit(kontrahentInfo);
       this.closeRequested.emit();

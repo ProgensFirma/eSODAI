@@ -38,7 +38,8 @@ export class DokumentyService {
         "doWgladu": false,
         "typ": {
           "nazwa": "E-PUAP",
-          "finansowy": false
+          "finansowy": false,
+          "poleceniezaplaty": false
         },
         "szablon": null,
         "nazwa": "Postanowienie o zawieszeniu postępowania.xml",
@@ -58,7 +59,8 @@ export class DokumentyService {
           "numer": 2654837,
           "identyfikator": "POWIAT MIELECKI",
           "firma": true,
-          "nip": ""
+          "nip": "",
+          "adres": null
         },
         "przekazujacy": {
           "numer": 1059948,
@@ -113,7 +115,8 @@ export class DokumentyService {
         "doWgladu": false,
         "typ": {
           "nazwa": "DECYZJA",
-          "finansowy": false
+          "finansowy": false,
+          "poleceniezaplaty": false
         },
         "szablon": null,
         "nazwa": "DECYZJA",
@@ -133,7 +136,8 @@ export class DokumentyService {
           "numer": 1371332,
           "identyfikator": "SAMORZĄDOWE KOLEGIUM ODWOŁAWCZE",
           "firma": true,
-          "nip": ""
+          "nip": "",
+          "adres": null
         },
         "przekazujacy": {
           "numer": 1059948,
@@ -188,7 +192,8 @@ export class DokumentyService {
         "doWgladu": false,
         "typ": {
           "nazwa": "FAKTURA",
-          "finansowy": true
+          "finansowy": true,
+          "poleceniezaplaty": false
         },
         "szablon": null,
         "nazwa": "FAKTURA1",
@@ -208,7 +213,8 @@ export class DokumentyService {
           "numer": 299336,
           "identyfikator": "\"APKON\" SP. Z O.O.",
           "firma": false,
-          "nip": ""
+          "nip": "",
+          "adres": null
         },
         "przekazujacy": {
           "numer": 861528,
