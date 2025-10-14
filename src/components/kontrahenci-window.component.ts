@@ -781,7 +781,7 @@ import { TKontrahentInfo } from '../models/typy-info.model';
 export class KontrahenciWindowComponent implements OnInit {
   @Input() pWybor: boolean = false;
   @Output() closeRequested = new EventEmitter<void>();
-  @Output() kontrahentSelected = new EventEmitter<KontrahentInfo>();
+  @Output() kontrahentSelected = new EventEmitter<TKontrahentInfo>();
 
   kontrahenci: KontrahentDetailed[] = [];
   selectedKontrahent: KontrahentDetailed | null = null;
