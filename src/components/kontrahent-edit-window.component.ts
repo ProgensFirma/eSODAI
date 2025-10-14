@@ -162,8 +162,8 @@ import { FormsModule } from '@angular/forms';
             <!-- Adres -->
             <div class="form-section">
               <h3 class="section-title">Adres główny</h3>
-              <div class="form-grid">
-                <div class="form-group full-width">
+              <div class="address-grid">
+                <div class="form-group address-street">
                   <label class="form-label">Ulica</label>
                   <input
                     type="text"
@@ -174,7 +174,7 @@ import { FormsModule } from '@angular/forms';
                   />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group address-short">
                   <label class="form-label">Nr domu</label>
                   <input
                     type="text"
@@ -185,7 +185,7 @@ import { FormsModule } from '@angular/forms';
                   />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group address-short">
                   <label class="form-label">Nr lokalu</label>
                   <input
                     type="text"
@@ -196,7 +196,7 @@ import { FormsModule } from '@angular/forms';
                   />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group address-postal">
                   <label class="form-label">Kod pocztowy</label>
                   <input
                     type="text"
@@ -208,7 +208,7 @@ import { FormsModule } from '@angular/forms';
                   />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group address-city">
                   <label class="form-label">Miejscowość</label>
                   <input
                     type="text"
@@ -452,6 +452,28 @@ import { FormsModule } from '@angular/forms';
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 10px;
+    }
+
+    .address-grid {
+      display: grid;
+      grid-template-columns: 3fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .address-grid .address-street {
+      grid-column: 1;
+    }
+
+    .address-grid .address-short {
+      grid-column: span 1;
+    }
+
+    .address-grid .address-postal {
+      grid-column: 1;
+    }
+
+    .address-grid .address-city {
+      grid-column: 2 / -1;
     }
 
     .form-group {
