@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { KontrahenciService } from '../services/kontrahenci.service';
-import { KontrahentDetailed, KontrahentInfo } from '../models/kontrahent.model';
+import { KontrahentDetailed } from '../models/kontrahent.model';
+import { TKontrahentInfo } from '../models/typy-info.model';
 
 @Component({
   selector: 'app-kontrahenci-window',
@@ -84,7 +85,7 @@ import { KontrahentDetailed, KontrahentInfo } from '../models/kontrahent.model';
                     <span class="pesel">{{ kontrahent.pesel || '-' }}</span>
                   </div>
                   <div class="cell col-nip">
-                    <span class="nip">{{ kontrahent.nIP || '-' }}</span>
+                    <span class="nip">{{ kontrahent.nip || '-' }}</span>
                   </div>
                   <div class="cell col-place">
                     <span class="place">{{ kontrahent.adresStaly.miejscowosc || '-' }}</span>
@@ -189,9 +190,9 @@ import { KontrahentDetailed, KontrahentInfo } from '../models/kontrahent.model';
                 <!-- Company Data -->
                 <div class="detail-section" *ngIf="selectedKontrahent.firma">
                   <h4 class="section-title">Dane firmy</h4>
-                  <div class="detail-row" *ngIf="selectedKontrahent.nIP">
+                  <div class="detail-row" *ngIf="selectedKontrahent.nip">
                     <span class="label">NIP:</span>
-                    <span class="value nip">{{ selectedKontrahent.nIP }}</span>
+                    <span class="value nip">{{ selectedKontrahent.nip }}</span>
                   </div>
                   <div class="detail-row" *ngIf="selectedKontrahent.regon">
                     <span class="label">REGON:</span>
@@ -780,7 +781,7 @@ import { KontrahentDetailed, KontrahentInfo } from '../models/kontrahent.model';
 export class KontrahenciWindowComponent implements OnInit {
   @Input() pWybor: boolean = false;
   @Output() closeRequested = new EventEmitter<void>();
-  @Output() kontrahentSelected = new EventEmitter<KontrahentInfo>();
+  @Output() kontrahentSelected = new EventEmitter<TKontrahentInfo>();
 
   kontrahenci: KontrahentDetailed[] = [];
   selectedKontrahent: KontrahentDetailed | null = null;
@@ -871,11 +872,11 @@ export class KontrahenciWindowComponent implements OnInit {
 
   selectAndClose() {
     if (this.selectedKontrahent && this.pWybor) {
-      const kontrahentInfo: KontrahentInfo = {
+      const kontrahentInfo: TKontrahentInfo = {
         numer: this.selectedKontrahent.numer,
         identyfikator: this.selectedKontrahent.identyfikator,
-        nazwa: this.selectedKontrahent.nazwa,
-        imie: this.selectedKontrahent.imie
+        firma: this.selectedKontrahent.firma,
+        nip: this.selectedKontrahent.nip
       };
       this.kontrahentSelected.emit(kontrahentInfo);
       this.closeRequested.emit();

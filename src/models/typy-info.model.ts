@@ -28,6 +28,7 @@ export interface TSprawaInfo {
 export interface TDokTypInfo {
   nazwa: string;
   finansowy: boolean;
+  poleceniezaplaty: boolean;
 }
 
 export interface TSzablonInfo {
