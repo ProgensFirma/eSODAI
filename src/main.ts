@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { authInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { LoginWindowComponent } from './components/login-window.component';
 import { InfoWindowComponent } from './components/info-window.component';
@@ -573,6 +574,6 @@ export class App {
 
 bootstrapApplication(App, {
   providers: [
-    provideHttpClient()
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
 }).catch(err => console.error(err));
