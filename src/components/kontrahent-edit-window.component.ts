@@ -79,7 +79,7 @@ import { FormsModule } from '@angular/forms';
                   />
                 </div>
 
-                <div class="form-group" [ngClass]="{'form-group-long': formData.type === 'person'}">
+                <div class="form-group form-group-long">
                   <label class="form-label">{{ formData.type === 'person' ? 'Nazwisko' : 'Nazwa' }}</label>
                   <input
                     type="text"
