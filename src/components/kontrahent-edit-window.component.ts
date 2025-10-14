@@ -161,7 +161,7 @@ import { FormsModule } from '@angular/forms';
 
             <!-- Adres -->
             <div class="form-section">
-              <h3 class="section-title">Adres stały</h3>
+              <h3 class="section-title">Adres główny</h3>
               <div class="form-grid">
                 <div class="form-group full-width">
                   <label class="form-label">Ulica</label>
