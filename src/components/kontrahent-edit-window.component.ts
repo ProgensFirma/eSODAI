@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
       <div class="edit-window" (click)="$event.stopPropagation()">
         <div class="window-header">
           <h2 class="window-title">
-            <span class="title-icon">➕</span>
-            Nowy kontrahent
+            <span class="title-icon">{{ isEditMode ? '✏️' : '➕' }}</span>
+            {{ isEditMode ? 'Edycja danych' : 'Nowy kontrahent' }}
           </h2>
           <button class="close-button" (click)="closeWindow()" title="Zamknij">
             <span class="close-icon">✕</span>
@@ -584,9 +584,12 @@ import { FormsModule } from '@angular/forms';
     }
   `]
 })
-export class KontrahentEditWindowComponent {
+export class KontrahentEditWindowComponent implements OnInit {
+  @Input() kontrahent: any = null;
   @Output() closeRequested = new EventEmitter<void>();
   @Output() kontrahentSaved = new EventEmitter<any>();
+
+  isEditMode = false;
 
   formData = {
     type: 'person',
@@ -608,6 +611,13 @@ export class KontrahentEditWindowComponent {
     www: '',
     uwagi: ''
   };
+
+  ngOnInit() {
+    if (this.kontrahent) {
+      this.isEditMode = true;
+      this.formData = { ...this.kontrahent };
+    }
+  }
 
   closeWindow() {
     this.closeRequested.emit();
