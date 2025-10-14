@@ -768,9 +768,9 @@ export class DocumentEditWindowComponent implements OnInit {
     this.dokument.kontrahent = {
       numer: kontrahentInfo.numer,
       identyfikator: kontrahentInfo.identyfikator,
-      firma: false,
-      nip: '',
-      adres: ""
+      firma: kontrahentInfo.firma,
+      nip: kontrahentInfo.nip,
+      adres: kontrahentInfo.adres
     };
   }
 
