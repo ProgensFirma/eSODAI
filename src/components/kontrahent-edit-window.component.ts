@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
         <div class="window-content">
           <form class="kontrahent-form">
             <!-- Typ kontrahenta -->
-            <div class="form-section">
+            <div class="form-section full-width">
               <h3 class="section-title">Typ kontrahenta</h3>
               <div class="type-selector">
                 <label class="type-option">
@@ -403,8 +403,8 @@ import { FormsModule } from '@angular/forms';
     }
 
     .type-selector {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
     }
 
