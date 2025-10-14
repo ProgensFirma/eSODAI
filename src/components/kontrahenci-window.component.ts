@@ -192,7 +192,7 @@ import { TKontrahentInfo } from '../models/typy-info.model';
                   <h4 class="section-title">Dane firmy</h4>
                   <div class="detail-row" *ngIf="selectedKontrahent.nIP">
                     <span class="label">NIP:</span>
-                    <span class="value nip">{{ selectedKontrahent.nIP }}</span>
+                    <span class="value nip">{{ selectedKontrahent.nip }}</span>
                   </div>
                   <div class="detail-row" *ngIf="selectedKontrahent.regon">
                     <span class="label">REGON:</span>
