@@ -46,7 +46,7 @@ import { FormsModule } from '@angular/forms';
                   />
                   <span class="type-label">
                     <span class="type-icon">🏢</span>
-                    Firma
+                    Osoba prawna
                   </span>
                 </label>
               </div>
