@@ -22,7 +22,12 @@ import { KontrahentEditWindowComponent } from './kontrahent-edit-window.componen
               <span class="new-icon">➕</span>
               Nowy kontrahent
             </button>
-            <button class="edit-button" title="Edycja danych">
+            <button
+              class="edit-button"
+              title="Edycja danych"
+              [disabled]="!selectedKontrahent"
+              (click)="openEditKontrahent()"
+            >
               <span class="edit-icon">✏️</span>
               Edycja danych
             </button>
@@ -245,6 +250,13 @@ import { KontrahentEditWindowComponent } from './kontrahent-edit-window.componen
       (closeRequested)="closeNewKontrahent()"
       (kontrahentSaved)="onKontrahentSaved($event)"
     ></app-kontrahent-edit-window>
+
+    <app-kontrahent-edit-window
+      *ngIf="showEditKontrahent"
+      [kontrahent]="editingKontrahent"
+      (closeRequested)="closeEditKontrahent()"
+      (kontrahentSaved)="onKontrahentUpdated($event)"
+    ></app-kontrahent-edit-window>
   `,
   styles: [`
     .kontrahenci-overlay {
@@ -325,11 +337,16 @@ import { KontrahentEditWindowComponent } from './kontrahent-edit-window.componen
       transition: all 0.2s ease;
     }
 
-    .new-button:hover,
-    .edit-button:hover,
-    .close-button:hover {
+    .new-button:hover:not(:disabled),
+    .edit-button:hover:not(:disabled),
+    .close-button:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.3);
       transform: translateY(-1px);
+    }
+
+    .edit-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .close-button {
@@ -754,6 +771,8 @@ export class KontrahenciWindowComponent implements OnInit {
   selectedKontrahent: KontrahentDetailed | null = null;
   loading = false;
   showNewKontrahent = false;
+  showEditKontrahent = false;
+  editingKontrahent: any = null;
 
   currentPage = 1;
   pageSize = 10;
@@ -842,6 +861,42 @@ export class KontrahenciWindowComponent implements OnInit {
 
   onKontrahentSaved(formData: any) {
     console.log('Nowy kontrahent:', formData);
+    this.loadKontrahenci();
+  }
+
+  openEditKontrahent() {
+    if (this.selectedKontrahent) {
+      this.editingKontrahent = {
+        type: this.selectedKontrahent.firma ? 'company' : 'person',
+        identyfikator: this.selectedKontrahent.identyfikator,
+        imie: this.selectedKontrahent.imie || '',
+        nazwa: this.selectedKontrahent.nazwa || '',
+        pesel: this.selectedKontrahent.pesel || '',
+        dataUrodzenia: this.selectedKontrahent.dataUrodzenia || '',
+        nip: this.selectedKontrahent.nIP || '',
+        regon: this.selectedKontrahent.regon || '',
+        krs: this.selectedKontrahent.kRS || '',
+        ulica: this.selectedKontrahent.adresStaly.ulica || '',
+        nrDomu: this.selectedKontrahent.adresStaly.nrDomu || '',
+        nrLokalu: this.selectedKontrahent.adresStaly.nrLokalu || '',
+        kodPoczta: this.selectedKontrahent.adresStaly.kodPoczta || '',
+        miejscowosc: this.selectedKontrahent.adresStaly.miejscowosc || '',
+        telefon: this.selectedKontrahent.kontakt.telefon || '',
+        email: this.selectedKontrahent.kontakt.email || '',
+        www: this.selectedKontrahent.kontakt.wWW || '',
+        uwagi: ''
+      };
+      this.showEditKontrahent = true;
+    }
+  }
+
+  closeEditKontrahent() {
+    this.showEditKontrahent = false;
+    this.editingKontrahent = null;
+  }
+
+  onKontrahentUpdated(formData: any) {
+    console.log('Zaktualizowany kontrahent:', formData);
     this.loadKontrahenci();
   }
 
