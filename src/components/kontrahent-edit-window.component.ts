@@ -68,7 +68,7 @@ import { FormsModule } from '@angular/forms';
                   />
                 </div>
 
-                <div class="form-group" *ngIf="formData.type === 'person'">
+                <div class="form-group form-group-short" *ngIf="formData.type === 'person'">
                   <label class="form-label">Imię</label>
                   <input
                     type="text"
@@ -79,14 +79,14 @@ import { FormsModule } from '@angular/forms';
                   />
                 </div>
 
-                <div class="form-group">
-                  <label class="form-label">Nazwa</label>
+                <div class="form-group" [ngClass]="{'form-group-long': formData.type === 'person'}">
+                  <label class="form-label">{{ formData.type === 'person' ? 'Nazwisko' : 'Nazwa' }}</label>
                   <input
                     type="text"
                     class="form-input"
                     [(ngModel)]="formData.nazwa"
                     name="nazwa"
-                    placeholder="Pełna nazwa"
+                    [placeholder]="formData.type === 'person' ? 'Nazwisko' : 'Pełna nazwa'"
                   />
                 </div>
               </div>
@@ -484,6 +484,14 @@ import { FormsModule } from '@angular/forms';
 
     .form-group.full-width {
       grid-column: 1 / -1;
+    }
+
+    .form-group.form-group-short {
+      grid-column: span 1;
+    }
+
+    .form-group.form-group-long {
+      grid-column: span 2;
     }
 
     .form-label {
