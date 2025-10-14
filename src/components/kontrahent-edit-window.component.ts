@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
         <div class="window-content">
           <form class="kontrahent-form">
             <!-- Typ kontrahenta -->
-            <div class="form-section full-width">
+            <div class="form-section">
               <h3 class="section-title">Typ kontrahenta</h3>
               <div class="type-selector">
                 <label class="type-option">
