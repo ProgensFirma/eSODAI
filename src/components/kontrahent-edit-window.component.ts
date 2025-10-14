@@ -22,7 +22,7 @@ import { FormsModule } from '@angular/forms';
         <div class="window-content">
           <form class="kontrahent-form">
             <!-- Typ kontrahenta -->
-            <div class="form-section">
+            <div class="form-section full-width">
               <h3 class="section-title">Typ kontrahenta</h3>
               <div class="type-selector">
                 <label class="type-option">
@@ -56,7 +56,7 @@ import { FormsModule } from '@angular/forms';
             <div class="form-section">
               <h3 class="section-title">Dane podstawowe</h3>
               <div class="form-grid">
-                <div class="form-group">
+                <div class="form-group full-width">
                   <label class="form-label">Identyfikator *</label>
                   <input
                     type="text"
@@ -261,7 +261,7 @@ import { FormsModule } from '@angular/forms';
             </div>
 
             <!-- Uwagi -->
-            <div class="form-section">
+            <div class="form-section full-width">
               <h3 class="section-title">Dodatkowe informacje</h3>
               <div class="form-group">
                 <label class="form-label">Uwagi</label>
@@ -269,7 +269,7 @@ import { FormsModule } from '@angular/forms';
                   class="form-textarea"
                   [(ngModel)]="formData.uwagi"
                   name="uwagi"
-                  rows="4"
+                  rows="3"
                   placeholder="Dodatkowe informacje o kontrahencie..."
                 ></textarea>
               </div>
@@ -308,8 +308,8 @@ import { FormsModule } from '@angular/forms';
       background: white;
       border-radius: 16px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      width: 90vw;
-      max-width: 900px;
+      width: 95vw;
+      max-width: 1400px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
@@ -320,7 +320,7 @@ import { FormsModule } from '@angular/forms';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 24px;
+      padding: 12px 20px;
       background: linear-gradient(135deg, #16a34a, #22c55e);
       color: white;
       border-bottom: 1px solid #15803d;
@@ -329,26 +329,26 @@ import { FormsModule } from '@angular/forms';
     .window-title {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       margin: 0;
-      font-size: 24px;
+      font-size: 18px;
       font-weight: 700;
     }
 
     .title-icon {
-      font-size: 28px;
+      font-size: 20px;
     }
 
     .close-button {
       background: rgba(255, 255, 255, 0.2);
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      padding: 8px 12px;
+      border-radius: 6px;
+      padding: 4px 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      font-size: 20px;
+      font-size: 16px;
       transition: all 0.2s ease;
     }
 
@@ -359,7 +359,7 @@ import { FormsModule } from '@angular/forms';
     .window-content {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 16px 20px;
     }
 
     .window-content::-webkit-scrollbar {
@@ -377,31 +377,35 @@ import { FormsModule } from '@angular/forms';
     }
 
     .kontrahent-form {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
 
     .form-section {
       background: #f8fafc;
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 8px;
+      padding: 12px 14px;
       border: 1px solid #e2e8f0;
     }
 
+    .form-section.full-width {
+      grid-column: 1 / -1;
+    }
+
     .section-title {
-      margin: 0 0 16px 0;
-      font-size: 18px;
+      margin: 0 0 10px 0;
+      font-size: 13px;
       font-weight: 700;
       color: #1e293b;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 6px;
     }
 
     .type-selector {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 8px;
     }
 
     .type-option {
@@ -418,19 +422,19 @@ import { FormsModule } from '@angular/forms';
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 16px;
+      gap: 6px;
+      padding: 8px 12px;
       background: white;
       border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 6px;
+      font-size: 13px;
       font-weight: 600;
       color: #475569;
       transition: all 0.2s ease;
     }
 
     .type-icon {
-      font-size: 24px;
+      font-size: 16px;
     }
 
     .type-option input[type="radio"]:checked + .type-label {
@@ -446,14 +450,14 @@ import { FormsModule } from '@angular/forms';
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
 
     .form-group.full-width {
@@ -461,17 +465,17 @@ import { FormsModule } from '@angular/forms';
     }
 
     .form-label {
-      font-size: 14px;
+      font-size: 11px;
       font-weight: 600;
       color: #475569;
     }
 
     .form-input,
     .form-textarea {
-      padding: 10px 14px;
+      padding: 6px 10px;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 6px;
+      font-size: 13px;
       color: #1e293b;
       background: white;
       transition: all 0.2s ease;
@@ -492,21 +496,21 @@ import { FormsModule } from '@angular/forms';
     .window-footer {
       display: flex;
       justify-content: flex-end;
-      gap: 12px;
-      padding: 20px 24px;
+      gap: 10px;
+      padding: 12px 20px;
       background: #f8fafc;
       border-top: 1px solid #e2e8f0;
     }
 
     .button {
       border: none;
-      border-radius: 8px;
-      padding: 10px 20px;
+      border-radius: 6px;
+      padding: 7px 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
+      gap: 6px;
+      font-size: 13px;
       font-weight: 600;
       transition: all 0.2s ease;
     }
@@ -531,7 +535,7 @@ import { FormsModule } from '@angular/forms';
     }
 
     .button-icon {
-      font-size: 16px;
+      font-size: 14px;
     }
 
     @media (max-width: 768px) {
