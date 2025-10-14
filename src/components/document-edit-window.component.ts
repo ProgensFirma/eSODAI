@@ -764,7 +764,7 @@ export class DocumentEditWindowComponent implements OnInit {
     this.showKontrahentWindow = false;
   }
 
-  onKontrahentSelected(kontrahentInfo: KontrahentInfo) {
+  onKontrahentSelected(kontrahentInfo: TKontrahentInfo) {
     this.dokument.kontrahent = {
       numer: kontrahentInfo.numer,
       identyfikator: kontrahentInfo.identyfikator,
