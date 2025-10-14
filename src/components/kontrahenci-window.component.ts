@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { KontrahenciService } from '../services/kontrahenci.service';
-import { KontrahentDetailed, KontrahentInfo } from '../models/kontrahent.model';
+import { KontrahentDetailed } from '../models/kontrahent.model';
 import { TKontrahentInfo } from '../models/typy-info.model';
 
 @Component({
