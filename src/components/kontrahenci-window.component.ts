@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { KontrahenciService } from '../services/kontrahenci.service';
 import { KontrahentDetailed } from '../models/kontrahent.model';
 import { KontrahentEditWindowComponent } from './kontrahent-edit-window.component';
+import { TKontrahentInfo } from '../models/typy-info.model';
 
 @Component({
   selector: 'app-kontrahenci-window',
   standalone: true,
-  imports: [CommonModule, KontrahentEditWindowComponent],
+  imports: [CommonModule, FormsModule, KontrahentEditWindowComponent],
   template: `
     <div class="kontrahenci-overlay" (click)="closeWindow()">
       <div class="kontrahenci-window" (click)="$event.stopPropagation()">
@@ -806,6 +807,7 @@ export class KontrahenciWindowComponent implements OnInit {
   showNewKontrahent = false;
   showEditKontrahent = false;
   editingKontrahent: any = null;
+  filterText = '';
 
   currentPage = 1;
   pageSize = 10;
