@@ -911,7 +911,7 @@ export class KontrahenciWindowComponent implements OnInit {
         nazwa: this.selectedKontrahent.nazwa || '',
         pesel: this.selectedKontrahent.pesel || '',
         dataUrodzenia: this.selectedKontrahent.dataUrodzenia || '',
-        nip: this.selectedKontrahent.nIP || '',
+        nip: this.selectedKontrahent.nip || '',
         regon: this.selectedKontrahent.regon || '',
         krs: this.selectedKontrahent.kRS || '',
         ulica: this.selectedKontrahent.adresStaly.ulica || '',
