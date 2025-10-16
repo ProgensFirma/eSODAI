@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { KontrahenciService } from '../services/kontrahenci.service';
 import { KontrahentDetailed } from '../models/kontrahent.model';
 import { KontrahentEditWindowComponent } from './kontrahent-edit-window.component';
@@ -42,7 +43,15 @@ import { KontrahentEditWindowComponent } from './kontrahent-edit-window.componen
             <div class="list-header">
               <h3>Lista kontrahentów</h3>
               <div class="list-controls">
-                <button 
+                <label class="filter-label">filtr:</label>
+                <input
+                  type="text"
+                  class="filter-input"
+                  [(ngModel)]="filterText"
+                  (ngModelChange)="onFilterChange()"
+                  placeholder="Filtruj kontrahentów..."
+                />
+                <button
                   class="refresh-button"
                   (click)="loadKontrahenci()"
                   [disabled]="loading"
@@ -81,7 +90,7 @@ import { KontrahentEditWindowComponent } from './kontrahent-edit-window.componen
                     <span class="pesel">{{ kontrahent.pesel || '-' }}</span>
                   </div>
                   <div class="cell col-nip">
-                    <span class="nip">{{ kontrahent.nIP || '-' }}</span>
+                    <span class="nip">{{ kontrahent.nip || '-' }}</span>
                   </div>
                   <div class="cell col-place">
                     <span class="place">{{ kontrahent.adresStaly.miejscowosc || '-' }}</span>
@@ -186,9 +195,9 @@ import { KontrahentEditWindowComponent } from './kontrahent-edit-window.componen
                 <!-- Company Data -->
                 <div class="detail-section" *ngIf="selectedKontrahent.firma">
                   <h4 class="section-title">Dane firmy</h4>
-                  <div class="detail-row" *ngIf="selectedKontrahent.nIP">
+                  <div class="detail-row" *ngIf="selectedKontrahent.nip">
                     <span class="label">NIP:</span>
-                    <span class="value nip">{{ selectedKontrahent.nIP }}</span>
+                    <span class="value nip">{{ selectedKontrahent.nip }}</span>
                   </div>
                   <div class="detail-row" *ngIf="selectedKontrahent.regon">
                     <span class="label">REGON:</span>
@@ -393,6 +402,28 @@ import { KontrahentEditWindowComponent } from './kontrahent-edit-window.componen
     .list-controls {
       display: flex;
       gap: 8px;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .filter-input {
+      padding: 6px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 14px;
+      min-width: 200px;
+      transition: all 0.2s ease;
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     .refresh-button {
@@ -765,7 +796,9 @@ import { KontrahentEditWindowComponent } from './kontrahent-edit-window.componen
   `]
 })
 export class KontrahenciWindowComponent implements OnInit {
+  @Input() pWybor: boolean = false;
   @Output() closeRequested = new EventEmitter<void>();
+  @Output() kontrahentSelected = new EventEmitter<TKontrahentInfo>();
 
   kontrahenci: KontrahentDetailed[] = [];
   selectedKontrahent: KontrahentDetailed | null = null;
@@ -785,11 +818,17 @@ export class KontrahenciWindowComponent implements OnInit {
     this.loadKontrahenci();
   }
 
+  onFilterChange() {
+    this.currentPage = 1;
+    this.selectedKontrahent = null;
+    this.loadKontrahenci();
+  }
+
   loadKontrahenci() {
     this.loading = true;
     const rekStart = (this.currentPage - 1) * this.pageSize + 1;
-    
-    this.kontrahenciService.getKontrahenci(rekStart, this.pageSize).subscribe({
+
+    this.kontrahenciService.getKontrahenci(rekStart, this.pageSize, this.filterText).subscribe({
       next: (response) => {
         this.kontrahenci = response.data;
         if (response.wynikIlosc !== undefined) {
@@ -799,8 +838,7 @@ export class KontrahenciWindowComponent implements OnInit {
           this.totalPages = Math.ceil(this.totalCount / this.pageSize);
         }
         this.loading = false;
-        
-        // Auto-select first item if none selected
+
         if (this.kontrahenci.length > 0 && !this.selectedKontrahent) {
           this.selectedKontrahent = this.kontrahenci[0];
         }

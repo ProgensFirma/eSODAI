@@ -1,43 +1,5 @@
-export interface DokumentTyp {
-  nazwa: string;
-  finansowy: boolean;
-}
-
-export interface Kontrahent {
-  numer: number;
-  identyfikator: string;
-  firma: boolean;
-  nIP: string;
-}
-
-export interface Osoba {
-  numer: number;
-  identyfikator: string;
-}
-
-export interface Wydzial {
-  stanowisko: boolean;
-  symbol: string;
-  nazwa: string;
-  kod: string;
-}
-
-export interface DaneFinansowe {
-  poziom: number;
-  dataWystawienia: string;
-  dataSprzedazy: string;
-  dataPlatnosci: string;
-  dataZaplaty: string;
-  dataVAT: string;
-  brutto: number;
-  netto: number;
-  vAT: number;
-}
-
-export interface Zalacznik {
-  numer: number;
-  plik: string;
-}
+import { TOsobaInfo, TWydzialInfo, TKontrahentInfo, TDokTypInfo, TSzablonInfo, TZalacznikInfo } from './typy-info.model';
+import { DaneFinansowe } from './dane-finansowe.model';
 
 export interface Dokument {
   numer: number;
@@ -47,8 +9,8 @@ export interface Dokument {
   aktualny: boolean;
   statusEdycji: string;
   doWgladu: boolean;
-  typ: DokumentTyp;
-  szablon: string | null;
+  typ: TDokTypInfo;
+  szablon: TSzablonInfo | null;
   nazwa: string;
   opis: string;
   sprawa: any;
@@ -62,13 +24,13 @@ export interface Dokument {
   dataNaDok: string;
   kanalWe: string;
   domKanalWy: string;
-  kontrahent: Kontrahent;
-  przekazujacy: Osoba;
-  przekazujacyWydzial: Wydzial;
+  kontrahent: TKontrahentInfo;
+  przekazujacy: TOsobaInfo;
+  przekazujacyWydzial: TWydzialInfo;
   dataPrzekazania: string;
-  prowadzacy: Osoba;
-  prowadzacyWydzial: Wydzial;
-  odpowiedzialny: Osoba;
+  prowadzacy: TOsobaInfo;
+  prowadzacyWydzial: TWydzialInfo;
+  odpowiedzialny: TOsobaInfo;
   dataPrzyjecia: string;
   uprawPoziom: string;
   statusPrzek: string;
@@ -80,7 +42,9 @@ export interface Dokument {
   grupa3: string;
   publiczny: boolean;
   dokGuid: string;
-  zalaczniki: Zalacznik[];
+  jrwa: string;
+  obcyNumer: string;
+  zalaczniki: TZalacznikInfo[];
   oper: string;
   status: string;
   statusDane: string;

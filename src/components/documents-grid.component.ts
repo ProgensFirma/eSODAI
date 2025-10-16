@@ -23,7 +23,7 @@ import { Skrzynka } from '../models/skrzynka.model';
             [disabled]="!selectedSkrzynka"
           >
             <span class="button-icon">➕</span>
-            Nowy dokument
+            Nowy
           </button>
           <button
             class="action-button button-edit"
@@ -164,22 +164,22 @@ import { Skrzynka } from '../models/skrzynka.model';
     }
 
     .button-new {
-      background: #16a34a;
+      background: #2563eb;
       color: white;
     }
 
     .button-new:hover:not(:disabled) {
-      background: #15803d;
+      background: #1d4ed8;
       transform: translateY(-1px);
     }
 
     .button-edit {
-      background: #f59e0b;
+      background: #16a34a;
       color: white;
     }
 
     .button-edit:hover:not(:disabled) {
-      background: #d97706;
+      background: #15803d;
       transform: translateY(-1px);
     }
 

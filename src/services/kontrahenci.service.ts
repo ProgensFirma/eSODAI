@@ -11,17 +11,21 @@ export class KontrahenciService {
 
   constructor(private http: HttpClient) {}
 
-  getKontrahenci(rekStart: number = 1, rekIlosc: number = 10): Observable<KontrahenciResponse> {
-    const params = new HttpParams()
+  getKontrahenci(rekStart: number = 1, rekIlosc: number = 10, fraza: string = ''): Observable<KontrahenciResponse> {
+    let params = new HttpParams()
       .set('rekStart', rekStart.toString())
       .set('rekIlosc', rekIlosc.toString());
 
-    return this.http.get<KontrahentDetailed[]>(this.apiUrl, { 
-      params, 
-      observe: 'response' 
+    if (fraza) {
+      params = params.set('fraza', fraza);
+    }
+
+    return this.http.get<KontrahentDetailed[]>(this.apiUrl, {
+      params,
+      observe: 'response'
     }).pipe(
       map((response: HttpResponse<KontrahentDetailed[]>) => {
-        const wynikIlosc = response.headers.get('WynikIlosc');
+        const wynikIlosc = response.headers.get('qIlosc');
         return {
           data: response.body || [],
           wynikIlosc: wynikIlosc ? parseInt(wynikIlosc, 10) : undefined
@@ -29,7 +33,6 @@ export class KontrahenciService {
       }),
       catchError(error => {
         console.error('Error fetching kontrahenci:', error);
-        // Return mock data for development
         return of(this.getMockData(rekStart, rekIlosc));
       })
     );
@@ -51,7 +54,7 @@ export class KontrahenciService {
         "firma": true,
         "grupa": "",
         "pesel": "",
-        "nIP": "1234567890",
+        "nip": "1234567890",
         "regon": "120522027",
         "kRS": "",
         "odID": "",
@@ -116,7 +119,7 @@ export class KontrahenciService {
         "firma": false,
         "grupa": "",
         "pesel": "50051512345",
-        "nIP": "",
+        "nip": "",
         "regon": "",
         "kRS": "",
         "odID": "",

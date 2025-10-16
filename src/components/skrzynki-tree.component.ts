@@ -237,9 +237,9 @@ export class SkrzynkiTreeComponent implements OnInit {
     skrzynki.forEach(skrzynka => {
       const node = nodeMap.get(skrzynka.skrzynka+skrzynka.skrDef)!;
       
-      if (skrzynka.poziom === 0 || skrzynka.poziom === 1) {
+      if (skrzynka.poziom === 1 || skrzynka.poziom === 2) {
         rootNodes.push(node);
-      } else if (skrzynka.poziom === 2) {
+      } else if (skrzynka.poziom === 3) {
         // Find parent (level 1 node that appears before this level 2 node)
         const parentNode = this.findParentNode(skrzynka, skrzynki, nodeMap);
         if (parentNode) {

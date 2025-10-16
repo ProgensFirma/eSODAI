@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { authInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { LoginWindowComponent } from './components/login-window.component';
 import { InfoWindowComponent } from './components/info-window.component';
@@ -528,7 +529,7 @@ export class App {
       aktualny: true,
       statusEdycji: '',
       doWgladu: false,
-      typ: { nazwa: '', finansowy: false },
+      typ: { nazwa: '', finansowy: false, poleceniezaplaty: false },
       szablon: null,
       nazwa: '',
       opis: '',
@@ -543,7 +544,7 @@ export class App {
       dataNaDok: '',
       kanalWe: '',
       domKanalWy: '',
-      kontrahent: { numer: 0, identyfikator: '', firma: false, nIP: '' },
+      kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: null },
       przekazujacy: { numer: 0, identyfikator: '' },
       przekazujacyWydzial: { stanowisko: false, symbol: '', nazwa: '', kod: '' },
       dataPrzekazania: '',
@@ -561,6 +562,8 @@ export class App {
       grupa3: '',
       publiczny: false,
       dokGuid: '',
+      jrwa: '',
+      obcyNumer: '',
       zalaczniki: [],
       oper: '',
       status: '',
@@ -571,6 +574,6 @@ export class App {
 
 bootstrapApplication(App, {
   providers: [
-    provideHttpClient()
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
 }).catch(err => console.error(err));

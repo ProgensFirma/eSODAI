@@ -4,11 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { Dokument } from '../models/dokument.model';
 import { DokumentTyp } from '../models/dokument-typ.model';
 import { DokumentTypyService } from '../services/dokument-typy.service';
+import { TKontrahentInfo } from '../models/typy-info.model';
+import { KontrahenciWindowComponent } from './kontrahenci-window.component';
+import { WykazAkt } from '../models/wykaz-akt.model';
+import { WykazAktService } from '../services/wykaz-akt.service';
+import { ZalacznikTresc } from '../models/zalacznik.model';
+import { ZalacznikiService } from '../services/zalaczniki.service';
 
 @Component({
   selector: 'app-document-edit-window',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, KontrahenciWindowComponent],
   template: `
     <div class="modal-overlay" (click)="onOverlayClick($event)">
       <div class="modal-window" (click)="$event.stopPropagation()">
@@ -126,7 +132,7 @@ import { DokumentTypyService } from '../services/dokument-typy.service';
                   readonly
                   placeholder="Wybierz kontrahenta"
                 />
-                <button class="select-button" type="button" disabled>
+                <button class="select-button" type="button" (click)="openKontrahentWindow()">
                   <span class="button-icon">🔍</span>
                 </button>
               </div>
@@ -154,9 +160,37 @@ import { DokumentTypyService } from '../services/dokument-typy.service';
 
             <div class="form-group">
               <label class="form-label">JRWA</label>
-              <select class="form-select" disabled>
+              <select class="form-select" [(ngModel)]="selectedJrwa">
                 <option value="">-- Wybierz JRWA --</option>
+                <option *ngFor="let jrwa of wykazAktList" [value]="jrwa.symbol">
+                  {{ jrwa.symbol }} - {{ jrwa.nazwa }}
+                </option>
               </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Załącznik</label>
+              <div class="file-input-wrapper">
+                <input
+                  type="file"
+                  #fileInput
+                  class="file-input"
+                  (change)="onFileSelected($event)"
+                  accept="*/*"
+                />
+                <button class="file-select-button" type="button" (click)="fileInput.click()">
+                  <span class="button-icon">📄</span>
+                  {{ selectedFileName || 'Wybierz plik' }}
+                </button>
+                <button
+                  *ngIf="selectedFileName"
+                  class="file-clear-button"
+                  type="button"
+                  (click)="clearFile()"
+                >
+                  <span class="button-icon">✕</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -187,6 +221,13 @@ import { DokumentTypyService } from '../services/dokument-typy.service';
           {{ successMessage }}
         </div>
       </div>
+
+      <app-kontrahenci-window
+        *ngIf="showKontrahentWindow"
+        [pWybor]="true"
+        (closeRequested)="closeKontrahentWindow()"
+        (kontrahentSelected)="onKontrahentSelected($event)"
+      ></app-kontrahenci-window>
     </div>
   `,
   styles: [`
@@ -382,8 +423,63 @@ import { DokumentTypyService } from '../services/dokument-typy.service';
       cursor: not-allowed;
     }
 
+    .select-button:not(:disabled) {
+      background: #2563eb;
+      color: white;
+    }
+
+    .select-button:not(:disabled):hover {
+      background: #1d4ed8;
+    }
+
     .button-icon {
       font-size: 16px;
+    }
+
+    .file-input-wrapper {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .file-select-button {
+      flex: 1;
+      padding: 12px 16px;
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .file-select-button:hover {
+      background: #cbd5e1;
+    }
+
+    .file-clear-button {
+      padding: 12px 16px;
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      color: #dc2626;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .file-clear-button:hover {
+      background: #fecaca;
     }
 
     .modal-footer {
@@ -524,11 +620,21 @@ export class DocumentEditWindowComponent implements OnInit {
   saving = false;
   errorMessage: string = '';
   successMessage: string = '';
+  showKontrahentWindow = false;
+  wykazAktList: WykazAkt[] = [];
+  selectedJrwa: string = '';
+  selectedFile: File | null = null;
+  selectedFileName: string = '';
 
-  constructor(private dokumentTypyService: DokumentTypyService) {}
+  constructor(
+    private dokumentTypyService: DokumentTypyService,
+    private wykazAktService: WykazAktService,
+    private zalacznikiService: ZalacznikiService
+  ) {}
 
   ngOnInit() {
     this.loadDokumentTypy();
+    this.loadWykazAkt();
     this.initializeFormData();
   }
 
@@ -544,9 +650,24 @@ export class DocumentEditWindowComponent implements OnInit {
     });
   }
 
+  loadWykazAkt() {
+    this.wykazAktService.getWykazAkt().subscribe({
+      next: (wykazAkt) => {
+        this.wykazAktList = wykazAkt;
+      },
+      error: (error) => {
+        console.error('Error loading wykaz akt:', error);
+      }
+    });
+  }
+
   initializeFormData() {
     if (this.dokument.typ?.nazwa) {
       this.selectedTypNazwa = this.dokument.typ.nazwa;
+    }
+
+    if (this.dokument.jrwa) {
+      this.selectedJrwa = this.dokument.jrwa;
     }
 
     if (this.dokument.dataWplywu && this.dokument.dataWplywu !== '1899-12-30T00:00:00.000Z') {
@@ -566,7 +687,8 @@ export class DocumentEditWindowComponent implements OnInit {
     if (selectedTyp) {
       this.dokument.typ = {
         nazwa: selectedTyp.nazwa,
-        finansowy: selectedTyp.finansowy
+        finansowy: selectedTyp.finansowy,
+        poleceniezaplaty: selectedTyp.polecenieZaplaty
       };
 
       if (selectedTyp.nazwaDomysl) {
@@ -600,14 +722,22 @@ export class DocumentEditWindowComponent implements OnInit {
       this.dokument.godzinaWplywu = (hours * 3600000) + (minutes * 60000);
     }
 
+    if (this.selectedJrwa) {
+      this.dokument.jrwa = this.selectedJrwa;
+    }
+
     this.dokumentTypyService.saveDokument(this.dokument).subscribe({
       next: (response) => {
-        this.saving = false;
-        this.successMessage = 'Dokument został pomyślnie zapisany';
-        setTimeout(() => {
-          this.documentSaved.emit();
-          this.onClose();
-        }, 1500);
+        if (this.selectedFile) {
+          this.uploadAttachment(response.numer);
+        } else {
+          this.saving = false;
+          this.successMessage = 'Dokument został pomyślnie zapisany';
+          setTimeout(() => {
+            this.documentSaved.emit();
+            this.onClose();
+          }, 1500);
+        }
       },
       error: (error) => {
         this.saving = false;
@@ -625,5 +755,86 @@ export class DocumentEditWindowComponent implements OnInit {
     if ((event.target as HTMLElement).classList.contains('modal-overlay')) {
       this.onClose();
     }
+  }
+
+  openKontrahentWindow() {
+    this.showKontrahentWindow = true;
+  }
+
+  closeKontrahentWindow() {
+    this.showKontrahentWindow = false;
+  }
+
+  onKontrahentSelected(kontrahentInfo: TKontrahentInfo) {
+    this.dokument.kontrahent = {
+      numer: kontrahentInfo.numer,
+      identyfikator: kontrahentInfo.identyfikator,
+      firma: kontrahentInfo.firma,
+      nip: kontrahentInfo.nip,
+      adres: kontrahentInfo.adres
+    };
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.selectedFileName = this.selectedFile.name;
+    }
+  }
+
+  clearFile() {
+    this.selectedFile = null;
+    this.selectedFileName = '';
+  }
+
+  private uploadAttachment(dokumentNumer: number) {
+    if (!this.selectedFile) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64Content = (reader.result as string).split(',')[1];
+
+      const zalacznik: ZalacznikTresc = {
+        numer: 0,
+        plik: this.selectedFile!.name,
+        dokument: dokumentNumer,
+        kolejnosc: 1,
+        archiuwum: false,
+        data: new Date().toISOString(),
+        edycja: false,
+        wersja: 0,
+        wersjaOpis: '',
+        tresc: base64Content,
+        oper: '',
+        status: '',
+        statusDane: ''
+      };
+
+      this.zalacznikiService.uploadZalacznik(zalacznik).subscribe({
+        next: () => {
+          this.saving = false;
+          this.successMessage = 'Dokument i załącznik zostały pomyślnie zapisane';
+          setTimeout(() => {
+            this.documentSaved.emit();
+            this.onClose();
+          }, 1500);
+        },
+        error: (error) => {
+          this.saving = false;
+          console.error('Error uploading attachment:', error);
+          this.errorMessage = 'Dokument zapisany, ale nie udało się dodać załącznika';
+        }
+      });
+    };
+
+    reader.onerror = () => {
+      this.saving = false;
+      this.errorMessage = 'Nie udało się odczytać pliku';
+    };
+
+    reader.readAsDataURL(this.selectedFile);
   }
 }
