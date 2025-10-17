@@ -78,8 +78,7 @@ import { Skrzynka } from './models/skrzynka.model';
               <span class="timer-text">{{ formatTime(sessionTimeLeft) }}</span>
             </div>
             <button class="logout-button" (click)="logout()" title="Wyloguj">
-              <span class="logout-icon">🔌</span>
-              Wyloguj
+              <span class="logout-icon">⏻</span>
             </button>
           </div>
         </div>
@@ -323,13 +322,13 @@ import { Skrzynka } from './models/skrzynka.model';
     .logout-button {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
+      justify-content: center;
+      padding: 8px 12px;
       background: #dc2626;
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 20px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
