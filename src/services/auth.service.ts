@@ -88,6 +88,11 @@ export class AuthService {
     this.appServerVersionSubject.next('');
   }
 
+  clearSession(): void {
+    this.sessionSubject.next(null);
+    this.appServerVersionSubject.next('');
+  }
+
   getCurrentSession(): SessionData | null {
     return this.sessionSubject.value;
   }

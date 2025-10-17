@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, HostListener } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
@@ -66,9 +66,22 @@ import { Skrzynka } from './models/skrzynka.model';
       
       <main class="main-content">
         <div class="content-header">
-          <h1 class="main-title">System obiegu dokumentów eSOD</h1>
-          <p class="subtitle" *ngIf="!selectedSkrzynka">Wybierz skrzynkę z menu po lewej stronie</p>
-          <p class="subtitle" *ngIf="selectedSkrzynka">Skrzynka: {{ selectedSkrzynka.nazwa }}</p>
+          <div class="header-left">
+            <h1 class="main-title">System obiegu dokumentów eSOD</h1>
+            <p class="subtitle" *ngIf="!selectedSkrzynka">Wybierz skrzynkę z menu po lewej stronie</p>
+            <p class="subtitle" *ngIf="selectedSkrzynka">Skrzynka: {{ selectedSkrzynka.nazwa }}</p>
+          </div>
+          <div class="header-right">
+            <div class="user-info">Użytkownik: {{ sessionData?.imie }} {{ sessionData?.nazwisko }}</div>
+            <div class="session-timer" [class.warning]="sessionTimeLeft <= 300">
+              <span class="timer-icon">⏱</span>
+              <span class="timer-text">{{ formatTime(sessionTimeLeft) }}</span>
+            </div>
+            <button class="logout-button" (click)="logout()" title="Wyloguj">
+              <span class="logout-icon">🔌</span>
+              Wyloguj
+            </button>
+          </div>
         </div>
         
         <div class="content-body" *ngIf="!selectedSkrzynka">
@@ -253,6 +266,87 @@ import { Skrzynka } from './models/skrzynka.model';
       padding: 32px 40px;
       background: linear-gradient(135deg, #ffffff, #f8fafc);
       border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .header-left {
+      flex: 1;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-info {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+      padding: 8px 16px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .session-timer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+      padding: 8px 16px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      min-width: 100px;
+    }
+
+    .session-timer.warning {
+      background: #fef3c7;
+      border-color: #fbbf24;
+      color: #92400e;
+    }
+
+    .timer-icon {
+      font-size: 16px;
+    }
+
+    .timer-text {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .logout-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: #dc2626;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .logout-button:hover {
+      background: #b91c1c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    .logout-button:active {
+      transform: translateY(0);
+    }
+
+    .logout-icon {
+      font-size: 16px;
     }
 
     .main-title {
@@ -431,7 +525,19 @@ export class App {
   documentEditMode: 'add' | 'edit' = 'add';
   editingDocument: Dokument | null = null;
 
-  constructor(private authService: AuthService) {}
+  sessionTimeLeft = 1800;
+  private sessionTimeoutMinutes = 30;
+  private timerInterval: any;
+
+  constructor(private authService: AuthService, private http: HttpClient) {}
+
+  @HostListener('document:click')
+  @HostListener('document:keydown')
+  resetSessionTimer() {
+    if (this.isLoggedIn) {
+      this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
+    }
+  }
 
   onSkrzynkaSelected(skrzynka: Skrzynka) {
     this.selectedSkrzynka = skrzynka;
@@ -483,6 +589,8 @@ export class App {
   onLoginSuccess() {
     this.isLoggedIn = true;
     this.sessionData = this.authService.getCurrentSession();
+    this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
+    this.startSessionTimer();
   }
 
   hideMenuDelayed() {
@@ -569,6 +677,51 @@ export class App {
       status: '',
       statusDane: ''
     };
+  }
+
+  startSessionTimer() {
+    this.timerInterval = setInterval(() => {
+      if (this.sessionTimeLeft > 0) {
+        this.sessionTimeLeft--;
+      } else {
+        this.logout();
+      }
+    }, 1000);
+  }
+
+  formatTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  logout() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+
+    this.http.get('http://localhost:8448/logout').subscribe({
+      next: () => {
+        this.resetApplicationState();
+      },
+      error: () => {
+        this.resetApplicationState();
+      }
+    });
+  }
+
+  resetApplicationState() {
+    this.isLoggedIn = false;
+    this.sessionData = null;
+    this.selectedSkrzynka = null;
+    this.selectedDocument = null;
+    this.showMenu = false;
+    this.showKontrahenciWindow = false;
+    this.showInfoWindow = false;
+    this.showDocumentEditWindow = false;
+    this.editingDocument = null;
+    this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
+    this.authService.clearSession();
   }
 }
 
