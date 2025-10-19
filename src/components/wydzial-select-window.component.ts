@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TWydzialInfo } from '../models/typy-info.model';
 
@@ -179,11 +179,17 @@ import { TWydzialInfo } from '../models/typy-info.model';
     }
   `]
 })
-export class WydzialSelectWindowComponent {
+export class WydzialSelectWindowComponent implements OnInit {
   @Input() wydzialy: TWydzialInfo[] = [];
   @Output() wydzialSelected = new EventEmitter<TWydzialInfo>();
 
   selectedWydzial: TWydzialInfo | null = null;
+
+  ngOnInit() {
+    if (this.wydzialy && this.wydzialy.length > 0) {
+      this.selectedWydzial = this.wydzialy[0];
+    }
+  }
 
   selectWydzial(wydzial: TWydzialInfo) {
     this.selectedWydzial = wydzial;
