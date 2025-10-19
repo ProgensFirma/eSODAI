@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, catchError, of, map } from 'rxjs';
 import { KontrahentDetailed, KontrahenciResponse } from '../models/kontrahent.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KontrahenciService {
-  private apiUrl = 'http://localhost:8448/kontrahenci';
+  private apiUrl = `${environment.apiBaseUrl}/kontrahenci`;
 
   constructor(private http: HttpClient) {}
 

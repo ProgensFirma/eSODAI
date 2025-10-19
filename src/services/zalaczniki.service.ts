@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { ZalacznikTresc } from '../models/zalacznik.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ZalacznikiService {
-  private apiUrl = 'http://localhost:8448/zalacznik';
+  private apiUrl = `${environment.apiBaseUrl}/zalacznik`;
 
   constructor(private http: HttpClient) {}
 

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Dokument } from '../models/dokument.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DokumentyService {
-  private apiUrl = 'http://localhost:8448/skrzynki/dokumenty';
+  private apiUrl = `${environment.apiBaseUrl}/skrzynki/dokumenty`;
 
   constructor(private http: HttpClient) {}
 
@@ -22,6 +23,15 @@ export class DokumentyService {
         console.error('Error fetching dokumenty:', error);
         // Return mock data for development
         return of(this.getMockData());
+      })
+    );
+  }
+
+  getOsobaRejestr(): Observable<{ Rejestr: string }> {
+    return this.http.get<{ Rejestr: string }>(`${environment.apiBaseUrl}/dokumenty/osoba/rejestr`).pipe(
+      catchError(error => {
+        console.error('Error fetching osoba rejestr:', error);
+        return of({ Rejestr: 'RPP' });
       })
     );
   }

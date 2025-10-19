@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Dokument } from '../models/dokument.model';
 import { DokumentTyp } from '../models/dokument-typ.model';
 import { DokumentTypyService } from '../services/dokument-typy.service';
+import { DokumentyService } from '../services/dokumenty.service';
 import { TKontrahentInfo } from '../models/typy-info.model';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 import { WykazAkt } from '../models/wykaz-akt.model';
@@ -628,6 +629,7 @@ export class DocumentEditWindowComponent implements OnInit {
 
   constructor(
     private dokumentTypyService: DokumentTypyService,
+    private dokumentyService: DokumentyService,
     private wykazAktService: WykazAktService,
     private zalacznikiService: ZalacznikiService
   ) {}
@@ -636,6 +638,10 @@ export class DocumentEditWindowComponent implements OnInit {
     this.loadDokumentTypy();
     this.loadWykazAkt();
     this.initializeFormData();
+
+    if (this.mode === 'add') {
+      this.loadOsobaRejestr();
+    }
   }
 
   loadDokumentTypy() {
@@ -657,6 +663,18 @@ export class DocumentEditWindowComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading wykaz akt:', error);
+      }
+    });
+  }
+
+  loadOsobaRejestr() {
+    this.dokumentyService.getOsobaRejestr().subscribe({
+      next: (response) => {
+        this.dokument.rejestr = response.Rejestr;
+      },
+      error: (error) => {
+        console.error('Error loading osoba rejestr:', error);
+        this.dokument.rejestr = 'RPP';
       }
     });
   }

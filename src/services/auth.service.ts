@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { LoginRequest, SessionData, LoginResponse } from '../models/session.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8448/login';
+  private apiUrl = `${environment.apiBaseUrl}/login`;
   private sessionSubject = new BehaviorSubject<SessionData | null>(null);
   private appServerVersionSubject = new BehaviorSubject<string>('');
 
