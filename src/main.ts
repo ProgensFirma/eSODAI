@@ -11,21 +11,29 @@ import { DocumentsGridComponent } from './components/documents-grid.component';
 import { DocumentDetailsComponent } from './components/document-details.component';
 import { KontrahenciWindowComponent } from './components/kontrahenci-window.component';
 import { DocumentEditWindowComponent } from './components/document-edit-window.component';
+import { WydzialSelectWindowComponent } from './components/wydzial-select-window.component';
 import { Dokument } from './models/dokument.model';
 import { SessionData } from './models/session.model';
 import { Skrzynka } from './models/skrzynka.model';
+import { TWydzialInfo } from './models/typy-info.model';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent, KontrahenciWindowComponent, DocumentEditWindowComponent],
+  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent, KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent],
   template: `
-    <app-login-window 
+    <app-login-window
       *ngIf="!isLoggedIn"
       (loginSuccess)="onLoginSuccess()"
     ></app-login-window>
 
-    <div class="app-container" *ngIf="isLoggedIn">
+    <app-wydzial-select-window
+      *ngIf="showWydzialSelect"
+      [wydzialy]="availableWydzialy"
+      (wydzialSelected)="onWydzialSelected($event)"
+    ></app-wydzial-select-window>
+
+    <div class="app-container" *ngIf="isLoggedIn && !showWydzialSelect">
       <aside class="sidebar">
         <div class="sidebar-header">
           <div 
@@ -519,6 +527,8 @@ export class App {
   showInfoWindow = false;
   showDocumentEditWindow = false;
   isLoggedIn = false;
+  showWydzialSelect = false;
+  availableWydzialy: TWydzialInfo[] = [];
   private hideMenuTimeout: any;
   sessionData: SessionData | null = null;
   documentEditMode: 'add' | 'edit' = 'add';
@@ -586,10 +596,16 @@ export class App {
   }
 
   onLoginSuccess() {
-    this.isLoggedIn = true;
     this.sessionData = this.authService.getCurrentSession();
-    this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
-    this.startSessionTimer();
+
+    if (this.sessionData && this.sessionData.jednostki && this.sessionData.jednostki.length > 0) {
+      this.availableWydzialy = this.sessionData.jednostki;
+      this.showWydzialSelect = true;
+    } else {
+      this.isLoggedIn = true;
+      this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
+      this.startSessionTimer();
+    }
   }
 
   hideMenuDelayed() {
@@ -709,6 +725,16 @@ export class App {
     });
   }
 
+  onWydzialSelected(wydzial: TWydzialInfo) {
+    if (this.sessionData) {
+      this.sessionData.jednostkaAkt = wydzial;
+    }
+    this.showWydzialSelect = false;
+    this.isLoggedIn = true;
+    this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
+    this.startSessionTimer();
+  }
+
   resetApplicationState() {
     this.isLoggedIn = false;
     this.sessionData = null;
@@ -718,6 +744,8 @@ export class App {
     this.showKontrahenciWindow = false;
     this.showInfoWindow = false;
     this.showDocumentEditWindow = false;
+    this.showWydzialSelect = false;
+    this.availableWydzialy = [];
     this.editingDocument = null;
     this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
     this.authService.clearSession();

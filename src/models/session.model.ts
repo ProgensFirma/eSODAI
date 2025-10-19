@@ -1,3 +1,5 @@
+import { TWydzialInfo } from './typy-info.model';
+
 export interface LoginRequest {
   login: string;
   haslo: string;
@@ -17,9 +19,8 @@ export interface SessionData {
   stanowisko: string;
   symbol: string;
   poziom: string;
-  jednOrg: string;
-  jednOrgKod: string;
-  stanOrg: string;
+  jednostkaAkt: TWydzialInfo;
+  jednostki: TWydzialInfo[];
   zalogowany: boolean;
   admin: boolean;
   czasStart: string;

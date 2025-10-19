@@ -43,7 +43,7 @@ export class AuthService {
         if (error.status === 0 || error.status === 404) {
           const mockSessionData: SessionData = {
             sesja: 123,
-            gUnikNr: 53671730,
+            gUnikNr: 60589538,
             sysOper: "sys_Windows",
             dB: "bdFD_FireBird",
             firma: 0,
@@ -55,9 +55,20 @@ export class AuthService {
             stanowisko: "",
             symbol: "",
             poziom: "1E1",
-            jednOrg: "",
-            jednOrgKod: "",
-            stanOrg: "",
+            jednostkaAkt: {
+              symbol: "1E11",
+              nazwa: "Pracownicy DTWI",
+              kod: "",
+              stanowisko: false
+            },
+            jednostki: [
+              {
+                symbol: "1E11",
+                nazwa: "Pracownicy DTWI",
+                kod: "",
+                stanowisko: false
+              }
+            ],
             zalogowany: true,
             admin: true,
             czasStart: new Date().toISOString(),
