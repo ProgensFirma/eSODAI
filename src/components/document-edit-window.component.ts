@@ -95,6 +95,32 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               />
             </div>
 
+            <div class="form-group kontrahent-group">
+              <label class="form-label">Kontrahent</label>
+              <div class="input-with-button">
+                <input
+                  type="text"
+                  class="form-input"
+                  [value]="dokument.kontrahent.identyfikator || ''"
+                  readonly
+                  placeholder="Wybierz kontrahenta"
+                />
+                <button class="select-button" type="button" (click)="openKontrahentWindow()">
+                  <span class="button-icon">🔍</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Numer na dokumencie</label>
+              <input
+                type="text"
+                class="form-input"
+                [(ngModel)]="dokument.numerNaDok"
+                placeholder="Numer z dokumentu"
+              />
+            </div>
+
             <div class="form-group">
               <label class="form-label">Data wpływu</label>
               <input
@@ -111,32 +137,6 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
                 class="form-input"
                 [(ngModel)]="godzinaWplywuStr"
               />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Numer na dokumencie</label>
-              <input
-                type="text"
-                class="form-input"
-                [(ngModel)]="dokument.numerNaDok"
-                placeholder="Numer z dokumentu"
-              />
-            </div>
-
-            <div class="form-group kontrahent-group">
-              <label class="form-label">Kontrahent</label>
-              <div class="input-with-button">
-                <input
-                  type="text"
-                  class="form-input"
-                  [value]="dokument.kontrahent.identyfikator || ''"
-                  readonly
-                  placeholder="Wybierz kontrahenta"
-                />
-                <button class="select-button" type="button" (click)="openKontrahentWindow()">
-                  <span class="button-icon">🔍</span>
-                </button>
-              </div>
             </div>
 
             <div class="form-group readonly">
