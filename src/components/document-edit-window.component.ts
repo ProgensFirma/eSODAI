@@ -254,11 +254,11 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
 
     .modal-window {
       background: white;
-      border-radius: 16px;
+      border-radius: 12px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      max-width: 900px;
-      width: 90%;
-      max-height: 90vh;
+      max-width: 1400px;
+      width: 95%;
+      max-height: 95vh;
       display: flex;
       flex-direction: column;
       animation: slideUp 0.3s ease;
@@ -279,7 +279,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 32px;
+      padding: 16px 24px;
       border-bottom: 1px solid #e2e8f0;
       background: linear-gradient(135deg, #f8fafc, #e2e8f0);
     }
@@ -287,15 +287,15 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
     .modal-title {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       margin: 0;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
       color: #1e293b;
     }
 
     .title-icon {
-      font-size: 24px;
+      font-size: 22px;
     }
 
     .close-button {
@@ -317,7 +317,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
     .modal-content {
       flex: 1;
       overflow-y: auto;
-      padding: 32px;
+      padding: 20px 24px;
     }
 
     .modal-content::-webkit-scrollbar {
@@ -336,14 +336,14 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
 
     .form-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px 16px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .form-group.full-width {
@@ -357,7 +357,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
     }
 
     .form-label {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #475569;
     }
@@ -369,9 +369,9 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
     .form-input,
     .form-select,
     .form-textarea {
-      padding: 12px 16px;
+      padding: 8px 12px;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 6px;
       font-size: 14px;
       color: #1e293b;
       transition: all 0.2s ease;
@@ -388,7 +388,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
 
     .form-textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 60px;
     }
 
     .form-select:disabled {
@@ -407,10 +407,10 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
     }
 
     .select-button {
-      padding: 12px 16px;
+      padding: 8px 14px;
       background: #e2e8f0;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
@@ -487,7 +487,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
       display: flex;
       justify-content: flex-end;
       gap: 12px;
-      padding: 24px 32px;
+      padding: 16px 24px;
       border-top: 1px solid #e2e8f0;
       background: #f8fafc;
     }
@@ -496,9 +496,9 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
@@ -546,13 +546,13 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
 
     .error-message,
     .success-message {
-      margin: 16px 32px;
-      padding: 12px 16px;
-      border-radius: 8px;
+      margin: 12px 24px;
+      padding: 10px 14px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       animation: slideIn 0.3s ease;
     }
