@@ -81,7 +81,7 @@ import { TWydzialInfo } from './models/typy-info.model';
           </div>
           <div class="header-right">
             <div class="user-info">Użytkownik: {{ sessionData?.imie }} {{ sessionData?.nazwisko }}</div>
-            <div class="session-timer" [class.warning]="sessionTimeLeft <= 300">
+            <div class="session-timer" [class.warning]="sessionTimeLeft <= 100">
               <span class="timer-icon">⏱</span>
               <span class="timer-text">{{ formatTime(sessionTimeLeft) }}</span>
             </div>
