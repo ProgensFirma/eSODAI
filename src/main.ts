@@ -535,7 +535,7 @@ export class App {
   editingDocument: Dokument | null = null;
 
   sessionTimeLeft = 1800;
-  private sessionTimeoutMinutes = 30;
+  private sessionTimeoutMinutes = 10;
   private timerInterval: any;
 
   constructor(private authService: AuthService, private http: HttpClient) {}
