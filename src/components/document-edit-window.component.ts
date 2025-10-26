@@ -169,8 +169,19 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               </select>
             </div>
 
+            <div class="form-group full-width" *ngIf="mode === 'edit' && dokument.zalaczniki && dokument.zalaczniki.length > 0">
+              <label class="form-label">Załączniki ({{ dokument.zalaczniki.length }})</label>
+              <div class="attachments-list">
+                <div class="attachment-item" *ngFor="let zalacznik of dokument.zalaczniki">
+                  <span class="attachment-icon">📎</span>
+                  <span class="attachment-name">{{ zalacznik.plik }}</span>
+                  <span class="attachment-number">#{{ zalacznik.numer }}</span>
+                </div>
+              </div>
+            </div>
+
             <div class="form-group full-width">
-              <label class="form-label">Załącznik</label>
+              <label class="form-label">{{ mode === 'edit' ? 'Dodaj nowy załącznik' : 'Załącznik' }}</label>
               <div class="file-input-wrapper">
                 <input
                   type="file"
@@ -481,6 +492,73 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
 
     .file-clear-button:hover {
       background: #fecaca;
+    }
+
+    .attachments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .attachments-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .attachments-list::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 3px;
+    }
+
+    .attachments-list::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+
+    .attachment-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .attachment-item:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .attachment-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .attachment-name {
+      flex: 1;
+      font-size: 13px;
+      color: #1e293b;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .attachment-number {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+      padding: 2px 8px;
+      background: #f1f5f9;
+      border-radius: 4px;
+      flex-shrink: 0;
     }
 
     .modal-footer {
