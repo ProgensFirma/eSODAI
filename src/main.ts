@@ -9,18 +9,20 @@ import { InfoWindowComponent } from './components/info-window.component';
 import { SkrzynkiTreeComponent } from './components/skrzynki-tree.component';
 import { DocumentsGridComponent } from './components/documents-grid.component';
 import { DocumentDetailsComponent } from './components/document-details.component';
+import { SprawyGridComponent } from './components/sprawy-grid.component';
 import { KontrahenciWindowComponent } from './components/kontrahenci-window.component';
 import { DocumentEditWindowComponent } from './components/document-edit-window.component';
 import { WydzialSelectWindowComponent } from './components/wydzial-select-window.component';
 import { Dokument } from './models/dokument.model';
 import { SessionData } from './models/session.model';
-import { Skrzynka } from './models/skrzynka.model';
+import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
+import { Sprawa } from './models/sprawa.model';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent, KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent],
+  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent, KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -108,7 +110,7 @@ import { TWydzialInfo } from './models/typy-info.model';
           </div>
         </div>
         
-        <div class="documents-layout" *ngIf="selectedSkrzynka">
+        <div class="documents-layout" *ngIf="selectedSkrzynka && !isSprawyView()">
           <div class="documents-grid-section">
             <app-documents-grid
               [selectedSkrzynka]="selectedSkrzynka"
@@ -117,9 +119,27 @@ import { TWydzialInfo } from './models/typy-info.model';
               (editDocumentRequested)="onEditDocumentRequested($event)">
             </app-documents-grid>
           </div>
-          
+
           <div class="document-details-section">
             <app-document-details [document]="selectedDocument"></app-document-details>
+          </div>
+        </div>
+
+        <div class="sprawy-layout" *ngIf="selectedSkrzynka && isSprawyView()">
+          <div class="sprawy-grid-section">
+            <app-sprawy-grid
+              [selectedSkrzynka]="selectedSkrzynka"
+              (sprawaSelected)="onSprawaSelected($event)">
+            </app-sprawy-grid>
+          </div>
+
+          <div class="sprawy-documents-section">
+            <app-documents-grid
+              [selectedSkrzynka]="selectedSkrzynka"
+              (documentSelected)="onDocumentSelected($event)"
+              (newDocumentRequested)="onNewDocumentRequested()"
+              (editDocumentRequested)="onEditDocumentRequested($event)">
+            </app-documents-grid>
           </div>
         </div>
       </main>
@@ -389,6 +409,23 @@ import { TWydzialInfo } from './models/typy-info.model';
       overflow: hidden;
     }
 
+    .sprawy-layout {
+      flex: 1;
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 20px;
+      padding: 20px 40px 40px 40px;
+      overflow: hidden;
+    }
+
+    .sprawy-grid-section {
+      min-height: 0;
+    }
+
+    .sprawy-documents-section {
+      min-height: 0;
+    }
+
     .documents-grid-section {
       min-height: 0;
     }
@@ -522,6 +559,7 @@ import { TWydzialInfo } from './models/typy-info.model';
 export class App {
   selectedSkrzynka: Skrzynka | null = null;
   selectedDocument: Dokument | null = null;
+  selectedSprawa: Sprawa | null = null;
   showMenu = false;
   showKontrahenciWindow = false;
   showInfoWindow = false;
@@ -551,6 +589,18 @@ export class App {
   onSkrzynkaSelected(skrzynka: Skrzynka) {
     this.selectedSkrzynka = skrzynka;
     this.selectedDocument = null;
+    this.selectedSprawa = null;
+  }
+
+  onSprawaSelected(sprawa: Sprawa) {
+    this.selectedSprawa = sprawa;
+  }
+
+  isSprawyView(): boolean {
+    if (!this.selectedSkrzynka) {
+      return false;
+    }
+    return isSprawySkrzynka(this.selectedSkrzynka.numer);
   }
 
   onDocumentSelected(document: Dokument) {

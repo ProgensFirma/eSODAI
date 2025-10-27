@@ -40,7 +40,8 @@ export class SkrzynkiService {
         korEl: false,
         skrDef: -77,
         dokFinPoziom: 0,
-        dokFinZmiana: false
+        dokFinZmiana: false,
+        numer: 0
       },
       {
         sql: '',
@@ -58,7 +59,8 @@ export class SkrzynkiService {
         korEl: false,
         skrDef: -77,
         dokFinPoziom: 0,
-        dokFinZmiana: false
+        dokFinZmiana: false,
+        numer: 1
       },
       {
         sql: '',
@@ -76,7 +78,8 @@ export class SkrzynkiService {
         korEl: false,
         skrDef: -77,
         dokFinPoziom: 0,
-        dokFinZmiana: false
+        dokFinZmiana: false,
+        numer: 2
       },
       {
         sql: '',
@@ -94,7 +97,8 @@ export class SkrzynkiService {
         korEl: false,
         skrDef: -77,
         dokFinPoziom: 0,
-        dokFinZmiana: false
+        dokFinZmiana: false,
+        numer: 3
       },
       {
         sql: '',
@@ -112,7 +116,8 @@ export class SkrzynkiService {
         korEl: false,
         skrDef: -77,
         dokFinPoziom: 0,
-        dokFinZmiana: false
+        dokFinZmiana: false,
+        numer: 25
       },
       {
         sql: '',
@@ -130,7 +135,8 @@ export class SkrzynkiService {
         korEl: true,
         skrDef: -77,
         dokFinPoziom: 0,
-        dokFinZmiana: false
+        dokFinZmiana: false,
+        numer: 26
       },
       {
         sql: '',
@@ -148,7 +154,8 @@ export class SkrzynkiService {
         korEl: false,
         skrDef: -77,
         dokFinPoziom: 0,
-        dokFinZmiana: false
+        dokFinZmiana: false,
+        numer: 33
       },
       {
         sql: '',
@@ -166,7 +173,8 @@ export class SkrzynkiService {
         korEl: false,
         skrDef: -77,
         dokFinPoziom: 0,
-        dokFinZmiana: false
+        dokFinZmiana: false,
+        numer: 35
       }
     ];
   }
