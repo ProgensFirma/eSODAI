@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Skrzynka } from '../models/skrzynka.model';
-import { environment } from '../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkrzynkiService {
-  private apiUrl = `${environment.apiBaseUrl}/skrzynki`;
+  private get apiUrl(): string {
+    return `${this.configService.apiBaseUrl}/skrzynki`;
+  }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getSkrzynki(): Observable<Skrzynka[]> {
     return this.http.get<Skrzynka[]>(this.apiUrl).pipe(

@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { ZalacznikTresc } from '../models/zalacznik.model';
-import { environment } from '../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ZalacznikiService {
-  private apiUrl = `${environment.apiBaseUrl}/zalacznik`;
+  private get apiUrl(): string {
+    return `${this.configService.apiBaseUrl}/zalacznik`;
+  }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getZalacznikTresc(dokument: number, numer: number): Observable<ZalacznikTresc> {
     const params = {

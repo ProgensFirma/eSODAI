@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Sprawa } from '../models/sprawa.model';
-import { environment } from '../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SprawyService {
-  private apiUrl = `${environment.apiBaseUrl}/skrzynki/sprawy`;
+  private get apiUrl(): string {
+    return `${this.configService.apiBaseUrl}/skrzynki/sprawy`;
+  }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getSprawy(skrzynka: number): Observable<Sprawa[]> {
     const params = {

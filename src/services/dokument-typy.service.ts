@@ -3,17 +3,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { DokumentTyp } from '../models/dokument-typ.model';
-import { environment } from '../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DokumentTypyService {
-  private baseUrl = environment.apiBaseUrl;
+  private get baseUrl(): string {
+    return this.configService.apiBaseUrl;
+  }
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private configService: ConfigService
   ) {}
 
   private getHeaders(): HttpHeaders {

@@ -18,7 +18,7 @@ import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
 import { Sprawa } from './models/sprawa.model';
-import { environment } from './environments/environment';
+import { ConfigService } from './services/config.service';
 
 @Component({
   selector: 'app-root',
@@ -577,7 +577,7 @@ export class App {
   private sessionTimeoutMinutes = 10;
   private timerInterval: any;
 
-  constructor(private authService: AuthService, private http: HttpClient) {}
+  constructor(private authService: AuthService, private http: HttpClient, private configService: ConfigService) {}
 
   @HostListener('document:click')
   @HostListener('document:keydown')
@@ -766,7 +766,7 @@ export class App {
       clearInterval(this.timerInterval);
     }
 
-    this.http.get(`${environment.apiBaseUrl}/logout`).subscribe({
+    this.http.get(`${this.configService.apiBaseUrl}/logout`).subscribe({
       next: () => {
         this.resetApplicationState();
       },
@@ -803,8 +803,16 @@ export class App {
   }
 }
 
-bootstrapApplication(App, {
-  providers: [
-    provideHttpClient(withInterceptors([authInterceptor]))
-  ]
-}).catch(err => console.error(err));
+async function initializeApp() {
+  const configService = new ConfigService();
+  await configService.loadConfig();
+
+  bootstrapApplication(App, {
+    providers: [
+      provideHttpClient(withInterceptors([authInterceptor])),
+      { provide: ConfigService, useValue: configService }
+    ]
+  }).catch(err => console.error(err));
+}
+
+initializeApp();

@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Dokument } from '../models/dokument.model';
-import { environment } from '../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DokumentyService {
-  private apiUrl = `${environment.apiBaseUrl}/skrzynki/dokumenty`;
+  private get apiUrl(): string {
+    return `${this.configService.apiBaseUrl}/skrzynki/dokumenty`;
+  }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getDokumenty(skrzynka: number, zalInfo: boolean = true): Observable<Dokument[]> {
     const params = {
@@ -28,7 +30,7 @@ export class DokumentyService {
   }
 
   getOsobaRejestr(): Observable<{ Rejestr: string }> {
-    return this.http.get<{ Rejestr: string }>(`${environment.apiBaseUrl}/dokumenty/osoba/rejestr`).pipe(
+    return this.http.get<{ Rejestr: string }>(`${this.configService.apiBaseUrl}/dokumenty/osoba/rejestr`).pipe(
       catchError(error => {
         console.error('Error fetching osoba rejestr:', error);
         return of({ Rejestr: 'RPP' });

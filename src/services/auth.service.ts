@@ -2,20 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { LoginRequest, SessionData, LoginResponse } from '../models/session.model';
-import { environment } from '../environments/environment';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = `${environment.apiBaseUrl}/login`;
+  private get apiUrl(): string {
+    return `${this.configService.apiBaseUrl}/login`;
+  }
   private sessionSubject = new BehaviorSubject<SessionData | null>(null);
   private appServerVersionSubject = new BehaviorSubject<string>('');
 
   public session$ = this.sessionSubject.asObservable();
   public appServerVersion$ = this.appServerVersionSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private configService: ConfigService) {}
 
   login(loginData: LoginRequest): Observable<LoginResponse> {
     const params = new HttpParams()
