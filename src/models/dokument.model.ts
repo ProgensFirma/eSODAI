@@ -1,4 +1,4 @@
-import { TOsobaInfo, TWydzialInfo, TKontrahentInfo, TDokTypInfo, TSzablonInfo, TZalacznikInfo } from './typy-info.model';
+import { TOsobaInfo, TWydzialInfo, TKontrahentInfo, TDokTypInfo, TSzablonInfo, TZalacznikInfo, TSprawaInfo } from './typy-info.model';
 import { DaneFinansowe } from './dane-finansowe.model';
 
 export interface Dokument {
@@ -13,7 +13,7 @@ export interface Dokument {
   szablon: TSzablonInfo | null;
   nazwa: string;
   opis: string;
-  sprawa: any;
+  sprawa: TSprawaInfo | null;
   rejestr: string;
   rejestrNumer: number;
   rejestrRok: number;
