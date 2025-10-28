@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeNodeComponent } from './tree-node.component';
 import { SkrzynkiService } from '../services/skrzynki.service';
-import { Skrzynka, TreeNode } from '../models/skrzynka.model';
+import { Skrzynka, TreeNode, mapSkrzynkaToNumber } from '../models/skrzynka.model';
 
 @Component({
   selector: 'app-skrzynki-tree',
@@ -223,8 +223,9 @@ export class SkrzynkiTreeComponent implements OnInit {
     const nodeMap = new Map<string, TreeNode>();
     const rootNodes: TreeNode[] = [];
 
-    // Create all nodes
+    // Create all nodes and map skrzynka name to number
     skrzynki.forEach(skrzynka => {
+      skrzynka.numer = mapSkrzynkaToNumber(skrzynka.skrzynka);
       const node: TreeNode = {
         data: skrzynka,
         children: [],

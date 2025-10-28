@@ -73,6 +73,11 @@ export enum TSkrzynki {
   tfs_MojKomp = 51
 }
 
+export function mapSkrzynkaToNumber(skrzynkaNazwa: string): number {
+  const enumValue = TSkrzynki[skrzynkaNazwa as keyof typeof TSkrzynki];
+  return enumValue !== undefined ? enumValue : -1;
+}
+
 export function isSprawySkrzynka(skrzynka: number): boolean {
   return skrzynka >= TSkrzynki.tss_Sprawy && skrzynka <= TSkrzynki.tss_SNadzorEtap;
 }
