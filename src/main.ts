@@ -18,6 +18,7 @@ import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
 import { Sprawa } from './models/sprawa.model';
+import { environment } from './environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -765,7 +766,7 @@ export class App {
       clearInterval(this.timerInterval);
     }
 
-    this.http.get('http://localhost:8448/logout').subscribe({
+    this.http.get(`${environment.apiBaseUrl}/logout`).subscribe({
       next: () => {
         this.resetApplicationState();
       },
