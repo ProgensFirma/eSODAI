@@ -11,8 +11,18 @@ export class ConfigService {
   private config: AppConfig | null = null;
 
   async loadConfig(): Promise<void> {
-    const response = await fetch('/config.json');
-    this.config = await response.json();
+    try {
+      const response = await fetch('/config.json');
+      if (response.ok) {
+        this.config = await response.json();
+      } else {
+        console.warn('Could not load config.json, using default values');
+        this.config = { apiBaseUrl: 'http://localhost:8448' };
+      }
+    } catch (error) {
+      console.warn('Error loading config.json, using default values:', error);
+      this.config = { apiBaseUrl: 'http://localhost:8448' };
+    }
   }
 
   get apiBaseUrl(): string {
