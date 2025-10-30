@@ -22,10 +22,11 @@ export class DokumentyService {
   }  
 
   getDokumenty(skrzynka: number, zalInfo: boolean = true): Observable<Dokument[]> {
-    const params = {
-      skrzynka: skrzynka.toString(),
-      zalInfo: zalInfo.toString()
-    };
+    
+  const params = new HttpParams()
+    .append('sesja', 123)
+    .append('skrzynka', skrzynka.toString())
+    .append('zalInfo', zalInfo.toString());   
 
     return this.http.get<Dokument[]>(this.apiUrl, { params }).pipe(
       catchError(error => {
@@ -37,7 +38,17 @@ export class DokumentyService {
   }
 
   getOsobaRejestr(): Observable<{ Rejestr: string }> {
-    return this.http.get<{ Rejestr: string }>(`${this.configService.apiBaseUrl}/dokumenty/osoba/rejestr`).pipe(
+
+    const params = new HttpParams()
+      .append('sesja', 123);  
+    
+  getOsobaRejestr(): Observable<{ Rejestr: string }> {
+    
+    const params = new HttpParams()
+      .append('sesja', 123);  
+
+    return this.http.get<{ Rejestr: string }>(`${this.configService.apiBaseUrl}/dokumenty/osoba/rejestr`, 
+      {headers: this.getHeaders(), params: params}).pipe(
       catchError(error => {
         console.error('Error fetching osoba rejestr:', error);
         return of({ Rejestr: 'RPP' });
