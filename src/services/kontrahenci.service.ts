@@ -17,10 +17,10 @@ export class KontrahenciService {
 
   getKontrahenci(rekStart: number = 1, rekIlosc: number = 10, fraza: string = ''): Observable<KontrahenciResponse> {
     
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('sesja', '123')
       .set('rekStart', rekStart.toString())
-      .set('rekIlosc', rekIlosc.toString())
+      .set('rekIlosc', rekIlosc.toString());
 
     if (fraza) {
       params = params.set('fraza', fraza);
