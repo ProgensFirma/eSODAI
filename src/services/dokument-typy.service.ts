@@ -33,6 +33,9 @@ export class DokumentTypyService {
   }
 
   saveDokument(dokument: any): Observable<any> {
+    const params = new HttpParams()
+      .append('sesja', 123);
+    
     return this.http.post(
       `${this.baseUrl}/dokumenty/dokument`,
       dokument,
