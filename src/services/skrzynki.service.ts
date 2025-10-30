@@ -8,6 +8,7 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class SkrzynkiService {
+  
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/skrzynki`;
   }
@@ -15,6 +16,11 @@ export class SkrzynkiService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getSkrzynki(): Observable<Skrzynka[]> {
+
+    const params = {
+      sesja: '123',     //App.sessionData
+    };
+    
     return this.http.get<Skrzynka[]>(this.apiUrl).pipe(
       catchError(error => {
         console.error('Error fetching skrzynki:', error);
