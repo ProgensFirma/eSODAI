@@ -8,6 +8,7 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class WykazAktService {
+  
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/wykazakt`;
   }
@@ -15,6 +16,10 @@ export class WykazAktService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getWykazAkt(): Observable<WykazAkt[]> {
+
+    const params = new HttpParams()
+    .append('sesja', 123); 
+    
     return this.http.get<WykazAkt[]>(this.apiUrl);
   }
 }
