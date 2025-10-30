@@ -8,6 +8,7 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class ZalacznikiService {
+  
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/zalacznik`;
   }
@@ -15,7 +16,9 @@ export class ZalacznikiService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getZalacznikTresc(dokument: number, numer: number): Observable<ZalacznikTresc> {
+    
     const params = {
+      sesja: '123',
       dokument: dokument.toString(),
       numer: numer.toString()
     };
