@@ -21,7 +21,6 @@ export class KontrahenciService {
       .set('sesja', '123')
       .set('rekStart', rekStart.toString())
       .set('rekIlosc', rekIlosc.toString())
-      .set('fraza', fraza);
 
     if (fraza) {
       params = params.set('fraza', fraza);
