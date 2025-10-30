@@ -8,6 +8,7 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class SprawyService {
+  
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/skrzynki/sprawy`;
   }
@@ -15,6 +16,7 @@ export class SprawyService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getSprawy(skrzynka: number): Observable<Sprawa[]> {
+    
     const params = {
       skrzynka: skrzynka.toString()
     };
