@@ -8,6 +8,7 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class KontrahenciService {
+  
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/kontrahenci`;
   }
@@ -15,9 +16,12 @@ export class KontrahenciService {
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
   getKontrahenci(rekStart: number = 1, rekIlosc: number = 10, fraza: string = ''): Observable<KontrahenciResponse> {
-    let params = new HttpParams()
+    
+    const params = new HttpParams()
+      .set('sesja', '123')
       .set('rekStart', rekStart.toString())
-      .set('rekIlosc', rekIlosc.toString());
+      .set('rekIlosc', rekIlosc.toString())
+      .set('fraza', fraza);
 
     if (fraza) {
       params = params.set('fraza', fraza);
