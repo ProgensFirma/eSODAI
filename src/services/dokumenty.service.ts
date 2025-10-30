@@ -8,11 +8,18 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class DokumentyService {
+  
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/skrzynki/dokumenty`;
   }
 
   constructor(private http: HttpClient, private configService: ConfigService) {}
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+  }  
 
   getDokumenty(skrzynka: number, zalInfo: boolean = true): Observable<Dokument[]> {
     const params = {
