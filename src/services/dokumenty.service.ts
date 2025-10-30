@@ -36,11 +36,6 @@ export class DokumentyService {
       })
     );
   }
-
-  getOsobaRejestr(): Observable<{ Rejestr: string }> {
-
-    const params = new HttpParams()
-      .append('sesja', 123);  
     
   getOsobaRejestr(): Observable<{ Rejestr: string }> {
     
