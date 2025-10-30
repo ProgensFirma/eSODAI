@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { DokumentTyp } from '../models/dokument-typ.model';
@@ -26,6 +26,10 @@ export class DokumentTypyService {
   }
 
   getDokumentTypy(): Observable<DokumentTyp[]> {
+
+    const params = new HttpParams()
+      .append('sesja', 123);
+    
     return this.http.get<DokumentTyp[]>(
       `${this.baseUrl}/dokumenty/typy/`,
       { headers: this.getHeaders() }
@@ -33,6 +37,7 @@ export class DokumentTypyService {
   }
 
   saveDokument(dokument: any): Observable<any> {
+    
     const params = new HttpParams()
       .append('sesja', 123);
     
