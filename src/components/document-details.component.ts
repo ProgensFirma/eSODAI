@@ -69,9 +69,9 @@ import { ZalacznikTresc } from '../models/zalacznik.model';
               <span class="label">Data na dokumencie:</span>
               <span class="value">{{ formatDate(document.dataNaDok) }}</span>
             </div>
-            <div class="detail-row" *ngIf="isValidDate(document.dataAlert)">
+            <div class="detail-row" *ngIf="isValidDate(document.dataAlert || '')">
               <span class="label">Data alertu:</span>
-              <span class="value alert-date">{{ formatDate(document.dataAlert) }}</span>
+              <span class="value alert-date">{{ document.dataAlert ? formatDate(document.dataAlert) : '' }}</span>
             </div>
           </div>
 
@@ -82,7 +82,7 @@ import { ZalacznikTresc } from '../models/zalacznik.model';
               <span class="label">Kontrahent:</span>
               <span class="value contractor">
                 {{ document.kontrahent.identyfikator }}
-                <span class="value alert-date">{{ document.dataAlert ? formatDate(document.dataAlert) : '' }}</span>
+                <span class="contractor-type" *ngIf="document.kontrahent.firma">(Firma)</span>
               </span>
             </div>
             <div class="detail-row">
