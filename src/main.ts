@@ -730,7 +730,7 @@ export class App {
       prowadzacyWydzial: { stanowisko: false, symbol: '', nazwa: '', kod: '' },
       odpowiedzialny: { numer: 0, identyfikator: '' },
       dataPrzyjecia: '',
-      uprawPoziom: '',
+      uprawPoziom: '0',
       statusPrzek: '',
       dataAlert: '',
       dataPlan: '',
