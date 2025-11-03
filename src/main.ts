@@ -89,7 +89,10 @@ import { ConfigService } from './services/config.service';
               <span class="timer-text">{{ formatTime(sessionTimeLeft) }}</span>
             </div>
             <button class="logout-button" (click)="logout()" title="Wyloguj">
-              <span class="logout-icon">⏻</span>
+              <svg class="logout-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+                <line x1="12" y1="2" x2="12" y2="12"></line>
+              </svg>
             </button>
           </div>
         </div>
@@ -374,7 +377,8 @@ import { ConfigService } from './services/config.service';
     }
 
     .logout-icon {
-      font-size: 16px;
+      width: 20px;
+      height: 20px;
     }
 
     .main-title {
