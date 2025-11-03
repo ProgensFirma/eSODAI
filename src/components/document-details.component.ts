@@ -82,7 +82,7 @@ import { ZalacznikTresc } from '../models/zalacznik.model';
               <span class="label">Kontrahent:</span>
               <span class="value contractor">
                 {{ document.kontrahent.identyfikator }}
-                <span class="contractor-type" *ngIf="document.kontrahent.firma">(Firma)</span>
+                <span class="value alert-date">{{ document.dataAlert ? formatDate(document.dataAlert) : '' }}</span>
               </span>
             </div>
             <div class="detail-row">
