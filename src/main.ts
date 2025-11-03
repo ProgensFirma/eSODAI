@@ -699,6 +699,12 @@ export class App {
   }
 
   private createEmptyDokument(): Dokument {
+    const currentDate = new Date().toISOString().split('T')[0];
+    const osobaNumer = this.sessionData?.osoba || 0;
+    const jednostkaSymbol = this.sessionData?.jednostkaAkt?.symbol || '';
+    const jednostkaNazwa = this.sessionData?.jednostkaAkt?.nazwa || '';
+    const jednostkaKod = this.sessionData?.jednostkaAkt?.kod || '';
+
     return {
       numer: 0,
       archiwum: false,
@@ -718,13 +724,13 @@ export class App {
       dataWplywu: '',
       godzinaWplywu: 0,
       kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: null },
-      przekazujacy: { numer: 0, identyfikator: '' },
-      przekazujacyWydzial: { stanowisko: false, symbol: '', nazwa: '', kod: '' },
-      dataPrzekazania: '',
-      prowadzacy: { numer: 0, identyfikator: '' },
-      prowadzacyWydzial: { stanowisko: false, symbol: '', nazwa: '', kod: '' },
-      odpowiedzialny: { numer: 0, identyfikator: '' },
-      dataPrzyjecia: '',
+      przekazujacy: { numer: osobaNumer, identyfikator: '' },
+      przekazujacyWydzial: { stanowisko: false, symbol: jednostkaSymbol, nazwa: jednostkaNazwa, kod: jednostkaKod },
+      dataPrzekazania: currentDate,
+      prowadzacy: { numer: osobaNumer, identyfikator: '' },
+      prowadzacyWydzial: { stanowisko: false, symbol: jednostkaSymbol, nazwa: jednostkaNazwa, kod: jednostkaKod },
+      odpowiedzialny: { numer: osobaNumer, identyfikator: '' },
+      dataPrzyjecia: currentDate,
       uprawPoziom: '0',
       statusPrzek: '',
       dataAlert: '',
