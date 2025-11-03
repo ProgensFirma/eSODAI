@@ -7,7 +7,7 @@ export interface Dokument {
   dokGlowny: number;
   wersja: number;
   aktualny: boolean;
-  statusEdycji: string;
+  statusEdycji?: string;
   doWgladu: boolean;
   typ: TDokTypInfo;
   szablon: TSzablonInfo | null;
