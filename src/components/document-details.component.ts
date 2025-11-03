@@ -749,6 +749,7 @@ export class DocumentDetailsComponent {
 
   getStatusClass(): string {
     if (!this.document) return '';
+    if (!this.document.statusEdycji) return '';
     
     const status = this.document.statusEdycji.toLowerCase();
     if (status.includes('zmieniany')) return 'status-editing';
