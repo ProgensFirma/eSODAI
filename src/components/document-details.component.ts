@@ -67,7 +67,7 @@ import { ZalacznikTresc } from '../models/zalacznik.model';
             </div>
             <div class="detail-row" *ngIf="document.numerNaDok">
               <span class="label">Data na dokumencie:</span>
-              <span class="value">{{ formatDate(document.dataNaDok) }}</span>
+              <span class="value">{{ document.dataNaDok ? formatDate(document.dataNaDok) : '' }}</span>
             </div>
             <div class="detail-row" *ngIf="isValidDate(document.dataAlert || '')">
               <span class="label">Data alertu:</span>
