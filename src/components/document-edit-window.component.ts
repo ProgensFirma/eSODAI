@@ -144,7 +144,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               <input
                 type="text"
                 class="form-input"
-                [value]="dokument.odpowiedzialny.identyfikator || ''"
+                [value]="dokument.odpowiedzialny?.identyfikator || ''"
                 readonly
               />
             </div>
