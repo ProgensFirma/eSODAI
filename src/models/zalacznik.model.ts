@@ -1,3 +1,5 @@
+import { TBazaOper, TeSodStatus } from './enums.model';
+
 export interface ZalacznikTresc {
   numer: number;
   plik: string;
@@ -9,7 +11,7 @@ export interface ZalacznikTresc {
   wersja: number;
   wersjaOpis: string;
   tresc: string;
-  oper: string;
-  status: string;
+  oper: TBazaOper;
+  status: TeSodStatus;
   statusDane: string;
 }

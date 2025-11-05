@@ -1,3 +1,5 @@
+import { TBazaOper, TeSodStatus } from './enums.model';
+
 export interface DokumentTyp {
   nazwa: string;
   szablon: string;
@@ -6,7 +8,7 @@ export interface DokumentTyp {
   polecenieZaplaty: boolean;
   rWA: string;
   nazwaDomysl: string;
-  oper: string;
-  status: string;
+  oper: TBazaOper;
+  status: TeSodStatus;
   statusDane: string;
 }

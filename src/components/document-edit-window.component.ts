@@ -10,6 +10,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 import { WykazAkt } from '../models/wykaz-akt.model';
 import { WykazAktService } from '../services/wykaz-akt.service';
 import { ZalacznikTresc } from '../models/zalacznik.model';
+import { TBazaOper, TeSodStatus } from '../models/enums.model';
 import { ZalacznikiService } from '../services/zalaczniki.service';
 
 @Component({
@@ -904,8 +905,8 @@ export class DocumentEditWindowComponent implements OnInit {
         wersja: 0,
         wersjaOpis: '',
         tresc: base64Content,
-        oper: '',
-        status: '',
+        oper: TBazaOper.tboSelect,
+        status: TeSodStatus.sBrak,
         statusDane: ''
       };
 

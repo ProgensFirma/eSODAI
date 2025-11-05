@@ -1,5 +1,6 @@
 import { TOsobaInfo, TWydzialInfo, TKontrahentInfo, TDokTypInfo, TSzablonInfo, TZalacznikInfo, TSprawaInfo } from './typy-info.model';
 import { DaneFinansowe } from './dane-finansowe.model';
+import { TBazaOper, TeSodStatus } from './enums.model';
 
 export interface Dokument {
   numer: number;
@@ -45,7 +46,7 @@ export interface Dokument {
   jrwa?: string;
   obcyNumer?: string;
   zalaczniki: TZalacznikInfo[];
-  oper: string;
-  status: string;
+  oper: TBazaOper;
+  status: TeSodStatus;
   statusDane: string;
 }

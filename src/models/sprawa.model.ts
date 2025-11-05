@@ -1,4 +1,5 @@
 import { TOsobaInfo, TWydzialInfo, TKontrahentInfo } from './typy-info.model';
+import { TBazaOper, TeSodStatus } from './enums.model';
 
 export interface SprawaTyp {
   nazwa: string;
@@ -34,7 +35,7 @@ export interface Sprawa {
   wykWydzial: TWydzialInfo;
   wykOsoba: TOsobaInfo;
   uprawPoziom: string;
-  oper: string;
-  status: string;
+  oper: TBazaOper;
+  status: TeSodStatus;
   statusDane: string;
 }

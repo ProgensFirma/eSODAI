@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { ZalacznikTresc } from '../models/zalacznik.model';
 import { ConfigService } from './config.service';
+import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +48,8 @@ export class ZalacznikiService {
       wersja: 1,
       wersjaOpis: "",
       tresc: "To jest przykładowa treść załącznika. Zawiera informacje dotyczące dokumentu oraz szczegółowe dane, które mogą być przydatne dla użytkownika. Treść może zawierać różne rodzaje informacji w zależności od typu załącznika.",
-      oper: "tboSelect",
-      status: "sOK",
+      oper: TBazaOper.tboSelect,
+      status: TeSodStatus.sOK,
       statusDane: ""
     };
   }

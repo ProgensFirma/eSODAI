@@ -1,3 +1,5 @@
+import { TBazaOper, TeSodStatus } from './enums.model';
+
 export interface KontaktKontrahenta {
   telefon: string;
   telefon2: string;
@@ -50,8 +52,8 @@ export interface KontrahentDetailed {
   uwagi: string;
   adresStaly: AdresKontrahenta;
   adresKoresp: AdresKontrahenta;
-  oper: string;
-  status: string;
+  oper: TBazaOper;
+  status: TeSodStatus;
   statusDane: string;
 }
 

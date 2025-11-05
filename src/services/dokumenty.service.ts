@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Dokument } from '../models/dokument.model';
 import { ConfigService } from './config.service';
+import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -126,8 +127,8 @@ export class DokumentyService {
         "jrwa": "",
         "obcyNumer": "",
         "zalaczniki": [],
-        "oper": "tboSelect",
-        "status": "sOK",
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
         "statusDane": ""
       },
       {
@@ -203,8 +204,8 @@ export class DokumentyService {
         "jrwa": "",
         "obcyNumer": "",
         "zalaczniki": [],
-        "oper": "tboSelect",
-        "status": "sOK",
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
         "statusDane": ""
       },
       {
@@ -295,8 +296,8 @@ export class DokumentyService {
             "plik": "a.pdf"
           }
         ],
-        "oper": "tboSelect",
-        "status": "sOK",
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
         "statusDane": ""
       }
     ];

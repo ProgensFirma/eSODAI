@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Sprawa } from '../models/sprawa.model';
 import { ConfigService } from './config.service';
+import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -88,8 +89,8 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
-        "oper": "tboSelect",
-        "status": "sOK",
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
         "statusDane": ""
       },
       {
@@ -149,8 +150,8 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
-        "oper": "tboSelect",
-        "status": "sOK",
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
         "statusDane": ""
       },
       {
@@ -210,8 +211,8 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
-        "oper": "tboSelect",
-        "status": "sOK",
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
         "statusDane": ""
       }
     ];

@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, catchError, of, map } from 'rxjs';
 import { KontrahentDetailed, KontrahenciResponse } from '../models/kontrahent.model';
 import { ConfigService } from './config.service';
+import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -107,8 +108,8 @@ export class KontrahenciService {
           "nrDomu": "99A",
           "nrLokalu": ""
         },
-        "oper": "tboSelect",
-        "status": "sOK",
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
         "statusDane": ""
       },
       {
@@ -172,8 +173,8 @@ export class KontrahenciService {
           "nrDomu": "",
           "nrLokalu": ""
         },
-        "oper": "tboSelect",
-        "status": "sOK",
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
         "statusDane": ""
       }
     ];
