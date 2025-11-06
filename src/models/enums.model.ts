@@ -1,3 +1,4 @@
+//ogólne
 export enum TBazaOper {
   tboSelect = 'tboSelect',
   tboDodaj = 'tboDodaj',
@@ -12,6 +13,7 @@ export enum TeSodStatus {
   sBlad = 'sBlad'
 }
 
+//dokument
 export enum TStatusEdycji {
   se_DoWgladu = 'se_DoWgladu',
   se_Zmieniany = 'se_Zmieniany',
