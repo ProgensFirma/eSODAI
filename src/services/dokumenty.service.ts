@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Dokument } from '../models/dokument.model';
 import { ConfigService } from './config.service';
-import { TBazaOper, TeSodStatus } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TStatusEdycji } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +60,7 @@ export class DokumentyService {
         "dokGlowny": 2799963,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": "se_Zmieniany",
+        "statusEdycji": TStatusEdycji.se_Zmieniany,
         "doWgladu": false,
         "typ": {
           "nazwa": "E-PUAP",
@@ -137,7 +137,7 @@ export class DokumentyService {
         "dokGlowny": 2806367,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": "se_Zmieniany",
+        "statusEdycji": TStatusEdycji.se_Zmieniany,
         "doWgladu": false,
         "typ": {
           "nazwa": "DECYZJA",
@@ -214,7 +214,7 @@ export class DokumentyService {
         "dokGlowny": 2827761,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": "se_Zmieniany",
+        "statusEdycji": TStatusEdycji.se_Zmieniany,
         "doWgladu": false,
         "typ": {
           "nazwa": "FAKTURA",

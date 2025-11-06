@@ -14,7 +14,7 @@ import { KontrahenciWindowComponent } from './components/kontrahenci-window.comp
 import { DocumentEditWindowComponent } from './components/document-edit-window.component';
 import { WydzialSelectWindowComponent } from './components/wydzial-select-window.component';
 import { Dokument } from './models/dokument.model';
-import { TBazaOper, TeSodStatus } from './models/enums.model';
+import { TBazaOper, TeSodStatus, TStatusEdycji } from './models/enums.model';
 import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
@@ -712,7 +712,7 @@ export class App {
       dokGlowny: 0,
       wersja: 0,
       aktualny: true,
-      statusEdycji: '',
+      statusEdycji: TStatusEdycji.se_DoWgladu,
       doWgladu: false,
       typ: { nazwa: '', finansowy: false, poleceniezaplaty: false },
       szablon: null,

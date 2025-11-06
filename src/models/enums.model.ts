@@ -11,3 +11,10 @@ export enum TeSodStatus {
   sOK = 'sOK',
   sBlad = 'sBlad'
 }
+
+export enum TStatusEdycji {
+  se_DoWgladu = 'se_DoWgladu',
+  se_Zmieniany = 'se_Zmieniany',
+  se_DoZatw = 'se_DoZatw',
+  se_Niewidoczny = 'se_Niewidoczny'
+}
