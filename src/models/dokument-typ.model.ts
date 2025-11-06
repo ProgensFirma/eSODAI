@@ -8,6 +8,7 @@ export interface DokumentTyp {
   polecenieZaplaty: boolean;
   rWA: string;
   nazwaDomysl: string;
+  
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;
