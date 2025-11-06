@@ -20,3 +20,12 @@ export enum TStatusEdycji {
   se_DoZatw = 'se_DoZatw',
   se_Niewidoczny = 'se_Niewidoczny'
 }
+
+export enum TKanalTyp {
+  tk_brak = 'tk_brak',
+  tk_papierowy = 'tk_papierowy',
+  tk_email = 'tk_email',
+  tk_ePuap = 'tk_ePuap',
+  tk_eDorecz = 'tk_eDorecz',
+  tk_Portal = 'tk_Portal'
+}

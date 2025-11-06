@@ -1,6 +1,6 @@
 import { TOsobaInfo, TWydzialInfo, TKontrahentInfo, TDokTypInfo, TSzablonInfo, TZalacznikInfo, TSprawaInfo } from './typy-info.model';
 import { DaneFinansowe } from './dane-finansowe.model';
-import { TBazaOper, TeSodStatus, TStatusEdycji } from './enums.model';
+import { TBazaOper, TeSodStatus, TStatusEdycji, TKanalTyp } from './enums.model';
 
 export interface Dokument {
   numer: number;
@@ -23,8 +23,8 @@ export interface Dokument {
   godzinaWplywu: number;
   numerNaDok?: string;
   dataNaDok?: string;
-  kanalWe?: string;
-  domKanalWy?: string;
+  kanalWe?: TKanalTyp;
+  domKanalWy?: TKanalTyp;
   kontrahent: TKontrahentInfo;
   przekazujacy: TOsobaInfo;
   przekazujacyWydzial: TWydzialInfo;

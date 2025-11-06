@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Dokument } from '../models/dokument.model';
 import { ConfigService } from './config.service';
-import { TBazaOper, TeSodStatus, TStatusEdycji } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TStatusEdycji, TKanalTyp } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -79,8 +79,8 @@ export class DokumentyService {
         "godzinaWplywu": 0.411805555555556,
         "numerNaDok": "OŚ.6233.10.2024.AP",
         "dataNaDok": "2024-10-11T00:00:00.000Z",
-        "kanalWe": "tk_brak",
-        "domKanalWy": "tk_brak",
+        "kanalWe": TKanalTyp.tk_brak,
+        "domKanalWy": TKanalTyp.tk_brak,
         "kontrahent": {
           "numer": 2654837,
           "identyfikator": "POWIAT MIELECKI",
@@ -156,8 +156,8 @@ export class DokumentyService {
         "godzinaWplywu": 0.630555555555556,
         "numerNaDok": "",
         "dataNaDok": "1899-12-30T00:00:00.000Z",
-        "kanalWe": "tk_brak",
-        "domKanalWy": "tk_brak",
+        "kanalWe": TKanalTyp.tk_brak,
+        "domKanalWy": TKanalTyp.tk_brak,
         "kontrahent": {
           "numer": 1371332,
           "identyfikator": "SAMORZĄDOWE KOLEGIUM ODWOŁAWCZE",
@@ -233,8 +233,8 @@ export class DokumentyService {
         "godzinaWplywu": 0.463888888888889,
         "numerNaDok": "",
         "dataNaDok": "1899-12-30T00:00:00.000Z",
-        "kanalWe": "tk_brak",
-        "domKanalWy": "tk_brak",
+        "kanalWe": TKanalTyp.tk_brak,
+        "domKanalWy": TKanalTyp.tk_brak,
         "kontrahent": {
           "numer": 299336,
           "identyfikator": "\"APKON\" SP. Z O.O.",
