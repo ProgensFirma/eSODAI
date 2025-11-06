@@ -13,6 +13,18 @@ export enum TeSodStatus {
   sBlad = 'sBlad'
 }
 
+export enum TSystem {
+  sys_Brak = 'sys_Brak',
+  sys_Windows = 'sys_Windows',
+  sys_Linux = 'sys_Linux'
+}
+
+export enum TDBSerwer {
+  bdFD_Brak = 'bdFD_Brak',
+  bdFD_FireBird = 'bdFD_FireBird',
+  bdFD_SQLServer = 'bdFD_SQLServer'
+}
+
 //dokument
 export enum TStatusEdycji {
   se_DoWgladu = 'se_DoWgladu',
@@ -38,14 +50,4 @@ export enum TStatusPrzek {
   sp_anulprzek = 'sp_anulprzek'
 }
 
-export enum TSystem {
-  sys_Brak = 'sys_Brak',
-  sys_Windows = 'sys_Windows',
-  sys_Linux = 'sys_Linux'
-}
 
-export enum TDBSerwer {
-  bdFD_Brak = 'bdFD_Brak',
-  bdFD_FireBird = 'bdFD_FireBird',
-  bdFD_SQLServer = 'bdFD_SQLServer'
-}
