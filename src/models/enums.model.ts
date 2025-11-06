@@ -29,3 +29,11 @@ export enum TKanalTyp {
   tk_eDorecz = 'tk_eDorecz',
   tk_Portal = 'tk_Portal'
 }
+
+export enum TStatusPrzek {
+  sp_oczek = 'sp_oczek',
+  sp_przyj = 'sp_przyj',
+  sp_odrzuc = 'sp_odrzuc',
+  sp_zwrot = 'sp_zwrot',
+  sp_anulprzek = 'sp_anulprzek'
+}

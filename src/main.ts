@@ -14,7 +14,7 @@ import { KontrahenciWindowComponent } from './components/kontrahenci-window.comp
 import { DocumentEditWindowComponent } from './components/document-edit-window.component';
 import { WydzialSelectWindowComponent } from './components/wydzial-select-window.component';
 import { Dokument } from './models/dokument.model';
-import { TBazaOper, TeSodStatus, TStatusEdycji } from './models/enums.model';
+import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek } from './models/enums.model';
 import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
@@ -733,7 +733,7 @@ export class App {
       odpowiedzialny: { numer: osobaNumer, identyfikator: '' },
       dataPrzyjecia: currentDate,
       uprawPoziom: '0',
-      statusPrzek: '',
+      statusPrzek: TStatusPrzek.sp_oczek,
       dataAlert: '',
       dataPlan: '',
       daneFinansowe: null,

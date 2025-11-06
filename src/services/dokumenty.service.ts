@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Dokument } from '../models/dokument.model';
 import { ConfigService } from './config.service';
-import { TBazaOper, TeSodStatus, TStatusEdycji, TKanalTyp } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TStatusEdycji, TKanalTyp, TStatusPrzek } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +115,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "1899-12-30T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": "sp_przyj",
+        "statusPrzek": TStatusPrzek.sp_przyj,
         "dataAlert": "2024-10-11T00:00:00.000Z",
         "dataPlan": "1899-12-30T00:00:00.000Z",
         "daneFinansowe": null,
@@ -192,7 +192,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "1899-12-30T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": "sp_przyj",
+        "statusPrzek": TStatusPrzek.sp_przyj,
         "dataAlert": "1899-12-30T00:00:00.000Z",
         "dataPlan": "1899-12-30T00:00:00.000Z",
         "daneFinansowe": null,
@@ -269,7 +269,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "1899-12-30T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": "sp_przyj",
+        "statusPrzek": TStatusPrzek.sp_przyj,
         "dataAlert": "1899-12-30T00:00:00.000Z",
         "dataPlan": "1899-12-30T00:00:00.000Z",
         "daneFinansowe": {
