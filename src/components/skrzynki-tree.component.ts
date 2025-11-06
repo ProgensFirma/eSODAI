@@ -220,7 +220,7 @@ export class SkrzynkiTreeComponent implements OnInit {
   }
 
   private buildTree(skrzynki: Skrzynka[]): TreeNode[] {
-    const nodeMap = new Map<string, TreeNode>();
+    const nodeMap = new Map<number, TreeNode>();
     const rootNodes: TreeNode[] = [];
 
     // Create all nodes and map skrzynka name to number
@@ -231,12 +231,12 @@ export class SkrzynkiTreeComponent implements OnInit {
         children: [],
         expanded: false
       };
-      nodeMap.set(skrzynka.skrzynka+skrzynka.skrDef, node);
+      nodeMap.set(skrzynka.skrzynka+skrzynka.skrDef as number, node);
     });
 
     // Build hierarchy
     skrzynki.forEach(skrzynka => {
-      const node = nodeMap.get(skrzynka.skrzynka+skrzynka.skrDef)!;
+      const node = nodeMap.get(skrzynka.skrzynka+skrzynka.skrDef as number)!;
       
       if (skrzynka.poziom === 1 || skrzynka.poziom === 2) {
         rootNodes.push(node);
@@ -255,16 +255,16 @@ export class SkrzynkiTreeComponent implements OnInit {
   }
 
   private findParentNode(
-    currentItem: Skrzynka, 
-    allItems: Skrzynka[], 
-    nodeMap: Map<string, TreeNode>
+    currentItem: Skrzynka,
+    allItems: Skrzynka[],
+    nodeMap: Map<number, TreeNode>
   ): TreeNode | null {
     const currentIndex = allItems.indexOf(currentItem);
     
     // Look backward for the nearest level 1 item
     for (let i = currentIndex - 1; i >= 0; i--) {
       if (allItems[i].poziom === 1) {
-        return nodeMap.get(allItems[i].skrzynka) || null;
+        return nodeMap.get(allItems[i].skrzynka+allItems[i].skrDef as number) || null;
       }
     }
     

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Skrzynka } from '../models/skrzynka.model';
+import { TSkrzynki } from '../models/enums.model';
 import { ConfigService } from './config.service';
 
 @Injectable({
@@ -35,7 +36,7 @@ export class SkrzynkiService {
       {
         sql: '',
         sqlOrder: '',
-        skrzynka: 'tss_Sprawy',
+        skrzynka: TSkrzynki.tss_Sprawy,
         poziom: 1,
         typ: 'ts_brak',
         nazwa: 'Sprawy',
@@ -54,7 +55,7 @@ export class SkrzynkiService {
       {
         sql: '',
         sqlOrder: 'order by spr.NUMER desc',
-        skrzynka: 'tss_SSprTermin',
+        skrzynka: TSkrzynki.tss_SSprTermin,
         poziom: 2,
         typ: 'ts_sprawy',
         nazwa: 'Przeterminowane',
@@ -73,7 +74,7 @@ export class SkrzynkiService {
       {
         sql: '',
         sqlOrder: 'order by spr.NUMER desc',
-        skrzynka: 'tss_SSprPilne',
+        skrzynka: TSkrzynki.tss_SSprPilne,
         poziom: 2,
         typ: 'ts_sprawy',
         nazwa: 'Pilne',
@@ -92,7 +93,7 @@ export class SkrzynkiService {
       {
         sql: '',
         sqlOrder: 'order by spr.NUMER desc',
-        skrzynka: 'tss_SOtrzymane',
+        skrzynka: TSkrzynki.tss_SOtrzymane,
         poziom: 2,
         typ: 'ts_sprawy',
         nazwa: 'Otrzymane',
@@ -111,7 +112,7 @@ export class SkrzynkiService {
       {
         sql: '',
         sqlOrder: '',
-        skrzynka: 'tes_korespEle',
+        skrzynka: TSkrzynki.tes_korespEle,
         poziom: 1,
         typ: 'ts_brak',
         nazwa: 'Korespondencja elektroniczna',
@@ -130,7 +131,7 @@ export class SkrzynkiService {
       {
         sql: '',
         sqlOrder: 'order by kore.DATAKOR desc',
-        skrzynka: 'tes_KEleEMail',
+        skrzynka: TSkrzynki.tes_KEleEMail,
         poziom: 2,
         typ: 'ts_korespEl',
         nazwa: 'e-mail',
@@ -149,7 +150,7 @@ export class SkrzynkiService {
       {
         sql: '',
         sqlOrder: '',
-        skrzynka: 'tps_Pisma',
+        skrzynka: TSkrzynki.tps_Pisma,
         poziom: 1,
         typ: 'ts_brak',
         nazwa: 'Dokumenty',
@@ -168,7 +169,7 @@ export class SkrzynkiService {
       {
         sql: '',
         sqlOrder: 'order by dok.NUMER desc',
-        skrzynka: 'tps_PDoWgladu',
+        skrzynka: TSkrzynki.tps_PDoWgladu,
         poziom: 2,
         typ: 'ts_pisma',
         nazwa: 'Do wglądu',
