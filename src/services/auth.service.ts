@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { LoginRequest, SessionData, LoginResponse } from '../models/session.model';
+import { TSystem, TDBSerwer } from '../models/enums.model';
 import { ConfigService } from './config.service';
 
 @Injectable({
@@ -47,8 +48,8 @@ export class AuthService {
           const mockSessionData: SessionData = {
             sesja: 123,
             gUnikNr: 60589538,
-            sysOper: "sys_Windows",
-            dB: "bdFD_FireBird",
+            sysOper: TSystem.sys_Windows,
+            dB: TDBSerwer.bdFD_FireBird,
             firma: 0,
             firmaNazwa: "",
             login: loginData.login,

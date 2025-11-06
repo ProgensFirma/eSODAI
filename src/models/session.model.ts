@@ -1,4 +1,5 @@
 import { TWydzialInfo } from './typy-info.model';
+import { TSystem, TDBSerwer } from './enums.model';
 
 export interface LoginRequest {
   login: string;
@@ -8,8 +9,8 @@ export interface LoginRequest {
 export interface SessionData {
   sesja: number;
   gUnikNr: number;
-  sysOper: string;
-  dB: string;
+  sysOper: TSystem;
+  dB: TDBSerwer;
   firma: number;
   firmaNazwa: string;
   login: string;

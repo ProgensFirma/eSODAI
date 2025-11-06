@@ -37,3 +37,15 @@ export enum TStatusPrzek {
   sp_zwrot = 'sp_zwrot',
   sp_anulprzek = 'sp_anulprzek'
 }
+
+export enum TSystem {
+  sys_Brak = 'sys_Brak',
+  sys_Windows = 'sys_Windows',
+  sys_Linux = 'sys_Linux'
+}
+
+export enum TDBSerwer {
+  bdFD_Brak = 'bdFD_Brak',
+  bdFD_FireBird = 'bdFD_FireBird',
+  bdFD_SQLServer = 'bdFD_SQLServer'
+}
