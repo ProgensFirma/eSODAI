@@ -1,1 +1,1 @@
-eSOD AI
+eSOD
