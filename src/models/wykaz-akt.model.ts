@@ -4,6 +4,7 @@ export interface WykazAkt {
   symbol: string;
   nazwa: string;
   tylkoEZD: boolean;
+  
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;
