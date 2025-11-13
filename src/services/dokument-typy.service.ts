@@ -44,7 +44,7 @@ export class DokumentTypyService {
     return this.http.post(
       `${this.baseUrl}/dokumenty/dokument`,
       dokument,
-      { headers: this.getHeaders() }
+      { headers: this.getHeaders(), params: params }
     );
   }
 }
