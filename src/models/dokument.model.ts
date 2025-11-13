@@ -46,6 +46,7 @@ export interface Dokument {
   jrwa?: string;
   obcyNumer?: string;
   zalaczniki: TZalacznikInfo[];
+  
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;
