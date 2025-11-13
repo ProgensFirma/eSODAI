@@ -20,7 +20,6 @@ export interface Skrzynka {
   numer: number;
 }
 
-
 export function mapSkrzynkaToNumber(skrzynkaNazwa: TSkrzynki): number {
   return skrzynkaNazwa;
 }
