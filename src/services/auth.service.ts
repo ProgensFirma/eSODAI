@@ -9,9 +9,11 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class AuthService {
+  
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/login`;
   }
+  
   private sessionSubject = new BehaviorSubject<SessionData | null>(null);
   private appServerVersionSubject = new BehaviorSubject<string>('');
 
