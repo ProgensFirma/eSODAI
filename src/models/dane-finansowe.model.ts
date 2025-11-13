@@ -7,5 +7,5 @@ export interface DaneFinansowe {
   dataVAT: string;
   brutto: number;
   netto: number;
-  vAT: number;
+  vat: number;
 }
