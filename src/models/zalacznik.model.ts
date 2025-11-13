@@ -11,6 +11,7 @@ export interface ZalacznikTresc {
   wersja: number;
   wersjaOpis: string;
   tresc: string;
+  
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;
