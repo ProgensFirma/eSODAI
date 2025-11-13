@@ -31,8 +31,8 @@ export class DokumentTypyService {
       .append('sesja', 123);
     
     return this.http.get<DokumentTyp[]>(
-      `${this.baseUrl}/dokumenty/typy/`,
-      { headers: this.getHeaders() }
+      `${this.baseUrl}/dokumenty/typy/slownik`,
+      { headers: this.getHeaders(), params: params }
     );
   }
 
