@@ -89,6 +89,7 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
+        
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
@@ -150,6 +151,7 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
+        
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
@@ -211,6 +213,7 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
+        
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
