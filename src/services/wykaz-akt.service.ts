@@ -20,6 +20,6 @@ export class WykazAktService {
     const params = new HttpParams()
     .append('sesja', 123); 
     
-    return this.http.get<WykazAkt[]>(this.apiUrl);
+    return this.http.get<WykazAkt[]>(this.apiUrl, { params: params });
   }
 }
