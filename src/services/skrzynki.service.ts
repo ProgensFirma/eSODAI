@@ -22,7 +22,7 @@ export class SkrzynkiService {
       sesja: '123',     //App.sessionData
     };
     
-    return this.http.get<Skrzynka[]>(this.apiUrl).pipe(
+    return this.http.get<Skrzynka[]>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching skrzynki:', error);
         // Return mock data for development
