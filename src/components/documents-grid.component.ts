@@ -73,7 +73,7 @@ import { Skrzynka } from '../models/skrzynka.model';
               </div>
               <div class="cell col-name">
                 <div class="document-name">{{ document.nazwa }}</div>
-                <div class="document-description" *ngIf="document.opis">{{ document.opis }}</div>
+<!--                 <div class="document-description" *ngIf="document.opis">{{ document.opis }}</div> -->
               </div>
               <div class="cell col-register">
                 <span class="register-number">{{ document.rejestrNrPozycji }}</span>
