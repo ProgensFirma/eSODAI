@@ -744,6 +744,7 @@ export class DocumentDetailsComponent {
   }
 
   isValidDate(dateString: string): boolean {
+    if (!dateString) return false;    
     return !!(dateString && dateString !== '1899-12-30T00:00:00.000Z');
   }
 
