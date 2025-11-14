@@ -50,7 +50,7 @@ export class SkrzynkiService {
         skrDef: -77,
         dokFinPoziom: 0,
         dokFinZmiana: false,
-        numer: 0
+        ordSkrzynka: 0
       },
       {
         sql: '',
@@ -69,7 +69,7 @@ export class SkrzynkiService {
         skrDef: -77,
         dokFinPoziom: 0,
         dokFinZmiana: false,
-        numer: 1
+        ordSkrzynka: 1
       },
       {
         sql: '',
@@ -88,7 +88,7 @@ export class SkrzynkiService {
         skrDef: -77,
         dokFinPoziom: 0,
         dokFinZmiana: false,
-        numer: 2
+        ordSkrzynka: 2
       },
       {
         sql: '',
@@ -107,7 +107,7 @@ export class SkrzynkiService {
         skrDef: -77,
         dokFinPoziom: 0,
         dokFinZmiana: false,
-        numer: 3
+        ordSkrzynka: 3
       },
       {
         sql: '',
@@ -126,7 +126,7 @@ export class SkrzynkiService {
         skrDef: -77,
         dokFinPoziom: 0,
         dokFinZmiana: false,
-        numer: 25
+        ordSkrzynka: 25
       },
       {
         sql: '',
@@ -145,7 +145,7 @@ export class SkrzynkiService {
         skrDef: -77,
         dokFinPoziom: 0,
         dokFinZmiana: false,
-        numer: 26
+        ordSkrzynka: 26
       },
       {
         sql: '',
@@ -164,7 +164,7 @@ export class SkrzynkiService {
         skrDef: -77,
         dokFinPoziom: 0,
         dokFinZmiana: false,
-        numer: 33
+        ordSkrzynka: 33
       },
       {
         sql: '',
@@ -183,7 +183,7 @@ export class SkrzynkiService {
         skrDef: -77,
         dokFinPoziom: 0,
         dokFinZmiana: false,
-        numer: 35
+        ordSkrzynka: 35
       }
     ];
   }
