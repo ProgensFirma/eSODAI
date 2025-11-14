@@ -905,6 +905,7 @@ export class DocumentEditWindowComponent implements OnInit {
         wersja: 0,
         wersjaOpis: '',
         tresc: base64Content,
+        
         oper: TBazaOper.tboSelect,
         status: TeSodStatus.sBrak,
         statusDane: ''
