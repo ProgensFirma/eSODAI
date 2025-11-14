@@ -108,6 +108,7 @@ export class KontrahenciService {
           "nrDomu": "99A",
           "nrLokalu": ""
         },
+        
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
@@ -173,6 +174,7 @@ export class KontrahenciService {
           "nrDomu": "",
           "nrLokalu": ""
         },
+        
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
