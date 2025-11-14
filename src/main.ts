@@ -606,7 +606,7 @@ export class App {
     if (!this.selectedSkrzynka) {
       return false;
     }
-    return isSprawySkrzynka(this.selectedSkrzynka.numer);
+    return isSprawySkrzynka(this.selectedSkrzynka.ordSkrzynka);
   }
 
   onDocumentSelected(document: Dokument) {
@@ -620,20 +620,17 @@ export class App {
   openKontrahenci() {
     this.showKontrahenciWindow = true;
     this.showMenu = false;
-    this.showMenu = false;
   }
 
   openPracownicy() {
     // TODO: Implement pracownicy window
     console.log('Opening Pracownicy...');
     this.showMenu = false;
-    this.showMenu = false;
   }
 
   openJednostki() {
     // TODO: Implement jednostki window
     console.log('Opening Jednostki...');
-    this.showMenu = false;
     this.showMenu = false;
   }
 
