@@ -204,7 +204,7 @@ export class TreeNodeComponent implements OnInit {
 
   ngOnInit() {
     // Auto-expand level 1 nodes by default
-    if (this.node.data.poziom === 1) {
+    if (this.node.data.poziom === 1 && this.node.data.typ === 'ts_pisma') {
       this.node.expanded = true;
     }
   }
