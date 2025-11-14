@@ -330,6 +330,7 @@ import { TKontrahentInfo } from '../models/typy-info.model';
     }
 
     .new-button,
+    .select-button,    
     .edit-button,
     .close-button {
       background: rgba(255, 255, 255, 0.2);
