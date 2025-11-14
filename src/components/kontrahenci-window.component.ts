@@ -24,12 +24,11 @@ import { TKontrahentInfo } from '../models/typy-info.model';
               <span class="new-icon">➕</span>
               Nowy kontrahent
             </button>
-            <button
-              class="edit-button"
-              title="Edycja danych"
-              [disabled]="!selectedKontrahent"
-              (click)="openEditKontrahent()"
-            >
+            <button *ngIf="pWybor" class="select-button" (click)="selectAndClose()" [disabled]="!selectedKontrahent" title="Wybierz kontrahenta">
+              <span class="select-icon">✓</span>
+              Wybór
+            </button>
+            <button *ngIf="!pWybor" class="edit-button" title="Edycja danych" (click)="openEditKontrahent()">
               <span class="edit-icon">✏️</span>
               Edycja danych
             </button>
