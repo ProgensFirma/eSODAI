@@ -376,7 +376,7 @@ export class SprawyGridComponent implements OnChanges {
     }
 
     this.loading = true;
-    this.sprawyService.getSprawy(this.selectedSkrzynka.numer).subscribe({
+    this.sprawyService.getSprawy(this.selectedSkrzynka.ordSkrzynka).subscribe({
       next: (data) => {
         this.sprawy = data;
         this.loading = false;
