@@ -897,6 +897,20 @@ export class KontrahenciWindowComponent implements OnInit {
     return !!(dateString && dateString !== '1899-12-30T00:00:00.000Z');
   }
 
+  selectAndClose() {
+    if (this.selectedKontrahent && this.pWybor) {
+      const kontrahentInfo: TKontrahentInfo = {
+        numer: this.selectedKontrahent.numer,
+        identyfikator: this.selectedKontrahent.identyfikator,
+        firma: this.selectedKontrahent.firma,
+        nip: this.selectedKontrahent.nip,
+        adres: ""
+      };
+      this.kontrahentSelected.emit(kontrahentInfo);
+      this.closeRequested.emit();
+    }
+  }  
+
   openNewKontrahent() {
     this.showNewKontrahent = true;
   }
