@@ -742,6 +742,7 @@ export class App {
       jrwa: '',
       obcyNumer: '',
       zalaczniki: [],
+      
       oper: TBazaOper.tboSelect,
       status: TeSodStatus.sBrak,
       statusDane: ''
