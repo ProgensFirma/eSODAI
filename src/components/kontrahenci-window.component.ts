@@ -354,6 +354,12 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       transform: translateY(-1px);
     }
 
+    .select-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: rgba(255, 255, 255, 0.1);
+    }    
+
     .edit-button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
