@@ -127,6 +127,7 @@ export class DokumentyService {
         "jrwa": "",
         "obcyNumer": "",
         "zalaczniki": [],
+        
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
@@ -204,6 +205,7 @@ export class DokumentyService {
         "jrwa": "",
         "obcyNumer": "",
         "zalaczniki": [],
+        
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
@@ -296,6 +298,7 @@ export class DokumentyService {
             "plik": "a.pdf"
           }
         ],
+        
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
