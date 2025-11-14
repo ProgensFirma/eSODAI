@@ -102,15 +102,14 @@ import { ConfigService } from './services/config.service';
         <div class="content-body" *ngIf="!selectedSkrzynka">
           <div class="welcome-card" >
             <div class="welcome-icon">📋</div>
-            <h2>Witaj w systemie zarządzania</h2>
+            <h2>System obiegu dokumentów eSOD </h2>
             <p>
-              Ta aplikacja pozwala na zarządzanie różnymi typami skrzynek:
-              sprawami, korespondencją elektroniczną i dokumentami.
+              Najlepsza aplikacja obiegu dokumentów wg lauru konsumenta 2028 rok
             </p>
             <ul class="feature-list">
-              <li>📁 Hierarchiczna struktura skrzynek</li>
-              <li>📊 Automatyczne liczniki dokumentów</li>
-              <li>🔄 Odświeżanie danych w czasie rzeczywistym</li>
+              <li>📁 Obsługa spraw w urzędzie</li>
+              <li>📊 Obsługa dokumentów i załączników</li>
+              <li>🔄 Przyjazny interface</li>
               <li>📱 Responsywny design</li>
             </ul>
           </div>
