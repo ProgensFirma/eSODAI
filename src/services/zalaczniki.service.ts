@@ -27,6 +27,7 @@ export class ZalacznikiService {
     return this.http.get<ZalacznikTresc>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching attachment content:', error);
+        // Return mock data for development        
         return of(this.getMockData(dokument, numer));
       })
     );
