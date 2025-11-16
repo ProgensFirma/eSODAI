@@ -283,7 +283,7 @@ export class DokumentyService {
           "dataVAT": "1899-12-30T00:00:00.000Z",
           "brutto": 123.0,
           "netto": 100.0,
-          "vAT": 23.0
+          "vat": 23.0
         },
         "grupa1": "",
         "grupa2": "",

@@ -109,7 +109,7 @@ import { ZalacznikTresc } from '../models/zalacznik.model';
               </div>
               <div class="financial-item">
                 <span class="financial-label">VAT:</span>
-                <span class="financial-value">{{ formatCurrency(document.daneFinansowe.vAT) }}</span>
+                <span class="financial-value">{{ formatCurrency(document.daneFinansowe.vat) }}</span>
               </div>
               <div class="financial-item total">
                 <span class="financial-label">Brutto:</span>
