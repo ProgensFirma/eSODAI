@@ -86,14 +86,27 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               />
             </div>
 
-            <div class="form-group">
+            <div class="form-group" [class.success-field]="documentSavedSuccessfully && mode === 'add'">
               <label class="form-label">Nr pozycji rejestru</label>
-              <input
-                type="text"
-                class="form-input"
-                [(ngModel)]="dokument.rejestrNrPozycji"
-                placeholder="Nr pozycji"
-              />
+              <div class="input-with-button" *ngIf="documentSavedSuccessfully && mode === 'add'; else normalInput">
+                <input
+                  type="text"
+                  class="form-input"
+                  [value]="dokument.rejestrNrPozycji"
+                  readonly
+                />
+                <button class="copy-button" type="button" (click)="copyToClipboard(dokument.rejestrNrPozycji)" title="Kopiuj">
+                  <span class="button-icon">📋</span>
+                </button>
+              </div>
+              <ng-template #normalInput>
+                <input
+                  type="text"
+                  class="form-input"
+                  [(ngModel)]="dokument.rejestrNrPozycji"
+                  placeholder="Nr pozycji"
+                />
+              </ng-template>
             </div>
 
             <div class="form-group kontrahent-group">
@@ -150,14 +163,27 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               />
             </div>
 
-            <div class="form-group readonly">
+            <div class="form-group readonly" [class.success-field]="documentSavedSuccessfully && mode === 'add'">
               <label class="form-label">GUID</label>
-              <input
-                type="text"
-                class="form-input"
-                [value]="dokument.dokGuid"
-                readonly
-              />
+              <div class="input-with-button" *ngIf="documentSavedSuccessfully && mode === 'add'; else normalGuid">
+                <input
+                  type="text"
+                  class="form-input"
+                  [value]="dokument.dokGuid"
+                  readonly
+                />
+                <button class="copy-button" type="button" (click)="copyToClipboard(dokument.dokGuid)" title="Kopiuj">
+                  <span class="button-icon">📋</span>
+                </button>
+              </div>
+              <ng-template #normalGuid>
+                <input
+                  type="text"
+                  class="form-input"
+                  [value]="dokument.dokGuid"
+                  readonly
+                />
+              </ng-template>
             </div>
 
             <div class="form-group">
@@ -209,11 +235,16 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
         </div>
 
         <div class="modal-footer">
-          <button class="button button-secondary" (click)="onClose()">
+          <button
+            *ngIf="!documentSavedSuccessfully"
+            class="button button-secondary"
+            (click)="onClose()"
+          >
             <span class="button-icon">✕</span>
             Anuluj
           </button>
           <button
+            *ngIf="!documentSavedSuccessfully"
             class="button button-primary"
             (click)="onSave()"
             [disabled]="saving || !isFormValid()"
@@ -221,6 +252,14 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
             <span class="button-icon" *ngIf="!saving">💾</span>
             <span class="spinner" *ngIf="saving"></span>
             {{ saving ? 'Zapisywanie...' : 'Zapisz' }}
+          </button>
+          <button
+            *ngIf="documentSavedSuccessfully"
+            class="button button-primary"
+            (click)="onClose()"
+          >
+            <span class="button-icon">🚪</span>
+            Wyjście
           </button>
         </div>
 
@@ -443,6 +482,48 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
 
     .select-button:not(:disabled):hover {
       background: #1d4ed8;
+    }
+
+    .copy-button {
+      padding: 8px 14px;
+      background: #10b981;
+      border: 1px solid #059669;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .copy-button:hover {
+      background: #059669;
+      transform: scale(1.05);
+    }
+
+    .copy-button:active {
+      transform: scale(0.95);
+    }
+
+    .success-field {
+      animation: highlightField 0.5s ease;
+    }
+
+    @keyframes highlightField {
+      0%, 100% { background: transparent; }
+      50% { background: #f0fdf4; border-radius: 6px; }
+    }
+
+    .success-field .input-with-button {
+      display: flex;
+      gap: 8px;
+    }
+
+    .success-field .form-input {
+      flex: 1;
+      background: #f0fdf4;
+      border-color: #86efac;
+      font-weight: 600;
+      color: #166534;
     }
 
     .button-icon {
@@ -705,6 +786,7 @@ export class DocumentEditWindowComponent implements OnInit {
   selectedJrwa: string = '';
   selectedFile: File | null = null;
   selectedFileName: string = '';
+  documentSavedSuccessfully = false;
 
   constructor(
     private dokumentTypyService: DokumentTypyService,
@@ -825,15 +907,23 @@ export class DocumentEditWindowComponent implements OnInit {
 
     this.dokumentTypyService.saveDokument(this.dokument).subscribe({
       next: (response) => {
+        this.dokument.rejestrNrPozycji = response.rejestrNrPozycji;
+        this.dokument.dokGuid = response.dokGuid;
+
         if (this.selectedFile) {
           this.uploadAttachment(response.numer);
         } else {
           this.saving = false;
           this.successMessage = 'Dokument został pomyślnie zapisany';
-          setTimeout(() => {
-            this.documentSaved.emit();
-            this.onClose();
-          }, 1500);
+
+          if (this.mode === 'add') {
+            this.documentSavedSuccessfully = true;
+          } else {
+            setTimeout(() => {
+              this.documentSaved.emit();
+              this.onClose();
+            }, 1500);
+          }
         }
       },
       error: (error) => {
@@ -915,10 +1005,15 @@ export class DocumentEditWindowComponent implements OnInit {
         next: () => {
           this.saving = false;
           this.successMessage = 'Dokument i załącznik zostały pomyślnie zapisane';
-          setTimeout(() => {
-            this.documentSaved.emit();
-            this.onClose();
-          }, 1500);
+
+          if (this.mode === 'add') {
+            this.documentSavedSuccessfully = true;
+          } else {
+            setTimeout(() => {
+              this.documentSaved.emit();
+              this.onClose();
+            }, 1500);
+          }
         },
         error: (error) => {
           this.saving = false;
@@ -934,5 +1029,20 @@ export class DocumentEditWindowComponent implements OnInit {
     };
 
     reader.readAsDataURL(this.selectedFile);
+  }
+
+  copyToClipboard(text: string | undefined) {
+    if (!text) return;
+
+    navigator.clipboard.writeText(text).then(() => {
+      const originalMessage = this.successMessage;
+      this.successMessage = 'Skopiowano do schowka';
+      setTimeout(() => {
+        this.successMessage = originalMessage;
+      }, 2000);
+    }).catch(err => {
+      console.error('Error copying to clipboard:', err);
+      this.errorMessage = 'Nie udało się skopiować do schowka';
+    });
   }
 }
