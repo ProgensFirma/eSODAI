@@ -606,7 +606,7 @@ export class App {
     if (!this.selectedSkrzynka) {
       return false;
     }
-    return isSprawySkrzynka(this.selectedSkrzynka.ordSkrzynka);
+    return isSprawySkrzynka(this.selectedSkrzynka.skrzynka);
   }
 
   onDocumentSelected(document: Dokument) {

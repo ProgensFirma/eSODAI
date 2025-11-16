@@ -17,7 +17,6 @@ export interface Skrzynka {
   skrDef: number;
   dokFinPoziom: number;
   dokFinZmiana: boolean;
-  ordSkrzynka: number;
 }
 
 export function mapSkrzynkaToNumber(skrzynkaNazwa: TSkrzynki): number {
