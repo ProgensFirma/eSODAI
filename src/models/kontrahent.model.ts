@@ -52,6 +52,7 @@ export interface KontrahentDetailed {
   uwagi: string;
   adresStaly: AdresKontrahenta;
   adresKoresp: AdresKontrahenta;
+  
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;
