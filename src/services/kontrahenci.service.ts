@@ -40,6 +40,7 @@ export class KontrahenciService {
       }),
       catchError(error => {
         console.error('Error fetching kontrahenci:', error);
+        // Return mock data for development        
         return of(this.getMockData(rekStart, rekIlosc));
       })
     );
