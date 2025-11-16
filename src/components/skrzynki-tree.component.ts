@@ -225,7 +225,7 @@ export class SkrzynkiTreeComponent implements OnInit {
 
     // Create all nodes and map skrzynka name to number
     skrzynki.forEach(skrzynka => {
-      skrzynka.numer = mapSkrzynkaToNumber(skrzynka.skrzynka);
+      skrzynka.ordSkrzynka = mapSkrzynkaToNumber(skrzynka.skrzynka);
       const node: TreeNode = {
         data: skrzynka,
         children: [],
