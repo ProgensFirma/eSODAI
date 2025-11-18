@@ -128,7 +128,17 @@ import { SessionData } from '../models/session.model';
 
           <div class="details-section" *ngIf="selectedDokument && !loading">
             <div class="detail-panel" *ngIf="selectedDokument.dokument">
-              <h3 class="panel-title">Szczegóły dokumentu źródłowego</h3>
+              <div class="panel-header">
+                <h3 class="panel-title">Szczegóły dokumentu źródłowego</h3>
+                <button
+                  class="button button-primary button-small"
+                  [disabled]="!selectedDokument.wysylkaeDorecz"
+                  (click)="pobierzPotwierdzenie()"
+                >
+                  <span class="button-icon">📄</span>
+                  Potwierdzenie
+                </button>
+              </div>
               <div class="detail-grid">
                 <div class="detail-item">
                   <label>Numer:</label>
@@ -522,14 +532,26 @@ import { SessionData } from '../models/session.model';
       padding: 16px;
     }
 
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
     .panel-title {
-      margin: 0 0 12px 0;
+      margin: 0;
       font-size: 15px;
       font-weight: 700;
       color: #1e293b;
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .button-small {
+      padding: 6px 12px;
+      font-size: 13px;
     }
 
     .detail-grid {
@@ -774,6 +796,13 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
     const hours = Math.floor(godzWyjscia * 24);
     const minutes = Math.floor((godzWyjscia * 24 * 60) % 60);
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+  }
+
+  pobierzPotwierdzenie() {
+    if (!this.selectedDokument?.wysylkaeDorecz) {
+      return;
+    }
+    console.log('Pobieranie potwierdzenia dla dokumentu:', this.selectedDokument.numer);
   }
 
   formatKanalWysylki(kanal: string): string {

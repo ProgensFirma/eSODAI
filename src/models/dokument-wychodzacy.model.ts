@@ -38,8 +38,8 @@ export interface DokumentWychodzacy {
   };
   statusWysylki: string;
   kanalWysylki: string;
-  wysylkaEpuap: number;
-  wysylkaeDorecz: number;
+  wysylkaEpuap: number | null;
+  wysylkaeDorecz: number | null;
   doWiadomosci: DoWiadomosc[];
   
   oper: TBazaOper;
@@ -60,8 +60,8 @@ export interface DoWiadomosc {
     numer: number;
     identyfikator: string;
   } | null;
-  wysylkaEpuap: number;
-  wysylkaeDorecz: number;
+  wysylkaEpuap: number | null;
+  wysylkaeDorecz: number | null;
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;

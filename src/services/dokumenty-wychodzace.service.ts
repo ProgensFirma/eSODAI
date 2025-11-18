@@ -73,8 +73,8 @@ export class DokumentyWychodzaceService {
         },
         statusWysylki: "tw_wyslamo",
         kanalWysylki: "tk_brak",
-        wysylkaEpuap: 0,
-        wysylkaeDorecz: 0,
+        wysylkaEpuap: null,
+        wysylkaeDorecz: 2827815,
         doWiadomosci: [
           {
             numer: 2827820,
@@ -86,8 +86,8 @@ export class DokumentyWychodzaceService {
               adres: " 37-700  ŻOŁNIERZY I ARMII WP 1/44  "
             },
             osoba: null,
-            wysylkaEpuap: 0,
-            wysylkaeDorecz: 0,
+            wysylkaEpuap: null,
+            wysylkaeDorecz: null,
             oper: TBazaOper.tboSelect,
             status: TeSodStatus.sBrak,
             statusDane: ""
@@ -102,8 +102,8 @@ export class DokumentyWychodzaceService {
               adres: " 02-436 WARSZAWA GLOBUSOWA 38  "
             },
             osoba: null,
-            wysylkaEpuap: 0,
-            wysylkaeDorecz: 0,
+            wysylkaEpuap: null,
+            wysylkaeDorecz: null,
             oper: TBazaOper.tboSelect,
             status: TeSodStatus.sBrak,
             statusDane: ""
@@ -121,8 +121,8 @@ export class DokumentyWychodzaceService {
               numer: 2827822,
               identyfikator: "QWERTY JAN"
             },
-            wysylkaEpuap: 0,
-            wysylkaeDorecz: 0,
+            wysylkaEpuap: null,
+            wysylkaeDorecz: null,
             oper: TBazaOper.tboSelect,
             status: TeSodStatus.sBrak,
             statusDane: ""
@@ -160,8 +160,8 @@ export class DokumentyWychodzaceService {
         },
         statusWysylki: "tw_wyslamo",
         kanalWysylki: "tk_brak",
-        wysylkaEpuap: 0,
-        wysylkaeDorecz: 0,
+        wysylkaEpuap: null,
+        wysylkaeDorecz: null,
         doWiadomosci: [],
         oper: TBazaOper.tboSelect,
         status: TeSodStatus.sBrak,
@@ -205,8 +205,8 @@ export class DokumentyWychodzaceService {
         },
         statusWysylki: "tw_wyslamo",
         kanalWysylki: "tk_brak",
-        wysylkaEpuap: 0,
-        wysylkaeDorecz: 0,
+        wysylkaEpuap: null,
+        wysylkaeDorecz: null,
         doWiadomosci: [],
         oper: TBazaOper.tboSelect,
         status: TeSodStatus.sBrak,
