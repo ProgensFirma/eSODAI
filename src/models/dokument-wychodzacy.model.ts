@@ -24,7 +24,7 @@ export interface DokumentWychodzacy {
     numer: number;
     identyfikator: string;
     firma: boolean;
-    nIP: string;
+    nip: string;
     adres: string;
   } | null;
   wprowadzil: {
@@ -53,7 +53,7 @@ export interface DoWiadomosc {
     numer: number;
     identyfikator: string;
     firma: boolean;
-    nIP: string;
+    nip: string;
     adres: string;
   } | null;
   osoba: {

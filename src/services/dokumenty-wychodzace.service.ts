@@ -59,7 +59,7 @@ export class DokumentyWychodzaceService {
           numer: 299336,
           identyfikator: "\"APKON\" SP. Z O.O.",
           firma: false,
-          nIP: "",
+          nip: "",
           adres: " 37-700 PRZEMYŚL BOHATERÓW GETTA 63 "
         },
         wprowadzil: {
@@ -82,7 +82,7 @@ export class DokumentyWychodzaceService {
               numer: 1091601,
               identyfikator: "\"ALTA\" PPHU. OSTROWSKA A.",
               firma: true,
-              nIP: "",
+              nip: "",
               adres: " 37-700  ŻOŁNIERZY I ARMII WP 1/44  "
             },
             osoba: null,
@@ -98,7 +98,7 @@ export class DokumentyWychodzaceService {
               numer: 509478,
               identyfikator: "\"DONSERV\" APARATURA LABORATORYJNA-SERWIS-DORACZTWO",
               firma: true,
-              nIP: "",
+              nip: "",
               adres: " 02-436 WARSZAWA GLOBUSOWA 38  "
             },
             osoba: null,
@@ -114,7 +114,7 @@ export class DokumentyWychodzaceService {
               numer: 1091601,
               identyfikator: "\"ALTA\" PPHU. OSTROWSKA A.",
               firma: true,
-              nIP: "",
+              nip: "",
               adres: " 37-700  ŻOŁNIERZY I ARMII WP 1/44  "
             },
             osoba: {
@@ -146,7 +146,7 @@ export class DokumentyWychodzaceService {
           numer: 2244053,
           identyfikator: "MOSKITO SYLWESTER KOŁECZEK",
           firma: true,
-          nIP: "8171865969",
+          nip: "8171865969",
           adres: " 39-300 MIELEC GŁOWACKIEGO 4 "
         },
         wprowadzil: {
@@ -191,7 +191,7 @@ export class DokumentyWychodzaceService {
           numer: 228209,
           identyfikator: "PREZYDENT MIASTA KROSNA",
           firma: true,
-          nIP: "",
+          nip: "",
           adres: " 38-400 KROSNO LWOWSKA 28A "
         },
         wprowadzil: {

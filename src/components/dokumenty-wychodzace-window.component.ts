@@ -172,7 +172,7 @@ import { SessionData } from '../models/session.model';
                 </div>
                 <div class="detail-item">
                   <label>NIP:</label>
-                  <span>{{ selectedDokument.kontrahent.nIP || '-' }}</span>
+                  <span>{{ selectedDokument.kontrahent.nip || '-' }}</span>
                 </div>
                 <div class="detail-item full-width">
                   <label>Adres:</label>
