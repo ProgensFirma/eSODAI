@@ -7,7 +7,7 @@ function openOrDownloadBase64File(filename: string, base64Content: string) {
   const bytes = Uint8Array.from(atob(base64Content), c => c.charCodeAt(0));
 
   // 2. Określenie typu MIME na podstawie rozszerzenia
-  const ext = filename.split('.').pop().toLowerCase();
+  const ext = filename.split('.').pop()?.toLowerCase();
   let mimeType = 'application/octet-stream'; // domyślny binarny
 
   switch (ext) {
