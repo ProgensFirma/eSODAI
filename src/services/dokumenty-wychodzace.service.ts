@@ -50,7 +50,7 @@ export class DokumentyWychodzaceService {
         },
         rejestr: "RPSW",
         rejestrNumer: 3,
-        rejestrRok: 2024,
+        rejestrRok: 2025,
         rejestrNrPozycji: "3/RPSW/24",
         typ: "",
         dataWyjscia: "2025-11-13T00:00:00.000Z",
