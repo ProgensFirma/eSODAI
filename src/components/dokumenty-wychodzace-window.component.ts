@@ -698,13 +698,11 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
   }
 
   loadDokumenty() {
-    if (!this.sessionData?.sesja) {
-      return;
-    }
+    const sesja = this.sessionData?.sesja || 0;
 
     this.loading = true;
     this.dokumentyWychodzaceService.getDokumentyWychodzace(
-      this.sessionData.sesja,
+      sesja,
       this.filterRejestr || undefined,
       this.filterRejestrRok || undefined
     ).subscribe({
