@@ -13,6 +13,7 @@ import { SprawyGridComponent } from './components/sprawy-grid.component';
 import { KontrahenciWindowComponent } from './components/kontrahenci-window.component';
 import { DocumentEditWindowComponent } from './components/document-edit-window.component';
 import { WydzialSelectWindowComponent } from './components/wydzial-select-window.component';
+import { DokumentyWychodzaceWindowComponent } from './components/dokumenty-wychodzace-window.component';
 import { Dokument } from './models/dokument.model';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek } from './models/enums.model';
 import { SessionData } from './models/session.model';
@@ -25,7 +26,7 @@ import { ConfigService } from './services/config.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
-      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent],
+      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -67,6 +68,10 @@ import { ConfigService } from './services/config.service';
               <div class="menu-item" (click)="openInfo()">
                 <span class="item-icon">ℹ️</span>
                 <span class="item-text">Informacja</span>
+              </div>
+              <div class="menu-item" (click)="openDokumentyWychodzace()">
+                <span class="item-icon">📤</span>
+                <span class="item-text">Dokumenty wychodzące</span>
               </div>
             </div>
           </div>
@@ -167,6 +172,11 @@ import { ConfigService } from './services/config.service';
       (closeRequested)="closeDocumentEditWindow()"
       (documentSaved)="onDocumentSaved()"
     ></app-document-edit-window>
+
+    <app-dokumenty-wychodzace-window
+      *ngIf="showDokumentyWychodzaceWindow"
+      (closeRequested)="closeDokumentyWychodzaceWindow()"
+    ></app-dokumenty-wychodzace-window>
   `,
   styles: [`
     .app-container {
@@ -570,6 +580,7 @@ export class App {
   showKontrahenciWindow = false;
   showInfoWindow = false;
   showDocumentEditWindow = false;
+  showDokumentyWychodzaceWindow = false;
   isLoggedIn = false;
   showWydzialSelect = false;
   availableWydzialy: TWydzialInfo[] = [];
@@ -646,6 +657,15 @@ export class App {
 
   closeInfoWindow() {
     this.showInfoWindow = false;
+  }
+
+  openDokumentyWychodzace() {
+    this.showDokumentyWychodzaceWindow = true;
+    this.showMenu = false;
+  }
+
+  closeDokumentyWychodzaceWindow() {
+    this.showDokumentyWychodzaceWindow = false;
   }
 
   onLoginSuccess() {
