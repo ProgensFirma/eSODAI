@@ -41,6 +41,7 @@ export interface DokumentWychodzacy {
   wysylkaEpuap: number;
   wysylkaeDorecz: number;
   doWiadomosci: DoWiadomosc[];
+  
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;
