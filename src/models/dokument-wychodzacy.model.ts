@@ -62,6 +62,7 @@ export interface DoWiadomosc {
   } | null;
   wysylkaEpuap: number | null;
   wysylkaeDorecz: number | null;
+  
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;
