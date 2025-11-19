@@ -49,10 +49,14 @@ import { ConfigService } from './services/config.service';
             <span class="menu-icon">☰</span>
             <span class="menu-text">Menu</span>
             
-            <div 
+            <div
               class="dropdown-menu"
               [class.visible]="showMenu"
             >
+              <div class="menu-item" (click)="openDokumentyWychodzace()">
+                <span class="item-icon">📤</span>
+                <span class="item-text">Dokumenty wychodzące</span>
+              </div>
               <div class="menu-item" (click)="openKontrahenci()">
                 <span class="item-icon">👥</span>
                 <span class="item-text">Kontrahenci</span>
@@ -68,10 +72,6 @@ import { ConfigService } from './services/config.service';
               <div class="menu-item" (click)="openInfo()">
                 <span class="item-icon">ℹ️</span>
                 <span class="item-text">Informacja</span>
-              </div>
-              <div class="menu-item" (click)="openDokumentyWychodzace()">
-                <span class="item-icon">📤</span>
-                <span class="item-text">Dokumenty wychodzące</span>
               </div>
             </div>
           </div>
