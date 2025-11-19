@@ -187,7 +187,7 @@ import { SessionData } from '../models/session.model';
 
             <div class="detail-panel" *ngIf="selectedDokument.doWiadomosci && selectedDokument.doWiadomosci.length > 0">
               <h3 class="panel-title">
-                Lista wiadomości ({{ selectedDokument.doWiadomosci.length }})
+                Do wiadomości ({{ selectedDokument.doWiadomosci.length }})
               </h3>
               <div class="wiadomosci-list">
                 <div class="wiadomosc-item" *ngFor="let wiadomosc of selectedDokument.doWiadomosci">
