@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DokumentWychodzacy } from '../models/dokument-wychodzacy.model';
 import { ConfigService } from './config.service';
-import { TBazaOper, TeSodStatus } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TStatWysylki } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +71,7 @@ export class DokumentyWychodzaceService {
           numer: 861528,
           identyfikator: "BLICHARZ JOANNA"
         },
-        statusWysylki: "tw_wyslamo",
+        statusWysylki: TStatWysylki.tw_wyslamo,
         kanalWysylki: "tk_brak",
         wysylkaEpuap: null,
         wysylkaeDorecz: 2827815,
@@ -158,7 +158,7 @@ export class DokumentyWychodzaceService {
           numer: 1059948,
           identyfikator: "KUŚ DOROTA"
         },
-        statusWysylki: "tw_wyslamo",
+        statusWysylki: TStatWysylki.tw_wyslamo,
         kanalWysylki: "tk_brak",
         wysylkaEpuap: null,
         wysylkaeDorecz: null,
@@ -203,7 +203,7 @@ export class DokumentyWychodzaceService {
           numer: 861490,
           identyfikator: "KONIECZNA TERESA"
         },
-        statusWysylki: "tw_wyslamo",
+        statusWysylki: TStatWysylki.tw_wyslamo,
         kanalWysylki: "tk_brak",
         wysylkaEpuap: null,
         wysylkaeDorecz: null,

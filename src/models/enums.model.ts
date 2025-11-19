@@ -50,6 +50,13 @@ export enum TStatusPrzek {
   sp_anulprzek = 'sp_anulprzek'
 }
 
+export enum TStatWysylki {
+  tw_brak = 'tw_brak',
+  tw_niewyslano = 'tw_niewyslano',
+  tw_wyslamo = 'tw_wyslamo',
+  tw_anulowano = 'tw_anulowano'
+}
+
 //skrzynka
 export enum TSkrzynki {
   tss_Sprawy = 0,

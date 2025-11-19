@@ -1,4 +1,4 @@
-import { TBazaOper, TeSodStatus } from './enums.model';
+import { TBazaOper, TeSodStatus, TStatWysylki } from './enums.model';
 
 export interface DokumentWychodzacy {
   numer: number;
@@ -36,7 +36,7 @@ export interface DokumentWychodzacy {
     numer: number;
     identyfikator: string;
   };
-  statusWysylki: string;
+  statusWysylki: TStatWysylki;
   kanalWysylki: string;
   wysylkaEpuap: number | null;
   wysylkaeDorecz: number | null;
