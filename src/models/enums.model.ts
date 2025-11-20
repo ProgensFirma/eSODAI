@@ -50,6 +50,7 @@ export enum TStatusPrzek {
   sp_anulprzek = 'sp_anulprzek'
 }
 
+//dokument wyjścia
 export enum TStatWysylki {
   tw_brak = 'tw_brak',
   tw_niewyslano = 'tw_niewyslano',
