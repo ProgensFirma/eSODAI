@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DokumentWychodzacy } from '../models/dokument-wychodzacy.model';
 import { DokumentyWychodzaceService } from '../services/dokumenty-wychodzace.service';
 import { SessionData } from '../models/session.model';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-dokumenty-wychodzace-window',
@@ -708,13 +709,14 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
   sessionData!: SessionData;
 
   constructor(
-    private dokumentyWychodzaceService: DokumentyWychodzaceService
+    private dokumentyWychodzaceService: DokumentyWychodzaceService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    const sessionDataStr = sessionStorage.getItem('sessionData');
-    if (sessionDataStr) {
-      this.sessionData = JSON.parse(sessionDataStr);
+    const sessionData = this.authService.getCurrentSession();
+    if (sessionData) {
+      this.sessionData = sessionData;
     }
     this.loadDokumenty();
   }
