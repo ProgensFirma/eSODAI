@@ -14,10 +14,13 @@ export class DokumentyWychodzaceService {
 
   getDokumentyWychodzace(
     sesja: number,
+    zDW: boolean,
     rejestr?: string,
     rejestrRok?: number
   ): Observable<DokumentWychodzacy[]> {
-    let params = new HttpParams().set('sesja', sesja.toString());
+    let params = new HttpParams()
+      .set('sesja', sesja.toString())
+      .set('zDW', zDW.toString());
 
     if (rejestr) {
       params = params.set('rejestr', rejestr);

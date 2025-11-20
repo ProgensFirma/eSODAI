@@ -704,7 +704,7 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
   filterRejestrRok: number = new Date().getFullYear();
 
   currentPage = 1;
-  pageSize = 20;
+  pageSize = 5;
 
   sessionData!: SessionData;
 
@@ -727,6 +727,7 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
     this.loading = true;
     this.dokumentyWychodzaceService.getDokumentyWychodzace(
       sesja,
+      true,
       this.filterRejestr || undefined,
       this.filterRejestrRok || undefined
     ).subscribe({
