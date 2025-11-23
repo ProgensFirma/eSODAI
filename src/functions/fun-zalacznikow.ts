@@ -1,4 +1,4 @@
-function openOrDownloadBase64File(filename: string, base64Content: string) {
+export function openOrDownloadBase64File(filename: string, base64Content: string) {
   if (!filename || !base64Content) {
       return;
   }

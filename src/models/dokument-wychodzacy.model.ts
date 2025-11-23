@@ -1,4 +1,5 @@
 import { TBazaOper, TeSodStatus, TStatWysylki } from './enums.model';
+import { TZalacznikInfo } from './typy-info.model';
 
 export interface DokumentWychodzacy {
   numer: number;
@@ -12,6 +13,7 @@ export interface DokumentWychodzacy {
     nazwa: string;
     rejestrNrPozycji: string;
     kontrahent: any;
+    zalaczniki?: TZalacznikInfo[];
   } | null;
   rejestr: string;
   rejestrNumer: number;

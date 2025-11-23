@@ -5,6 +5,8 @@ import { DokumentWychodzacy } from '../models/dokument-wychodzacy.model';
 import { DokumentyWychodzaceService } from '../services/dokumenty-wychodzace.service';
 import { SessionData } from '../models/session.model';
 import { AuthService } from '../services/auth.service';
+import { ZalacznikiService } from '../services/zalaczniki.service';
+import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
 
 @Component({
   selector: 'app-dokumenty-wychodzace-window',
@@ -160,6 +162,19 @@ import { AuthService } from '../services/auth.service';
                 <div class="detail-item">
                   <label>Finansowy:</label>
                   <span>{{ selectedDokument.dokument.typ.finansowy ? 'Tak' : 'Nie' }}</span>
+                </div>
+                <div class="detail-item full-width" *ngIf="selectedDokument.dokument.zalaczniki && selectedDokument.dokument.zalaczniki.length > 0">
+                  <label>Załączniki:</label>
+                  <div class="zalaczniki-list">
+                    <button
+                      *ngFor="let zalacznik of selectedDokument.dokument.zalaczniki"
+                      class="button button-secondary button-small"
+                      (click)="pobierzZalacznik(selectedDokument.dokument!.numer, zalacznik.numer, zalacznik.plik)"
+                    >
+                      <span class="button-icon">📎</span>
+                      {{ zalacznik.plik }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -583,6 +598,12 @@ import { AuthService } from '../services/auth.service';
       font-weight: 500;
     }
 
+    .zalaczniki-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
     .wiadomosci-list {
       display: flex;
       flex-direction: column;
@@ -710,7 +731,8 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
 
   constructor(
     private dokumentyWychodzaceService: DokumentyWychodzaceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private zalacznikiService: ZalacznikiService
   ) {}
 
   ngOnInit() {
@@ -806,6 +828,20 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
       return;
     }
     console.log('Pobieranie potwierdzenia dla dokumentu:', this.selectedDokument.numer);
+  }
+
+  pobierzZalacznik(dokumentNumer: number, zalacznikNumer: number, filename: string) {
+    const sesja = this.sessionData?.sesja || 0;
+    this.zalacznikiService.getZalacznikTresc(sesja, dokumentNumer, zalacznikNumer).subscribe({
+      next: (zalacznik) => {
+        if (zalacznik.tresc) {
+          openOrDownloadBase64File(filename, zalacznik.tresc);
+        }
+      },
+      error: (error) => {
+        console.error('Error downloading attachment:', error);
+      }
+    });
   }
 
   formatKanalWysylki(kanal: string): string {

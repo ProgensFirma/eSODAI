@@ -16,10 +16,10 @@ export class ZalacznikiService {
 
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
-  getZalacznikTresc(dokument: number, numer: number): Observable<ZalacznikTresc> {
-    
+  getZalacznikTresc(sesja: number, dokument: number, numer: number): Observable<ZalacznikTresc> {
+
     const params = {
-      sesja: '123',
+      sesja: sesja.toString(),
       dokument: dokument.toString(),
       numer: numer.toString()
     };
@@ -27,7 +27,7 @@ export class ZalacznikiService {
     return this.http.get<ZalacznikTresc>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching attachment content:', error);
-        // Return mock data for development        
+        // Return mock data for development
         return of(this.getMockData(dokument, numer));
       })
     );

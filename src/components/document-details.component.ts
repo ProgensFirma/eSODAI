@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Dokument } from '../models/dokument.model';
 import { ZalacznikiService } from '../services/zalaczniki.service';
 import { ZalacznikTresc } from '../models/zalacznik.model';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-document-details',
@@ -643,7 +644,7 @@ export class DocumentDetailsComponent {
   attachmentContents = new Map<number, ZalacznikTresc>();
   attachmentErrors = new Set<number>();
 
-  constructor(private zalacznikiService: ZalacznikiService) {}
+  constructor(private zalacznikiService: ZalacznikiService, private authService: AuthService) {}
 
   toggleAttachmentContent(attachmentNumber: number) {
     if (this.expandedAttachments.has(attachmentNumber)) {
@@ -662,7 +663,8 @@ export class DocumentDetailsComponent {
     this.loadingAttachments.add(attachmentNumber);
     this.attachmentErrors.delete(attachmentNumber);
 
-    this.zalacznikiService.getZalacznikTresc(this.document.numer, attachmentNumber).subscribe({
+    const sesja = this.authService.getCurrentSession()?.sesja || 0;
+    this.zalacznikiService.getZalacznikTresc(sesja, this.document.numer, attachmentNumber).subscribe({
       next: (content) => {
         this.loadingAttachments.delete(attachmentNumber);
         if (content.status === 'sOK') {
