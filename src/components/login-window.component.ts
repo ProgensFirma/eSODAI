@@ -16,7 +16,7 @@ import { LoginRequest } from '../models/session.model';
             <span class="title-icon">🔐</span>
             Logowanie do systemu
           </h1>
-          <div class="system-name">eSODAI</div>
+          <div class="system-name">eSOD</div>
         </div>
 
         <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
