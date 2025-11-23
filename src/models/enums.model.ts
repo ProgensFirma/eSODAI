@@ -54,7 +54,7 @@ export enum TStatusPrzek {
 export enum TStatWysylki {
   tw_brak = 'tw_brak',
   tw_niewyslano = 'tw_niewyslano',
-  tw_wyslamo = 'tw_wyslamo',
+  tw_wyslano = 'tw_wyslano',
   tw_anulowano = 'tw_anulowano'
 }
 
