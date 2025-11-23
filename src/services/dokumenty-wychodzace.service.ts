@@ -74,7 +74,7 @@ export class DokumentyWychodzaceService {
           numer: 861528,
           identyfikator: "BLICHARZ JOANNA"
         },
-        statusWysylki: TStatWysylki.tw_wyslamo,
+        statusWysylki: TStatWysylki.tw_wyslano,
         kanalWysylki: "tk_brak",
         wysylkaEpuap: null,
         wysylkaeDorecz: 2827815,
@@ -161,7 +161,7 @@ export class DokumentyWychodzaceService {
           numer: 1059948,
           identyfikator: "KUŚ DOROTA"
         },
-        statusWysylki: TStatWysylki.tw_wyslamo,
+        statusWysylki: TStatWysylki.tw_wyslano,
         kanalWysylki: "tk_brak",
         wysylkaEpuap: null,
         wysylkaeDorecz: null,
@@ -206,7 +206,7 @@ export class DokumentyWychodzaceService {
           numer: 861490,
           identyfikator: "KONIECZNA TERESA"
         },
-        statusWysylki: TStatWysylki.tw_wyslamo,
+        statusWysylki: TStatWysylki.tw_wyslano,
         kanalWysylki: "tk_brak",
         wysylkaEpuap: null,
         wysylkaeDorecz: null,
