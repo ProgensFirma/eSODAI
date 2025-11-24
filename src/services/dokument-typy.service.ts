@@ -26,10 +26,11 @@ export class DokumentTypyService {
   }
 
   getDokumentTypy(): Observable<DokumentTyp[]> {
+    const sesja = this.authService.getCurrentSession()?.sesja || 0;
 
     const params = new HttpParams()
-      .append('sesja', 123);
-    
+      .append('sesja', sesja);
+
     return this.http.get<DokumentTyp[]>(
       `${this.baseUrl}/dokumenty/typy/slownik`,
       { headers: this.getHeaders(), params: params }
@@ -37,10 +38,11 @@ export class DokumentTypyService {
   }
 
   saveDokument(dokument: any): Observable<any> {
-    
+    const sesja = this.authService.getCurrentSession()?.sesja || 0;
+
     const params = new HttpParams()
-      .append('sesja', 123);
-    
+      .append('sesja', sesja);
+
     return this.http.post(
       `${this.baseUrl}/dokumenty/dokument`,
       dokument,
