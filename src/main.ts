@@ -573,6 +573,7 @@ import { ConfigService } from './services/config.service';
     }
   `]
 })
+
 export class App {
   selectedSkrzynka: Skrzynka | null = null;
   selectedDocument: Dokument | null = null;
