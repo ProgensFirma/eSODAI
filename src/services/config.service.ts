@@ -17,15 +17,15 @@ export class ConfigService {
         this.config = await response.json();
       } else {
         console.warn('Could not load config.json, using default values');
-        this.config = { apiBaseUrl: 'http://localhost:8448' };
+        this.config = { apiBaseUrl: 'http://localhost:8448/api' };
       }
     } catch (error) {
       console.warn('Error loading config.json, using default values:', error);
-      this.config = { apiBaseUrl: 'http://localhost:8448' };
+      this.config = { apiBaseUrl: 'http://localhost:8448/api' };
     }
   }
 
   get apiBaseUrl(): string {
-    return this.config?.apiBaseUrl || 'http://localhost:8448';
+    return this.config?.apiBaseUrl || 'http://localhost:8448/api';
   }
 }
