@@ -49,4 +49,5 @@ export class DokumentTypyService {
       { headers: this.getHeaders(), params: params }
     );
   }
+  
 }
