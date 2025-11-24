@@ -654,7 +654,6 @@ export class App {
   openInfo() {
     this.showInfoWindow = true;
     this.showMenu = false;
-    this.showMenu = false;
   }
 
   closeInfoWindow() {
