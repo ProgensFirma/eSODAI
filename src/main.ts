@@ -636,15 +636,15 @@ export class App {
   }
 
   openPracownicy() {
-    // TODO: Implement pracownicy window
-    console.log('Opening Pracownicy...');
     this.showMenu = false;
+    // TODO: Implement pracownicy window
+    console.log('Otwarcie Pracownicy...');
   }
 
   openJednostki() {
+    this.showMenu = false;
     // TODO: Implement jednostki window
     console.log('Opening Jednostki...');
-    this.showMenu = false;
   }
 
   closeKontrahenciWindow() {
