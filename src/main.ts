@@ -670,13 +670,13 @@ export class App {
   }
 
   onLoginSuccess() {
+    this.isLoggedIn = true;    
     this.sessionData = this.authService.getCurrentSession();
 
     if (this.sessionData && this.sessionData.jednostki && this.sessionData.jednostki.length > 0) {
       this.availableWydzialy = this.sessionData.jednostki;
       this.showWydzialSelect = true;
     } else {
-      this.isLoggedIn = true;
       this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
       this.startSessionTimer();
     }
