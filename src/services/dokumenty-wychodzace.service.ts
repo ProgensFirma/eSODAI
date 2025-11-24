@@ -212,6 +212,7 @@ export class DokumentyWychodzaceService {
         wysylkaEpuap: null,
         wysylkaeDorecz: null,
         doWiadomosci: [],
+
         oper: TBazaOper.tboSelect,
         status: TeSodStatus.sBrak,
         statusDane: ""
