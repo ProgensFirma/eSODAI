@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Dokument } from '../models/dokument.model';
 import { ZalacznikiService } from '../services/zalaczniki.service';
-import { ZalacznikTresc } from '../models/zalacznik.model';
 import { AuthService } from '../services/auth.service';
+import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
 
 @Component({
   selector: 'app-document-details',
@@ -123,48 +123,20 @@ import { AuthService } from '../services/auth.service';
           <div class="detail-section" *ngIf="document.zalaczniki.length > 0">
             <h4 class="section-title">Załączniki ({{ document.zalaczniki.length }})</h4>
             <div class="attachments-list">
-              <div 
-                *ngFor="let attachment of document.zalaczniki" 
+              <div
+                *ngFor="let attachment of document.zalaczniki"
                 class="attachment-item"
-                (click)="toggleAttachmentContent(attachment.numer)"
-                [class.expanded]="expandedAttachments.has(attachment.numer)"
               >
                 <div class="attachment-header">
                   <span class="attachment-icon">📎</span>
                   <span class="attachment-name">{{ attachment.plik }}</span>
-                  <span class="attachment-number">#{{ attachment.numer }}</span>
-                  <span class="expand-indicator">
-                    {{ expandedAttachments.has(attachment.numer) ? '▼' : '▶' }}
-                  </span>
-                </div>
-                
-                <div class="attachment-content" *ngIf="expandedAttachments.has(attachment.numer)">
-                  <div class="loading-attachment" *ngIf="loadingAttachments.has(attachment.numer)">
-                    <div class="loading-spinner-small"></div>
-                    <span>Ładowanie treści...</span>
-                  </div>
-                  
-                  <div class="attachment-text" *ngIf="attachmentContents.has(attachment.numer) && !loadingAttachments.has(attachment.numer)">
-                    <div class="attachment-meta">
-                      <span class="meta-item">Wersja: {{ getAttachmentContent(attachment.numer)?.wersja }}</span>
-                      <span class="meta-item">Data: {{ formatDate(getAttachmentContent(attachment.numer)?.data || '') }}</span>
-                      <button 
-                        class="download-button"
-                        (click)="downloadAttachment(attachment.numer, attachment.plik)"
-                        title="Pobierz załącznik"
-                      >
-                        📥 Pobierz
-                      </button>
-                    </div>
-                    <div class="content-text">
-                      {{ getAttachmentContent(attachment.numer)?.tresc }}
-                    </div>
-                  </div>
-                  
-                  <div class="attachment-error" *ngIf="attachmentErrors.has(attachment.numer)">
-                    <span class="error-icon">⚠️</span>
-                    <span>Nie udało się załadować treści załącznika</span>
-                  </div>
+                  <button
+                    class="download-button"
+                    (click)="pobierzZalacznik(attachment.numer, attachment.plik)"
+                    title="Pobierz załącznik"
+                  >
+                    📥 Pobierz
+                  </button>
                 </div>
               </div>
             </div>
@@ -639,88 +611,24 @@ import { AuthService } from '../services/auth.service';
 export class DocumentDetailsComponent {
   @Input() document: Dokument | null = null;
 
-  expandedAttachments = new Set<number>();
-  loadingAttachments = new Set<number>();
-  attachmentContents = new Map<number, ZalacznikTresc>();
-  attachmentErrors = new Set<number>();
-
   constructor(private zalacznikiService: ZalacznikiService, private authService: AuthService) {}
 
-  toggleAttachmentContent(attachmentNumber: number) {
-    if (this.expandedAttachments.has(attachmentNumber)) {
-      this.expandedAttachments.delete(attachmentNumber);
-    } else {
-      this.expandedAttachments.add(attachmentNumber);
-      this.loadAttachmentContent(attachmentNumber);
-    }
-  }
-
-  private loadAttachmentContent(attachmentNumber: number) {
-    if (!this.document || this.attachmentContents.has(attachmentNumber)) {
+  pobierzZalacznik(attachmentNumber: number, fileName: string) {
+    if (!this.document) {
       return;
     }
-
-    this.loadingAttachments.add(attachmentNumber);
-    this.attachmentErrors.delete(attachmentNumber);
 
     const sesja = this.authService.getCurrentSession()?.sesja || 0;
     this.zalacznikiService.getZalacznikTresc(sesja, this.document.numer, attachmentNumber).subscribe({
       next: (content) => {
-        this.loadingAttachments.delete(attachmentNumber);
-        if (content.status === 'sOK') {
-          // Decode base64 content before storing
-          const decodedContent = { ...content };
-          if (content.tresc) {
-            try {
-              decodedContent.tresc = atob(content.tresc);
-            } catch (error) {
-              console.error('Error decoding base64 content:', error);
-              decodedContent.tresc = 'Błąd dekodowania treści załącznika';
-            }
-          }
-          this.attachmentContents.set(attachmentNumber, decodedContent);
-        } else {
-          this.attachmentErrors.add(attachmentNumber);
+        if (content.tresc) {
+          openOrDownloadBase64File(fileName, content.tresc);
         }
       },
       error: (error) => {
-        console.error('Error loading attachment content:', error);
-        this.loadingAttachments.delete(attachmentNumber);
-        this.attachmentErrors.add(attachmentNumber);
+        console.error('Error downloading attachment:', error);
       }
     });
-  }
-
-  getAttachmentContent(attachmentNumber: number): ZalacznikTresc | undefined {
-    return this.attachmentContents.get(attachmentNumber);
-  }
-
-  downloadAttachment(attachmentNumber: number, fileName: string) {
-    const content = this.attachmentContents.get(attachmentNumber);
-    if (!content || !content.tresc) {
-      return;
-    }
-
-    try {
-      // Create blob from decoded content
-      const blob = new Blob([content.tresc], { type: 'text/plain;charset=utf-8' });
-      
-      // Create download link
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName || `attachment_${attachmentNumber}.txt`;
-      
-      // Trigger download
-      document.body.appendChild(link);
-      link.click();
-      
-      // Cleanup
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error downloading attachment:', error);
-    }
   }
 
   formatDate(dateString: string): string {
