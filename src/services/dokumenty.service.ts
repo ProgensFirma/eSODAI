@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Dokument } from '../models/dokument.model';
 import { ConfigService } from './config.service';
+import { AuthService } from './auth.service';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TKanalTyp, TStatusPrzek } from '../models/enums.model';
 
 @Injectable({
@@ -14,7 +15,7 @@ export class DokumentyService {
     return `${this.configService.apiBaseUrl}/skrzynki/dokumenty`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  constructor(private http: HttpClient, private configService: ConfigService, private authService: AuthService) {}
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
@@ -23,27 +24,30 @@ export class DokumentyService {
   }  
 
   getDokumenty(skrzynka: number, zalInfo: boolean = true): Observable<Dokument[]> {
-    
-  const params = new HttpParams()
-    .append('sesja', 123)
-    .append('skrzynka', skrzynka.toString())
-    .append('zalInfo', zalInfo.toString());   
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString())
+      .append('skrzynka', skrzynka.toString())
+      .append('zalInfo', zalInfo.toString());
 
     return this.http.get<Dokument[]>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching dokumenty:', error);
-        // Return mock data for development
         return of(this.getMockData());
       })
     );
   }
     
   getOsobaRejestr(): Observable<{ Rejestr: string }> {
-    
-    const params = new HttpParams()
-      .append('sesja', 123);  
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
 
-    return this.http.get<{ Rejestr: string }>(`${this.configService.apiBaseUrl}/dokumenty/osoba/rejestr`, 
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString());
+
+    return this.http.get<{ Rejestr: string }>(`${this.configService.apiBaseUrl}/dokumenty/osoba/rejestr`,
       {headers: this.getHeaders(), params: params}).pipe(
       catchError(error => {
         console.error('Error fetching osoba rejestr:', error);

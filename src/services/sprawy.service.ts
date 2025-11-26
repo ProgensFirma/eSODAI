@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { Sprawa } from '../models/sprawa.model';
 import { ConfigService } from './config.service';
+import { AuthService } from './auth.service';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
 @Injectable({
@@ -14,13 +15,15 @@ export class SprawyService {
     return `${this.configService.apiBaseUrl}/skrzynki/sprawy`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  constructor(private http: HttpClient, private configService: ConfigService, private authService: AuthService) {}
 
   getSprawy(skrzynka: number): Observable<Sprawa[]> {
-    
-    const params = {
-      skrzynka: skrzynka.toString()
-    };
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString())
+      .append('skrzynka', skrzynka.toString());
 
     return this.http.get<Sprawa[]>(this.apiUrl, { params }).pipe(
       catchError(error => {
