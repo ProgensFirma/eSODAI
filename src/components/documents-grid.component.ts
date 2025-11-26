@@ -481,11 +481,9 @@ export class DocumentsGridComponent implements OnChanges {
 
     this.loading = true;
     this.selectedDocument = null;
-    
-    // For demo purposes, using a fixed skrzynka ID
-    // In real implementation, you would map skrzynka names to IDs
-    const skrzynkaId = 39;
-    
+
+    const skrzynkaId = this.selectedSkrzynka.skrzynka;
+
     this.dokumentyService.getDokumenty(skrzynkaId, true).subscribe({
       next: (documents) => {
         this.documents = documents;
