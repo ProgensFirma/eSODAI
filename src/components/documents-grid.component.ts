@@ -194,12 +194,12 @@ import { TSkrzynki } from '../models/enums.model';
     }
 
     .button-przekaz {
-      background: #8b5cf6;
+      background: #2563eb;
       color: white;
     }
 
     .button-przekaz:hover:not(:disabled) {
-      background: #7c3aed;
+      background: #1d4ed8;
       transform: translateY(-1px);
     }
 
