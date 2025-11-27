@@ -631,7 +631,7 @@ export class App {
     if (!this.selectedSkrzynka) {
       return false;
     }
-    return isSprawySkrzynka(this.selectedSkrzynka.skrzynka);
+    return isSprawySkrzynka(this.selectedSkrzynka);
   }
 
   onDocumentSelected(document: Dokument) {
