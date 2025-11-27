@@ -47,3 +47,14 @@ export interface TZalacznikInfo {
   numer: number;
   plik: string;
 }
+
+export interface TJednostka {
+  symbol: string;
+  nazwa: string;
+  kod: string;
+  stanowisko: boolean;
+  glowne: boolean;
+  oper: string;
+  status: string;
+  statusDane: string;
+}

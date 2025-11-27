@@ -14,6 +14,7 @@ import { KontrahenciWindowComponent } from './components/kontrahenci-window.comp
 import { DocumentEditWindowComponent } from './components/document-edit-window.component';
 import { WydzialSelectWindowComponent } from './components/wydzial-select-window.component';
 import { DokumentyWychodzaceWindowComponent } from './components/dokumenty-wychodzace-window.component';
+import { DokumentPrzekazWindowComponent } from './components/dokument-przekaz-window.component';
 import { Dokument } from './models/dokument.model';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek } from './models/enums.model';
 import { SessionData } from './models/session.model';
@@ -26,7 +27,7 @@ import { ConfigService } from './services/config.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
-      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent],
+      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -126,7 +127,8 @@ import { ConfigService } from './services/config.service';
               [selectedSkrzynka]="selectedSkrzynka"
               (documentSelected)="onDocumentSelected($event)"
               (newDocumentRequested)="onNewDocumentRequested()"
-              (editDocumentRequested)="onEditDocumentRequested($event)">
+              (editDocumentRequested)="onEditDocumentRequested($event)"
+              (przekazDocumentRequested)="onPrzekazDocumentRequested($event)">
             </app-documents-grid>
           </div>
 
@@ -148,7 +150,8 @@ import { ConfigService } from './services/config.service';
               [selectedSkrzynka]="selectedSkrzynka"
               (documentSelected)="onDocumentSelected($event)"
               (newDocumentRequested)="onNewDocumentRequested()"
-              (editDocumentRequested)="onEditDocumentRequested($event)">
+              (editDocumentRequested)="onEditDocumentRequested($event)"
+              (przekazDocumentRequested)="onPrzekazDocumentRequested($event)">
             </app-documents-grid>
           </div>
         </div>
@@ -178,6 +181,13 @@ import { ConfigService } from './services/config.service';
       *ngIf="showDokumentyWychodzaceWindow"
       (closeRequested)="closeDokumentyWychodzaceWindow()"
     ></app-dokumenty-wychodzace-window>
+
+    <app-dokument-przekaz-window
+      *ngIf="showDokumentPrzekazWindow"
+      [dokumentNumer]="przekazDokumentNumer!"
+      (closeRequested)="closeDokumentPrzekazWindow()"
+      (dokumentPrzekazany)="onDokumentPrzekazany()"
+    ></app-dokument-przekaz-window>
   `,
   styles: [`
     .app-container {
@@ -583,6 +593,8 @@ export class App {
   showInfoWindow = false;
   showDocumentEditWindow = false;
   showDokumentyWychodzaceWindow = false;
+  showDokumentPrzekazWindow = false;
+  przekazDokumentNumer: number | null = null;
   isLoggedIn = false;
   showWydzialSelect = false;
   availableWydzialy: TWydzialInfo[] = [];
@@ -715,6 +727,24 @@ export class App {
   onDocumentSaved() {
     this.showDocumentEditWindow = false;
     this.editingDocument = null;
+  }
+
+  onPrzekazDocumentRequested(dokument: Dokument) {
+    this.przekazDokumentNumer = dokument.numer;
+    this.showDokumentPrzekazWindow = true;
+  }
+
+  closeDokumentPrzekazWindow() {
+    this.showDokumentPrzekazWindow = false;
+    this.przekazDokumentNumer = null;
+  }
+
+  onDokumentPrzekazany() {
+    this.showDokumentPrzekazWindow = false;
+    this.przekazDokumentNumer = null;
+    if (this.selectedSkrzynka) {
+      this.selectedDocument = null;
+    }
   }
 
   private createEmptyDokument(): Dokument {

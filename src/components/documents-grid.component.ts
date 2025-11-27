@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DokumentyService } from '../services/dokumenty.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
+import { TSkrzynki } from '../models/enums.model';
 
 @Component({
   selector: 'app-documents-grid',
@@ -32,6 +33,15 @@ import { Skrzynka } from '../models/skrzynka.model';
           >
             <span class="button-icon">✏️</span>
             Edycja
+          </button>
+          <button
+            *ngIf="showPrzekazButton()"
+            class="action-button button-przekaz"
+            (click)="onPrzekazDocument()"
+            [disabled]="!selectedDocument"
+          >
+            <span class="button-icon">📤</span>
+            Przekaż
           </button>
           <button
             class="action-button button-refresh"
@@ -180,6 +190,16 @@ import { Skrzynka } from '../models/skrzynka.model';
 
     .button-edit:hover:not(:disabled) {
       background: #d97706;
+      transform: translateY(-1px);
+    }
+
+    .button-przekaz {
+      background: #8b5cf6;
+      color: white;
+    }
+
+    .button-przekaz:hover:not(:disabled) {
+      background: #7c3aed;
       transform: translateY(-1px);
     }
 
@@ -463,6 +483,7 @@ export class DocumentsGridComponent implements OnChanges {
   @Output() documentSelected = new EventEmitter<Dokument>();
   @Output() newDocumentRequested = new EventEmitter<void>();
   @Output() editDocumentRequested = new EventEmitter<Dokument>();
+  @Output() przekazDocumentRequested = new EventEmitter<Dokument>();
 
   documents: Dokument[] = [];
   selectedDocument: Dokument | null = null;
@@ -534,5 +555,19 @@ export class DocumentsGridComponent implements OnChanges {
     if (this.selectedDocument) {
       this.editDocumentRequested.emit(this.selectedDocument);
     }
+  }
+
+  onPrzekazDocument() {
+    if (this.selectedDocument) {
+      this.przekazDocumentRequested.emit(this.selectedDocument);
+    }
+  }
+
+  showPrzekazButton(): boolean {
+    if (!this.selectedSkrzynka) {
+      return false;
+    }
+    const skrzynkaId = this.selectedSkrzynka.skrzynka;
+    return skrzynkaId === TSkrzynki.tps_POtrzymane || skrzynkaId === TSkrzynki.tps_PBiezace;
   }
 }
