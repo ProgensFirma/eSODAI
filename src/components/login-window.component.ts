@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { LoginRequest } from '../models/session.model';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-login-window',
@@ -77,6 +78,7 @@ import { LoginRequest } from '../models/session.model';
         <div class="login-footer">
           <div class="version-info">
             <span class="version-label">System zarządzania dokumentami</span>
+            <div class="version-number">v{{ frontVersion }}</div>
           </div>
         </div>
       </div>
@@ -280,6 +282,12 @@ import { LoginRequest } from '../models/session.model';
       font-weight: 500;
     }
 
+    .version-number {
+      color: #9ca3af;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
     @media (max-width: 480px) {
       .login-window {
         margin: 20px;
@@ -318,6 +326,7 @@ export class LoginWindowComponent {
 
   loading = false;
   errorMessage = '';
+  frontVersion = environment.frontVersion;
 
   constructor(private authService: AuthService) {}
 
