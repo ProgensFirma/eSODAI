@@ -696,6 +696,7 @@ export class App {
   }
 
   onLoginCancelled() {
+    this.isLoggedIn = false;
   }
 
   hideMenuDelayed() {

@@ -200,7 +200,7 @@ import { environment } from '../environments/environment';
     .form-actions {
       margin-top: 32px;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       gap: 12px;
     }
 
