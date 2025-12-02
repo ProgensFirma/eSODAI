@@ -67,6 +67,14 @@ import { environment } from '../environments/environment';
               <span class="loading-spinner" *ngIf="loading"></span>
               {{ loading ? 'Logowanie...' : 'Zaloguj się' }}
             </button>
+            <button
+              type="button"
+              class="cancel-button"
+              [disabled]="loading"
+              (click)="onCancel()"
+            >
+              Anuluj
+            </button>
           </div>
         </form>
 
@@ -123,22 +131,22 @@ import { environment } from '../environments/environment';
     .login-header {
       background: linear-gradient(135deg, #2563eb, #3b82f6);
       color: white;
-      padding: 32px 32px 24px 32px;
+      padding: 16px 32px 12px 32px;
       text-align: center;
     }
 
     .login-title {
       margin: 0 0 8px 0;
-      font-size: 24px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 600;
     }
 
     .system-name {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 800;
       letter-spacing: 2px;
       opacity: 0.9;
-      margin-top: 8px;
+      margin-top: 4px;
     }
 
     .login-form {
@@ -191,6 +199,9 @@ import { environment } from '../environments/environment';
 
     .form-actions {
       margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .login-button {
@@ -198,8 +209,8 @@ import { environment } from '../environments/environment';
       background: linear-gradient(135deg, #2563eb, #3b82f6);
       color: white;
       border: none;
-      border-radius: 12px;
-      padding: 16px 24px;
+      border-radius: 8px;
+      padding: 12px 24px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
@@ -208,6 +219,30 @@ import { environment } from '../environments/environment';
       justify-content: center;
       gap: 8px;
       transition: all 0.2s ease;
+    }
+
+    .cancel-button {
+      width: 100%;
+      background: white;
+      color: #6b7280;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .cancel-button:hover:not(:disabled) {
+      background: #f9fafb;
+      border-color: #d1d5db;
+      transform: translateY(-1px);
+    }
+
+    .cancel-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .login-button:hover:not(:disabled) {
@@ -238,7 +273,7 @@ import { environment } from '../environments/environment';
 
     .login-footer {
       background: #f9fafb;
-      padding: 20px 32px;
+      padding: 10px 32px;
       text-align: center;
       border-top: 1px solid #e5e7eb;
     }
@@ -265,7 +300,7 @@ import { environment } from '../environments/environment';
       }
 
       .login-header {
-        padding: 24px 24px 20px 24px;
+        padding: 12px 24px 10px 24px;
       }
 
       .login-title {
@@ -281,13 +316,14 @@ import { environment } from '../environments/environment';
       }
 
       .login-footer {
-        padding: 16px 24px;
+        padding: 8px 24px;
       }
     }
   `]
 })
 export class LoginWindowComponent {
   @Output() loginSuccess = new EventEmitter<void>();
+  @Output() loginCancelled = new EventEmitter<void>();
 
   loginData: LoginRequest = {
     login: '',
@@ -322,5 +358,9 @@ export class LoginWindowComponent {
         }
       }
     });
+  }
+
+  onCancel() {
+    this.loginCancelled.emit();
   }
 }
