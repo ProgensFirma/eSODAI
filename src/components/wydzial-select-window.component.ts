@@ -11,7 +11,6 @@ import { TWydzialInfo } from '../models/typy-info.model';
       <div class="wydzial-window">
         <div class="window-header">
           <h2 class="window-title">
-            <span class="title-icon">🏢</span>
             Wybór jednostki organizacyjnej
           </h2>
         </div>
@@ -32,6 +31,12 @@ import { TWydzialInfo } from '../models/typy-info.model';
           </div>
 
           <div class="window-footer">
+            <button
+              class="cancel-button"
+              (click)="onCancel()"
+            >
+              Anuluj
+            </button>
             <button
               class="select-button"
               [disabled]="!selectedWydzial"
@@ -74,21 +79,14 @@ import { TWydzialInfo } from '../models/typy-info.model';
     .window-header {
       padding: 24px 32px;
       border-bottom: 2px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #ffffff);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
 
     .window-title {
       margin: 0;
       font-size: 24px;
-      font-weight: 700;
-      color: #1e293b;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .title-icon {
-      font-size: 28px;
+      font-weight: 600;
+      color: white;
     }
 
     .window-content {
@@ -151,20 +149,34 @@ import { TWydzialInfo } from '../models/typy-info.model';
     .window-footer {
       display: flex;
       justify-content: flex-end;
+      gap: 12px;
       padding-top: 20px;
       border-top: 1px solid #e2e8f0;
     }
 
+    .cancel-button,
     .select-button {
       padding: 12px 32px;
-      background: #3b82f6;
-      color: white;
       border: none;
       border-radius: 8px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+    }
+
+    .cancel-button {
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .cancel-button:hover {
+      background: #cbd5e1;
+    }
+
+    .select-button {
+      background: #3b82f6;
+      color: white;
     }
 
     .select-button:hover:not(:disabled) {
@@ -182,6 +194,7 @@ import { TWydzialInfo } from '../models/typy-info.model';
 export class WydzialSelectWindowComponent implements OnInit {
   @Input() wydzialy: TWydzialInfo[] = [];
   @Output() wydzialSelected = new EventEmitter<TWydzialInfo>();
+  @Output() cancelled = new EventEmitter<void>();
 
   selectedWydzial: TWydzialInfo | null = null;
 
@@ -199,5 +212,9 @@ export class WydzialSelectWindowComponent implements OnInit {
     if (this.selectedWydzial) {
       this.wydzialSelected.emit(this.selectedWydzial);
     }
+  }
+
+  onCancel() {
+    this.cancelled.emit();
   }
 }
