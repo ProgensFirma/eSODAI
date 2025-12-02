@@ -14,9 +14,8 @@ import { environment } from '../environments/environment';
       <div class="login-window">
         <div class="login-header">
           <h1 class="login-title">
-            Logowanie do systemu
+            Logowanie do systemu eSOD
           </h1>
-          <div class="system-name">eSOD</div>
         </div>
 
         <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
@@ -141,13 +140,6 @@ import { environment } from '../environments/environment';
       font-weight: 600;
     }
 
-    .system-name {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      opacity: 0.9;
-      margin-top: 4px;
-    }
 
     .login-form {
       padding: 32px;
@@ -305,10 +297,6 @@ import { environment } from '../environments/environment';
 
       .login-title {
         font-size: 20px;
-      }
-
-      .system-name {
-        font-size: 28px;
       }
 
       .login-form {
