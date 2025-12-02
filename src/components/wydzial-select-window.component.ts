@@ -32,17 +32,17 @@ import { TWydzialInfo } from '../models/typy-info.model';
 
           <div class="window-footer">
             <button
-              class="cancel-button"
-              (click)="onCancel()"
-            >
-              Anuluj
-            </button>
-            <button
               class="select-button"
               [disabled]="!selectedWydzial"
               (click)="confirmSelection()"
             >
               Wybierz
+            </button>
+            <button
+              class="cancel-button"
+              (click)="onCancel()"
+            >
+              Anuluj
             </button>
           </div>
         </div>
@@ -77,14 +77,15 @@ import { TWydzialInfo } from '../models/typy-info.model';
     }
 
     .window-header {
-      padding: 24px 32px;
-      border-bottom: 2px solid #e2e8f0;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: white;
+      padding: 16px 32px 12px 32px;
+      text-align: center;
     }
 
     .window-title {
       margin: 0;
-      font-size: 24px;
+      font-size: 18px;
       font-weight: 600;
       color: white;
     }
