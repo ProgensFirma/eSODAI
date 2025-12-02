@@ -14,7 +14,6 @@ import { environment } from '../environments/environment';
       <div class="login-window">
         <div class="login-header">
           <h1 class="login-title">
-            <span class="title-icon">🔐</span>
             Logowanie do systemu
           </h1>
           <div class="system-name">eSOD</div>
@@ -23,7 +22,6 @@ import { environment } from '../environments/environment';
         <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
           <div class="form-group">
             <label for="login" class="form-label">
-              <span class="label-icon">👤</span>
               Użytkownik
             </label>
             <input
@@ -41,7 +39,6 @@ import { environment } from '../environments/environment';
 
           <div class="form-group">
             <label for="haslo" class="form-label">
-              <span class="label-icon">🔑</span>
               Hasło
             </label>
             <input
@@ -58,7 +55,6 @@ import { environment } from '../environments/environment';
           </div>
 
           <div class="error-message" *ngIf="errorMessage">
-            <span class="error-icon">⚠️</span>
             {{ errorMessage }}
           </div>
 
@@ -68,7 +64,6 @@ import { environment } from '../environments/environment';
               class="login-button"
               [disabled]="!loginForm.valid || loading"
             >
-              <span class="button-icon" *ngIf="!loading">🚀</span>
               <span class="loading-spinner" *ngIf="loading"></span>
               {{ loading ? 'Logowanie...' : 'Zaloguj się' }}
             </button>
@@ -133,17 +128,9 @@ import { environment } from '../environments/environment';
     }
 
     .login-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
       margin: 0 0 8px 0;
       font-size: 24px;
       font-weight: 700;
-    }
-
-    .title-icon {
-      font-size: 28px;
     }
 
     .system-name {
@@ -163,17 +150,11 @@ import { environment } from '../environments/environment';
     }
 
     .form-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: block;
       font-weight: 600;
       color: #374151;
       margin-bottom: 8px;
       font-size: 14px;
-    }
-
-    .label-icon {
-      font-size: 16px;
     }
 
     .form-input {
@@ -199,9 +180,6 @@ import { environment } from '../environments/environment';
     }
 
     .error-message {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       background: #fef2f2;
       color: #dc2626;
       padding: 12px 16px;
@@ -209,10 +187,6 @@ import { environment } from '../environments/environment';
       border: 1px solid #fecaca;
       font-size: 14px;
       margin-bottom: 20px;
-    }
-
-    .error-icon {
-      font-size: 16px;
     }
 
     .form-actions {
@@ -246,10 +220,6 @@ import { environment } from '../environments/environment';
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
-    }
-
-    .button-icon {
-      font-size: 18px;
     }
 
     .loading-spinner {
