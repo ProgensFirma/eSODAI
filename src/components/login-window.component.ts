@@ -106,7 +106,7 @@ import { environment } from '../environments/environment';
 
     .login-window {
       background: white;
-      border-radius: 20px;
+      border-radius: 16px;
       box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
       width: 100%;
       max-width: 420px;
