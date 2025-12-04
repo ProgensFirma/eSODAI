@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, of } from 'rxjs';
 import { ZalacznikTresc } from '../models/zalacznik.model';
 import { ConfigService } from './config.service';
+import { AuthService } from './auth.service';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ZalacznikiService {
-  
+
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/zalacznik`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  constructor(private http: HttpClient, private configService: ConfigService, private authService: AuthService) {}
 
   getZalacznikTresc(sesja: number, dokument: number, numer: number): Observable<ZalacznikTresc> {
 
@@ -34,7 +35,13 @@ export class ZalacznikiService {
   }
 
   uploadZalacznik(zalacznik: ZalacznikTresc): Observable<any> {
-    return this.http.post(this.apiUrl, zalacznik);
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString());
+
+    return this.http.post(this.apiUrl, zalacznik, { params });
   }
 
   private getMockData(dokument: number, numer: number): ZalacznikTresc {
