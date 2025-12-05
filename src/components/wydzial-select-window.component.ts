@@ -11,7 +11,6 @@ import { TWydzialInfo } from '../models/typy-info.model';
       <div class="wydzial-window">
         <div class="window-header">
           <h2 class="window-title">
-            <span class="title-icon">🏢</span>
             Wybór jednostki organizacyjnej
           </h2>
         </div>
@@ -72,23 +71,17 @@ import { TWydzialInfo } from '../models/typy-info.model';
     }
 
     .window-header {
-      padding: 24px 32px;
-      border-bottom: 2px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #ffffff);
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: white;
+      padding: 16px 32px 12px 32px;
+      text-align: center;
     }
 
     .window-title {
       margin: 0;
-      font-size: 24px;
-      font-weight: 700;
-      color: #1e293b;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .title-icon {
-      font-size: 28px;
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
     }
 
     .window-content {
@@ -151,20 +144,21 @@ import { TWydzialInfo } from '../models/typy-info.model';
     .window-footer {
       display: flex;
       justify-content: flex-end;
+      gap: 12px;
       padding-top: 20px;
       border-top: 1px solid #e2e8f0;
     }
 
     .select-button {
       padding: 12px 32px;
-      background: #3b82f6;
-      color: white;
       border: none;
       border-radius: 8px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      background: #3b82f6;
+      color: white;
     }
 
     .select-button:hover:not(:disabled) {

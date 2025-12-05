@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { LoginRequest } from '../models/session.model';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-login-window',
@@ -13,16 +14,13 @@ import { LoginRequest } from '../models/session.model';
       <div class="login-window">
         <div class="login-header">
           <h1 class="login-title">
-            <span class="title-icon">🔐</span>
-            Logowanie do systemu
+            Logowanie do systemu eSOD
           </h1>
-          <div class="system-name">eSOD</div>
         </div>
 
         <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
           <div class="form-group">
             <label for="login" class="form-label">
-              <span class="label-icon">👤</span>
               Użytkownik
             </label>
             <input
@@ -40,7 +38,6 @@ import { LoginRequest } from '../models/session.model';
 
           <div class="form-group">
             <label for="haslo" class="form-label">
-              <span class="label-icon">🔑</span>
               Hasło
             </label>
             <input
@@ -57,7 +54,6 @@ import { LoginRequest } from '../models/session.model';
           </div>
 
           <div class="error-message" *ngIf="errorMessage">
-            <span class="error-icon">⚠️</span>
             {{ errorMessage }}
           </div>
 
@@ -67,9 +63,16 @@ import { LoginRequest } from '../models/session.model';
               class="login-button"
               [disabled]="!loginForm.valid || loading"
             >
-              <span class="button-icon" *ngIf="!loading">🚀</span>
               <span class="loading-spinner" *ngIf="loading"></span>
               {{ loading ? 'Logowanie...' : 'Zaloguj się' }}
+            </button>
+            <button
+              type="button"
+              class="cancel-button"
+              [disabled]="loading"
+              (click)="onCancel()"
+            >
+              Anuluj
             </button>
           </div>
         </form>
@@ -77,6 +80,7 @@ import { LoginRequest } from '../models/session.model';
         <div class="login-footer">
           <div class="version-info">
             <span class="version-label">System zarządzania dokumentami</span>
+            <div class="version-number">v{{ frontVersion }}</div>
           </div>
         </div>
       </div>
@@ -104,7 +108,7 @@ import { LoginRequest } from '../models/session.model';
 
     .login-window {
       background: white;
-      border-radius: 20px;
+      border-radius: 16px;
       box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
       width: 100%;
       max-width: 420px;
@@ -126,31 +130,16 @@ import { LoginRequest } from '../models/session.model';
     .login-header {
       background: linear-gradient(135deg, #2563eb, #3b82f6);
       color: white;
-      padding: 32px 32px 24px 32px;
+      padding: 16px 32px 12px 32px;
       text-align: center;
     }
 
     .login-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
       margin: 0 0 8px 0;
-      font-size: 24px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 600;
     }
 
-    .title-icon {
-      font-size: 28px;
-    }
-
-    .system-name {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      opacity: 0.9;
-      margin-top: 8px;
-    }
 
     .login-form {
       padding: 32px;
@@ -161,17 +150,11 @@ import { LoginRequest } from '../models/session.model';
     }
 
     .form-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: block;
       font-weight: 600;
       color: #374151;
       margin-bottom: 8px;
       font-size: 14px;
-    }
-
-    .label-icon {
-      font-size: 16px;
     }
 
     .form-input {
@@ -197,9 +180,6 @@ import { LoginRequest } from '../models/session.model';
     }
 
     .error-message {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       background: #fef2f2;
       color: #dc2626;
       padding: 12px 16px;
@@ -209,12 +189,11 @@ import { LoginRequest } from '../models/session.model';
       margin-bottom: 20px;
     }
 
-    .error-icon {
-      font-size: 16px;
-    }
-
     .form-actions {
       margin-top: 32px;
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
     }
 
     .login-button {
@@ -222,8 +201,8 @@ import { LoginRequest } from '../models/session.model';
       background: linear-gradient(135deg, #2563eb, #3b82f6);
       color: white;
       border: none;
-      border-radius: 12px;
-      padding: 16px 24px;
+      border-radius: 8px;
+      padding: 12px 24px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
@@ -232,6 +211,30 @@ import { LoginRequest } from '../models/session.model';
       justify-content: center;
       gap: 8px;
       transition: all 0.2s ease;
+    }
+
+    .cancel-button {
+      width: 100%;
+      background: white;
+      color: #6b7280;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .cancel-button:hover:not(:disabled) {
+      background: #f9fafb;
+      border-color: #d1d5db;
+      transform: translateY(-1px);
+    }
+
+    .cancel-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .login-button:hover:not(:disabled) {
@@ -244,10 +247,6 @@ import { LoginRequest } from '../models/session.model';
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
-    }
-
-    .button-icon {
-      font-size: 18px;
     }
 
     .loading-spinner {
@@ -266,7 +265,7 @@ import { LoginRequest } from '../models/session.model';
 
     .login-footer {
       background: #f9fafb;
-      padding: 20px 32px;
+      padding: 10px 32px;
       text-align: center;
       border-top: 1px solid #e5e7eb;
     }
@@ -280,6 +279,12 @@ import { LoginRequest } from '../models/session.model';
       font-weight: 500;
     }
 
+    .version-number {
+      color: #9ca3af;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
     @media (max-width: 480px) {
       .login-window {
         margin: 20px;
@@ -287,15 +292,11 @@ import { LoginRequest } from '../models/session.model';
       }
 
       .login-header {
-        padding: 24px 24px 20px 24px;
+        padding: 12px 24px 10px 24px;
       }
 
       .login-title {
         font-size: 20px;
-      }
-
-      .system-name {
-        font-size: 28px;
       }
 
       .login-form {
@@ -303,13 +304,14 @@ import { LoginRequest } from '../models/session.model';
       }
 
       .login-footer {
-        padding: 16px 24px;
+        padding: 8px 24px;
       }
     }
   `]
 })
 export class LoginWindowComponent {
   @Output() loginSuccess = new EventEmitter<void>();
+  @Output() loginCancelled = new EventEmitter<void>();
 
   loginData: LoginRequest = {
     login: '',
@@ -318,6 +320,7 @@ export class LoginWindowComponent {
 
   loading = false;
   errorMessage = '';
+  frontVersion = environment.frontVersion;
 
   constructor(private authService: AuthService) {}
 
@@ -343,5 +346,9 @@ export class LoginWindowComponent {
         }
       }
     });
+  }
+
+  onCancel() {
+    this.loginCancelled.emit();
   }
 }
