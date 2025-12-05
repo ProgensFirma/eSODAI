@@ -129,7 +129,7 @@ export class AuthService {
       catchError(error => {
         console.warn('Could not fetch backend version:', error);
         return new Observable<{ wersja: string }>(observer => {
-          observer.next({ wersja: '1.0.0.2' });
+          observer.next({ wersja: '?.?.?.?' });
           observer.complete();
         });
       })
