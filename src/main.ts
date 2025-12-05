@@ -39,7 +39,6 @@ import { ConfigService } from './services/config.service';
       *ngIf="showWydzialSelect"
       [wydzialy]="availableWydzialy"
       (wydzialSelected)="onWydzialSelected($event)"
-      (cancelled)="onWydzialSelectCancelled()"
     ></app-wydzial-select-window>
 
     <div class="app-container" *ngIf="isLoggedIn && !showWydzialSelect">
@@ -698,12 +697,6 @@ export class App {
 
   onLoginCancelled() {
     this.isLoggedIn = false;
-  }
-
-  onWydzialSelectCancelled() {
-    this.showWydzialSelect = false;
-    this.isLoggedIn = false;
-    this.authService.logout();
   }
 
   hideMenuDelayed() {

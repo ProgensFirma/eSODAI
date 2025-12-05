@@ -38,12 +38,6 @@ import { TWydzialInfo } from '../models/typy-info.model';
             >
               Wybierz
             </button>
-            <button
-              class="cancel-button"
-              (click)="onCancel()"
-            >
-              Anuluj
-            </button>
           </div>
         </div>
       </div>
@@ -155,7 +149,6 @@ import { TWydzialInfo } from '../models/typy-info.model';
       border-top: 1px solid #e2e8f0;
     }
 
-    .cancel-button,
     .select-button {
       padding: 12px 32px;
       border: none;
@@ -164,18 +157,6 @@ import { TWydzialInfo } from '../models/typy-info.model';
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
-    }
-
-    .cancel-button {
-      background: #e2e8f0;
-      color: #475569;
-    }
-
-    .cancel-button:hover {
-      background: #cbd5e1;
-    }
-
-    .select-button {
       background: #3b82f6;
       color: white;
     }
@@ -195,7 +176,6 @@ import { TWydzialInfo } from '../models/typy-info.model';
 export class WydzialSelectWindowComponent implements OnInit {
   @Input() wydzialy: TWydzialInfo[] = [];
   @Output() wydzialSelected = new EventEmitter<TWydzialInfo>();
-  @Output() cancelled = new EventEmitter<void>();
 
   selectedWydzial: TWydzialInfo | null = null;
 
@@ -213,9 +193,5 @@ export class WydzialSelectWindowComponent implements OnInit {
     if (this.selectedWydzial) {
       this.wydzialSelected.emit(this.selectedWydzial);
     }
-  }
-
-  onCancel() {
-    this.cancelled.emit();
   }
 }
