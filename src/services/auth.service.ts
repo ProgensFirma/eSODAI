@@ -122,4 +122,17 @@ export class AuthService {
     const session = this.getCurrentSession();
     return session?.zalogowany === true;
   }
+
+  getBackendVersion(): Observable<{ wersja: string }> {
+    const url = `${this.configService.apiBaseUrl}/wersja`;
+    return this.http.get<{ wersja: string }>(url).pipe(
+      catchError(error => {
+        console.warn('Could not fetch backend version:', error);
+        return new Observable<{ wersja: string }>(observer => {
+          observer.next({ wersja: '1.0.0.2' });
+          observer.complete();
+        });
+      })
+    );
+  }
 }

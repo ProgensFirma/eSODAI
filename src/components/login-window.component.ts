@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
@@ -309,7 +309,7 @@ import { environment } from '../environments/environment';
     }
   `]
 })
-export class LoginWindowComponent {
+export class LoginWindowComponent implements OnInit {
   @Output() loginSuccess = new EventEmitter<void>();
   @Output() loginCancelled = new EventEmitter<void>();
 
@@ -324,6 +324,17 @@ export class LoginWindowComponent {
   backendVersion = '?';
 
   constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.getBackendVersion().subscribe({
+      next: (response) => {
+        this.backendVersion = response.wersja;
+      },
+      error: (error) => {
+        console.warn('Failed to fetch backend version:', error);
+      }
+    });
+  }
 
   onSubmit() {
     if (this.loading) return;
