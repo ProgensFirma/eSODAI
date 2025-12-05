@@ -80,7 +80,7 @@ import { environment } from '../environments/environment';
         <div class="login-footer">
           <div class="version-info">
             <span class="version-label">System zarządzania dokumentami</span>
-            <div class="version-number">v{{ frontVersion }}</div>
+            <div class="version-number">FE: v{{ frontVersion }}</div>
           </div>
         </div>
       </div>
