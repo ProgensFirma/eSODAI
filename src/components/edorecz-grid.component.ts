@@ -193,6 +193,7 @@ import { EDoreczDokument, EDoreczZalacznik, EDoreczPotwierdzenie } from '../mode
     .table-container {
       overflow-x: auto;
       max-height: 400px;
+      min-height: 120px;
       overflow-y: auto;
     }
 
