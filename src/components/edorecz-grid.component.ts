@@ -86,12 +86,20 @@ import { EDoreczDokument, EDoreczZalacznik, EDoreczPotwierdzenie } from '../mode
           <div class="confirmations-panel">
             <div class="panel-header">
               <h4 class="panel-title">Potwierdzenia ({{ selectedDokument.potwierdzenia.length }})</h4>
-              <button class="download-button" (click)="pobierzPotwierdzenia()">Pobierz</button>
+              <button
+                class="download-button"
+                (click)="pobierzPotwierdzenia()"
+                [disabled]="!selectedPotwierdzenie"
+              >
+                Pobierz
+              </button>
             </div>
             <div class="confirmations-list">
               <div
                 *ngFor="let pot of selectedDokument.potwierdzenia"
                 class="confirmation-item"
+                [class.selected]="selectedPotwierdzenie === pot"
+                (click)="selectPotwierdzenie(pot)"
               >
                 <div class="confirmation-row">
                   <span class="confirmation-label">Typ:</span>
@@ -341,9 +349,15 @@ import { EDoreczDokument, EDoreczZalacznik, EDoreczPotwierdzenie } from '../mode
       transition: all 0.2s ease;
     }
 
-    .download-button:hover {
+    .download-button:hover:not(:disabled) {
       background: #059669;
       transform: translateY(-1px);
+    }
+
+    .download-button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      opacity: 0.6;
     }
 
     .attachments-list,
@@ -383,6 +397,19 @@ import { EDoreczDokument, EDoreczZalacznik, EDoreczPotwierdzenie } from '../mode
       border-radius: 6px;
       margin-bottom: 12px;
       border-left: 3px solid #2563eb;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .confirmation-item:hover {
+      background: #e2e8f0;
+      transform: translateX(2px);
+    }
+
+    .confirmation-item.selected {
+      background: #dbeafe;
+      border-left-color: #1d4ed8;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
     }
 
     .confirmation-row {
@@ -426,6 +453,7 @@ export class EDoreczGridComponent implements OnInit, OnChanges {
 
   dokumenty: EDoreczDokument[] = [];
   selectedDokument: EDoreczDokument | null = null;
+  selectedPotwierdzenie: EDoreczPotwierdzenie | null = null;
   loading = false;
 
   constructor(private edoreczService: EDoreczService) {}
@@ -460,6 +488,11 @@ export class EDoreczGridComponent implements OnInit, OnChanges {
 
   selectDokument(dokument: EDoreczDokument) {
     this.selectedDokument = dokument;
+    this.selectedPotwierdzenie = null;
+  }
+
+  selectPotwierdzenie(potwierdzenie: EDoreczPotwierdzenie) {
+    this.selectedPotwierdzenie = potwierdzenie;
   }
 
   formatDate(dateString: string): string {
@@ -478,6 +511,9 @@ export class EDoreczGridComponent implements OnInit, OnChanges {
   }
 
   pobierzPotwierdzenia() {
-    console.log('Pobieranie potwierdzeń dla dokumentu:', this.selectedDokument?.numer);
+    if (!this.selectedPotwierdzenie) {
+      return;
+    }
+    console.log('Pobieranie potwierdzenia:', this.selectedPotwierdzenie.typ, 'dla dokumentu:', this.selectedDokument?.numer);
   }
 }
