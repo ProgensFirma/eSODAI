@@ -13,17 +13,11 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     <div class="details-container" *ngIf="document">
       <div class="details-header">
         <h3 class="details-title">
-          <span class="title-icon">📋</span>
           Szczegóły dokumentu
         </h3>
-        <div class="document-status">
-          <span class="status-badge" [class]="getStatusClass()">
-            {{ document.statusEdycji }}
-          </span>
-          <span class="financial-badge" *ngIf="document.typ.finansowy">
-            💰 Finansowy
-          </span>
-        </div>
+        <span class="financial-badge" *ngIf="document.typ.finansowy">
+          💰 Finansowy
+        </span>
       </div>
       
       <div class="details-content">
@@ -172,34 +166,10 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     }
 
     .details-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
       margin: 0;
       font-size: 18px;
       font-weight: 700;
       color: #1e293b;
-    }
-
-    .title-icon {
-      font-size: 20px;
-    }
-
-    .document-status {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .status-badge {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      background: #f1f5f9;
-      color: #475569;
     }
 
     .financial-badge {
@@ -654,18 +624,8 @@ export class DocumentDetailsComponent {
   }
 
   isValidDate(dateString?: string): boolean {
-    if (!dateString) return false;    
+    if (!dateString) return false;
     return !!(dateString && dateString !== '1899-12-30T00:00:00.000Z');
-  }
-
-  getStatusClass(): string {
-    if (!this.document) return '';
-    if (!this.document.statusEdycji) return '';
-    
-    const status = this.document.statusEdycji.toLowerCase();
-    if (status.includes('zmieniany')) return 'status-editing';
-    if (status.includes('gotowy')) return 'status-ready';
-    return 'status-default';
   }
 
   getTypeClass(typeName: string): string {
