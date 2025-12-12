@@ -15,7 +15,6 @@ import { DocumentEditWindowComponent } from './components/document-edit-window.c
 import { WydzialSelectWindowComponent } from './components/wydzial-select-window.component';
 import { DokumentyWychodzaceWindowComponent } from './components/dokumenty-wychodzace-window.component';
 import { DokumentPrzekazWindowComponent } from './components/dokument-przekaz-window.component';
-import { EDoreczGridComponent } from './components/edorecz-grid.component';
 import { Dokument } from './models/dokument.model';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek } from './models/enums.model';
 import { SessionData } from './models/session.model';
@@ -28,7 +27,7 @@ import { ConfigService } from './services/config.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
-      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent],
+      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -123,11 +122,7 @@ import { ConfigService } from './services/config.service';
           </div>
         </div>
         
-        <div class="edorecz-layout" *ngIf="selectedSkrzynka && isEDoreczView()">
-          <app-edorecz-grid [skrzynkaNazwa]="selectedSkrzynka.nazwa"></app-edorecz-grid>
-        </div>
-
-        <div class="documents-layout" *ngIf="selectedSkrzynka && !isSprawyView() && !isEDoreczView()">
+        <div class="documents-layout" *ngIf="selectedSkrzynka && !isSprawyView()">
           <div class="documents-grid-section">
             <app-documents-grid
               [selectedSkrzynka]="selectedSkrzynka"
@@ -433,11 +428,6 @@ import { ConfigService } from './services/config.service';
       overflow-y: auto;
     }
 
-    .edorecz-layout {
-      flex: 1;
-      overflow: hidden;
-    }
-
     .documents-layout {
       flex: 1;
       display: grid;
@@ -643,13 +633,6 @@ export class App {
       return false;
     }
     return isSprawySkrzynka(this.selectedSkrzynka);
-  }
-
-  isEDoreczView(): boolean {
-    if (!this.selectedSkrzynka) {
-      return false;
-    }
-    return this.selectedSkrzynka.nazwa === 'tes_KEleDoreczPrzych';
   }
 
   onDocumentSelected(document: Dokument) {
