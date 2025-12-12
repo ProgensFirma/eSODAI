@@ -56,6 +56,7 @@ import { TSkrzynki } from '../models/enums.model';
       <div class="documents-content" *ngIf="!loading && documents.length > 0">
         <div class="documents-table">
           <div class="table-header">
+            <div class="header-cell col-number">Nr</div>
             <div class="header-cell col-type">Typ</div>
             <div class="header-cell col-name">Nazwa</div>
             <div class="header-cell col-register">Rejestr</div>
@@ -65,13 +66,16 @@ import { TSkrzynki } from '../models/enums.model';
           </div>
           
           <div class="table-body">
-            <div
+            <div 
               *ngFor="let document of documents; trackBy: trackByNumer"
               class="table-row"
               [class.selected]="selectedDocument?.numer === document.numer"
               [class.financial]="document.typ.finansowy"
               (click)="selectDocument(document)"
             >
+              <div class="cell col-number">
+                <span class="document-number">{{ document.numer }}</span>
+              </div>
               <div class="cell col-type">
                 <span class="document-type" [class]="getTypeClass(document.typ.nazwa)">
                   {{ document.typ.nazwa }}
@@ -248,7 +252,7 @@ import { TSkrzynki } from '../models/enums.model';
 
     .table-header {
       display: grid;
-      grid-template-columns: 120px 1fr 140px 120px 200px 80px;
+      grid-template-columns: 100px 120px 1fr 140px 120px 200px 80px;
       gap: 12px;
       padding: 16px 20px;
       background: #f8fafc;
@@ -287,7 +291,7 @@ import { TSkrzynki } from '../models/enums.model';
 
     .table-row {
       display: grid;
-      grid-template-columns: 120px 1fr 140px 120px 200px 80px;
+      grid-template-columns: 100px 120px 1fr 140px 120px 200px 80px;
       gap: 12px;
       padding: 16px 20px;
       min-height: 64px;
@@ -320,6 +324,11 @@ import { TSkrzynki } from '../models/enums.model';
       align-items: center;
       font-size: 14px;
       overflow: hidden;
+    }
+
+    .document-number {
+      font-weight: 600;
+      color: #1e293b;
     }
 
     .document-type {
@@ -429,7 +438,7 @@ import { TSkrzynki } from '../models/enums.model';
     @media (max-width: 1200px) {
       .table-header,
       .table-row {
-        grid-template-columns: 100px 1fr 120px 100px 150px 60px;
+        grid-template-columns: 80px 100px 1fr 120px 100px 150px 60px;
         gap: 8px;
         padding: 12px 16px;
       }
