@@ -216,6 +216,144 @@ export class DokumentyWychodzaceService {
         oper: TBazaOper.tboSelect,
         status: TeSodStatus.sBrak,
         statusDane: ""
+      },
+      {
+        numer: 2827950,
+        dokument: {
+          numer: 2827900,
+          typ: {
+            nazwa: "NOTA",
+            finansowy: true,
+            polecenieZaplaty: false
+          },
+          nazwa: "Nota obciążeniowa",
+          rejestrNrPozycji: "183/R-DJWI-CD/24",
+          kontrahent: null
+        },
+        rejestr: "RPW",
+        rejestrNumer: 5686,
+        rejestrRok: 2024,
+        rejestrNrPozycji: "5686/RPW/24",
+        typ: "",
+        dataWyjscia: "2024-12-17T00:00:00.000Z",
+        godzWyjscia: 0.625,
+        kontrahent: {
+          numer: 2770462,
+          identyfikator: "SZPOJNAROWICZ JÓZEFA",
+          firma: false,
+          nip: "",
+          adres: " 38-604 LESKO HOCZEW 49 "
+        },
+        wprowadzil: {
+          numer: 861490,
+          identyfikator: "KONIECZNA TERESA"
+        },
+        wprowadzilData: "2024-12-17T15:00:12.345Z",
+        wyslal: {
+          numer: 861490,
+          identyfikator: "KONIECZNA TERESA"
+        },
+        statusWysylki: TStatWysylki.tw_wyslano,
+        kanalWysylki: "tk_poczta",
+        wysylkaEpuap: null,
+        wysylkaeDorecz: null,
+        doWiadomosci: [],
+
+        oper: TBazaOper.tboSelect,
+        status: TeSodStatus.sBrak,
+        statusDane: ""
+      },
+      {
+        numer: 2828000,
+        dokument: {
+          numer: 2827850,
+          typ: {
+            nazwa: "PISMO",
+            finansowy: false,
+            polecenieZaplaty: false
+          },
+          nazwa: "Pismo ogólne",
+          rejestrNrPozycji: "112/R-DTWI-JBL/24",
+          kontrahent: null
+        },
+        rejestr: "RPW",
+        rejestrNumer: 5687,
+        rejestrRok: 2024,
+        rejestrNrPozycji: "5687/RPW/24",
+        typ: "",
+        dataWyjscia: "2024-12-18T00:00:00.000Z",
+        godzWyjscia: 0.458333333333333,
+        kontrahent: {
+          numer: 284879,
+          identyfikator: "WIOŚ W GDAŃSKU",
+          firma: true,
+          nip: "5842738392",
+          adres: " 80-387 GDAŃSK NORWIDA CYPRIANA KAMILA 4 "
+        },
+        wprowadzil: {
+          numer: 1059948,
+          identyfikator: "KUŚ DOROTA"
+        },
+        wprowadzilData: "2024-12-18T11:00:45.678Z",
+        wyslal: {
+          numer: 1059948,
+          identyfikator: "KUŚ DOROTA"
+        },
+        statusWysylki: TStatWysylki.tw_wyslano,
+        kanalWysylki: "tk_epuap",
+        wysylkaEpuap: 2828001,
+        wysylkaeDorecz: null,
+        doWiadomosci: [],
+
+        oper: TBazaOper.tboSelect,
+        status: TeSodStatus.sBrak,
+        statusDane: ""
+      },
+      {
+        numer: 2828050,
+        dokument: {
+          numer: 2827800,
+          typ: {
+            nazwa: "WNIOSEK",
+            finansowy: false,
+            polecenieZaplaty: false
+          },
+          nazwa: "Wniosek o wydanie zaświadczenia",
+          rejestrNrPozycji: "10997/RPP/24",
+          kontrahent: null
+        },
+        rejestr: "RPW",
+        rejestrNumer: 5688,
+        rejestrRok: 2024,
+        rejestrNrPozycji: "5688/RPW/24",
+        typ: "",
+        dataWyjscia: "2024-12-18T00:00:00.000Z",
+        godzWyjscia: 0.541666666666667,
+        kontrahent: {
+          numer: 2679291,
+          identyfikator: "ALDESA CONSTRUCCIONES POLSKA",
+          firma: true,
+          nip: "1234567890",
+          adres: " 38-422 ISKRZYNIA PODKARPACKA 99A "
+        },
+        wprowadzil: {
+          numer: 861528,
+          identyfikator: "BLICHARZ JOANNA"
+        },
+        wprowadzilData: "2024-12-18T13:00:23.789Z",
+        wyslal: {
+          numer: 861528,
+          identyfikator: "BLICHARZ JOANNA"
+        },
+        statusWysylki: TStatWysylki.tw_niewyslano,
+        kanalWysylki: "tk_eDorecz",
+        wysylkaEpuap: null,
+        wysylkaeDorecz: 2828051,
+        doWiadomosci: [],
+
+        oper: TBazaOper.tboSelect,
+        status: TeSodStatus.sBrak,
+        statusDane: ""
       }
     ];
   }

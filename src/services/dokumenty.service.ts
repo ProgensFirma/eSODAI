@@ -306,6 +306,260 @@ export class DokumentyService {
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
         "statusDane": ""
+      },
+      {
+        "numer": 2827800,
+        "archiwum": false,
+        "dokGlowny": 2827800,
+        "wersja": 0,
+        "aktualny": true,
+        "statusEdycji": TStatusEdycji.se_Zmieniany,
+        "doWgladu": false,
+        "typ": {
+          "nazwa": "WNIOSEK",
+          "finansowy": false,
+          "poleceniezaplaty": false
+        },
+        "szablon": null,
+        "nazwa": "Wniosek o wydanie zaświadczenia",
+        "opis": "Wniosek dotyczący wydania zaświadczenia o samodzielności lokalu",
+        "sprawa": null,
+        "rejestr": "RPP",
+        "rejestrNumer": 10997,
+        "rejestrRok": 2024,
+        "rejestrNrPozycji": "10997/RPP/24",
+        "dataWplywu": "2024-12-15T00:00:00.000Z",
+        "godzinaWplywu": 0.385416666666667,
+        "numerNaDok": "",
+        "dataNaDok": "1899-12-30T00:00:00.000Z",
+        "kanalWe": TKanalTyp.tk_brak,
+        "domKanalWy": TKanalTyp.tk_brak,
+        "kontrahent": {
+          "numer": 2679291,
+          "identyfikator": "ALDESA CONSTRUCCIONES POLSKA",
+          "firma": true,
+          "nip": "1234567890",
+          "adres": null
+        },
+        "przekazujacy": {
+          "numer": 1059948,
+          "identyfikator": "KUŚ DOROTA"
+        },
+        "przekazujacyWydzial": {
+          "stanowisko": false,
+          "symbol": "1E3",
+          "nazwa": "WIELOOSOBOWE SAMODZIELNE STANOWISKA PRACY D/S ADMINISRACYJNO - TECHNICZNYCH (TARNOBRZEG)",
+          "kod": ""
+        },
+        "dataPrzekazania": "2024-12-15T00:00:00.000Z",
+        "prowadzacy": {
+          "numer": 861528,
+          "identyfikator": "BLICHARZ JOANNA"
+        },
+        "prowadzacyWydzial": {
+          "stanowisko": false,
+          "symbol": "1E1",
+          "nazwa": "DZIAŁ INSPEKCJI (TARNOBRZEG)",
+          "kod": ""
+        },
+        "odpowiedzialny": {
+          "numer": 861528,
+          "identyfikator": "BLICHARZ JOANNA"
+        },
+        "dataPrzyjecia": "2024-12-15T00:00:00.000Z",
+        "uprawPoziom": "",
+        "statusPrzek": TStatusPrzek.sp_przyj,
+        "dataAlert": "2024-12-22T00:00:00.000Z",
+        "dataPlan": "2024-12-29T00:00:00.000Z",
+        "daneFinansowe": null,
+        "grupa1": "",
+        "grupa2": "",
+        "grupa3": "",
+        "publiczny": false,
+        "dokGuid": "",
+        "jrwa": "",
+        "obcyNumer": "",
+        "zalaczniki": [
+          {
+            "numer": 2827801,
+            "plik": "wniosek.pdf"
+          }
+        ],
+
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
+        "statusDane": ""
+      },
+      {
+        "numer": 2827850,
+        "archiwum": false,
+        "dokGlowny": 2827850,
+        "wersja": 0,
+        "aktualny": true,
+        "statusEdycji": TStatusEdycji.se_Zmieniany,
+        "doWgladu": false,
+        "typ": {
+          "nazwa": "PISMO",
+          "finansowy": false,
+          "poleceniezaplaty": false
+        },
+        "szablon": null,
+        "nazwa": "Pismo ogólne",
+        "opis": "",
+        "sprawa": null,
+        "rejestr": "R-DTWI-JBL",
+        "rejestrNumer": 112,
+        "rejestrRok": 2024,
+        "rejestrNrPozycji": "112/R-DTWI-JBL/24",
+        "dataWplywu": "2024-12-16T00:00:00.000Z",
+        "godzinaWplywu": 0.520833333333333,
+        "numerNaDok": "WZ/123/2024",
+        "dataNaDok": "2024-12-16T00:00:00.000Z",
+        "kanalWe": TKanalTyp.tk_ePuap,
+        "domKanalWy": TKanalTyp.tk_brak,
+        "kontrahent": {
+          "numer": 284879,
+          "identyfikator": "WIOŚ W GDAŃSKU",
+          "firma": false,
+          "nip": "",
+          "adres": null
+        },
+        "przekazujacy": {
+          "numer": 1059948,
+          "identyfikator": "KUŚ DOROTA"
+        },
+        "przekazujacyWydzial": {
+          "stanowisko": false,
+          "symbol": "1E3",
+          "nazwa": "WIELOOSOBOWE SAMODZIELNE STANOWISKA PRACY D/S ADMINISRACYJNO - TECHNICZNYCH (TARNOBRZEG)",
+          "kod": ""
+        },
+        "dataPrzekazania": "2024-12-16T00:00:00.000Z",
+        "prowadzacy": {
+          "numer": 1059948,
+          "identyfikator": "KUŚ DOROTA"
+        },
+        "prowadzacyWydzial": {
+          "stanowisko": false,
+          "symbol": "1E3",
+          "nazwa": "WIELOOSOBOWE SAMODZIELNE STANOWISKA PRACY D/S ADMINISRACYJNO - TECHNICZNYCH (TARNOBRZEG)",
+          "kod": ""
+        },
+        "odpowiedzialny": {
+          "numer": 0,
+          "identyfikator": ""
+        },
+        "dataPrzyjecia": "1899-12-30T00:00:00.000Z",
+        "uprawPoziom": "",
+        "statusPrzek": TStatusPrzek.sp_oczek,
+        "dataAlert": "1899-12-30T00:00:00.000Z",
+        "dataPlan": "1899-12-30T00:00:00.000Z",
+        "daneFinansowe": null,
+        "grupa1": "",
+        "grupa2": "",
+        "grupa3": "",
+        "publiczny": false,
+        "dokGuid": "",
+        "jrwa": "",
+        "obcyNumer": "WZ/123/2024",
+        "zalaczniki": [],
+
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
+        "statusDane": ""
+      },
+      {
+        "numer": 2827900,
+        "archiwum": false,
+        "dokGlowny": 2827900,
+        "wersja": 0,
+        "aktualny": true,
+        "statusEdycji": TStatusEdycji.se_DoZatw,
+        "doWgladu": true,
+        "typ": {
+          "nazwa": "NOTA",
+          "finansowy": true,
+          "poleceniezaplaty": false
+        },
+        "szablon": null,
+        "nazwa": "Nota obciążeniowa",
+        "opis": "Nota za opłaty administracyjne",
+        "sprawa": null,
+        "rejestr": "R-DJWI-CD",
+        "rejestrNumer": 183,
+        "rejestrRok": 2024,
+        "rejestrNrPozycji": "183/R-DJWI-CD/24",
+        "dataWplywu": "2024-12-17T00:00:00.000Z",
+        "godzinaWplywu": 0.395833333333333,
+        "numerNaDok": "NO/456/2024",
+        "dataNaDok": "2024-12-17T00:00:00.000Z",
+        "kanalWe": TKanalTyp.tk_brak,
+        "domKanalWy": TKanalTyp.tk_brak,
+        "kontrahent": {
+          "numer": 2770462,
+          "identyfikator": "SZPOJNAROWICZ JÓZEFA",
+          "firma": false,
+          "nip": "",
+          "adres": null
+        },
+        "przekazujacy": {
+          "numer": 861490,
+          "identyfikator": "KONIECZNA TERESA"
+        },
+        "przekazujacyWydzial": {
+          "stanowisko": false,
+          "symbol": "1E2",
+          "nazwa": "DZIAŁ FINANSOWY",
+          "kod": ""
+        },
+        "dataPrzekazania": "2024-12-17T00:00:00.000Z",
+        "prowadzacy": {
+          "numer": 861490,
+          "identyfikator": "KONIECZNA TERESA"
+        },
+        "prowadzacyWydzial": {
+          "stanowisko": false,
+          "symbol": "1E2",
+          "nazwa": "DZIAŁ FINANSOWY",
+          "kod": ""
+        },
+        "odpowiedzialny": {
+          "numer": 861490,
+          "identyfikator": "KONIECZNA TERESA"
+        },
+        "dataPrzyjecia": "2024-12-17T00:00:00.000Z",
+        "uprawPoziom": "",
+        "statusPrzek": TStatusPrzek.sp_przyj,
+        "dataAlert": "1899-12-30T00:00:00.000Z",
+        "dataPlan": "1899-12-30T00:00:00.000Z",
+        "daneFinansowe": {
+          "poziom": 0,
+          "dataWystawienia": "2024-12-17T00:00:00.000Z",
+          "dataSprzedazy": "2024-12-17T00:00:00.000Z",
+          "dataPlatnosci": "2025-01-16T00:00:00.000Z",
+          "dataZaplaty": "1899-12-30T00:00:00.000Z",
+          "dataVAT": "2024-12-17T00:00:00.000Z",
+          "brutto": 450.0,
+          "netto": 450.0,
+          "vat": 0.0
+        },
+        "grupa1": "",
+        "grupa2": "",
+        "grupa3": "",
+        "publiczny": true,
+        "dokGuid": "",
+        "jrwa": "",
+        "obcyNumer": "NO/456/2024",
+        "zalaczniki": [
+          {
+            "numer": 2827901,
+            "plik": "nota_obciazeniowa.pdf"
+          }
+        ],
+
+        "oper": TBazaOper.tboSelect,
+        "status": TeSodStatus.sOK,
+        "statusDane": ""
       }
     ];
   }
