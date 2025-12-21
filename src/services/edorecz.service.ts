@@ -191,6 +191,287 @@ export class EDoreczService {
     }
   ];
 
+  private mockWyslaneData: EDoreczWyslana[] = [
+    {
+      "numer": 2828051,
+      "kopertaGlowna": 0,
+      "punktNadawczy": {
+        "numer": 1,
+        "nazwa": "PUNKT GŁÓWNY"
+      },
+      "wyslana": false,
+      "dokument": {
+        "numer": 2827800,
+        "typ": {
+          "nazwa": "WNIOSEK",
+          "finansowy": false,
+          "polecenieZaplaty": false
+        },
+        "nazwa": "Wniosek o wydanie zaświadczenia",
+        "rejestrNrPozycji": "10997/RPP/24",
+        "kontrahent": {
+          "numer": 2679291,
+          "identyfikator": "ALDESA CONSTRUCCIONES POLSKA",
+          "firma": true,
+          "nIP": "1234567890",
+          "adres": " 38-422 ISKRZYNIA PODKARPACKA 99A "
+        }
+      },
+      "dokWyjscia": {
+        "numer": 2828050,
+        "rejestrNrPozycji": "5688/RPW/24"
+      },
+      "adresatSkrzynka": "AE:PL-12345-67890-ABCDE-12",
+      "adresat": {
+        "numer": 2679291,
+        "identyfikator": "ALDESA CONSTRUCCIONES POLSKA",
+        "firma": true,
+        "nIP": "1234567890",
+        "adres": " 38-422 ISKRZYNIA PODKARPACKA 99A "
+      },
+      "nadawcaSkrzynka": "AE:PL-98765-43210-ZYXWV-98",
+      "nadawca": {
+        "numer": 284879,
+        "identyfikator": "WIOŚ W GDAŃSKU",
+        "firma": true,
+        "nIP": "5842738392",
+        "adres": " 80-387 GDAŃSK NORWIDA CYPRIANA KAMILA 4 "
+      },
+      "tytul": "Wniosek o wydanie zaświadczenia",
+      "tresc": "Uprzejmie proszę o wydanie zaświadczenia o samodzielności lokalu mieszkalnego położonego przy ul. Podkarpackiej 99A w Iskrzyni.\n\nZaświadczenie jest wymagane do celów prawnych związanych z planowaną sprzedażą nieruchomości.",
+      "typ": "eDokument",
+      "hybryda": null,
+      "msgId": "",
+      "taskId": "",
+      "statusDoreczenia": 0,
+      "statusDoreczeniaOpis": "Przygotowana do wysłania",
+      "zalaczniki": [
+        {
+          "numer": 2827801,
+          "plik": "wniosek.pdf"
+        }
+      ],
+      "potwierdzenia": [],
+      "oper": "tboSelect",
+      "status": "sOK",
+      "statusDane": ""
+    },
+    {
+      "numer": 2828001,
+      "kopertaGlowna": 0,
+      "punktNadawczy": {
+        "numer": 1,
+        "nazwa": "PUNKT GŁÓWNY"
+      },
+      "wyslana": true,
+      "dokument": {
+        "numer": 2827850,
+        "typ": {
+          "nazwa": "PISMO",
+          "finansowy": false,
+          "polecenieZaplaty": false
+        },
+        "nazwa": "Pismo ogólne",
+        "rejestrNrPozycji": "112/R-DTWI-JBL/24",
+        "kontrahent": {
+          "numer": 284879,
+          "identyfikator": "WIOŚ W GDAŃSKU",
+          "firma": true,
+          "nIP": "5842738392",
+          "adres": " 80-387 GDAŃSK NORWIDA CYPRIANA KAMILA 4 "
+        }
+      },
+      "dokWyjscia": {
+        "numer": 2828000,
+        "rejestrNrPozycji": "5687/RPW/24"
+      },
+      "adresatSkrzynka": "AE:PL-98765-43210-ZYXWV-98",
+      "adresat": {
+        "numer": 284879,
+        "identyfikator": "WIOŚ W GDAŃSKU",
+        "firma": true,
+        "nIP": "5842738392",
+        "adres": " 80-387 GDAŃSK NORWIDA CYPRIANA KAMILA 4 "
+      },
+      "nadawcaSkrzynka": "AE:PL-11111-22222-ABCDE-11",
+      "nadawca": {
+        "numer": 1875284,
+        "identyfikator": "PRZEDSIĘBIORSTWO GOSPODARKI KOMUNALNEJ I MIESZKANIOWEJ",
+        "firma": true,
+        "nIP": "8670003134",
+        "adres": " 39-400 TARNOBRZEG PRZEMYSŁOWA 15 "
+      },
+      "tytul": "Pismo ogólne - sprawa WZ/123/2024",
+      "tresc": "W odpowiedzi na Państwa pismo z dnia 16.12.2024 znak WZ/123/2024, uprzejmie informuję, że dokumentacja została zweryfikowana i przyjęta do dalszego procedowania.\n\nW załączeniu przesyłam zaświadczenie zgodnie z wnioskiem.",
+      "typ": "eDokument",
+      "hybryda": null,
+      "msgId": "PPSA-E-a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "taskId": "TASK-12345",
+      "statusDoreczenia": 3,
+      "statusDoreczeniaOpis": "Dostarczone",
+      "zalaczniki": [],
+      "potwierdzenia": [
+        {
+          "id": "aa11bb22-cc33-dd44-ee55-ff6677889900",
+          "typ": "nadanie",
+          "info": "Przesyłka została pomyślnie nadana",
+          "data": "2024-12-18T11:00:45.678Z"
+        },
+        {
+          "id": "bb22cc33-dd44-ee55-ff66-778899001122",
+          "typ": "dostarczenie",
+          "info": "Przesyłka pomyślnie dostarczona do adresata",
+          "data": "2024-12-18T14:23:15.234Z"
+        }
+      ],
+      "oper": "tboSelect",
+      "status": "sOK",
+      "statusDane": ""
+    },
+    {
+      "numer": 2827950,
+      "kopertaGlowna": 0,
+      "punktNadawczy": {
+        "numer": 1,
+        "nazwa": "PUNKT GŁÓWNY"
+      },
+      "wyslana": true,
+      "dokument": {
+        "numer": 2827900,
+        "typ": {
+          "nazwa": "NOTA",
+          "finansowy": true,
+          "polecenieZaplaty": false
+        },
+        "nazwa": "Nota obciążeniowa",
+        "rejestrNrPozycji": "183/R-DJWI-CD/24",
+        "kontrahent": {
+          "numer": 2770462,
+          "identyfikator": "SZPOJNAROWICZ JÓZEFA",
+          "firma": false,
+          "nIP": "",
+          "adres": " 38-604 LESKO HOCZEW 49 "
+        }
+      },
+      "dokWyjscia": {
+        "numer": 2827950,
+        "rejestrNrPozycji": "5686/RPW/24"
+      },
+      "adresatSkrzynka": "AE:PL-55555-66666-QWERT-55",
+      "adresat": {
+        "numer": 2770462,
+        "identyfikator": "SZPOJNAROWICZ JÓZEFA",
+        "firma": false,
+        "nIP": "",
+        "adres": " 38-604 LESKO HOCZEW 49 "
+      },
+      "nadawcaSkrzynka": "AE:PL-11111-22222-ABCDE-11",
+      "nadawca": {
+        "numer": 1875284,
+        "identyfikator": "PRZEDSIĘBIORSTWO GOSPODARKI KOMUNALNEJ I MIESZKANIOWEJ",
+        "firma": true,
+        "nIP": "8670003134",
+        "adres": " 39-400 TARNOBRZEG PRZEMYSŁOWA 15 "
+      },
+      "tytul": "Nota obciążeniowa NO/456/2024",
+      "tresc": "Nota obciążeniowa za opłaty administracyjne związane z wydaniem decyzji.\n\nKwota do zapłaty: 450.00 PLN\nTermin płatności: 16.01.2025\n\nProszę o dokonanie płatności na rachunek bankowy:\n12 3456 7890 1234 5678 9012 3456\n\nW tytule przelewu prosimy umieścić: NO/456/2024",
+      "typ": "eDokument",
+      "hybryda": null,
+      "msgId": "PPSA-E-z9y8x7w6-v5u4-3210-zyxw-v9876543210",
+      "taskId": "TASK-67890",
+      "statusDoreczenia": 3,
+      "statusDoreczeniaOpis": "Dostarczone",
+      "zalaczniki": [
+        {
+          "numer": 2827901,
+          "plik": "nota_obciazeniowa.pdf"
+        }
+      ],
+      "potwierdzenia": [
+        {
+          "id": "cc33dd44-ee55-ff66-7788-99001122aa33",
+          "typ": "nadanie",
+          "info": "Przesyłka została pomyślnie nadana",
+          "data": "2024-12-17T15:00:12.345Z"
+        },
+        {
+          "id": "dd44ee55-ff66-7788-9900-1122aa33bb44",
+          "typ": "preawizacja",
+          "info": "Przesyłka została pomyślnie preawizowana adresatowi",
+          "data": "2024-12-17T15:00:13.456Z"
+        },
+        {
+          "id": "ee55ff66-7788-9900-1122-aa33bb44cc55",
+          "typ": "dostarczenie",
+          "info": "Przesyłka pomyślnie dostarczona do adresata",
+          "data": "2024-12-17T18:45:32.789Z"
+        }
+      ],
+      "oper": "tboSelect",
+      "status": "sOK",
+      "statusDane": ""
+    },
+    {
+      "numer": 2828100,
+      "kopertaGlowna": 0,
+      "punktNadawczy": {
+        "numer": 1,
+        "nazwa": "PUNKT GŁÓWNY"
+      },
+      "wyslana": false,
+      "dokument": {
+        "numer": 2806367,
+        "typ": {
+          "nazwa": "DECYZJA",
+          "finansowy": false,
+          "polecenieZaplaty": false
+        },
+        "nazwa": "DECYZJA",
+        "rejestrNrPozycji": "10940/RPP/24",
+        "kontrahent": {
+          "numer": 1371332,
+          "identyfikator": "SAMORZĄDOWE KOLEGIUM ODWOŁAWCZE",
+          "firma": true,
+          "nIP": "8133476589",
+          "adres": " 35-959 RZESZÓW GRUNWALDZKA 15 "
+        }
+      },
+      "dokWyjscia": {
+        "numer": 2828101,
+        "rejestrNrPozycji": "5689/RPW/24"
+      },
+      "adresatSkrzynka": "AE:PL-55555-66666-QWERT-55",
+      "adresat": {
+        "numer": 1371332,
+        "identyfikator": "SAMORZĄDOWE KOLEGIUM ODWOŁAWCZE",
+        "firma": true,
+        "nIP": "8133476589",
+        "adres": " 35-959 RZESZÓW GRUNWALDZKA 15 "
+      },
+      "nadawcaSkrzynka": "AE:PL-11111-22222-ABCDE-11",
+      "nadawca": {
+        "numer": 1875284,
+        "identyfikator": "PRZEDSIĘBIORSTWO GOSPODARKI KOMUNALNEJ I MIESZKANIOWEJ",
+        "firma": true,
+        "nIP": "8670003134",
+        "adres": " 39-400 TARNOBRZEG PRZEMYSŁOWA 15 "
+      },
+      "tytul": "Decyzja administracyjna",
+      "tresc": "Decyzja w sprawie odwołania od decyzji wydanej przez organ I instancji.\n\nDECYZJA\nNa podstawie art. 138 § 1 pkt 1 ustawy z dnia 14 czerwca 1960 r. - Kodeks postępowania administracyjnego (Dz. U. z 2021 r. poz. 735) po rozpatrzeniu odwołania Strony postanawia utrzymać w mocy decyzję organu I instancji.",
+      "typ": "eDokument",
+      "hybryda": null,
+      "msgId": "",
+      "taskId": "",
+      "statusDoreczenia": 0,
+      "statusDoreczeniaOpis": "Przygotowana do wysłania",
+      "zalaczniki": [],
+      "potwierdzenia": [],
+      "oper": "tboSelect",
+      "status": "sOK",
+      "statusDane": ""
+    }
+  ];
+
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
@@ -210,7 +491,7 @@ export class EDoreczService {
   getEDoreczWyslane(zalInfo: boolean, potwInfo: boolean, rekStart: number, rekIlosc: number): Observable<EDoreczWyslana[]> {
     const session = this.authService.getCurrentSession();
     if (!session || !session.sesja) {
-      return of([]);
+      return of(this.mockWyslaneData);
     }
 
     const url = `${this.configService.apiBaseUrl}/api/skrzynki/eDoreczWys`;
@@ -223,8 +504,8 @@ export class EDoreczService {
 
     return this.http.get<EDoreczWyslana[]>(url, { params }).pipe(
       catchError(error => {
-        console.warn('Could not fetch eDoreczenia wyslane:', error);
-        return of([]);
+        console.warn('Could not fetch eDoreczenia wyslane, using mock data:', error);
+        return of(this.mockWyslaneData);
       })
     );
   }
