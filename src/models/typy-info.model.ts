@@ -58,3 +58,21 @@ export interface TJednostka {
   status: string;
   statusDane: string;
 }
+
+export interface TDokumentInfo {
+  numer: number;
+  typ: TDokTypInfo;
+  nazwa: string;
+  rejestrNrPozycji: string;
+  kontrahent: TKontrahentInfo;
+}
+
+export interface TDokWyjsciaInfo {
+  numer: number;
+  rejestrNrPozycji: string;
+}
+
+export interface TPunktNadawczyInfo {
+  numer: number;
+  nazwa: string;
+}

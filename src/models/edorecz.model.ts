@@ -37,3 +37,48 @@ export interface EDoreczDokument {
   status: string;
   statusDane: string;
 }
+
+export interface TeDoreczHybryda {
+}
+
+export interface EDoreczWyslana {
+  numer: number;
+  kopertaGlowna: number;
+  punktNadawczy: {
+    numer: number;
+    nazwa: string;
+  };
+  wyslana: boolean;
+  dokument: {
+    numer: number;
+    typ: {
+      nazwa: string;
+      finansowy: boolean;
+      polecenieZaplaty: boolean;
+    };
+    nazwa: string;
+    rejestrNrPozycji: string;
+    kontrahent: EDoreczKontrahent;
+  };
+  dokWyjscia: {
+    numer: number;
+    rejestrNrPozycji: string;
+  };
+  adresatSkrzynka: string;
+  adresat: EDoreczKontrahent;
+  nadawcaSkrzynka: string;
+  nadawca: EDoreczKontrahent;
+  tytul: string;
+  tresc: string;
+  typ: string;
+  hybryda: TeDoreczHybryda | null;
+  msgId: string;
+  taskId: string;
+  statusDoreczenia: number;
+  statusDoreczeniaOpis: string;
+  zalaczniki: EDoreczZalacznik[];
+  potwierdzenia: EDoreczPotwierdzenie[];
+  oper: string;
+  status: string;
+  statusDane: string;
+}

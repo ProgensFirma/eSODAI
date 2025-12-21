@@ -16,6 +16,7 @@ import { WydzialSelectWindowComponent } from './components/wydzial-select-window
 import { DokumentyWychodzaceWindowComponent } from './components/dokumenty-wychodzace-window.component';
 import { DokumentPrzekazWindowComponent } from './components/dokument-przekaz-window.component';
 import { EDoreczGridComponent } from './components/edorecz-grid.component';
+import { EDoreczWysGridComponent } from './components/edorecz-wys-grid.component';
 import { Dokument } from './models/dokument.model';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek } from './models/enums.model';
 import { SessionData } from './models/session.model';
@@ -28,7 +29,7 @@ import { ConfigService } from './services/config.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
-      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent],
+      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -123,11 +124,15 @@ import { ConfigService } from './services/config.service';
           </div>
         </div>
         
-        <div class="edorecz-layout" *ngIf="selectedSkrzynka && isEDoreczView()">
+        <div class="edorecz-layout" *ngIf="selectedSkrzynka && isEDoreczPrzychView()">
           <app-edorecz-grid [skrzynkaNazwa]="selectedSkrzynka.nazwa"></app-edorecz-grid>
         </div>
 
-        <div class="documents-layout" *ngIf="selectedSkrzynka && !isSprawyView() && !isEDoreczView()">
+        <div class="edorecz-layout" *ngIf="selectedSkrzynka && isEDoreczWysView()">
+          <app-edorecz-wys-grid [skrzynkaNazwa]="selectedSkrzynka.nazwa"></app-edorecz-wys-grid>
+        </div>
+
+        <div class="documents-layout" *ngIf="selectedSkrzynka && !isSprawyView() && !isEDoreczPrzychView() && !isEDoreczWysView()">
           <div class="documents-grid-section">
             <app-documents-grid
               [selectedSkrzynka]="selectedSkrzynka"
@@ -645,11 +650,18 @@ export class App {
     return isSprawySkrzynka(this.selectedSkrzynka);
   }
 
-  isEDoreczView(): boolean {
+  isEDoreczPrzychView(): boolean {
     if (!this.selectedSkrzynka) {
       return false;
     }
     return this.selectedSkrzynka.nazwa === 'tes_KEleDoreczPrzych';
+  }
+
+  isEDoreczWysView(): boolean {
+    if (!this.selectedSkrzynka) {
+      return false;
+    }
+    return this.selectedSkrzynka.nazwa === 'tes_KEleDoreczDoWys' || this.selectedSkrzynka.nazwa === 'tes_KEleDoreczWyslana';
   }
 
   onDocumentSelected(document: Dokument) {

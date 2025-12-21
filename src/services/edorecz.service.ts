@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { EDoreczDokument } from '../models/edorecz.model';
+import { EDoreczDokument, EDoreczWyslana } from '../models/edorecz.model';
 import { ConfigService } from './config.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -192,7 +193,8 @@ export class EDoreczService {
 
   constructor(
     private http: HttpClient,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private authService: AuthService
   ) {}
 
   getEDoreczDokumenty(): Observable<EDoreczDokument[]> {
@@ -201,6 +203,28 @@ export class EDoreczService {
       catchError(error => {
         console.warn('Could not fetch eDoreczenia, using mock data:', error);
         return of(this.mockData);
+      })
+    );
+  }
+
+  getEDoreczWyslane(zalInfo: boolean, potwInfo: boolean, rekStart: number, rekIlosc: number): Observable<EDoreczWyslana[]> {
+    const session = this.authService.getCurrentSession();
+    if (!session || !session.sesja) {
+      return of([]);
+    }
+
+    const url = `${this.configService.apiBaseUrl}/api/skrzynki/eDoreczWys`;
+    let params = new HttpParams()
+      .set('sesja', session.sesja.toString())
+      .set('zalInfo', zalInfo.toString())
+      .set('potwInfo', potwInfo.toString())
+      .set('rekStart', rekStart.toString())
+      .set('rekIlosc', rekIlosc.toString());
+
+    return this.http.get<EDoreczWyslana[]>(url, { params }).pipe(
+      catchError(error => {
+        console.warn('Could not fetch eDoreczenia wyslane:', error);
+        return of([]);
       })
     );
   }
