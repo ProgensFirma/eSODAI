@@ -18,7 +18,7 @@ import { DokumentPrzekazWindowComponent } from './components/dokument-przekaz-wi
 import { EDoreczGridComponent } from './components/edorecz-grid.component';
 import { EDoreczWysGridComponent } from './components/edorecz-wys-grid.component';
 import { Dokument } from './models/dokument.model';
-import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek } from './models/enums.model';
+import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek, TSkrzynki } from './models/enums.model';
 import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
@@ -654,14 +654,14 @@ export class App {
     if (!this.selectedSkrzynka) {
       return false;
     }
-    return this.selectedSkrzynka.nazwa === 'tes_KEleDoreczPrzych';
+    return this.selectedSkrzynka.skrzynka === TSkrzynki.tes_KEleDoreczPrzych;
   }
 
   isEDoreczWysView(): boolean {
     if (!this.selectedSkrzynka) {
       return false;
     }
-    return this.selectedSkrzynka.nazwa === 'tes_KEleDoreczDoWys' || this.selectedSkrzynka.nazwa === 'tes_KEleDoreczWyslana';
+    return this.selectedSkrzynka.skrzynka === TSkrzynki.tes_KEleDoreczDoWys || this.selectedSkrzynka.skrzynka === TSkrzynki.tes_KEleDoreczWyslana;
   }
 
   onDocumentSelected(document: Dokument) {
