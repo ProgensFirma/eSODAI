@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { EDoreczService } from '../services/edorecz.service';
 import { EDoreczDokument, EDoreczZalacznik, EDoreczPotwierdzenie } from '../models/edorecz.model';
+import { TSkrzynki } from '../models/enums.model';
 
 @Component({
   selector: 'app-edorecz-grid',
@@ -449,7 +450,7 @@ import { EDoreczDokument, EDoreczZalacznik, EDoreczPotwierdzenie } from '../mode
   `]
 })
 export class EDoreczGridComponent implements OnInit, OnChanges {
-  @Input() skrzynkaNazwa: string = '';
+  @Input() skrzynkaTyp: TSkrzynki | undefined;
 
   dokumenty: EDoreczDokument[] = [];
   selectedDokument: EDoreczDokument | null = null;
@@ -463,13 +464,13 @@ export class EDoreczGridComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['skrzynkaNazwa'] && !changes['skrzynkaNazwa'].firstChange) {
+    if (changes['skrzynkaTyp'] && !changes['skrzynkaTyp'].firstChange) {
       this.loadData();
     }
   }
 
   loadData() {
-    if (this.skrzynkaNazwa !== 'tes_KEleDoreczPrzych') {
+    if (this.skrzynkaTyp !== TSkrzynki.tes_KEleDoreczPrzych) {
       return;
     }
 

@@ -125,11 +125,11 @@ import { ConfigService } from './services/config.service';
         </div>
         
         <div class="edorecz-layout" *ngIf="selectedSkrzynka && isEDoreczPrzychView()">
-          <app-edorecz-grid [skrzynkaNazwa]="selectedSkrzynka.nazwa"></app-edorecz-grid>
+          <app-edorecz-grid [skrzynkaTyp]="selectedSkrzynka.skrzynka"></app-edorecz-grid>
         </div>
 
         <div class="edorecz-layout" *ngIf="selectedSkrzynka && isEDoreczWysView()">
-          <app-edorecz-wys-grid [skrzynkaNazwa]="selectedSkrzynka.nazwa"></app-edorecz-wys-grid>
+          <app-edorecz-wys-grid [skrzynkaTyp]="selectedSkrzynka.skrzynka"></app-edorecz-wys-grid>
         </div>
 
         <div class="documents-layout" *ngIf="selectedSkrzynka && !isSprawyView() && !isEDoreczPrzychView() && !isEDoreczWysView()">

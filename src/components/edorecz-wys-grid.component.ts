@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { EDoreczService } from '../services/edorecz.service';
 import { EDoreczWyslana, EDoreczZalacznik, EDoreczPotwierdzenie } from '../models/edorecz.model';
+import { TSkrzynki } from '../models/enums.model';
 
 @Component({
   selector: 'app-edorecz-wys-grid',
@@ -16,7 +17,7 @@ import { EDoreczWyslana, EDoreczZalacznik, EDoreczPotwierdzenie } from '../model
             <button class="action-button" (click)="onDokument()" [disabled]="!selectedDokument">Dokument</button>
             <button class="action-button" (click)="onRejestrWyjscia()" [disabled]="!selectedDokument">Rejestr wyjścia</button>
             <button
-              *ngIf="skrzynkaNazwa === 'tes_KEleDoreczDoWys'"
+              *ngIf="skrzynkaTyp === TSkrzynki.tes_KEleDoreczDoWys"
               class="action-button send-button"
               (click)="onWyslij()"
               [disabled]="!selectedDokument"
@@ -519,13 +520,14 @@ import { EDoreczWyslana, EDoreczZalacznik, EDoreczPotwierdzenie } from '../model
   `]
 })
 export class EDoreczWysGridComponent implements OnInit, OnChanges {
-  @Input() skrzynkaNazwa: string = '';
+  @Input() skrzynkaTyp: TSkrzynki | undefined;
 
   dokumenty: EDoreczWyslana[] = [];
   selectedDokument: EDoreczWyslana | null = null;
   selectedZalacznik: EDoreczZalacznik | null = null;
   selectedPotwierdzenie: EDoreczPotwierdzenie | null = null;
   loading = false;
+  TSkrzynki = TSkrzynki;
 
   constructor(private edoreczService: EDoreczService) {}
 
@@ -534,13 +536,13 @@ export class EDoreczWysGridComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['skrzynkaNazwa'] && !changes['skrzynkaNazwa'].firstChange) {
+    if (changes['skrzynkaTyp'] && !changes['skrzynkaTyp'].firstChange) {
       this.loadData();
     }
   }
 
   loadData() {
-    if (this.skrzynkaNazwa !== 'tes_KEleDoreczDoWys' && this.skrzynkaNazwa !== 'tes_KEleDoreczWyslana') {
+    if (this.skrzynkaTyp !== TSkrzynki.tes_KEleDoreczDoWys && this.skrzynkaTyp !== TSkrzynki.tes_KEleDoreczWyslana) {
       return;
     }
 
