@@ -3,19 +3,25 @@ import { CommonModule } from '@angular/common';
 import { EDoreczService } from '../services/edorecz.service';
 import { EDoreczDokument, EDoreczZalacznik, EDoreczPotwierdzenie } from '../models/edorecz.model';
 import { TSkrzynki } from '../models/enums.model';
+import { DocumentEditWindowComponent } from './document-edit-window.component';
+import { Dokument } from '../models/dokument.model';
+import { DokumentyService } from '../services/dokumenty.service';
 
 @Component({
   selector: 'app-edorecz-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DocumentEditWindowComponent],
   template: `
     <div class="edorecz-container">
       <div class="grid-section">
         <div class="grid-header">
           <h3 class="grid-title">Dokumenty eDoreczenia</h3>
-          <button class="refresh-button" (click)="loadData()" [disabled]="loading">
-            <span class="refresh-icon" [class.spinning]="loading">↻</span>
-          </button>
+          <div class="header-buttons">
+            <button class="action-button" (click)="onDokument()" [disabled]="!selectedDokument">Dokument</button>
+            <button class="refresh-button" (click)="loadData()" [disabled]="loading">
+              <span class="refresh-icon" [class.spinning]="loading">↻</span>
+            </button>
+          </div>
         </div>
 
         <div class="table-container" *ngIf="!loading && dokumenty.length > 0">
@@ -128,6 +134,13 @@ import { TSkrzynki } from '../models/enums.model';
         <p>Wybierz dokument z listy powyżej</p>
       </div>
     </div>
+
+    <app-document-edit-window
+      *ngIf="showDocumentWindow && viewDokument"
+      [mode]="'readonly'"
+      [dokument]="viewDokument"
+      (closeRequested)="closeDocumentWindow()"
+    ></app-document-edit-window>
   `,
   styles: [`
     .edorecz-container {
@@ -162,6 +175,34 @@ import { TSkrzynki } from '../models/enums.model';
       font-size: 18px;
       font-weight: 700;
       color: #1e293b;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .action-button {
+      background: #475569;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .action-button:hover:not(:disabled) {
+      background: #334155;
+      transform: translateY(-1px);
+    }
+
+    .action-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .refresh-button {
@@ -446,6 +487,10 @@ import { TSkrzynki } from '../models/enums.model';
       .sub-panels {
         grid-template-columns: 1fr;
       }
+
+      .header-buttons {
+        flex-wrap: wrap;
+      }
     }
   `]
 })
@@ -456,8 +501,13 @@ export class EDoreczGridComponent implements OnInit, OnChanges {
   selectedDokument: EDoreczDokument | null = null;
   selectedPotwierdzenie: EDoreczPotwierdzenie | null = null;
   loading = false;
+  showDocumentWindow = false;
+  viewDokument: Dokument | null = null;
 
-  constructor(private edoreczService: EDoreczService) {}
+  constructor(
+    private edoreczService: EDoreczService,
+    private dokumentyService: DokumentyService
+  ) {}
 
   ngOnInit() {
     this.loadData();
@@ -516,5 +566,26 @@ export class EDoreczGridComponent implements OnInit, OnChanges {
       return;
     }
     console.log('Pobieranie potwierdzenia:', this.selectedPotwierdzenie.typ, 'dla dokumentu:', this.selectedDokument?.numer);
+  }
+
+  onDokument() {
+    if (!this.selectedDokument) {
+      return;
+    }
+
+    this.dokumentyService.getDokument(this.selectedDokument.numer).subscribe({
+      next: (dokument: Dokument) => {
+        this.viewDokument = dokument;
+        this.showDocumentWindow = true;
+      },
+      error: (error: any) => {
+        console.error('Error loading document:', error);
+      }
+    });
+  }
+
+  closeDocumentWindow() {
+    this.showDocumentWindow = false;
+    this.viewDokument = null;
   }
 }

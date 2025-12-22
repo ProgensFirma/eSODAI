@@ -39,6 +39,25 @@ export class DokumentyService {
       })
     );
   }
+
+  getDokument(numer: number): Observable<Dokument> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString())
+      .append('numer', numer.toString())
+      .append('zalInfo', 'true');
+
+    return this.http.get<Dokument>(`${this.configService.apiBaseUrl}/dokumenty/dokument`, { params }).pipe(
+      catchError(error => {
+        console.error('Error fetching dokument:', error);
+        const mockData = this.getMockData();
+        const dokument = mockData.find(d => d.numer === numer);
+        return of(dokument || mockData[0]);
+      })
+    );
+  }
     
   getOsobaRejestr(): Observable<{ Rejestr: string }> {
     const session = this.authService.getCurrentSession();

@@ -22,8 +22,8 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
       <div class="modal-window" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <h2 class="modal-title">
-            <span class="title-icon">{{ mode === 'add' ? '➕' : '✏️' }}</span>
-            {{ mode === 'add' ? 'Nowy dokument' : 'Edycja dokumentu' }}
+            <span class="title-icon">{{ mode === 'add' ? '➕' : (mode === 'readonly' ? '📄' : '✏️') }}</span>
+            {{ mode === 'add' ? 'Nowy dokument' : (mode === 'readonly' ? 'Dokument' : 'Edycja dokumentu') }}
           </h2>
           <button class="close-button" (click)="onClose()">✕</button>
         </div>
@@ -40,12 +40,13 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               />
             </div>
 
-            <div class="form-group">
-              <label class="form-label">Typ dokumentu <span class="required">*</span></label>
+            <div class="form-group" [class.readonly]="mode === 'readonly'">
+              <label class="form-label">Typ dokumentu <span class="required" *ngIf="mode !== 'readonly'">*</span></label>
               <select
                 class="form-select"
                 [(ngModel)]="selectedTypNazwa"
                 (change)="onTypChange()"
+                [disabled]="mode === 'readonly'"
                 required
               >
                 <option value="">-- Wybierz typ --</option>
@@ -55,38 +56,41 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               </select>
             </div>
 
-            <div class="form-group full-width">
-              <label class="form-label">Nazwa <span class="required">*</span></label>
+            <div class="form-group full-width" [class.readonly]="mode === 'readonly'">
+              <label class="form-label">Nazwa <span class="required" *ngIf="mode !== 'readonly'">*</span></label>
               <input
                 type="text"
                 class="form-input"
                 [(ngModel)]="dokument.nazwa"
+                [readonly]="mode === 'readonly'"
                 placeholder="Wprowadź nazwę dokumentu"
                 required
               />
             </div>
 
-            <div class="form-group full-width">
+            <div class="form-group full-width" [class.readonly]="mode === 'readonly'">
               <label class="form-label">Opis</label>
               <textarea
                 class="form-textarea"
                 [(ngModel)]="dokument.opis"
+                [readonly]="mode === 'readonly'"
                 placeholder="Wprowadź opis dokumentu"
                 rows="3"
               ></textarea>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" [class.readonly]="mode === 'readonly'">
               <label class="form-label">Rejestr</label>
               <input
                 type="text"
                 class="form-input"
                 [(ngModel)]="dokument.rejestr"
+                [readonly]="mode === 'readonly'"
                 placeholder="Rejestr"
               />
             </div>
 
-            <div class="form-group" [class.success-field]="documentSavedSuccessfully && mode === 'add'">
+            <div class="form-group" [class.success-field]="documentSavedSuccessfully && mode === 'add'" [class.readonly]="mode === 'readonly'">
               <label class="form-label">Nr pozycji rejestru</label>
               <div class="input-with-button" *ngIf="documentSavedSuccessfully && mode === 'add'; else normalInput">
                 <input
@@ -104,6 +108,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
                   type="text"
                   class="form-input"
                   [(ngModel)]="dokument.rejestrNrPozycji"
+                  [readonly]="mode === 'readonly'"
                   placeholder="Nr pozycji"
                 />
               </ng-template>
@@ -119,37 +124,40 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
                   readonly
                   placeholder="Wybierz kontrahenta"
                 />
-                <button class="select-button" type="button" (click)="openKontrahentWindow()">
+                <button *ngIf="mode !== 'readonly'" class="select-button" type="button" (click)="openKontrahentWindow()">
                   <span class="button-icon">🔍</span>
                 </button>
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" [class.readonly]="mode === 'readonly'">
               <label class="form-label">Numer na dokumencie</label>
               <input
                 type="text"
                 class="form-input"
                 [(ngModel)]="dokument.numerNaDok"
+                [readonly]="mode === 'readonly'"
                 placeholder="Numer z dokumentu"
               />
             </div>
 
-            <div class="form-group">
+            <div class="form-group" [class.readonly]="mode === 'readonly'">
               <label class="form-label">Data wpływu</label>
               <input
                 type="date"
                 class="form-input"
                 [(ngModel)]="dataWplywuStr"
+                [disabled]="mode === 'readonly'"
               />
             </div>
 
-            <div class="form-group">
+            <div class="form-group" [class.readonly]="mode === 'readonly'">
               <label class="form-label">Godzina wpływu</label>
               <input
                 type="time"
                 class="form-input"
                 [(ngModel)]="godzinaWplywuStr"
+                [disabled]="mode === 'readonly'"
               />
             </div>
 
@@ -186,9 +194,9 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               </ng-template>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" [class.readonly]="mode === 'readonly'">
               <label class="form-label">JRWA</label>
-              <select class="form-select" [(ngModel)]="selectedJrwa">
+              <select class="form-select" [(ngModel)]="selectedJrwa" [disabled]="mode === 'readonly'">
                 <option value="">-- Wybierz JRWA --</option>
                 <option *ngFor="let jrwa of wykazAktList" [value]="jrwa.symbol">
                   {{ jrwa.symbol }} - {{ jrwa.nazwa }}
@@ -196,7 +204,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               </select>
             </div>
 
-            <div class="form-group full-width" *ngIf="mode === 'edit' && dokument.zalaczniki && dokument.zalaczniki.length > 0">
+            <div class="form-group full-width" *ngIf="(mode === 'edit' || mode === 'readonly') && dokument.zalaczniki && dokument.zalaczniki.length > 0">
               <label class="form-label">Załączniki ({{ dokument.zalaczniki.length }})</label>
               <div class="attachments-list">
                 <div class="attachment-item" *ngFor="let zalacznik of dokument.zalaczniki">
@@ -207,7 +215,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
               </div>
             </div>
 
-            <div class="form-group full-width">
+            <div class="form-group full-width" *ngIf="mode !== 'readonly'">
               <label class="form-label">{{ mode === 'edit' ? 'Dodaj nowy załącznik' : 'Załącznik' }}</label>
               <div class="file-input-wrapper">
                 <input
@@ -236,31 +244,41 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
 
         <div class="modal-footer">
           <button
-            *ngIf="!documentSavedSuccessfully"
-            class="button button-secondary"
-            (click)="onClose()"
-          >
-            <span class="button-icon">✕</span>
-            Anuluj
-          </button>
-          <button
-            *ngIf="!documentSavedSuccessfully"
-            class="button button-primary"
-            (click)="onSave()"
-            [disabled]="saving || !isFormValid()"
-          >
-            <span class="button-icon" *ngIf="!saving">💾</span>
-            <span class="spinner" *ngIf="saving"></span>
-            {{ saving ? 'Zapisywanie...' : 'Zapisz' }}
-          </button>
-          <button
-            *ngIf="documentSavedSuccessfully"
+            *ngIf="mode === 'readonly'"
             class="button button-primary"
             (click)="onClose()"
           >
             <span class="button-icon">🚪</span>
             Wyjście
           </button>
+          <ng-container *ngIf="mode !== 'readonly'">
+            <button
+              *ngIf="!documentSavedSuccessfully"
+              class="button button-secondary"
+              (click)="onClose()"
+            >
+              <span class="button-icon">✕</span>
+              Anuluj
+            </button>
+            <button
+              *ngIf="!documentSavedSuccessfully"
+              class="button button-primary"
+              (click)="onSave()"
+              [disabled]="saving || !isFormValid()"
+            >
+              <span class="button-icon" *ngIf="!saving">💾</span>
+              <span class="spinner" *ngIf="saving"></span>
+              {{ saving ? 'Zapisywanie...' : 'Zapisz' }}
+            </button>
+            <button
+              *ngIf="documentSavedSuccessfully"
+              class="button button-primary"
+              (click)="onClose()"
+            >
+              <span class="button-icon">🚪</span>
+              Wyjście
+            </button>
+          </ng-container>
         </div>
 
         <div class="error-message" *ngIf="errorMessage">
@@ -769,7 +787,7 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
   `]
 })
 export class DocumentEditWindowComponent implements OnInit {
-  @Input() mode: 'add' | 'edit' = 'add';
+  @Input() mode: 'add' | 'edit' | 'readonly' = 'add';
   @Input() dokument!: Dokument;
   @Output() closeRequested = new EventEmitter<void>();
   @Output() documentSaved = new EventEmitter<void>();

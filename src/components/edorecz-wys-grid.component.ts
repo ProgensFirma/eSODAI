@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { EDoreczService } from '../services/edorecz.service';
 import { EDoreczWyslana, EDoreczZalacznik, EDoreczPotwierdzenie } from '../models/edorecz.model';
 import { TSkrzynki } from '../models/enums.model';
+import { DocumentEditWindowComponent } from './document-edit-window.component';
+import { Dokument } from '../models/dokument.model';
+import { DokumentyService } from '../services/dokumenty.service';
 
 @Component({
   selector: 'app-edorecz-wys-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DocumentEditWindowComponent],
   template: `
     <div class="edorecz-container">
       <div class="grid-section">
@@ -150,6 +153,13 @@ import { TSkrzynki } from '../models/enums.model';
         <p>Wybierz dokument z listy powyżej</p>
       </div>
     </div>
+
+    <app-document-edit-window
+      *ngIf="showDocumentWindow && viewDokument"
+      [mode]="'readonly'"
+      [dokument]="viewDokument"
+      (closeRequested)="closeDocumentWindow()"
+    ></app-document-edit-window>
   `,
   styles: [`
     .edorecz-container {
@@ -528,8 +538,13 @@ export class EDoreczWysGridComponent implements OnInit, OnChanges {
   selectedPotwierdzenie: EDoreczPotwierdzenie | null = null;
   loading = false;
   TSkrzynki = TSkrzynki;
+  showDocumentWindow = false;
+  viewDokument: Dokument | null = null;
 
-  constructor(private edoreczService: EDoreczService) {}
+  constructor(
+    private edoreczService: EDoreczService,
+    private dokumentyService: DokumentyService
+  ) {}
 
   ngOnInit() {
     this.loadData();
@@ -609,7 +624,21 @@ export class EDoreczWysGridComponent implements OnInit, OnChanges {
     if (!this.selectedDokument) {
       return;
     }
-    console.log('Otwieranie dokumentu:', this.selectedDokument.dokument.numer);
+
+    this.dokumentyService.getDokument(this.selectedDokument.dokument.numer).subscribe({
+      next: (dokument: Dokument) => {
+        this.viewDokument = dokument;
+        this.showDocumentWindow = true;
+      },
+      error: (error: any) => {
+        console.error('Error loading document:', error);
+      }
+    });
+  }
+
+  closeDocumentWindow() {
+    this.showDocumentWindow = false;
+    this.viewDokument = null;
   }
 
   onRejestrWyjscia() {
