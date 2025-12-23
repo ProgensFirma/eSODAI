@@ -23,13 +23,13 @@ export class DokumentyService {
     });
   }  
 
-  getDokumenty(skrzynka: number, zalInfo: boolean = true): Observable<Dokument[]> {
+  getDokumenty(skrzynka: string, zalInfo: boolean = true): Observable<Dokument[]> {
     const session = this.authService.getCurrentSession();
     const sesjaId = session?.sesja || 123;
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
-      .append('skrzynka', skrzynka.toString())
+      .append('skrzynka', skrzynka)
       .append('zalInfo', zalInfo.toString());
 
     return this.http.get<Dokument[]>(this.apiUrl, { params }).pipe(

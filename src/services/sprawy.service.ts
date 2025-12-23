@@ -17,13 +17,13 @@ export class SprawyService {
 
   constructor(private http: HttpClient, private configService: ConfigService, private authService: AuthService) {}
 
-  getSprawy(skrzynka: number): Observable<Sprawa[]> {
+  getSprawy(skrzynka: string): Observable<Sprawa[]> {
     const session = this.authService.getCurrentSession();
     const sesjaId = session?.sesja || 123;
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
-      .append('skrzynka', skrzynka.toString());
+      .append('skrzynka', skrzynka);
 
     return this.http.get<Sprawa[]>(this.apiUrl, { params }).pipe(
       catchError(error => {

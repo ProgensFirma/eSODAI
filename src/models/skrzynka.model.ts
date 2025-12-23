@@ -19,14 +19,7 @@ export interface Skrzynka {
   dokFinZmiana: boolean;
 }
 
-export function mapSkrzynkaToNumber(skrzynkaNazwa: TSkrzynki): number {
-  return skrzynkaNazwa;
-}
-
-export function isSprawySkrzynka(skrzynka: Skrzynka | number): boolean {
-  if (typeof skrzynka === 'number') {
-    return skrzynka >= TSkrzynki.tss_Sprawy && skrzynka <= TSkrzynki.tss_SNadzorEtap;
-  }
+export function isSprawySkrzynka(skrzynka: Skrzynka): boolean {
   return skrzynka.typ === 'ts_sprawy';
 }
 

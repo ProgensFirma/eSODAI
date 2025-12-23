@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeNodeComponent } from './tree-node.component';
 import { SkrzynkiService } from '../services/skrzynki.service';
-import { Skrzynka, TreeNode, mapSkrzynkaToNumber } from '../models/skrzynka.model';
+import { Skrzynka, TreeNode } from '../models/skrzynka.model';
 
 @Component({
   selector: 'app-skrzynki-tree',
@@ -220,27 +220,24 @@ export class SkrzynkiTreeComponent implements OnInit {
   }
 
   private buildTree(skrzynki: Skrzynka[]): TreeNode[] {
-    const nodeMap = new Map<number, TreeNode>();
+    const nodeMap = new Map<string, TreeNode>();
     const rootNodes: TreeNode[] = [];
 
-    // Create all nodes
     skrzynki.forEach(skrzynka => {
       const node: TreeNode = {
         data: skrzynka,
         children: [],
         expanded: false
       };
-      nodeMap.set(skrzynka.skrzynka+skrzynka.skrDef as number, node);
+      nodeMap.set(skrzynka.skrzynka, node);
     });
 
-    // Build hierarchy
     skrzynki.forEach(skrzynka => {
-      const node = nodeMap.get(skrzynka.skrzynka+skrzynka.skrDef as number)!;
-      
+      const node = nodeMap.get(skrzynka.skrzynka)!;
+
       if (skrzynka.poziom === 1 || skrzynka.poziom === 2) {
         rootNodes.push(node);
       } else if (skrzynka.poziom === 3) {
-        // Find parent (level 1 node that appears before this level 2 node)
         const parentNode = this.findParentNode(skrzynka, skrzynki, nodeMap);
         if (parentNode) {
           parentNode.children.push(node);
@@ -256,17 +253,16 @@ export class SkrzynkiTreeComponent implements OnInit {
   private findParentNode(
     currentItem: Skrzynka,
     allItems: Skrzynka[],
-    nodeMap: Map<number, TreeNode>
+    nodeMap: Map<string, TreeNode>
   ): TreeNode | null {
     const currentIndex = allItems.indexOf(currentItem);
-    
-    // Look backward for the nearest level 1 item
+
     for (let i = currentIndex - 1; i >= 0; i--) {
       if (allItems[i].poziom === 1) {
-        return nodeMap.get(allItems[i].skrzynka+allItems[i].skrDef as number) || null;
+        return nodeMap.get(allItems[i].skrzynka) || null;
       }
     }
-    
+
     return null;
   }
 }
