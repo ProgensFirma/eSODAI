@@ -215,7 +215,7 @@ import { TSODParamTyp } from '../models/enums.model';
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 16px 20px;
+      padding: 10px 16px;
       background: white;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -241,7 +241,7 @@ import { TSODParamTyp } from '../models/enums.model';
 
     .grupa-nazwa {
       flex: 1;
-      font-size: 16px;
+      font-size: 15px;
     }
 
     .grupa-count {
@@ -255,7 +255,7 @@ import { TSODParamTyp } from '../models/enums.model';
     }
 
     .parametr-item {
-      padding: 16px 20px 16px 52px;
+      padding: 8px 16px 8px 48px;
       border-bottom: 1px solid #f1f5f9;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -277,14 +277,15 @@ import { TSODParamTyp } from '../models/enums.model';
     .parametr-row {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
     }
 
     .parametr-label {
       flex: 0 0 250px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: #475569;
+      line-height: 1.3;
     }
 
     .parametr-value {
@@ -293,10 +294,10 @@ import { TSODParamTyp } from '../models/enums.model';
 
     .value-input {
       width: 100%;
-      padding: 8px 12px;
+      padding: 6px 10px;
       border: 1px solid #cbd5e1;
       border-radius: 6px;
-      font-size: 14px;
+      font-size: 13px;
       background: white;
       color: #1e293b;
     }
@@ -321,7 +322,7 @@ import { TSODParamTyp } from '../models/enums.model';
     }
 
     .checkbox-text {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: #1e293b;
     }
