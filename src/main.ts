@@ -6,6 +6,7 @@ import { authInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { LoginWindowComponent } from './components/login-window.component';
 import { InfoWindowComponent } from './components/info-window.component';
+import { ParametryWindowComponent } from './components/parametry-window.component';
 import { SkrzynkiTreeComponent } from './components/skrzynki-tree.component';
 import { DocumentsGridComponent } from './components/documents-grid.component';
 import { DocumentDetailsComponent } from './components/document-details.component';
@@ -28,7 +29,7 @@ import { ConfigService } from './services/config.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
+  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
       KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent],
   template: `
     <app-login-window
@@ -72,6 +73,10 @@ import { ConfigService } from './services/config.service';
               <div class="menu-item" (click)="openJednostki()">
                 <span class="item-icon">🏢</span>
                 <span class="item-text">Jednostki</span>
+              </div>
+              <div class="menu-item" (click)="openParametry()">
+                <span class="item-icon">⚙️</span>
+                <span class="item-text">Parametry</span>
               </div>
               <div class="menu-item" (click)="openInfo()">
                 <span class="item-icon">ℹ️</span>
@@ -179,6 +184,11 @@ import { ConfigService } from './services/config.service';
       *ngIf="showInfoWindow"
       (closeRequested)="closeInfoWindow()"
     ></app-info-window>
+
+    <app-parametry-window
+      *ngIf="showParametryWindow"
+      (closeRequested)="closeParametryWindow()"
+    ></app-parametry-window>
 
     <app-document-edit-window
       *ngIf="showDocumentEditWindow"
@@ -607,6 +617,7 @@ export class App {
   showMenu = false;
   showKontrahenciWindow = false;
   showInfoWindow = false;
+  showParametryWindow = false;
   showDocumentEditWindow = false;
   showDokumentyWychodzaceWindow = false;
   showDokumentPrzekazWindow = false;
@@ -700,6 +711,15 @@ export class App {
 
   closeInfoWindow() {
     this.showInfoWindow = false;
+  }
+
+  openParametry() {
+    this.showParametryWindow = true;
+    this.showMenu = false;
+  }
+
+  closeParametryWindow() {
+    this.showParametryWindow = false;
   }
 
   openDokumentyWychodzace() {
@@ -883,6 +903,7 @@ export class App {
     this.showMenu = false;
     this.showKontrahenciWindow = false;
     this.showInfoWindow = false;
+    this.showParametryWindow = false;
     this.showDocumentEditWindow = false;
     this.showWydzialSelect = false;
     this.availableWydzialy = [];

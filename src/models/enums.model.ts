@@ -59,6 +59,14 @@ export enum TStatWysylki {
 }
 
 //skrzynka
+export enum TSODParamTyp {
+  ptNieznany = 'ptNieznany',
+  ptString = 'ptString',
+  ptBoolean = 'ptBoolean',
+  ptInteger = 'ptInteger',
+  ptNumeric = 'ptNumeric'
+}
+
 export enum TSkrzynki {
   tss_Sprawy ='tss_Sprawy',
   tss_SSprTermin ='tss_SSprTermin',
