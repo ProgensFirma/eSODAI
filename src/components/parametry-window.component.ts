@@ -120,9 +120,8 @@ import { TSODParamTyp } from '../models/enums.model';
       background: white;
       border-radius: 16px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 900px;
-      max-height: 90vh;
+      width: 900px;
+      height: 700px;
       display: flex;
       flex-direction: column;
     }
@@ -174,10 +173,12 @@ import { TSODParamTyp } from '../models/enums.model';
       flex-direction: column;
       gap: 20px;
       height: 100%;
+      min-height: 0;
     }
 
     .grupy-list {
       flex: 1;
+      min-height: 0;
       overflow-y: auto;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
@@ -326,6 +327,7 @@ import { TSODParamTyp } from '../models/enums.model';
     }
 
     .pomoc-section {
+      flex-shrink: 0;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
       background: white;
@@ -353,8 +355,7 @@ import { TSODParamTyp } from '../models/enums.model';
 
     .pomoc-content {
       padding: 16px;
-      min-height: 80px;
-      max-height: 120px;
+      height: 100px;
       overflow-y: auto;
     }
 
@@ -400,10 +401,17 @@ import { TSODParamTyp } from '../models/enums.model';
       box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);
     }
 
+    @media (max-width: 968px) {
+      .modal-window {
+        width: 95vw;
+        height: 90vh;
+      }
+    }
+
     @media (max-width: 768px) {
       .modal-window {
-        max-width: 100%;
-        max-height: 100vh;
+        width: 100%;
+        height: 100vh;
         border-radius: 0;
       }
 
@@ -490,7 +498,9 @@ export class ParametryWindowComponent implements OnInit {
   }
 
   toggleGrupa(grupa: ParametrGrupa) {
-    grupa.expanded = !grupa.expanded;
+    const wasExpanded = grupa.expanded;
+    this.grupy.forEach(g => g.expanded = false);
+    grupa.expanded = !wasExpanded;
   }
 
   selectParametr(param: Parametr) {
