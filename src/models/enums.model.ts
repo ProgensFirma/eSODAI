@@ -67,6 +67,12 @@ export enum TSODParamTyp {
   ptNumeric = 'ptNumeric'
 }
 
+export enum TUprawPoziom {
+  tup_brak = 'tup_brak',
+  tup_odczyt = 'tup_odczyt',
+  tup_zmiana = 'tup_zmiana'
+}
+
 export enum TSkrzynki {
   tss_Sprawy ='tss_Sprawy',
   tss_SSprTermin ='tss_SSprTermin',

@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service';
 import { LoginWindowComponent } from './components/login-window.component';
 import { InfoWindowComponent } from './components/info-window.component';
 import { ParametryWindowComponent } from './components/parametry-window.component';
+import { UprawnienieWindowComponent } from './components/uprawnienia-window.component';
 import { SkrzynkiTreeComponent } from './components/skrzynki-tree.component';
 import { DocumentsGridComponent } from './components/documents-grid.component';
 import { DocumentDetailsComponent } from './components/document-details.component';
@@ -29,7 +30,7 @@ import { ConfigService } from './services/config.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
+  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, UprawnienieWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
       KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent],
   template: `
     <app-login-window
@@ -77,6 +78,10 @@ import { ConfigService } from './services/config.service';
               <div class="menu-item" (click)="openParametry()">
                 <span class="item-icon">⚙️</span>
                 <span class="item-text">Parametry</span>
+              </div>
+              <div class="menu-item" (click)="openUprawnienia()">
+                <span class="item-icon">🔐</span>
+                <span class="item-text">Uprawnienia</span>
               </div>
               <div class="menu-item" (click)="openInfo()">
                 <span class="item-icon">ℹ️</span>
@@ -189,6 +194,11 @@ import { ConfigService } from './services/config.service';
       *ngIf="showParametryWindow"
       (closeRequested)="closeParametryWindow()"
     ></app-parametry-window>
+
+    <app-uprawnienia-window
+      *ngIf="showUprawnienieWindow"
+      (closeRequested)="closeUprawnienieWindow()"
+    ></app-uprawnienia-window>
 
     <app-document-edit-window
       *ngIf="showDocumentEditWindow"
@@ -618,6 +628,7 @@ export class App {
   showKontrahenciWindow = false;
   showInfoWindow = false;
   showParametryWindow = false;
+  showUprawnienieWindow = false;
   showDocumentEditWindow = false;
   showDokumentyWychodzaceWindow = false;
   showDokumentPrzekazWindow = false;
@@ -720,6 +731,15 @@ export class App {
 
   closeParametryWindow() {
     this.showParametryWindow = false;
+  }
+
+  openUprawnienia() {
+    this.showUprawnienieWindow = true;
+    this.showMenu = false;
+  }
+
+  closeUprawnienieWindow() {
+    this.showUprawnienieWindow = false;
   }
 
   openDokumentyWychodzace() {
@@ -904,6 +924,7 @@ export class App {
     this.showKontrahenciWindow = false;
     this.showInfoWindow = false;
     this.showParametryWindow = false;
+    this.showUprawnienieWindow = false;
     this.showDocumentEditWindow = false;
     this.showWydzialSelect = false;
     this.availableWydzialy = [];
