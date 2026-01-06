@@ -146,6 +146,7 @@ import { WykazAktTreeNodeComponent } from './wykaz-akt-tree-node.component';
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      min-height: 0;
     }
 
     .content-layout {
@@ -153,7 +154,7 @@ import { WykazAktTreeNodeComponent } from './wykaz-akt-tree-node.component';
       grid-template-columns: 1fr 1fr;
       gap: 20px;
       padding: 20px;
-      height: 100%;
+      height: 600px;
       overflow: hidden;
     }
 
@@ -164,12 +165,14 @@ import { WykazAktTreeNodeComponent } from './wykaz-akt-tree-node.component';
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      height: 600px;
     }
 
     .tree-container {
       flex: 1;
       overflow-y: auto;
       padding: 12px;
+      min-height: 0;
     }
 
     .details-panel {
@@ -178,12 +181,14 @@ import { WykazAktTreeNodeComponent } from './wykaz-akt-tree-node.component';
       background: white;
       overflow-y: auto;
       padding: 20px;
+      height: 600px;
     }
 
     .details-panel.empty {
       display: flex;
       align-items: center;
       justify-content: center;
+      height: 600px;
     }
 
     .empty-state {
