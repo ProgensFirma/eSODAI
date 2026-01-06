@@ -64,6 +64,7 @@ import { ConfigService } from './services/config.service';
                 <span class="item-icon">📤</span>
                 <span class="item-text">Dokumenty wychodzące</span>
               </div>
+              <div class="menu-separator"></div>
               <div class="menu-item" (click)="openKontrahenci()">
                 <span class="item-icon">👥</span>
                 <span class="item-text">Kontrahenci</span>
@@ -72,6 +73,7 @@ import { ConfigService } from './services/config.service';
                 <span class="item-icon">👨‍💼</span>
                 <span class="item-text">Pracownicy</span>
               </div>
+              <div class="menu-separator"></div>
               <div class="menu-item" (click)="openJednostki()">
                 <span class="item-icon">🏢</span>
                 <span class="item-text">Jednostki</span>
@@ -88,6 +90,7 @@ import { ConfigService } from './services/config.service';
                 <span class="item-icon">🔐</span>
                 <span class="item-text">Uprawnienia</span>
               </div>
+              <div class="menu-separator"></div>
               <div class="menu-item" (click)="openInfo()">
                 <span class="item-icon">ℹ️</span>
                 <span class="item-text">Informacja</span>
@@ -319,6 +322,12 @@ import { ConfigService } from './services/config.service';
 
     .menu-item:last-child {
       border-bottom: none;
+    }
+
+    .menu-separator {
+      height: 1px;
+      background: #cbd5e1;
+      margin: 4px 0;
     }
 
     .menu-item:hover {
