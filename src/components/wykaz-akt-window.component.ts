@@ -209,6 +209,10 @@ import { TreeNode } from 'primeng/api';
       color: #1e293b;
     }
 
+    ::ng-deep .custom-tree .p-treenode-children {
+      padding-left: 2.5rem;
+    }
+
     .details-panel {
       border: 1px solid #e2e8f0;
       border-radius: 8px;
