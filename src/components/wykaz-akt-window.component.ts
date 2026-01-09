@@ -27,7 +27,15 @@ import { TreeNode } from 'primeng/api';
                 (onNodeSelect)="onNodeSelect($event)"
                 [loading]="loading"
                 styleClass="custom-tree"
-              ></p-tree>
+              >
+                <ng-template let-node pTemplate="default">
+                  <span class="tree-node-label">
+                    <span class="node-symbol">{{ node.data.symbol }}</span>
+                    <span class="node-separator">-</span>
+                    <span class="node-name">{{ node.data.nazwa }}</span>
+                  </span>
+                </ng-template>
+              </p-tree>
             </div>
 
             <div class="details-panel" *ngIf="selectedWykazAkt">
@@ -211,6 +219,29 @@ import { TreeNode } from 'primeng/api';
 
     ::ng-deep .custom-tree .p-treenode-children {
       padding-left: 2.5rem;
+    }
+
+    .tree-node-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .node-symbol {
+      font-weight: 600;
+      color: #1e40af;
+      min-width: 50px;
+    }
+
+    .node-separator {
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .node-name {
+      color: #334155;
+      font-weight: 500;
     }
 
     .details-panel {
