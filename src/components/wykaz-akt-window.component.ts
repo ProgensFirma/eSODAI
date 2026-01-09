@@ -1,13 +1,14 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WykazAktService } from '../services/wykaz-akt.service';
-import { WykazAkt, WykazAktTreeNode } from '../models/wykaz-akt.model';
-import { WykazAktTreeNodeComponent } from './wykaz-akt-tree-node.component';
+import { WykazAkt } from '../models/wykaz-akt.model';
+import { Tree } from 'primeng/tree';
+import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'app-wykaz-akt-window',
   standalone: true,
-  imports: [CommonModule, WykazAktTreeNodeComponent],
+  imports: [CommonModule, Tree],
   template: `
     <div class="modal-overlay" (click)="close()">
       <div class="modal-window" (click)="$event.stopPropagation()">
@@ -19,14 +20,14 @@ import { WykazAktTreeNodeComponent } from './wykaz-akt-tree-node.component';
         <div class="modal-body">
           <div class="content-layout">
             <div class="tree-panel">
-              <div class="tree-container">
-                <app-wykaz-akt-tree-node
-                  *ngFor="let node of treeNodes"
-                  [node]="node"
-                  [selectedNode]="selectedWykazAkt"
-                  (nodeSelected)="onNodeSelected($event)"
-                ></app-wykaz-akt-tree-node>
-              </div>
+              <p-tree
+                [value]="treeNodes"
+                selectionMode="single"
+                [(selection)]="selectedNode"
+                (onNodeSelect)="onNodeSelect($event)"
+                [loading]="loading"
+                styleClass="custom-tree"
+              ></p-tree>
             </div>
 
             <div class="details-panel" *ngIf="selectedWykazAkt">
@@ -166,13 +167,46 @@ import { WykazAktTreeNodeComponent } from './wykaz-akt-tree-node.component';
       display: flex;
       flex-direction: column;
       height: 600px;
+      padding: 12px;
     }
 
-    .tree-container {
-      flex: 1;
+    ::ng-deep .custom-tree {
+      border: none;
+      height: 100%;
       overflow-y: auto;
-      padding: 12px;
-      min-height: 0;
+    }
+
+    ::ng-deep .custom-tree .p-tree-container {
+      height: 100%;
+    }
+
+    ::ng-deep .custom-tree .p-treenode {
+      padding: 4px 0;
+    }
+
+    ::ng-deep .custom-tree .p-treenode-content {
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    ::ng-deep .custom-tree .p-treenode-content:hover {
+      background: #f1f5f9;
+    }
+
+    ::ng-deep .custom-tree .p-treenode-content.p-highlight {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    ::ng-deep .custom-tree .p-tree-toggler {
+      width: 2rem;
+      height: 2rem;
+      color: #64748b;
+    }
+
+    ::ng-deep .custom-tree .p-tree-toggler:hover {
+      color: #1e293b;
     }
 
     .details-panel {
@@ -331,7 +365,8 @@ export class WykazAktWindowComponent implements OnInit {
   @Output() closeRequested = new EventEmitter<void>();
 
   wykazAktList: WykazAkt[] = [];
-  treeNodes: WykazAktTreeNode[] = [];
+  treeNodes: TreeNode[] = [];
+  selectedNode: TreeNode | null = null;
   selectedWykazAkt: WykazAkt | null = null;
   loading = false;
 
@@ -356,18 +391,20 @@ export class WykazAktWindowComponent implements OnInit {
     });
   }
 
-  buildTree(wykazAktList: WykazAkt[]): WykazAktTreeNode[] {
-    const nodeMap = new Map<string, WykazAktTreeNode>();
+  buildTree(wykazAktList: WykazAkt[]): TreeNode[] {
+    const nodeMap = new Map<string, TreeNode>();
 
     wykazAktList.forEach(wykazAkt => {
       nodeMap.set(wykazAkt.symbol, {
+        label: `${wykazAkt.symbol} - ${wykazAkt.nazwa}`,
         data: wykazAkt,
         children: [],
-        expanded: wykazAkt.poziom === 1
+        expanded: wykazAkt.poziom === 1,
+        key: wykazAkt.symbol
       });
     });
 
-    const rootNodes: WykazAktTreeNode[] = [];
+    const rootNodes: TreeNode[] = [];
 
     wykazAktList.forEach(wykazAkt => {
       const node = nodeMap.get(wykazAkt.symbol)!;
@@ -379,6 +416,9 @@ export class WykazAktWindowComponent implements OnInit {
         const parentNode = nodeMap.get(parentSymbol);
 
         if (parentNode) {
+          if (!parentNode.children) {
+            parentNode.children = [];
+          }
           parentNode.children.push(node);
         } else {
           rootNodes.push(node);
@@ -389,8 +429,8 @@ export class WykazAktWindowComponent implements OnInit {
     return rootNodes;
   }
 
-  onNodeSelected(wykazAkt: WykazAkt) {
-    this.selectedWykazAkt = wykazAkt;
+  onNodeSelect(event: any) {
+    this.selectedWykazAkt = event.node.data;
   }
 
   close() {
