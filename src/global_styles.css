@@ -1,6 +1,69 @@
 /* PrimeNG imports */
 @import 'primeicons/primeicons.css';
 
+/* PrimeNG Tree Base Styles */
+.p-tree {
+  width: 100%;
+}
+
+.p-tree-container {
+  padding: 0;
+  overflow: auto;
+}
+
+.p-treenode {
+  padding: 0.25rem 0;
+}
+
+.p-treenode-content {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.p-treenode-content:hover {
+  background-color: #f1f5f9;
+}
+
+.p-treenode-content.p-highlight {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.p-tree-toggler {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0 none;
+  background: transparent;
+  color: #64748b;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.p-tree-toggler:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.p-tree-toggler-icon {
+  font-size: 0.875rem;
+}
+
+.p-treenode-children {
+  padding-left: 2.5rem;
+}
+
+.p-tree-loading-icon {
+  font-size: 2rem;
+}
+
 /* Reset and base styles */
 * {
   box-sizing: border-box;
