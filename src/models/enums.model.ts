@@ -58,7 +58,7 @@ export enum TStatWysylki {
   tw_anulowano = 'tw_anulowano'
 }
 
-//skrzynka
+//parametry
 export enum TSODParamTyp {
   ptNieznany = 'ptNieznany',
   ptString = 'ptString',
@@ -67,12 +67,14 @@ export enum TSODParamTyp {
   ptNumeric = 'ptNumeric'
 }
 
+//uprawnienia
 export enum TUprawPoziom {
   tup_brak = 'tup_brak',
   tup_odczyt = 'tup_odczyt',
   tup_zmiana = 'tup_zmiana'
 }
 
+//skrzynka
 export enum TSkrzynki {
   tss_Sprawy ='tss_Sprawy',
   tss_SSprTermin ='tss_SSprTermin',
