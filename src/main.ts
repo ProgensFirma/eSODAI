@@ -99,7 +99,7 @@ import { ConfigService } from './services/config.service';
           </div>
         </div>
         
-        <div class="tree-section">
+        <div class="tree-section" [class.hidden]="showMenu">
           <app-skrzynki-tree (skrzynkaSelected)="onSkrzynkaSelected($event)"></app-skrzynki-tree>
         </div>
       </aside>
@@ -356,6 +356,15 @@ import { ConfigService } from './services/config.service';
     .tree-section {
       flex: 1;
       overflow: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+
+    .tree-section.hidden {
+      opacity: 0;
+      visibility: hidden;
+      height: 0;
+      min-height: 0;
+      flex: 0;
     }
 
     .main-content {
