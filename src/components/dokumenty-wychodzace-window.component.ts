@@ -7,11 +7,12 @@ import { SessionData } from '../models/session.model';
 import { AuthService } from '../services/auth.service';
 import { ZalacznikiService } from '../services/zalaczniki.service';
 import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
+import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.component';
 
 @Component({
   selector: 'app-dokumenty-wychodzace-window',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, EdoreczKopertaWindowComponent],
   template: `
     <div class="modal-overlay" (click)="onOverlayClick($event)">
       <div class="modal-window" (click)="$event.stopPropagation()">
@@ -228,6 +229,15 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
         </div>
 
         <div class="modal-footer">
+          <button
+            class="button button-primary"
+            (click)="utworzEdorecz()"
+            [disabled]="!selectedDokument"
+            title="Przygotowanie koperty eDoręczeń"
+          >
+            <span class="button-icon">📨</span>
+            Utwórz eDoręczenie
+          </button>
           <button class="button button-secondary" (click)="onClose()">
             <span class="button-icon">✕</span>
             Zamknij
@@ -235,6 +245,12 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
         </div>
       </div>
     </div>
+
+    <app-edorecz-koperta-window
+      *ngIf="showEdoreczKoperta"
+      [dokumentWychodzacy]="selectedDokument"
+      (closeRequested)="closeEdoreczKoperta()"
+    ></app-edorecz-koperta-window>
   `,
   styles: [`
     .modal-overlay {
@@ -674,6 +690,23 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       transition: all 0.2s ease;
     }
 
+    .button-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .button-primary:hover:not(:disabled) {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .button-primary:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
     .button-secondary {
       background: white;
       color: #475569;
@@ -728,6 +761,7 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
   pageSize = 5;
 
   sessionData!: SessionData;
+  showEdoreczKoperta = false;
 
   constructor(
     private dokumentyWychodzaceService: DokumentyWychodzaceService,
@@ -854,6 +888,16 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
       'tk_Portal': 'Portal'
     };
     return kanaly[kanal] || kanal;
+  }
+
+  utworzEdorecz() {
+    if (this.selectedDokument) {
+      this.showEdoreczKoperta = true;
+    }
+  }
+
+  closeEdoreczKoperta() {
+    this.showEdoreczKoperta = false;
   }
 
   onClose() {
