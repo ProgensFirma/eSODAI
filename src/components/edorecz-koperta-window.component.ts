@@ -29,6 +29,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
             <select
               class="form-select"
               [(ngModel)]="selectedPunktNumer"
+              (change)="onPunktNadawczyChange()"
             >
               <option *ngFor="let punkt of punktyNadawcze" [value]="punkt.numer">
                 {{ punkt.nazwa }}
@@ -547,16 +548,23 @@ export class EdoreczKopertaWindowComponent implements OnInit {
         const domyslny = punkty.find(p => p.domyslny);
         if (domyslny) {
           this.selectedPunktNumer = domyslny.numer;
+          this.loadDaneNadawcy(domyslny.numer);
         } else if (punkty.length > 0) {
           this.selectedPunktNumer = punkty[0].numer;
+          this.loadDaneNadawcy(punkty[0].numer);
+        } else {
+          this.loading = false;
         }
       },
       error: (error) => {
         console.error('Error loading punkty nadawcze:', error);
+        this.loading = false;
       }
     });
+  }
 
-    this.kontrahWewService.getDaneNadawcy().subscribe({
+  loadDaneNadawcy(punktNumer: number) {
+    this.kontrahWewService.getDaneNadawcy(punktNumer).subscribe({
       next: (nadawca) => {
         this.nadawca = nadawca;
         this.loading = false;
@@ -566,6 +574,12 @@ export class EdoreczKopertaWindowComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  onPunktNadawczyChange() {
+    if (this.selectedPunktNumer) {
+      this.loadDaneNadawcy(this.selectedPunktNumer);
+    }
   }
 
   initializeFromDokument() {

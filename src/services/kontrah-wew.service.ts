@@ -11,8 +11,10 @@ export class KontrahWewService {
   private http = inject(HttpClient);
   private configService = inject(ConfigService);
 
-  getDaneNadawcy(): Observable<KontrahWew> {
+  getDaneNadawcy(punktNumer: number): Observable<KontrahWew> {
     const apiUrl = this.configService.apiBaseUrl;
-    return this.http.get<KontrahWew>(`${apiUrl}/KontrahWew`);
+    return this.http.get<KontrahWew>(`${apiUrl}/KontrahWew`, {
+      params: { punktNumer: punktNumer.toString() }
+    });
   }
 }
