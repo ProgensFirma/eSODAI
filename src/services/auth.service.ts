@@ -22,22 +22,39 @@ export class AuthService {
 
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
+  private saveLastLogin(login: string): void {
+    const expires = new Date();
+    expires.setFullYear(expires.getFullYear() + 1);
+    document.cookie = `lastLogin=${encodeURIComponent(login)};expires=${expires.toUTCString()};path=/;SameSite=Strict`;
+  }
+
+  getLastLogin(): string | null {
+    const cookies = document.cookie.split(';');
+    const lastLoginCookie = cookies.find(cookie => cookie.trim().startsWith('lastLogin='));
+    if (lastLoginCookie) {
+      const value = lastLoginCookie.split('=')[1];
+      return decodeURIComponent(value);
+    }
+    return null;
+  }
+
   login(loginData: LoginRequest): Observable<LoginResponse> {
     const params = new HttpParams()
       .set('login', loginData.login)
       .set('haslo', loginData.haslo);
 
-    return this.http.get<SessionData>(this.apiUrl, { 
+    return this.http.get<SessionData>(this.apiUrl, {
       params,
       observe: 'response'
     }).pipe(
       map((response: HttpResponse<SessionData>) => {
         const sessionData = response.body!;
         const appServerVersion = response.headers.get('appServer') || '';
-        
+
         this.sessionSubject.next(sessionData);
         this.appServerVersionSubject.next(appServerVersion);
-        
+        this.saveLastLogin(loginData.login);
+
         return {
           sessionData,
           appServerVersion
@@ -83,10 +100,11 @@ export class AuthService {
           };
           
           const mockAppServerVersion = "NSeSOD v:1.0.0.0, D12.2";
-          
+
           this.sessionSubject.next(mockSessionData);
           this.appServerVersionSubject.next(mockAppServerVersion);
-          
+          this.saveLastLogin(loginData.login);
+
           return new Observable<LoginResponse>(observer => {
             observer.next({
               sessionData: mockSessionData,

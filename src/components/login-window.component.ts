@@ -326,6 +326,11 @@ export class LoginWindowComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    const lastLogin = this.authService.getLastLogin();
+    if (lastLogin) {
+      this.loginData.login = lastLogin;
+    }
+
     this.authService.getBackendVersion().subscribe({
       next: (response) => {
         this.backendVersion = response.wersja;
