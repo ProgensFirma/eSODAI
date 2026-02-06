@@ -64,14 +64,20 @@ import { ConfigService } from './services/config.service';
                 <span class="item-icon">📤</span>
                 <span class="item-text">Dokumenty wychodzące</span>
               </div>
-              <div class="menu-separator"></div>
-              <div class="menu-item" (click)="openKontrahenci()">
-                <span class="item-icon">👥</span>
-                <span class="item-text">Kontrahenci</span>
+              <div class="menu-item" (click)="toggleKartoteki()">
+                <span class="item-icon">📁</span>
+                <span class="item-text">Kartoteki</span>
+                <span class="submenu-arrow">{{ showKartotekiSubmenu ? '▼' : '▶' }}</span>
               </div>
-              <div class="menu-item" (click)="openPracownicy()">
-                <span class="item-icon">👨‍💼</span>
-                <span class="item-text">Pracownicy</span>
+              <div class="submenu" [class.visible]="showKartotekiSubmenu">
+                <div class="submenu-item" (click)="openKontrahenci()">
+                  <span class="item-icon">👥</span>
+                  <span class="item-text">Kontrahenci</span>
+                </div>
+                <div class="submenu-item" (click)="openPracownicy()">
+                  <span class="item-icon">👨‍💼</span>
+                  <span class="item-text">Pracownicy</span>
+                </div>
               </div>
               <div class="menu-separator"></div>
               <div class="menu-item" (click)="openJednostki()">
@@ -351,6 +357,44 @@ import { ConfigService } from './services/config.service';
       font-size: 14px;
       font-weight: 500;
       color: #1e293b;
+      flex: 1;
+    }
+
+    .submenu-arrow {
+      font-size: 10px;
+      color: #64748b;
+      transition: transform 0.2s ease;
+      margin-left: auto;
+    }
+
+    .submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: #f8fafc;
+    }
+
+    .submenu.visible {
+      max-height: 200px;
+    }
+
+    .submenu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px 10px 32px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .submenu-item:last-child {
+      border-bottom: none;
+    }
+
+    .submenu-item:hover {
+      background: #e2e8f0;
+      transform: translateX(4px);
     }
 
     .tree-section {
@@ -653,6 +697,7 @@ export class App {
   selectedDocument: Dokument | null = null;
   selectedSprawa: Sprawa | null = null;
   showMenu = false;
+  showKartotekiSubmenu = false;
   showKontrahenciWindow = false;
   showInfoWindow = false;
   showParametryWindow = false;
@@ -721,16 +766,24 @@ export class App {
 
   toggleMenu() {
     this.showMenu = !this.showMenu;
+    if (!this.showMenu) {
+      this.showKartotekiSubmenu = false;
+    }
+  }
+
+  toggleKartoteki() {
+    this.showKartotekiSubmenu = !this.showKartotekiSubmenu;
   }
 
   openKontrahenci() {
     this.showKontrahenciWindow = true;
     this.showMenu = false;
+    this.showKartotekiSubmenu = false;
   }
 
   openPracownicy() {
     this.showMenu = false;
-    // TODO: Implement pracownicy window
+    this.showKartotekiSubmenu = false;
     console.log('Otwarcie Pracownicy...');
   }
 
@@ -959,6 +1012,7 @@ export class App {
     this.selectedSkrzynka = null;
     this.selectedDocument = null;
     this.showMenu = false;
+    this.showKartotekiSubmenu = false;
     this.showKontrahenciWindow = false;
     this.showInfoWindow = false;
     this.showParametryWindow = false;
