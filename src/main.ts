@@ -64,7 +64,7 @@ import { ConfigService } from './services/config.service';
                 <span class="item-icon">📤</span>
                 <span class="item-text">Dokumenty wychodzące</span>
               </div>
-              <div class="menu-item" (click)="toggleKartoteki()">
+              <div class="menu-item" (click)="toggleKartoteki($event)">
                 <span class="item-icon">📁</span>
                 <span class="item-text">Kartoteki</span>
                 <span class="submenu-arrow">{{ showKartotekiSubmenu ? '▼' : '▶' }}</span>
@@ -771,7 +771,8 @@ export class App {
     }
   }
 
-  toggleKartoteki() {
+  toggleKartoteki(event: Event) {
+    event.stopPropagation();
     this.showKartotekiSubmenu = !this.showKartotekiSubmenu;
   }
 
