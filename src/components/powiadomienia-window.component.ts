@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -18,6 +18,7 @@ import { TPowiadomienie } from '../models/powiadomienie.model';
       [style]="{width: '90vw', height: '90vh'}"
       [draggable]="false"
       [resizable]="false"
+      (onShow)="onDialogShow()"
       (onHide)="onClose()"
       styleClass="custom-dialog"
     >
@@ -252,7 +253,7 @@ import { TPowiadomienie } from '../models/powiadomienie.model';
     }
   `]
 })
-export class PowiadomieniaWindowComponent implements OnInit, OnChanges {
+export class PowiadomieniaWindowComponent implements OnInit {
   @Input() visible = false;
   @Input() sesja = '';
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -266,13 +267,7 @@ export class PowiadomieniaWindowComponent implements OnInit, OnChanges {
   constructor(private powiadomieniaService: PowiadomieniaService) {}
 
   ngOnInit() {
-    this.initializeMockData();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['visible'] && changes['visible'].currentValue === true) {
-      this.initializeMockData();
-    }
+    // Dane będą ładowane w onDialogShow() gdy dialog się otworzy
   }
 
   initializeMockData() {
@@ -336,6 +331,10 @@ export class PowiadomieniaWindowComponent implements OnInit, OnChanges {
 
   onUsun() {
     console.log('Usuń powiadomienie:', this.selectedPowiadomienie);
+  }
+
+  onDialogShow() {
+    this.initializeMockData();
   }
 
   onClose() {
