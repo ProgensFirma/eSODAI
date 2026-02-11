@@ -20,6 +20,7 @@ import { DokumentyWychodzaceWindowComponent } from './components/dokumenty-wycho
 import { DokumentPrzekazWindowComponent } from './components/dokument-przekaz-window.component';
 import { EDoreczGridComponent } from './components/edorecz-grid.component';
 import { EDoreczWysGridComponent } from './components/edorecz-wys-grid.component';
+import { PowiadomieniaWindowComponent } from './components/powiadomienia-window.component';
 import { Dokument } from './models/dokument.model';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek, TSkrzynki } from './models/enums.model';
 import { SessionData } from './models/session.model';
@@ -32,7 +33,7 @@ import { ConfigService } from './services/config.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, UprawnienieWindowComponent, WykazAktWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
-      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent],
+      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent, PowiadomieniaWindowComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -77,6 +78,10 @@ import { ConfigService } from './services/config.service';
                 <div class="submenu-item" (click)="openPracownicy()">
                   <span class="item-icon">👨‍💼</span>
                   <span class="item-text">Pracownicy</span>
+                </div>
+                <div class="submenu-item" (click)="openPowiadomienia()">
+                  <span class="item-icon">🔔</span>
+                  <span class="item-text">Powiadomienia</span>
                 </div>
               </div>
               <div class="menu-separator"></div>
@@ -238,6 +243,11 @@ import { ConfigService } from './services/config.service';
       (closeRequested)="closeDokumentPrzekazWindow()"
       (dokumentPrzekazany)="onDokumentPrzekazany()"
     ></app-dokument-przekaz-window>
+
+    <app-powiadomienia-window
+      [(visible)]="showPowiadomieniaWindow"
+      [sesja]="sessionData?.sesja?.toString() || ''"
+    ></app-powiadomienia-window>
   `,
   styles: [`
     .app-container {
@@ -699,6 +709,7 @@ export class App {
   showMenu = false;
   showKartotekiSubmenu = false;
   showKontrahenciWindow = false;
+  showPowiadomieniaWindow = false;
   showInfoWindow = false;
   showParametryWindow = false;
   showUprawnienieWindow = false;
@@ -786,6 +797,12 @@ export class App {
     this.showMenu = false;
     this.showKartotekiSubmenu = false;
     console.log('Otwarcie Pracownicy...');
+  }
+
+  openPowiadomienia() {
+    this.showPowiadomieniaWindow = true;
+    this.showMenu = false;
+    this.showKartotekiSubmenu = false;
   }
 
   openJednostki() {
