@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -57,7 +57,7 @@ import { TPowiadomienie } from '../models/powiadomienie.model';
           [paginator]="true"
           [rows]="5"
           [totalRecords]="totalRecords"
-          [lazy]="true"
+          [lazy]="!useMockData"
           (onLazyLoad)="loadPowiadomienia($event)"
           [loading]="loading"
           [(selection)]="selectedPowiadomienie"
@@ -252,7 +252,7 @@ import { TPowiadomienie } from '../models/powiadomienie.model';
     }
   `]
 })
-export class PowiadomieniaWindowComponent implements OnInit {
+export class PowiadomieniaWindowComponent implements OnInit, OnChanges {
   @Input() visible = false;
   @Input() sesja = '';
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -266,9 +266,19 @@ export class PowiadomieniaWindowComponent implements OnInit {
   constructor(private powiadomieniaService: PowiadomieniaService) {}
 
   ngOnInit() {
+    this.initializeMockData();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['visible'] && changes['visible'].currentValue === true) {
+      this.initializeMockData();
+    }
+  }
+
+  initializeMockData() {
     if (this.useMockData) {
       const mockData = this.powiadomieniaService.getMockPowiadomienia();
-      this.powiadomienia = mockData.slice(0, 5);
+      this.powiadomienia = mockData;
       this.totalRecords = mockData.length;
     }
   }
