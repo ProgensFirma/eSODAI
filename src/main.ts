@@ -245,7 +245,9 @@ import { ConfigService } from './services/config.service';
     ></app-dokument-przekaz-window>
 
     <app-powiadomienia-window
-      [(visible)]="showPowiadomieniaWindow"
+      *ngIf="showPowiadomieniaWindow"
+      [visible]="showPowiadomieniaWindow"
+      (visibleChange)="showPowiadomieniaWindow = $event"
       [sesja]="sessionData?.sesja?.toString() || ''"
     ></app-powiadomienia-window>
   `,

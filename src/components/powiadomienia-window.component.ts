@@ -18,7 +18,6 @@ import { TPowiadomienie } from '../models/powiadomienie.model';
       [style]="{width: '90vw', height: '90vh'}"
       [draggable]="false"
       [resizable]="false"
-      (onShow)="onDialogShow()"
       (onHide)="onClose()"
       styleClass="custom-dialog"
     >
@@ -254,7 +253,7 @@ import { TPowiadomienie } from '../models/powiadomienie.model';
   `]
 })
 export class PowiadomieniaWindowComponent implements OnInit {
-  @Input() visible = false;
+  @Input() visible = true;
   @Input() sesja = '';
   @Output() visibleChange = new EventEmitter<boolean>();
 
@@ -267,7 +266,7 @@ export class PowiadomieniaWindowComponent implements OnInit {
   constructor(private powiadomieniaService: PowiadomieniaService) {}
 
   ngOnInit() {
-    // Dane będą ładowane w onDialogShow() gdy dialog się otworzy
+    this.initializeMockData();
   }
 
   initializeMockData() {
@@ -331,10 +330,6 @@ export class PowiadomieniaWindowComponent implements OnInit {
 
   onUsun() {
     console.log('Usuń powiadomienie:', this.selectedPowiadomienie);
-  }
-
-  onDialogShow() {
-    this.initializeMockData();
   }
 
   onClose() {
