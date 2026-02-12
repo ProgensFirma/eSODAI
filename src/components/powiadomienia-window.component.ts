@@ -57,8 +57,6 @@ import { TPowiadomienie } from '../models/powiadomienie.model';
           [paginator]="true"
           [rows]="5"
           [totalRecords]="totalRecords"
-          [lazy]="!useMockData"
-          (onLazyLoad)="loadPowiadomienia($event)"
           [loading]="loading"
           [(selection)]="selectedPowiadomienie"
           selectionMode="single"
@@ -270,40 +268,9 @@ export class PowiadomieniaWindowComponent implements OnInit {
   }
 
   initializeMockData() {
-    if (this.useMockData) {
-      const mockData = this.powiadomieniaService.getMockPowiadomienia();
-      this.powiadomienia = mockData;
-      this.totalRecords = mockData.length;
-    }
-  }
-
-  loadPowiadomienia(event: any) {
-    if (this.useMockData) {
-      const mockData = this.powiadomieniaService.getMockPowiadomienia();
-      const start = event.first || 0;
-      const rows = event.rows || 5;
-      this.powiadomienia = mockData.slice(start, start + rows);
-      this.totalRecords = mockData.length;
-      return;
-    }
-
-    this.loading = true;
-    const rekStart = event.first || 0;
-    const rekIlosc = 5;
-
-    this.powiadomieniaService.getPowiadomienia(this.sesja, rekStart, rekIlosc)
-      .subscribe({
-        next: (response) => {
-          this.powiadomienia = response.body || [];
-          const qIlosc = response.headers.get('qIlosc');
-          this.totalRecords = qIlosc ? parseInt(qIlosc, 10) : 0;
-          this.loading = false;
-        },
-        error: (error) => {
-          console.error('Błąd pobierania powiadomień:', error);
-          this.loading = false;
-        }
-      });
+    const mockData = this.powiadomieniaService.getMockPowiadomienia();
+    this.powiadomienia = mockData;
+    this.totalRecords = mockData.length;
   }
 
   formatDate(dateString: string): string {
