@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable, catchError, of, map } from 'rxjs';
+import { Observable, catchError, of, map, throwError } from 'rxjs';
 import { KontrahentDetailed, KontrahenciResponse } from '../models/kontrahent.model';
 import { ConfigService } from './config.service';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,11 @@ export class KontrahenciService {
     return `${this.configService.apiBaseUrl}/kontrahenci`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private errorService: ErrorNotificationService
+  ) {}
 
   getKontrahenci(rekStart: number = 1, rekIlosc: number = 10, fraza: string = ''): Observable<KontrahenciResponse> {
     
@@ -40,8 +46,16 @@ export class KontrahenciService {
       }),
       catchError(error => {
         console.error('Error fetching kontrahenci:', error);
-        // Return mock data for development        
-        return of(this.getMockData(rekStart, rekIlosc));
+
+        if (!environment.production) {
+          return of(this.getMockData(rekStart, rekIlosc));
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania kontrahentów',
+            'Nie udało się pobrać listy kontrahentów z serwera.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }

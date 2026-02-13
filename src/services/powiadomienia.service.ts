@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { TPowiadomienie } from '../models/powiadomienie.model';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +15,11 @@ export class PowiadomieniaService {
     return `${this.configService.apiBaseUrl}/powiadomienia`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private errorService: ErrorNotificationService
+  ) {}
 
   getPowiadomienia(sesja: string, rekStart: number, rekIlosc: number): Observable<HttpResponse<TPowiadomienie[]>> {
     const params = new HttpParams()
@@ -23,6 +30,26 @@ export class PowiadomieniaService {
     return this.http.get<TPowiadomienie[]>(
       this.apiUrl,
       { params, observe: 'response' }
+    ).pipe(
+      catchError(error => {
+        console.error('Error fetching powiadomienia:', error);
+
+        if (!environment.production) {
+          const headers = new HttpHeaders().set('qIlosc', '5');
+          const mockResponse = new HttpResponse({
+            body: this.getMockPowiadomienia(),
+            headers: headers,
+            status: 200
+          });
+          return of(mockResponse);
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania powiadomień',
+            'Nie udało się pobrać listy powiadomień z serwera.'
+          );
+          return throwError(() => error);
+        }
+      })
     );
   }
 

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { Dokument } from '../models/dokument.model';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TKanalTyp, TStatusPrzek } from '../models/enums.model';
 
 @Injectable({
@@ -15,7 +17,12 @@ export class DokumentyService {
     return `${this.configService.apiBaseUrl}/skrzynki/dokumenty`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private authService: AuthService,
+    private errorService: ErrorNotificationService
+  ) {}
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
@@ -35,7 +42,16 @@ export class DokumentyService {
     return this.http.get<Dokument[]>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching dokumenty:', error);
-        return of(this.getMockData());
+
+        if (!environment.production) {
+          return of(this.getMockData());
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania dokumentów',
+            'Nie udało się pobrać listy dokumentów z serwera.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }
@@ -52,9 +68,18 @@ export class DokumentyService {
     return this.http.get<Dokument>(`${this.configService.apiBaseUrl}/dokumenty/dokument`, { params }).pipe(
       catchError(error => {
         console.error('Error fetching dokument:', error);
-        const mockData = this.getMockData();
-        const dokument = mockData.find(d => d.numer === numer);
-        return of(dokument || mockData[0]);
+
+        if (!environment.production) {
+          const mockData = this.getMockData();
+          const dokument = mockData.find(d => d.numer === numer);
+          return of(dokument || mockData[0]);
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania dokumentu',
+            `Nie udało się pobrać dokumentu nr ${numer} z serwera.`
+          );
+          return throwError(() => error);
+        }
       })
     );
   }
@@ -70,7 +95,16 @@ export class DokumentyService {
       {headers: this.getHeaders(), params: params}).pipe(
       catchError(error => {
         console.error('Error fetching osoba rejestr:', error);
-        return of({ Rejestr: 'RPP' });
+
+        if (!environment.production) {
+          return of({ Rejestr: 'RPP' });
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania rejestru osoby',
+            'Nie udało się pobrać rejestru osoby z serwera.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }

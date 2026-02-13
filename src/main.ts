@@ -1,9 +1,12 @@
-import { Component, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
+import { ErrorNotificationService, ErrorNotification } from './services/error-notification.service';
 import { LoginWindowComponent } from './components/login-window.component';
 import { InfoWindowComponent } from './components/info-window.component';
 import { ParametryWindowComponent } from './components/parametry-window.component';
@@ -33,7 +36,7 @@ import { ConfigService } from './services/config.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, UprawnienieWindowComponent, WykazAktWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
+  imports: [CommonModule, DialogModule, ButtonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, UprawnienieWindowComponent, WykazAktWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
       KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent, PowiadomieniaWindowComponent, PracownicyWindowComponent],
   template: `
     <app-login-window
@@ -257,6 +260,32 @@ import { ConfigService } from './services/config.service';
       [visible]="showPracownicyWindow"
       (visibleChange)="showPracownicyWindow = $event"
     ></app-pracownicy-window>
+
+    <p-dialog
+      [(visible)]="showErrorDialog"
+      [modal]="true"
+      [style]="{width: '500px'}"
+      [draggable]="false"
+      [resizable]="false"
+      header="Błąd"
+      styleClass="error-dialog"
+    >
+      <div class="error-content">
+        <div class="error-icon">⚠️</div>
+        <div class="error-message">
+          <h3>{{ currentError?.message }}</h3>
+          <p *ngIf="currentError?.details">{{ currentError?.details }}</p>
+        </div>
+      </div>
+      <ng-template pTemplate="footer">
+        <button
+          pButton
+          label="Zamknij"
+          icon="pi pi-times"
+          (click)="showErrorDialog = false"
+        ></button>
+      </ng-template>
+    </p-dialog>
   `,
   styles: [`
     .app-container {
@@ -708,10 +737,44 @@ import { ConfigService } from './services/config.service';
         font-size: 24px;
       }
     }
+
+    .error-content {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .error-icon {
+      font-size: 48px;
+      flex-shrink: 0;
+    }
+
+    .error-message h3 {
+      margin: 0 0 0.5rem 0;
+      color: #dc2626;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .error-message p {
+      margin: 0;
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    ::ng-deep .error-dialog .p-dialog-header {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    ::ng-deep .error-dialog .p-dialog-content {
+      padding: 2rem;
+    }
   `]
 })
 
-export class App {
+export class App implements OnInit, OnDestroy {
   selectedSkrzynka: Skrzynka | null = null;
   selectedDocument: Dokument | null = null;
   selectedSprawa: Sprawa | null = null;
@@ -720,6 +783,8 @@ export class App {
   showKontrahenciWindow = false;
   showPowiadomieniaWindow = false;
   showPracownicyWindow = false;
+  showErrorDialog = false;
+  currentError: ErrorNotification | null = null;
   showInfoWindow = false;
   showParametryWindow = false;
   showUprawnienieWindow = false;
@@ -739,8 +804,21 @@ export class App {
   sessionTimeLeft = 1800;
   private sessionTimeoutMinutes = 10;
   private timerInterval: any;
+  private errorSubscription: any;
 
-  constructor(private authService: AuthService, private http: HttpClient, private configService: ConfigService) {}
+  constructor(
+    private authService: AuthService,
+    private http: HttpClient,
+    private configService: ConfigService,
+    private errorService: ErrorNotificationService
+  ) {}
+
+  ngOnInit() {
+    this.errorSubscription = this.errorService.error$.subscribe(error => {
+      this.currentError = error;
+      this.showErrorDialog = true;
+    });
+  }
 
   @HostListener('document:click')
   @HostListener('document:keydown')
@@ -1054,6 +1132,15 @@ export class App {
     this.editingDocument = null;
     this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
     this.authService.clearSession();
+  }
+
+  ngOnDestroy() {
+    if (this.errorSubscription) {
+      this.errorSubscription.unsubscribe();
+    }
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
   }
 }
 

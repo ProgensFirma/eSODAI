@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { ZalacznikTresc } from '../models/zalacznik.model';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,12 @@ export class ZalacznikiService {
     return `${this.configService.apiBaseUrl}/zalacznik`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private authService: AuthService,
+    private errorService: ErrorNotificationService
+  ) {}
 
   getZalacznikTresc(sesja: number, dokument: number, numer: number): Observable<ZalacznikTresc> {
 
@@ -28,8 +35,16 @@ export class ZalacznikiService {
     return this.http.get<ZalacznikTresc>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching attachment content:', error);
-        // Return mock data for development
-        return of(this.getMockData(dokument, numer));
+
+        if (!environment.production) {
+          return of(this.getMockData(dokument, numer));
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania załącznika',
+            'Nie udało się pobrać treści załącznika z serwera.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }

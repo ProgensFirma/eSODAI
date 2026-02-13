@@ -1,32 +1,46 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { Skrzynka } from '../models/skrzynka.model';
 import { TSkrzynki } from '../models/enums.model';
 import { ConfigService } from './config.service';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkrzynkiService {
-  
+
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/skrzynki`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private errorService: ErrorNotificationService
+  ) {}
 
   getSkrzynki(): Observable<Skrzynka[]> {
 
     const params = {
-      sesja: '123',     //App.sessionData
+      sesja: '123',
     };
-    
+
     return this.http.get<Skrzynka[]>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching skrzynki:', error);
-        // Return mock data for development
-        return of(this.getMockData());
+
+        if (!environment.production) {
+          return of(this.getMockData());
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania skrzynek',
+            'Nie udało się pobrać listy skrzynek z serwera. Sprawdź połączenie z serwerem.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }

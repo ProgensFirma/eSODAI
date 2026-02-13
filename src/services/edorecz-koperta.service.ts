@@ -1,9 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { EdoreczPunktNadawczy } from '../models/edorecz-punkt-nadawczy.model';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +15,7 @@ export class EdoreczKopertaService {
   private http = inject(HttpClient);
   private configService = inject(ConfigService);
   private authService = inject(AuthService);
+  private errorService = inject(ErrorNotificationService);
   private useMockData = true;
 
   private mockPunktyNadawcze: EdoreczPunktNadawczy[] = [
@@ -53,6 +57,20 @@ export class EdoreczKopertaService {
       .append('sesja', sesjaId.toString());
 
     const apiUrl = this.configService.apiBaseUrl;
-    return this.http.get<EdoreczPunktNadawczy[]>(`${apiUrl}/eDorecz/PunktyNadawcze`, { params });
+    return this.http.get<EdoreczPunktNadawczy[]>(`${apiUrl}/eDorecz/PunktyNadawcze`, { params }).pipe(
+      catchError(error => {
+        console.error('Error fetching punkty nadawcze:', error);
+
+        if (!environment.production) {
+          return of(this.mockPunktyNadawcze);
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania punktów nadawczych',
+            'Nie udało się pobrać listy punktów nadawczych z serwera.'
+          );
+          return throwError(() => error);
+        }
+      })
+    );
   }
 }

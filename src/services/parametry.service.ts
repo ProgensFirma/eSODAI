@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { Parametr } from '../models/parametr.model';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { TBazaOper, TeSodStatus, TSODParamTyp } from '../models/enums.model';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,8 @@ export class ParametryService {
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private errorService: ErrorNotificationService
   ) {}
 
   getParametry(): Observable<Parametr[]> {
@@ -31,7 +34,16 @@ export class ParametryService {
     return this.http.get<Parametr[]>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching parametry:', error);
-        return of(this.getMockData());
+
+        if (!environment.production) {
+          return of(this.getMockData());
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania parametrów',
+            'Nie udało się pobrać listy parametrów z serwera.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }

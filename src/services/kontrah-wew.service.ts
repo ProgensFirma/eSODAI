@@ -1,9 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { KontrahWew } from '../models/kontrah-wew.model';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +15,7 @@ export class KontrahWewService {
   private http = inject(HttpClient);
   private configService = inject(ConfigService);
   private authService = inject(AuthService);
+  private errorService = inject(ErrorNotificationService);
   private useMockData = true;
 
   private mockDaneNadawcy: { [key: number]: KontrahWew } = {
@@ -58,6 +62,21 @@ export class KontrahWewService {
       .append('punktNumer', punktNumer.toString());
 
     const apiUrl = this.configService.apiBaseUrl;
-    return this.http.get<KontrahWew>(`${apiUrl}/KontrahWew`, { params });
+    return this.http.get<KontrahWew>(`${apiUrl}/KontrahWew`, { params }).pipe(
+      catchError(error => {
+        console.error('Error fetching dane nadawcy:', error);
+
+        if (!environment.production) {
+          const mockData = this.mockDaneNadawcy[punktNumer] || this.mockDaneNadawcy[1];
+          return of(mockData);
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania danych nadawcy',
+            'Nie udało się pobrać danych nadawcy z serwera.'
+          );
+          return throwError(() => error);
+        }
+      })
+    );
   }
 }

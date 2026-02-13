@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { EDoreczDokument, EDoreczWyslana } from '../models/edorecz.model';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -475,7 +477,8 @@ export class EDoreczService {
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private errorService: ErrorNotificationService
   ) {}
 
   getEDoreczDokumenty(): Observable<EDoreczDokument[]> {
@@ -483,7 +486,16 @@ export class EDoreczService {
     return this.http.get<EDoreczDokument[]>(url).pipe(
       catchError(error => {
         console.warn('Could not fetch eDoreczenia, using mock data:', error);
-        return of(this.mockData);
+
+        if (!environment.production) {
+          return of(this.mockData);
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania eDoręczeń',
+            'Nie udało się pobrać listy eDoręczeń przychodzących z serwera.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }
@@ -491,7 +503,15 @@ export class EDoreczService {
   getEDoreczWyslane(zalInfo: boolean, potwInfo: boolean, rekStart: number, rekIlosc: number): Observable<EDoreczWyslana[]> {
     const session = this.authService.getCurrentSession();
     if (!session || !session.sesja) {
-      return of(this.mockWyslaneData);
+      if (!environment.production) {
+        return of(this.mockWyslaneData);
+      } else {
+        this.errorService.showError(
+          'Błąd sesji',
+          'Brak aktywnej sesji użytkownika.'
+        );
+        return throwError(() => new Error('No active session'));
+      }
     }
 
     const url = `${this.configService.apiBaseUrl}/api/skrzynki/eDoreczWys`;
@@ -505,7 +525,16 @@ export class EDoreczService {
     return this.http.get<EDoreczWyslana[]>(url, { params }).pipe(
       catchError(error => {
         console.warn('Could not fetch eDoreczenia wyslane, using mock data:', error);
-        return of(this.mockWyslaneData);
+
+        if (!environment.production) {
+          return of(this.mockWyslaneData);
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania eDoręczeń',
+            'Nie udało się pobrać listy eDoręczeń wysłanych z serwera.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }

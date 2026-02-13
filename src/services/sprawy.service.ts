@@ -1,21 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, of, throwError } from 'rxjs';
 import { Sprawa } from '../models/sprawa.model';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
+import { ErrorNotificationService } from './error-notification.service';
+import { environment } from '../environments/environment';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SprawyService {
-  
+
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/skrzynki/sprawy`;
   }
 
-  constructor(private http: HttpClient, private configService: ConfigService, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private configService: ConfigService,
+    private authService: AuthService,
+    private errorService: ErrorNotificationService
+  ) {}
 
   getSprawy(skrzynka: string): Observable<Sprawa[]> {
     const session = this.authService.getCurrentSession();
@@ -28,7 +35,16 @@ export class SprawyService {
     return this.http.get<Sprawa[]>(this.apiUrl, { params }).pipe(
       catchError(error => {
         console.error('Error fetching sprawy:', error);
-        return of(this.getMockData());
+
+        if (!environment.production) {
+          return of(this.getMockData());
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania spraw',
+            'Nie udało się pobrać listy spraw z serwera.'
+          );
+          return throwError(() => error);
+        }
       })
     );
   }
