@@ -11,6 +11,7 @@ import { TWydzialInfo } from '../models/typy-info.model';
       <div class="wydzial-window">
         <div class="window-header">
           <h2 class="window-title">
+            <span class="title-icon">🏢</span>          
             Wybór jednostki organizacyjnej
           </h2>
         </div>
