@@ -30,7 +30,7 @@
               {
                 "glob": "**/*",
                 "input": "public",
-                "output": "/"
+                "output": "/public/"
               }
             ],
             "index": "src/index.html",
