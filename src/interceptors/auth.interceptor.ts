@@ -4,7 +4,6 @@ const username = 'SOD';
 const password = 'progens';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  console.log('Auth interceptor:', req.url);
   const authHeader = 'Basic ' + btoa(`${username}:${password}`);
 
   const authReq = req.clone({

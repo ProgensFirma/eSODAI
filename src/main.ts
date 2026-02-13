@@ -21,6 +21,7 @@ import { DokumentPrzekazWindowComponent } from './components/dokument-przekaz-wi
 import { EDoreczGridComponent } from './components/edorecz-grid.component';
 import { EDoreczWysGridComponent } from './components/edorecz-wys-grid.component';
 import { PowiadomieniaWindowComponent } from './components/powiadomienia-window.component';
+import { PracownicyWindowComponent } from './components/pracownicy-window.component';
 import { Dokument } from './models/dokument.model';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek, TSkrzynki } from './models/enums.model';
 import { SessionData } from './models/session.model';
@@ -33,7 +34,7 @@ import { ConfigService } from './services/config.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, UprawnienieWindowComponent, WykazAktWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
-      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent, PowiadomieniaWindowComponent],
+      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent, PowiadomieniaWindowComponent, PracownicyWindowComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -250,6 +251,12 @@ import { ConfigService } from './services/config.service';
       (visibleChange)="showPowiadomieniaWindow = $event"
       [sesja]="sessionData?.sesja?.toString() || ''"
     ></app-powiadomienia-window>
+
+    <app-pracownicy-window
+      *ngIf="showPracownicyWindow"
+      [visible]="showPracownicyWindow"
+      (visibleChange)="showPracownicyWindow = $event"
+    ></app-pracownicy-window>
   `,
   styles: [`
     .app-container {
@@ -712,6 +719,7 @@ export class App {
   showKartotekiSubmenu = false;
   showKontrahenciWindow = false;
   showPowiadomieniaWindow = false;
+  showPracownicyWindow = false;
   showInfoWindow = false;
   showParametryWindow = false;
   showUprawnienieWindow = false;
@@ -796,9 +804,9 @@ export class App {
   }
 
   openPracownicy() {
+    this.showPracownicyWindow = true;
     this.showMenu = false;
     this.showKartotekiSubmenu = false;
-    console.log('Otwarcie Pracownicy...');
   }
 
   openPowiadomienia() {
@@ -1034,6 +1042,8 @@ export class App {
     this.showMenu = false;
     this.showKartotekiSubmenu = false;
     this.showKontrahenciWindow = false;
+    this.showPowiadomieniaWindow = false;
+    this.showPracownicyWindow = false;
     this.showInfoWindow = false;
     this.showParametryWindow = false;
     this.showUprawnienieWindow = false;
