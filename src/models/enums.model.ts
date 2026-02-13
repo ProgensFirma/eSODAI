@@ -132,4 +132,3 @@ export enum TSkrzynki {
   tfs_Pulpit ='tfs_Pulpit',
   tfs_MojKomp ='tfs_MojKomp'
 }
-
