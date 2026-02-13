@@ -80,9 +80,16 @@ import { TWydzialInfo } from '../models/typy-info.model';
 
     .window-title {
       margin: 0;
-      font-size: 18px;
-      font-weight: 600;
-      color: white;
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .title-icon {
+      font-size: 28px;
     }
 
     .window-content {
