@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
@@ -1150,6 +1151,7 @@ async function initializeApp() {
 
   bootstrapApplication(App, {
     providers: [
+      provideAnimationsAsync(),
       provideHttpClient(withInterceptors([authInterceptor])),
       { provide: ConfigService, useValue: configService }
     ]
