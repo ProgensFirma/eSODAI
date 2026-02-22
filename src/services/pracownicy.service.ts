@@ -36,7 +36,7 @@ export class PracownicyService {
         console.error('Error fetching pracownicy:', error);
 
         if (!environment.production) {
-          return of([]);
+          return of(this.getMockPracownicy());
         } else {
           this.errorService.showError(
             'Błąd pobierania pracowników',
@@ -46,5 +46,58 @@ export class PracownicyService {
         }
       })
     );
+  }
+
+  getMockPracownicy(): TOsobaInfo[] {
+    return [
+      {
+        numer: 1,
+        identyfikator: 'Jan Kowalski'
+      },
+      {
+        numer: 2,
+        identyfikator: 'Anna Nowak'
+      },
+      {
+        numer: 3,
+        identyfikator: 'Piotr Wiśniewski'
+      },
+      {
+        numer: 4,
+        identyfikator: 'Maria Wójcik'
+      },
+      {
+        numer: 5,
+        identyfikator: 'Krzysztof Kowalczyk'
+      },
+      {
+        numer: 6,
+        identyfikator: 'Magdalena Kamińska'
+      },
+      {
+        numer: 7,
+        identyfikator: 'Andrzej Lewandowski'
+      },
+      {
+        numer: 8,
+        identyfikator: 'Agnieszka Zielińska'
+      },
+      {
+        numer: 9,
+        identyfikator: 'Tomasz Szymański'
+      },
+      {
+        numer: 10,
+        identyfikator: 'Katarzyna Woźniak'
+      },
+      {
+        numer: 11,
+        identyfikator: 'Paweł Dąbrowski'
+      },
+      {
+        numer: 12,
+        identyfikator: 'Ewa Kozłowska'
+      }
+    ];
   }
 }
