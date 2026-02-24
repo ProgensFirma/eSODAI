@@ -235,9 +235,9 @@ export class SkrzynkiTreeComponent implements OnInit {
     skrzynki.forEach(skrzynka => {
       const node = nodeMap.get(skrzynka.skrzynka)!;
 
-      if (skrzynka.poziom === 1 || skrzynka.poziom === 2) {
+      if (skrzynka.poziom === 1) {
         rootNodes.push(node);
-      } else if (skrzynka.poziom === 3) {
+      } else if (skrzynka.poziom === 2 || skrzynka.poziom === 3) {
         const parentNode = this.findParentNode(skrzynka, skrzynki, nodeMap);
         if (parentNode) {
           parentNode.children.push(node);
@@ -256,9 +256,10 @@ export class SkrzynkiTreeComponent implements OnInit {
     nodeMap: Map<string, TreeNode>
   ): TreeNode | null {
     const currentIndex = allItems.indexOf(currentItem);
+    const targetLevel = currentItem.poziom - 1;
 
     for (let i = currentIndex - 1; i >= 0; i--) {
-      if (allItems[i].poziom === 1) {
+      if (allItems[i].poziom === targetLevel) {
         return nodeMap.get(allItems[i].skrzynka) || null;
       }
     }
