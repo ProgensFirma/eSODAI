@@ -227,7 +227,7 @@ export class SkrzynkiTreeComponent implements OnInit {
       const node: TreeNode = {
         data: skrzynka,
         children: [],
-        expanded: false
+        expanded: true
       };
       nodeMap.set(skrzynka.skrzynka, node);
     });
