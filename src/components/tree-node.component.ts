@@ -203,20 +203,17 @@ export class TreeNodeComponent implements OnInit {
   @Output() nodeSelected = new EventEmitter<Skrzynka>();
 
   ngOnInit() {
-    // Auto-expand level 1 nodes by default
-    if (this.node.data.poziom === 1 && this.node.data.typ === 'ts_pisma') {
-      this.node.expanded = true;
-    }
+    // Level 1 nodes start collapsed by default
   }
 
   handleNodeClick() {
     if (this.hasChildren()) {
       this.node.expanded = !this.node.expanded;
-    } else {
-      // Emit the selected node for document types
-      if (this.node.data.typ === 'ts_pisma' || this.node.data.typ === 'ts_sprawy' || this.node.data.typ === 'ts_korespEl') {
-        this.nodeSelected.emit(this.node.data);
-      }
+    }
+
+    // Emit the selected node for document types
+    if (this.node.data.typ === 'ts_pisma' || this.node.data.typ === 'ts_sprawy' || this.node.data.typ === 'ts_korespEl') {
+      this.nodeSelected.emit(this.node.data);
     }
   }
 
