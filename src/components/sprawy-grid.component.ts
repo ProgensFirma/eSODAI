@@ -18,6 +18,14 @@ import { Skrzynka } from '../models/skrzynka.model';
         </h3>
         <div class="header-buttons">
           <button
+            class="action-button button-create"
+            (click)="createSprawa()"
+            [disabled]="!selectedSkrzynka || loading"
+          >
+            <span class="plus-icon">+</span>
+            Utwórz sprawę
+          </button>
+          <button
             class="action-button button-refresh"
             (click)="loadSprawy()"
             [disabled]="loading"
@@ -156,6 +164,22 @@ import { Skrzynka } from '../models/skrzynka.model';
     .action-button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+
+    .button-create {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .button-create:hover:not(:disabled) {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    .plus-icon {
+      font-size: 20px;
+      font-weight: 700;
     }
 
     .button-refresh {
@@ -391,6 +415,10 @@ export class SprawyGridComponent implements OnChanges {
   selectSprawa(sprawa: Sprawa): void {
     this.selectedSprawa = sprawa;
     this.sprawaSelected.emit(sprawa);
+  }
+
+  createSprawa(): void {
+    console.log('Create sprawa clicked for skrzynka:', this.selectedSkrzynka);
   }
 
   trackByNumer(index: number, sprawa: Sprawa): number {
