@@ -230,7 +230,7 @@ export class TreeNodeComponent implements OnInit {
       case 'ts_brak':
         return '📁';
       case 'ts_sprawy':
-        return this.isUrgent() ? '🔥' : '📋';
+        return this.isUrgent() ? '⚠️' : '📋';
       case 'ts_korespEl':
         return '📧';
       case 'ts_pisma':

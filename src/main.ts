@@ -33,6 +33,7 @@ import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
 import { Sprawa } from './models/sprawa.model';
 import { ConfigService } from './services/config.service';
+import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
 @Component({
   selector: 'app-root',
@@ -156,8 +157,14 @@ import { ConfigService } from './services/config.service';
               <li>📱 Responsywny design</li>
             </ul>
           </div>
+          <div class="license-panel">
+            <div class="license-icon">🔑</div>
+            <div class="license-text" *ngIf="licencjaText">{{ licencjaText }}</div>
+            <div class="license-text" *ngIf="!licencjaText && licencjaLoading">Ładowanie informacji o licencji...</div>
+            <div class="license-text" *ngIf="!licencjaText && !licencjaLoading">Brak informacji o licencji</div>
+          </div>
         </div>
-        
+
         <div class="edorecz-layout" *ngIf="selectedSkrzynka && isEDoreczPrzychView()">
           <app-edorecz-grid [skrzynkaTyp]="selectedSkrzynka.skrzynka"></app-edorecz-grid>
         </div>
@@ -806,12 +813,15 @@ export class App implements OnInit, OnDestroy {
   private sessionTimeoutMinutes = 10;
   private timerInterval: any;
   private errorSubscription: any;
+  licencjaText: string = '';
+  licencjaLoading: boolean = false;
 
   constructor(
     private authService: AuthService,
     private http: HttpClient,
     private configService: ConfigService,
-    private errorService: ErrorNotificationService
+    private errorService: ErrorNotificationService,
+    private licencjaService: LicencjaService
   ) {}
 
   ngOnInit() {
@@ -953,6 +963,8 @@ export class App implements OnInit, OnDestroy {
     this.isLoggedIn = true;
     this.sessionData = this.authService.getCurrentSession();
 
+    this.loadLicencjaInfo();
+
     if (this.sessionData && this.sessionData.jednostki && this.sessionData.jednostki.length > 0) {
       this.availableWydzialy = this.sessionData.jednostki;
       this.showWydzialSelect = true;
@@ -960,6 +972,21 @@ export class App implements OnInit, OnDestroy {
       this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
       this.startSessionTimer();
     }
+  }
+
+  loadLicencjaInfo() {
+    this.licencjaLoading = true;
+    this.licencjaService.getLicencja().subscribe({
+      next: (response: LicencjaResponse) => {
+        this.licencjaText = response.Licencja;
+        this.licencjaLoading = false;
+      },
+      error: (error: any) => {
+        console.error('Błąd pobierania licencji:', error);
+        this.licencjaText = '';
+        this.licencjaLoading = false;
+      }
+    });
   }
 
   onLoginCancelled() {
