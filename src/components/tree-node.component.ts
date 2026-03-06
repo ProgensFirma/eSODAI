@@ -230,7 +230,12 @@ export class TreeNodeComponent implements OnInit {
       case 'ts_brak':
         return '📁';
       case 'ts_sprawy':
-        return this.isUrgent() ? '⚠️' : '📋';
+        if (this.node.data.nazwa.toLowerCase().includes('pilne')) {
+          return '⚠️';
+        } else if (this.node.data.nazwa.toLowerCase().includes('przeterminowane')) {
+          return '🔥';
+        }
+        return '📋';
       case 'ts_korespEl':
         return '📧';
       case 'ts_pisma':
@@ -256,7 +261,7 @@ export class TreeNodeComponent implements OnInit {
   }
 
   private isUrgent(): boolean {
-    return this.node.data.nazwa.toLowerCase().includes('pilne') || 
+    return this.node.data.nazwa.toLowerCase().includes('pilne') ||
            this.node.data.nazwa.toLowerCase().includes('przeterminowane');
   }
 

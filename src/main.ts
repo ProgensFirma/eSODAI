@@ -157,12 +157,12 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
               <li>📱 Responsywny design</li>
             </ul>
           </div>
-          <div class="license-panel">
-            <div class="license-icon">🔑</div>
-            <div class="license-text" *ngIf="licencjaText">{{ licencjaText }}</div>
-            <div class="license-text" *ngIf="!licencjaText && licencjaLoading">Ładowanie informacji o licencji...</div>
-            <div class="license-text" *ngIf="!licencjaText && !licencjaLoading">Brak informacji o licencji</div>
-          </div>
+        </div>
+
+        <div class="license-panel" *ngIf="!selectedSkrzynka">
+          <div class="license-text" *ngIf="licencjaText">{{ licencjaText }}</div>
+          <div class="license-text" *ngIf="!licencjaText && licencjaLoading">Ładowanie informacji o licencji...</div>
+          <div class="license-text" *ngIf="!licencjaText && !licencjaLoading">Brak informacji o licencji</div>
         </div>
 
         <div class="edorecz-layout" *ngIf="selectedSkrzynka && isEDoreczPrzychView()">
@@ -672,6 +672,21 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
     .feature-list li:last-child {
       border-bottom: none;
+    }
+
+    .license-panel {
+      background: #e5e7eb;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 1px solid #d1d5db;
+    }
+
+    .license-text {
+      font-size: 14px;
+      color: #374151;
+      text-align: center;
     }
 
     @media (max-width: 1024px) {
