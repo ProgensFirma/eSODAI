@@ -49,6 +49,24 @@ export class SprawyService {
     );
   }
 
+  createSprawa(sprawa: Sprawa): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
+
+    return this.http.post(`${this.configService.apiBaseUrl}/sprawy/sprawa`, sprawa, { params }).pipe(
+      catchError(error => {
+        console.error('Error creating sprawa:', error);
+        this.errorService.showError(
+          'Błąd tworzenia sprawy',
+          'Nie udało się utworzyć sprawy.'
+        );
+        return throwError(() => error);
+      })
+    );
+  }
+
   private getMockData(): Sprawa[] {
     return [
       {

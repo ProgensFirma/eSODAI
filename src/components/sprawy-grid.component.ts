@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { SprawyService } from '../services/sprawy.service';
 import { Sprawa } from '../models/sprawa.model';
 import { Skrzynka } from '../models/skrzynka.model';
+import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
 
 @Component({
   selector: 'app-sprawy-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SprawaEditWindowComponent],
   template: `
     <div class="sprawy-container">
       <div class="sprawy-header">
@@ -90,6 +91,12 @@ import { Skrzynka } from '../models/skrzynka.model';
         <div class="spinner"></div>
         <p>Ładowanie spraw...</p>
       </div>
+
+      <app-sprawa-edit-window
+        [(visible)]="showSprawaEditWindow"
+        [sprawa]="editingSprawa"
+        (sprawaSaved)="onSprawaSaved()">
+      </app-sprawa-edit-window>
     </div>
   `,
   styles: [`
@@ -385,6 +392,8 @@ export class SprawyGridComponent implements OnChanges {
   sprawy: Sprawa[] = [];
   selectedSprawa: Sprawa | null = null;
   loading = false;
+  showSprawaEditWindow = false;
+  editingSprawa: Sprawa = {} as Sprawa;
 
   constructor(private sprawyService: SprawyService) {}
 
@@ -418,7 +427,12 @@ export class SprawyGridComponent implements OnChanges {
   }
 
   createSprawa(): void {
-    console.log('Create sprawa clicked for skrzynka:', this.selectedSkrzynka);
+    this.editingSprawa = {} as Sprawa;
+    this.showSprawaEditWindow = true;
+  }
+
+  onSprawaSaved(): void {
+    this.loadSprawy();
   }
 
   trackByNumer(index: number, sprawa: Sprawa): number {
