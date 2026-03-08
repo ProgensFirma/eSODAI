@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sprawa } from '../models/sprawa.model';
 import { TSprawaTyp } from '../models/sprawa-typ.model';
-import { TOsobaInfo, TJednostka } from '../models/typy-info.model';
+import { TOsobaInfo, TJednostka, TKontrahentInfo } from '../models/typy-info.model';
 import { SprawaTypyService } from '../services/sprawa-typy.service';
 import { JednostkiService } from '../services/jednostki.service';
 import { PracownicyService } from '../services/pracownicy.service';
@@ -12,13 +12,15 @@ import { SprawyService } from '../services/sprawy.service';
 import { AuthService } from '../services/auth.service';
 import { WykazAkt } from '../models/wykaz-akt.model';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
+import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
 @Component({
   selector: 'app-sprawa-edit-window',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    KontrahenciWindowComponent
   ],
   template: `
     <div class="modal-overlay" *ngIf="visible" (click)="onClose()">
@@ -52,11 +54,12 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
           <div class="kontrahent-select">
             <input
               id="kontrahent"
-              [(ngModel)]="kontrahentDisplay"
+              [value]="sprawa.kontrahent.identyfikator || ''"
               type="text"
               readonly
-              class="form-input" />
-            <button class="btn btn-icon" (click)="selectKontrahent()">
+              class="form-input"
+              placeholder="Wybierz kontrahenta" />
+            <button class="btn btn-icon" (click)="openKontrahentWindow()">
               <span class="icon-search">🔍</span>
             </button>
           </div>
@@ -77,7 +80,7 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
             <label for="znakRWA">RWA</label>
             <select class="form-select" [(ngModel)]="selectedRWAId">
               <option [value]="null">Wybierz RWA</option>
-              <option *ngFor="let rwa of wykazyAkt" [value]="rwa.symbol">{{ rwa.symbol }}</option>
+              <option *ngFor="let rwa of wykazyAkt" [value]="rwa.symbol">{{ rwa.symbol }} - {{ rwa.nazwa }}</option>
             </select>
           </div>
         </div>
@@ -215,6 +218,13 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
           </button>
         </div>
       </div>
+
+      <app-kontrahenci-window
+        *ngIf="showKontrahentWindow"
+        [pWybor]="true"
+        (closeRequested)="closeKontrahentWindow()"
+        (kontrahentSelected)="onKontrahentSelected($event)"
+      ></app-kontrahenci-window>
     </div>
   `,
   styles: [`
@@ -475,8 +485,8 @@ export class SprawaEditWindowComponent implements OnInit {
   terminPlanModel: string = '';
   terminAlarmModel: string = '';
 
-  kontrahentDisplay: string = '';
   sprawaCreated: boolean = false;
+  showKontrahentWindow = false;
 
   constructor(
     private sprawaTypyService: SprawaTypyService,
@@ -576,8 +586,22 @@ export class SprawaEditWindowComponent implements OnInit {
     });
   }
 
-  selectKontrahent() {
-    console.log('Select kontrahent - to be implemented');
+  openKontrahentWindow() {
+    this.showKontrahentWindow = true;
+  }
+
+  closeKontrahentWindow() {
+    this.showKontrahentWindow = false;
+  }
+
+  onKontrahentSelected(kontrahentInfo: TKontrahentInfo) {
+    this.sprawa.kontrahent = {
+      numer: kontrahentInfo.numer,
+      identyfikator: kontrahentInfo.identyfikator,
+      firma: kontrahentInfo.firma,
+      nip: kontrahentInfo.nip,
+      adres: kontrahentInfo.adres
+    };
   }
 
   save() {
