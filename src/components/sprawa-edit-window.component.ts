@@ -526,6 +526,21 @@ export class SprawaEditWindowComponent implements OnInit {
           nazwa: selectedTyp.typ,
           rWA: selectedTyp.rWA
         };
+
+        if (!this.sprawa.nazwa || this.sprawa.nazwa.trim() === '') {
+          this.sprawa.nazwa = selectedTyp.typ;
+        }
+
+        const today = new Date();
+        this.dataStartModel = today.toISOString().split('T')[0];
+
+        const planDate = new Date(today);
+        planDate.setDate(planDate.getDate() + 21);
+        this.terminPlanModel = planDate.toISOString().split('T')[0];
+
+        const alarmDate = new Date(planDate);
+        alarmDate.setDate(alarmDate.getDate() - 3);
+        this.terminAlarmModel = alarmDate.toISOString().split('T')[0];
       }
     }
   }
