@@ -532,15 +532,19 @@ export class SprawaEditWindowComponent implements OnInit {
         }
 
         const today = new Date();
+        today.setHours(12, 0, 0, 0);
         this.dataStartModel = today.toISOString().split('T')[0];
+        this.sprawa.dataStart = today.toISOString();
 
         const planDate = new Date(today);
         planDate.setDate(planDate.getDate() + 21);
         this.terminPlanModel = planDate.toISOString().split('T')[0];
+        this.sprawa.terminPlan = planDate.toISOString();
 
         const alarmDate = new Date(planDate);
         alarmDate.setDate(alarmDate.getDate() - 3);
         this.terminAlarmModel = alarmDate.toISOString().split('T')[0];
+        this.sprawa.terminAlarm = alarmDate.toISOString();
       }
     }
   }
