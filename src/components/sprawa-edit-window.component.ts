@@ -3,14 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sprawa } from '../models/sprawa.model';
 import { TSprawaTyp } from '../models/sprawa-typ.model';
-import { TOsobaInfo } from '../models/osoba-info.model';
+import { TOsobaInfo, TJednostka } from '../models/typy-info.model';
 import { SprawaTypyService } from '../services/sprawa-typy.service';
 import { JednostkiService } from '../services/jednostki.service';
 import { PracownicyService } from '../services/pracownicy.service';
 import { WykazAktService } from '../services/wykaz-akt.service';
 import { SprawyService } from '../services/sprawy.service';
 import { AuthService } from '../services/auth.service';
-import { TJednostka } from '../models/typy-info.model';
 import { WykazAkt } from '../models/wykaz-akt.model';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
