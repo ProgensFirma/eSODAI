@@ -1,0 +1,1 @@
+Dla wszystkich wywoływanych endpointów (oprócz /api/wersja i /api/login) używaj parametru sesji uzyskanego z serwisu /api/login
