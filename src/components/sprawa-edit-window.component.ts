@@ -1,10 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Dialog } from 'primeng/dialog';
-import { Button } from 'primeng/button';
-import { InputText } from 'primeng/inputtext';
-import { Textarea } from 'primeng/textarea';
 import { Sprawa } from '../models/sprawa.model';
 import { TSprawaTyp } from '../models/sprawa-typ.model';
 import { TOsobaInfo } from '../models/osoba-info.model';
@@ -23,21 +19,18 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    Dialog,
-    Button,
-    InputText,
-    Textarea
+    FormsModule
   ],
   template: `
-    <p-dialog
-      [(visible)]="visible"
-      [modal]="true"
-      [style]="{width: '900px'}"
-      [header]="sprawa.numer ? 'Edycja sprawy' : 'Nowa sprawa'"
-      (onHide)="onClose()">
+    <div class="modal-overlay" *ngIf="visible" (click)="onClose()">
+      <div class="modal-window" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>{{ sprawa.numer ? 'Edycja sprawy' : 'Nowa sprawa' }}</h2>
+          <button class="close-btn" (click)="onClose()">&times;</button>
+        </div>
 
-      <div class="form-container">
+        <div class="modal-body">
+          <div class="form-container">
         <div class="field">
           <label for="typSprawy">Typ Sprawy</label>
           <select class="form-select" [(ngModel)]="selectedTypSprawyId" (change)="onTypSprawyChange()">
@@ -49,7 +42,6 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
         <div class="field">
           <label for="nazwa">Nazwa</label>
           <input
-            pInputText
             id="nazwa"
             [(ngModel)]="sprawa.nazwa"
             type="text"
@@ -60,17 +52,14 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
           <label for="kontrahent">Kontrahent</label>
           <div class="kontrahent-select">
             <input
-              pInputText
               id="kontrahent"
               [(ngModel)]="kontrahentDisplay"
               type="text"
               readonly
               class="form-input" />
-            <p-button
-              icon="pi pi-search"
-              (onClick)="selectKontrahent()"
-              styleClass="p-button-sm">
-            </p-button>
+            <button class="btn btn-icon" (click)="selectKontrahent()">
+              <span class="icon-search">🔍</span>
+            </button>
           </div>
         </div>
 
@@ -78,11 +67,10 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
           <div class="field">
             <label for="znakSprawy">Znak sprawy</label>
             <input
-              pInputText
               id="znakSprawy"
               [(ngModel)]="sprawa.znakSprawy"
               type="text"
-              [readonly]="true"
+              readonly
               class="form-input" />
           </div>
 
@@ -180,7 +168,6 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
         <div class="field">
           <label for="opis">Opis</label>
           <textarea
-            pTextarea
             id="opis"
             [(ngModel)]="sprawa.opis"
             rows="4"
@@ -191,48 +178,121 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
         <div class="documents-panel" [class.disabled]="!sprawaCreated">
           <h3>Dokumenty sprawy</h3>
           <div class="documents-buttons">
-            <p-button
-              label="Dołącz dokument"
-              icon="pi pi-plus"
+            <button
+              class="btn btn-primary"
               [disabled]="!sprawaCreated"
-              (onClick)="attachDocument()">
-            </p-button>
-            <p-button
-              label="Odłącz dokument"
-              icon="pi pi-minus"
+              (click)="attachDocument()">
+              ➕ Dołącz dokument
+            </button>
+            <button
+              class="btn btn-secondary"
               [disabled]="!sprawaCreated"
-              (onClick)="detachDocument()">
-            </p-button>
+              (click)="detachDocument()">
+              ➖ Odłącz dokument
+            </button>
           </div>
         </div>
-      </div>
-
-      <ng-template pTemplate="footer">
-        <div class="dialog-footer">
-          <p-button
-            *ngIf="!sprawaCreated"
-            label="Zapisz"
-            icon="pi pi-check"
-            (onClick)="save()">
-          </p-button>
-          <p-button
-            *ngIf="!sprawaCreated"
-            label="Anuluj"
-            icon="pi pi-times"
-            (onClick)="onClose()"
-            styleClass="p-button-secondary">
-          </p-button>
-          <p-button
-            *ngIf="sprawaCreated"
-            label="Wyjście"
-            icon="pi pi-times"
-            (onClick)="onClose()">
-          </p-button>
+          </div>
         </div>
-      </ng-template>
-    </p-dialog>
+
+        <div class="modal-footer">
+          <button
+            *ngIf="!sprawaCreated"
+            class="btn btn-primary"
+            (click)="save()">
+            ✓ Zapisz
+          </button>
+          <button
+            *ngIf="!sprawaCreated"
+            class="btn btn-secondary"
+            (click)="onClose()">
+            ✕ Anuluj
+          </button>
+          <button
+            *ngIf="sprawaCreated"
+            class="btn btn-primary"
+            (click)="onClose()">
+            ✕ Wyjście
+          </button>
+        </div>
+      </div>
+    </div>
   `,
   styles: [`
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-window {
+      background: white;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 900px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #212529;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+      color: #6c757d;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover {
+      color: #212529;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #dee2e6;
+      background-color: #f8f9fa;
+    }
+
     .form-container {
       display: flex;
       flex-direction: column;
@@ -248,6 +308,7 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
     .field label {
       font-weight: 600;
       font-size: 0.875rem;
+      color: #495057;
     }
 
     .field-group {
@@ -258,14 +319,27 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
     .form-input, .form-select, .form-textarea {
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.5rem 0.75rem;
       border: 1px solid #ced4da;
       border-radius: 6px;
       font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #80bdff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .form-input[readonly] {
+      background-color: #e9ecef;
+      cursor: not-allowed;
     }
 
     .form-select {
       cursor: pointer;
+      background-color: white;
     }
 
     .form-textarea {
@@ -282,6 +356,51 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
       flex: 1;
     }
 
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: #0056b3;
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: #545b62;
+    }
+
+    .btn-icon {
+      padding: 0.5rem;
+      min-width: 2.5rem;
+    }
+
+    .icon-search {
+      font-size: 1rem;
+    }
+
     .section-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -295,6 +414,7 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      background-color: #f8f9fa;
     }
 
     .section-panel h3 {
@@ -311,11 +431,12 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      background-color: #f8f9fa;
     }
 
     .documents-panel.disabled {
       opacity: 0.5;
-      background-color: #f8f9fa;
+      background-color: #e9ecef;
     }
 
     .documents-panel h3 {
@@ -328,12 +449,6 @@ import { TBazaOper, TeSodStatus } from '../models/enums.model';
     .documents-buttons {
       display: flex;
       gap: 0.5rem;
-    }
-
-    .dialog-footer {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: flex-end;
     }
   `]
 })
