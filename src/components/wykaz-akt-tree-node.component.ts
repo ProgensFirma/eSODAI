@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WykazAktTreeNode, WykazAkt } from '../models/wykaz-akt.model';
+import { WykazAkt } from '../models/wykaz-akt.model';
+
+export interface WykazAktTreeNode {
+  data: WykazAkt;
+  children: WykazAktTreeNode[];
+  expanded: boolean;
+}
 
 @Component({
   selector: 'app-wykaz-akt-tree-node',

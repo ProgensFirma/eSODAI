@@ -2,13 +2,12 @@ import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WykazAktService } from '../services/wykaz-akt.service';
 import { WykazAkt } from '../models/wykaz-akt.model';
-import { Tree } from 'primeng/tree';
-import { TreeNode } from 'primeng/api';
+import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-node.component';
 
 @Component({
   selector: 'app-wykaz-akt-window',
   standalone: true,
-  imports: [CommonModule, Tree],
+  imports: [CommonModule, WykazAktTreeNodeComponent],
   template: `
     <div class="modal-overlay" (click)="close()">
       <div class="modal-window" (click)="$event.stopPropagation()">
@@ -20,22 +19,18 @@ import { TreeNode } from 'primeng/api';
         <div class="modal-body">
           <div class="content-layout">
             <div class="tree-panel">
-              <p-tree
-                [value]="treeNodes"
-                selectionMode="single"
-                [(selection)]="selectedNode"
-                (onNodeSelect)="onNodeSelect($event)"
-                [loading]="loading"
-                styleClass="custom-tree"
-              >
-                <ng-template let-node pTemplate="default">
-                  <span class="tree-node-label">
-                    <span class="node-symbol">{{ node.data.symbol }}</span>
-                    <span class="node-separator">-</span>
-                    <span class="node-name">{{ node.data.nazwa }}</span>
-                  </span>
-                </ng-template>
-              </p-tree>
+              <div class="tree-container" *ngIf="!loading">
+                <app-wykaz-akt-tree-node
+                  *ngFor="let node of treeNodes"
+                  [node]="node"
+                  [selectedNode]="selectedNode"
+                  (nodeSelected)="onNodeSelect($event)"
+                ></app-wykaz-akt-tree-node>
+              </div>
+              <div class="loading-state" *ngIf="loading">
+                <div class="loading-spinner"></div>
+                <p>Ładowanie wykazu akt...</p>
+              </div>
             </div>
 
             <div class="details-panel" *ngIf="selectedWykazAkt">
@@ -178,70 +173,39 @@ import { TreeNode } from 'primeng/api';
       padding: 12px;
     }
 
-    ::ng-deep .custom-tree {
-      border: none;
-      height: 100%;
+    .tree-container {
       overflow-y: auto;
-    }
-
-    ::ng-deep .custom-tree .p-tree-container {
       height: 100%;
-    }
-
-    ::ng-deep .custom-tree .p-treenode {
-      padding: 4px 0;
-    }
-
-    ::ng-deep .custom-tree .p-treenode-content {
       padding: 8px;
-      border-radius: 6px;
-      transition: all 0.2s ease;
     }
 
-    ::ng-deep .custom-tree .p-treenode-content:hover {
-      background: #f1f5f9;
-    }
-
-    ::ng-deep .custom-tree .p-treenode-content.p-highlight {
-      background: #dbeafe;
-      color: #1e40af;
-    }
-
-    ::ng-deep .custom-tree .p-tree-toggler {
-      width: 2rem;
-      height: 2rem;
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
       color: #64748b;
     }
 
-    ::ng-deep .custom-tree .p-tree-toggler:hover {
-      color: #1e293b;
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e2e8f0;
+      border-top: 3px solid #2563eb;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
     }
 
-    ::ng-deep .custom-tree .p-treenode-children {
-      padding-left: 2.5rem;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    .tree-node-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .loading-state p {
+      margin: 0;
       font-size: 14px;
-    }
-
-    .node-symbol {
-      font-weight: 600;
-      color: #1e40af;
-      min-width: 50px;
-    }
-
-    .node-separator {
-      color: #94a3b8;
-      font-weight: 500;
-    }
-
-    .node-name {
-      color: #334155;
-      font-weight: 500;
     }
 
     .details-panel {
@@ -400,8 +364,8 @@ export class WykazAktWindowComponent implements OnInit {
   @Output() closeRequested = new EventEmitter<void>();
 
   wykazAktList: WykazAkt[] = [];
-  treeNodes: TreeNode[] = [];
-  selectedNode: TreeNode | null = null;
+  treeNodes: WykazAktTreeNode[] = [];
+  selectedNode: WykazAkt | null = null;
   selectedWykazAkt: WykazAkt | null = null;
   loading = false;
 
@@ -426,20 +390,18 @@ export class WykazAktWindowComponent implements OnInit {
     });
   }
 
-  buildTree(wykazAktList: WykazAkt[]): TreeNode[] {
-    const nodeMap = new Map<string, TreeNode>();
+  buildTree(wykazAktList: WykazAkt[]): WykazAktTreeNode[] {
+    const nodeMap = new Map<string, WykazAktTreeNode>();
 
     wykazAktList.forEach(wykazAkt => {
       nodeMap.set(wykazAkt.symbol, {
-        label: `${wykazAkt.symbol} - ${wykazAkt.nazwa}`,
         data: wykazAkt,
         children: [],
-        expanded: wykazAkt.poziom === 1,
-        key: wykazAkt.symbol
+        expanded: wykazAkt.poziom === 1
       });
     });
 
-    const rootNodes: TreeNode[] = [];
+    const rootNodes: WykazAktTreeNode[] = [];
 
     wykazAktList.forEach(wykazAkt => {
       const node = nodeMap.get(wykazAkt.symbol)!;
@@ -451,9 +413,6 @@ export class WykazAktWindowComponent implements OnInit {
         const parentNode = nodeMap.get(parentSymbol);
 
         if (parentNode) {
-          if (!parentNode.children) {
-            parentNode.children = [];
-          }
           parentNode.children.push(node);
         } else {
           rootNodes.push(node);
@@ -464,8 +423,9 @@ export class WykazAktWindowComponent implements OnInit {
     return rootNodes;
   }
 
-  onNodeSelect(event: any) {
-    this.selectedWykazAkt = event.node.data;
+  onNodeSelect(wykazAkt: WykazAkt) {
+    this.selectedNode = wykazAkt;
+    this.selectedWykazAkt = wykazAkt;
   }
 
   close() {
