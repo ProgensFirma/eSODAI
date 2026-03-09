@@ -460,10 +460,23 @@ import { ZalacznikiService } from '../services/zalaczniki.service';
       min-height: 60px;
     }
 
+    .form-select {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .form-select:disabled {
       background: #f8fafc;
       color: #94a3b8;
       cursor: not-allowed;
+    }
+
+    .form-select option {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .kontrahent-group .input-with-button {
