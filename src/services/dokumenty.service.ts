@@ -83,6 +83,31 @@ export class DokumentyService {
       })
     );
   }
+
+  getDokumentyDlaSsprawy(sprawaNumer: number): Observable<Dokument[]> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString())
+      .append('sprawa', sprawaNumer.toString());
+
+    return this.http.get<Dokument[]>(`${this.configService.apiBaseUrl}/sprawy/dokumenty`, { params }).pipe(
+      catchError(error => {
+        console.error('Error fetching dokumenty dla sprawy:', error);
+
+        if (!environment.production) {
+          return of(this.getMockData());
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania dokumentów sprawy',
+            `Nie udało się pobrać dokumentów dla sprawy nr ${sprawaNumer}.`
+          );
+          return throwError(() => error);
+        }
+      })
+    );
+  }
     
   getOsobaRejestr(): Observable<{ Rejestr: string }> {
     const session = this.authService.getCurrentSession();

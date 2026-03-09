@@ -200,6 +200,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
           <div class="sprawy-documents-section">
             <app-documents-grid
               [selectedSkrzynka]="selectedSkrzynka"
+              [selectedSprawa]="selectedSprawa"
               (documentSelected)="onDocumentSelected($event)"
               (newDocumentRequested)="onNewDocumentRequested()"
               (editDocumentRequested)="onEditDocumentRequested($event)"

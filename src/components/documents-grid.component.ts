@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DokumentyService } from '../services/dokumenty.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
+import { Sprawa } from '../models/sprawa.model';
 import { TSkrzynki } from '../models/enums.model';
 
 @Component({
@@ -480,6 +481,7 @@ import { TSkrzynki } from '../models/enums.model';
 })
 export class DocumentsGridComponent implements OnChanges {
   @Input() selectedSkrzynka: Skrzynka | null = null;
+  @Input() selectedSprawa: Sprawa | null = null;
   @Output() documentSelected = new EventEmitter<Dokument>();
   @Output() newDocumentRequested = new EventEmitter<void>();
   @Output() editDocumentRequested = new EventEmitter<Dokument>();
@@ -495,6 +497,9 @@ export class DocumentsGridComponent implements OnChanges {
     if (changes['selectedSkrzynka'] && this.selectedSkrzynka) {
       this.loadDocuments();
     }
+    if (changes['selectedSprawa']) {
+      this.loadDocuments();
+    }
   }
 
   loadDocuments() {
@@ -503,18 +508,31 @@ export class DocumentsGridComponent implements OnChanges {
     this.loading = true;
     this.selectedDocument = null;
 
-    const skrzynkaId = this.selectedSkrzynka.skrzynka;
+    if (this.selectedSprawa) {
+      this.dokumentyService.getDokumentyDlaSsprawy(this.selectedSprawa.numer).subscribe({
+        next: (documents) => {
+          this.documents = documents;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error loading documents for sprawa:', error);
+          this.loading = false;
+        }
+      });
+    } else {
+      const skrzynkaId = this.selectedSkrzynka.skrzynka;
 
-    this.dokumentyService.getDokumenty(skrzynkaId, true).subscribe({
-      next: (documents) => {
-        this.documents = documents;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading documents:', error);
-        this.loading = false;
-      }
-    });
+      this.dokumentyService.getDokumenty(skrzynkaId, true).subscribe({
+        next: (documents) => {
+          this.documents = documents;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error loading documents:', error);
+          this.loading = false;
+        }
+      });
+    }
   }
 
   selectDocument(document: Dokument) {
