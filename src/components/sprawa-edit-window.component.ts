@@ -36,7 +36,9 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
           <label for="typSprawy">Typ Sprawy</label>
           <select class="form-select" [(ngModel)]="selectedTypSprawyId" (change)="onTypSprawyChange()">
             <option [value]="null">Wybierz typ sprawy</option>
-            <option *ngFor="let typ of sprawyTypy" [value]="typ.typ">{{ typ.typ }}</option>
+            <option *ngFor="let typ of sprawyTypy" [value]="typ.typ">
+              {{ typ.typ || '(brak nazwy)' }}{{ typ.rWA ? ' - RWA: ' + typ.rWA : '' }}
+            </option>
           </select>
         </div>
 
@@ -507,6 +509,7 @@ export class SprawaEditWindowComponent implements OnInit {
 
     this.sprawaTypyService.getSprawaTypy(session.sesja.toString()).subscribe({
       next: (typy) => {
+        console.log('Loaded sprawa types:', typy);
         this.sprawyTypy = typy;
       },
       error: (err) => console.error('Error loading sprawa types:', err)
