@@ -148,7 +148,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
             <div class="welcome-icon">📋</div>
             <h2>System obiegu dokumentów eSOD </h2>
             <p>
-              Najlepsza aplikacja obiegu dokumentów wg lauru konsumenta 2028 rok
+              ... aplikacja obiegu dokumentów ...
             </p>
             <ul class="feature-list">
               <li>📁 Obsługa spraw w urzędzie</li>
