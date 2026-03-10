@@ -12,6 +12,7 @@ import { WykazAktService } from '../services/wykaz-akt.service';
 import { ZalacznikTresc } from '../models/zalacznik.model';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
 import { ZalacznikiService } from '../services/zalaczniki.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-document-edit-window',
@@ -823,7 +824,8 @@ export class DocumentEditWindowComponent implements OnInit {
     private dokumentTypyService: DokumentTypyService,
     private dokumentyService: DokumentyService,
     private wykazAktService: WykazAktService,
-    private zalacznikiService: ZalacznikiService
+    private zalacznikiService: ZalacznikiService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -833,6 +835,7 @@ export class DocumentEditWindowComponent implements OnInit {
 
     if (this.mode === 'add') {
       this.loadOsobaRejestr();
+      this.initializeUprawPoziom();
     }
   }
 
@@ -869,6 +872,13 @@ export class DocumentEditWindowComponent implements OnInit {
         this.dokument.rejestr = 'RPP';
       }
     });
+  }
+
+  initializeUprawPoziom() {
+    const session = this.authService.getCurrentSession();
+    if (session && session.poziom) {
+      this.dokument.uprawPoziom = session.poziom;
+    }
   }
 
   initializeFormData() {
