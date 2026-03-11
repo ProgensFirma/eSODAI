@@ -61,7 +61,7 @@ import { environment } from '../environments/environment';
             <button
               type="submit"
               class="login-button"
-              [disabled]="!loginForm.valid || loading"
+              [disabled]="!loginForm.valid || loading || (isProduction && !backendVersionLoaded)"
             >
               <span class="loading-spinner" *ngIf="loading"></span>
               {{ loading ? 'Logowanie...' : 'Zaloguj się' }}
@@ -322,6 +322,8 @@ export class LoginWindowComponent implements OnInit {
   errorMessage = '';
   frontVersion = environment.frontVersion;
   backendVersion = '?';
+  backendVersionLoaded = false;
+  isProduction = environment.production;
 
   constructor(private authService: AuthService) {}
 
@@ -334,15 +336,27 @@ export class LoginWindowComponent implements OnInit {
     this.authService.getBackendVersion().subscribe({
       next: (response) => {
         this.backendVersion = response.wersja;
+        this.backendVersionLoaded = true;
       },
       error: (error) => {
         console.warn('Failed to fetch backend version:', error);
+        this.backendVersionLoaded = false;
+        if (this.isProduction) {
+          this.errorMessage = 'Brak połączenia z serwerem. Logowanie niemożliwe.';
+        } else {
+          this.backendVersionLoaded = true;
+        }
       }
     });
   }
 
   onSubmit() {
     if (this.loading) return;
+
+    if (this.isProduction && !this.backendVersionLoaded) {
+      this.errorMessage = 'Brak połączenia z serwerem. Logowanie niemożliwe.';
+      return;
+    }
 
     this.loading = true;
     this.errorMessage = '';
