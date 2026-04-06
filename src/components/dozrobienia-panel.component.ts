@@ -181,14 +181,14 @@ interface DoZrobieniaSection {
     .items-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 8px;
     }
 
     .item-row {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 14px 16px;
+      padding: 8px 12px;
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
@@ -210,7 +210,7 @@ interface DoZrobieniaSection {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       gap: 12px;
     }
 
@@ -227,17 +227,17 @@ interface DoZrobieniaSection {
     }
 
     .item-nazwa {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #1e293b;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .item-dotyczy {
-      font-size: 12px;
+      font-size: 11px;
       color: #64748b;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -246,21 +246,23 @@ interface DoZrobieniaSection {
 
     .item-action {
       flex-shrink: 0;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
+      background: transparent;
+      color: #64748b;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .item-action:hover {
-      background: #1d4ed8;
+      background: #f1f5f9;
+      color: #1e293b;
+      border-color: #94a3b8;
       transform: scale(1.05);
     }
 
