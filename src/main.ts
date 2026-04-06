@@ -26,12 +26,14 @@ import { EDoreczGridComponent } from './components/edorecz-grid.component';
 import { EDoreczWysGridComponent } from './components/edorecz-wys-grid.component';
 import { PowiadomieniaWindowComponent } from './components/powiadomienia-window.component';
 import { PracownicyWindowComponent } from './components/pracownicy-window.component';
+import { DoZrobieniaComponent } from './components/dozrobienia-panel.component';
 import { Dokument } from './models/dokument.model';
 import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek, TSkrzynki } from './models/enums.model';
 import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
 import { Sprawa } from './models/sprawa.model';
+import { DoZrobieniaItem } from './models/dozrobienia.model';
 import { ConfigService } from './services/config.service';
 import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
@@ -39,7 +41,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, DialogModule, ButtonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, UprawnienieWindowComponent, WykazAktWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
-      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent, PowiadomieniaWindowComponent, PracownicyWindowComponent],
+      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent, PowiadomieniaWindowComponent, PracownicyWindowComponent, DoZrobieniaComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -56,12 +58,22 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     <div class="app-container" *ngIf="isLoggedIn && !showWydzialSelect">
       <aside class="sidebar">
         <div class="sidebar-header">
-          <div 
-            class="menu-trigger"
-            (click)="toggleMenu()"
-          >
-            <span class="menu-icon">☰</span>
-            <span class="menu-text">Menu</span>
+          <div class="header-actions">
+            <div
+              class="menu-trigger"
+              (click)="toggleMenu()"
+            >
+              <span class="menu-icon">☰</span>
+              <span class="menu-text">Menu</span>
+            </div>
+            <button
+              class="todo-button"
+              (click)="showDoZrobienia()"
+              title="Do zrobienia"
+            >
+              <span class="todo-icon">✓</span>
+            </button>
+          </div>
             
             <div
               class="dropdown-menu"
@@ -113,7 +125,6 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
                 <span class="item-text">Informacja</span>
               </div>
             </div>
-          </div>
         </div>
         
         <div class="tree-section" [class.hidden]="showMenu">
@@ -144,19 +155,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
         </div>
         
         <div class="content-body" *ngIf="!selectedSkrzynka">
-          <div class="welcome-card" >
-            <div class="welcome-icon">📋</div>
-            <h2>System obiegu dokumentów eSOD </h2>
-            <p>
-              ... aplikacja obiegu dokumentów ...
-            </p>
-            <ul class="feature-list">
-              <li>📁 Obsługa spraw w urzędzie</li>
-              <li>📊 Obsługa dokumentów i załączników</li>
-              <li>🔄 Przyjazny interface</li>
-              <li>📱 Responsywny design</li>
-            </ul>
-          </div>
+          <app-dozrobienia-panel (itemClicked)="onDoZrobieniaItemClicked($event)"></app-dozrobienia-panel>
         </div>
 
         <div class="license-panel" *ngIf="!selectedSkrzynka">
@@ -321,7 +320,14 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       background: white;
     }
 
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+
     .menu-trigger {
+      flex: 1;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -332,6 +338,28 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       position: relative;
       background: #f8fafc;
       border: 1px solid #e2e8f0;
+    }
+
+    .todo-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .todo-button:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .todo-icon {
+      font-size: 18px;
     }
 
     .menu-trigger:hover {
@@ -808,6 +836,7 @@ export class App implements OnInit, OnDestroy {
   showPowiadomieniaWindow = false;
   showPracownicyWindow = false;
   showErrorDialog = false;
+  showDoZrobieniaPanel = false;
   currentError: ErrorNotification | null = null;
   showInfoWindow = false;
   showParametryWindow = false;
@@ -859,6 +888,91 @@ export class App implements OnInit, OnDestroy {
     this.selectedSkrzynka = skrzynka;
     this.selectedDocument = null;
     this.selectedSprawa = null;
+  }
+
+  showDoZrobienia() {
+    this.selectedSkrzynka = null;
+    this.selectedDocument = null;
+    this.selectedSprawa = null;
+    this.showMenu = false;
+  }
+
+  onDoZrobieniaItemClicked(item: DoZrobieniaItem) {
+    const skrzynkaTyp = this.mapDoZrobieniaTypToSkrzynka(item.typ);
+    if (!skrzynkaTyp) {
+      console.error('Nieznany typ do zrobienia:', item.typ);
+      return;
+    }
+
+    const targetSkrzynka: Skrzynka = {
+      sql: '',
+      sqlOrder: '',
+      skrzynka: skrzynkaTyp,
+      poziom: 1,
+      typ: this.getSkrzynkaTyp(item.typ),
+      nazwa: this.getSkrzynkaNazwa(skrzynkaTyp),
+      zliczana: false,
+      ilosc: 0,
+      suma: 0,
+      zmiana: false,
+      doWgl: false,
+      doUsun: false,
+      korEl: false,
+      skrDef: 0,
+      dokFinPoziom: 0,
+      dokFinZmiana: false
+    };
+
+    this.selectedSkrzynka = targetSkrzynka;
+    this.selectedDocument = null;
+    this.selectedSprawa = null;
+
+    setTimeout(() => {
+      this.selectItemByNumber(item.numer, item.typ);
+    }, 500);
+  }
+
+  private mapDoZrobieniaTypToSkrzynka(typ: string): TSkrzynki | null {
+    switch (typ) {
+      case 'tss_SSprTermin':
+        return TSkrzynki.tss_SSprTermin;
+      case 'tps_PBiezace':
+        return TSkrzynki.tps_PBiezace;
+      case 'tes_KEleDoreczPrzych':
+        return TSkrzynki.tes_KEleDoreczPrzych;
+      default:
+        return null;
+    }
+  }
+
+  private getSkrzynkaTyp(itemTyp: string): string {
+    switch (itemTyp) {
+      case 'tss_SSprTermin':
+        return 'ts_sprawy';
+      case 'tps_PBiezace':
+        return 'ts_pisma';
+      case 'tes_KEleDoreczPrzych':
+        return 'ts_ele_dorecz';
+      default:
+        return '';
+    }
+  }
+
+  private getSkrzynkaNazwa(typ: TSkrzynki): string {
+    switch (typ) {
+      case TSkrzynki.tss_SSprTermin:
+        return 'Sprawy - terminy';
+      case TSkrzynki.tps_PBiezace:
+        return 'Dokumenty bieżące';
+      case TSkrzynki.tes_KEleDoreczPrzych:
+        return 'eDoręczenia - przychodzące';
+      default:
+        return 'Nieznana skrzynka';
+    }
+  }
+
+  private selectItemByNumber(numer: number, typ: string) {
+    console.log(`Próba zaznaczenia elementu nr ${numer} typu ${typ}`);
   }
 
   onSprawaSelected(sprawa: Sprawa) {
