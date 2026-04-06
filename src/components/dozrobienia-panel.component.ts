@@ -17,7 +17,7 @@ interface DoZrobieniaSection {
     <div class="dozrobienia-container">
       <div class="dozrobienia-header">
         <h2 class="dozrobienia-title">
-          <span class="title-icon">✓</span>
+          <span class="title-icon">🗂️</span>
           Do zrobienia
         </h2>
         <button
@@ -81,23 +81,23 @@ interface DoZrobieniaSection {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 32px;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      border-bottom: 2px solid #e2e8f0;
+      padding: 16px 24px;
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
     }
 
     .dozrobienia-title {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       margin: 0;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 700;
       color: #1e293b;
     }
 
     .title-icon {
-      font-size: 28px;
+      font-size: 22px;
     }
 
     .refresh-button {
