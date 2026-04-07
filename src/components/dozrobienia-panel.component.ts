@@ -17,8 +17,8 @@ interface DoZrobieniaSection {
     <div class="dozrobienia-container">
       <div class="dozrobienia-header">
         <h2 class="dozrobienia-title">
-          <span class="title-icon">🗂️</span>
-          Do zrobienia
+          <span class="title-icon">✓</span>
+          Biurko
         </h2>
         <button
           class="refresh-button"
