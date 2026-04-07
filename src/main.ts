@@ -69,7 +69,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
             <button
               class="todo-button"
               (click)="showDoZrobienia()"
-              title="Biurko"
+              title="Zadania na dziś"
             >
               <span class="todo-icon">✓</span>
             </button>
