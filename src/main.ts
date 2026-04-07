@@ -71,7 +71,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
               (click)="showDoZrobienia()"
               title="Do zrobienia"
             >
-              <span class="todo-icon">🗂️</span>
+              <span class="todo-icon">📋</span>
             </button>
           </div>
             
@@ -345,8 +345,8 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       align-items: center;
       justify-content: center;
       padding: 8px 12px;
-      background: #2563eb;
-      color: white;
+      background: transparent;
+      color: #475569;
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -354,7 +354,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     }
 
     .todo-button:hover {
-      background: #1d4ed8;
+      background: #e2e8f0;
       transform: translateY(-1px);
     }
 
