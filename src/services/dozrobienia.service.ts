@@ -19,7 +19,7 @@ export class DoZrobieniaService {
 
   getDoZrobienia(): Observable<DoZrobieniaResponse> {
     const session = this.authService.getCurrentSession();
-    const url = `${this.configService.apiBaseUrl}/dozrobienia`;
+    const url = `${this.configService.apiBaseUrl}/zadnadzis`;
 
     return this.http.get<DoZrobieniaResponse>(url, {
       params: { sesja: session?.sesja?.toString() || '' }
