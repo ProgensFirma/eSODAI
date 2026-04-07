@@ -18,7 +18,7 @@ interface DoZrobieniaSection {
       <div class="dozrobienia-header">
         <h2 class="dozrobienia-title">
           <span class="title-icon">✓</span>
-          Biurko
+          zadania na dziś
         </h2>
         <button
           class="refresh-button"
