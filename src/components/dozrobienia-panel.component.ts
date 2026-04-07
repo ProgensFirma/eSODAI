@@ -1,12 +1,12 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DoZrobieniaService } from '../services/dozrobienia.service';
-import { DoZrobieniaItem, DoZrobieniaTyp } from '../models/dozrobienia.model';
+import { TZadNaDzisItem, TZadNaDzisTyp } from '../models/dozrobienia.model';
 
 interface DoZrobieniaSection {
   title: string;
   typ: string;
-  items: DoZrobieniaItem[];
+  items: TZadNaDzisItem[];
 }
 
 @Component({
@@ -342,7 +342,7 @@ interface DoZrobieniaSection {
   `]
 })
 export class DoZrobieniaComponent implements OnInit {
-  @Output() itemClicked = new EventEmitter<DoZrobieniaItem>();
+  @Output() itemClicked = new EventEmitter<TZadNaDzisItem>();
 
   loading = false;
   sections: DoZrobieniaSection[] = [];
@@ -367,24 +367,24 @@ export class DoZrobieniaComponent implements OnInit {
     });
   }
 
-  private buildSections(items: DoZrobieniaItem[]) {
+  private buildSections(items: TZadNaDzisItem[]) {
     const sectionMap = new Map<string, DoZrobieniaSection>();
 
-    sectionMap.set(DoZrobieniaTyp.Sprawy, {
+    sectionMap.set(TZadNaDzisTyp.Sprawa, {
       title: 'Sprawy',
-      typ: DoZrobieniaTyp.Sprawy,
+      typ: TZadNaDzisTyp.Sprawa,
       items: []
     });
 
-    sectionMap.set(DoZrobieniaTyp.Dokumenty, {
+    sectionMap.set(TZadNaDzisTyp.Dokument, {
       title: 'Dokumenty',
-      typ: DoZrobieniaTyp.Dokumenty,
+      typ: TZadNaDzisTyp.Dokument,
       items: []
     });
 
-    sectionMap.set(DoZrobieniaTyp.EDorecz, {
+    sectionMap.set(TZadNaDzisTyp.EDorecz, {
       title: 'eDoręczenia',
-      typ: DoZrobieniaTyp.EDorecz,
+      typ: TZadNaDzisTyp.EDorecz,
       items: []
     });
 
@@ -409,7 +409,7 @@ export class DoZrobieniaComponent implements OnInit {
     return `${day}.${month}.${year}`;
   }
 
-  onItemClick(item: DoZrobieniaItem) {
+  onItemClick(item: TZadNaDzisItem) {
     this.itemClicked.emit(item);
   }
 }

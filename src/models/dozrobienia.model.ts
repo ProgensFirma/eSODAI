@@ -1,4 +1,4 @@
-export interface DoZrobieniaItem {
+export interface TZadNaDzisItem {
   typ: string;
   numer: number;
   nazwa: string;
@@ -7,12 +7,12 @@ export interface DoZrobieniaItem {
   dotyczy: string;
 }
 
-export interface DoZrobieniaResponse {
-  dozrobienia: DoZrobieniaItem[];
+export interface TZadNaDzisResponse {
+  dozrobienia: TZadNaDzisItem[];
 }
 
-export enum DoZrobieniaTyp {
-  Sprawy = 'tss_SSprTermin',
-  Dokumenty = 'tps_PBiezace',
-  EDorecz = 'tes_KEleDoreczPrzych'
+export enum TZadNaDzisTyp {
+  Sprawa = 'Sprawa',
+  Dokument = 'Dokument',
+  EDorecz = 'EDorecz'
 }

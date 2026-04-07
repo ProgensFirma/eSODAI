@@ -33,7 +33,7 @@ import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
 import { Sprawa } from './models/sprawa.model';
-import { DoZrobieniaItem } from './models/dozrobienia.model';
+import { TZadNaDzisItem, TZadNaDzisTyp } from './models/dozrobienia.model';
 import { ConfigService } from './services/config.service';
 import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
@@ -897,7 +897,7 @@ export class App implements OnInit, OnDestroy {
     this.showMenu = false;
   }
 
-  onDoZrobieniaItemClicked(item: DoZrobieniaItem) {
+  onDoZrobieniaItemClicked(item: TZadNaDzisItem) {
     const skrzynkaTyp = this.mapDoZrobieniaTypToSkrzynka(item.typ);
     if (!skrzynkaTyp) {
       console.error('Nieznany typ do zrobienia:', item.typ);
@@ -934,11 +934,11 @@ export class App implements OnInit, OnDestroy {
 
   private mapDoZrobieniaTypToSkrzynka(typ: string): TSkrzynki | null {
     switch (typ) {
-      case 'tss_SSprTermin':
+      case TZadNaDzisTyp.Sprawa:
         return TSkrzynki.tss_SSprTermin;
-      case 'tps_PBiezace':
+      case TZadNaDzisTyp.Dokument:
         return TSkrzynki.tps_PBiezace;
-      case 'tes_KEleDoreczPrzych':
+      case TZadNaDzisTyp.EDorecz:
         return TSkrzynki.tes_KEleDoreczPrzych;
       default:
         return null;
@@ -947,11 +947,11 @@ export class App implements OnInit, OnDestroy {
 
   private getSkrzynkaTyp(itemTyp: string): string {
     switch (itemTyp) {
-      case 'tss_SSprTermin':
+      case TZadNaDzisTyp.Sprawa:
         return 'ts_sprawy';
-      case 'tps_PBiezace':
+      case TZadNaDzisTyp.Dokument:
         return 'ts_pisma';
-      case 'tes_KEleDoreczPrzych':
+      case TZadNaDzisTyp.EDorecz:
         return 'ts_ele_dorecz';
       default:
         return '';
