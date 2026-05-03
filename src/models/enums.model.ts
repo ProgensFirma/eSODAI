@@ -113,6 +113,7 @@ export enum TSkrzynki {
   tes_KElKSEFDoWys ='tes_KElKSEFDoWys',
   tes_KElKSEFWyslana ='tes_KElKSEFWyslana',
   tps_Pisma ='tps_Pisma',
+  tps_PWydzialu = 'tps_PWydzialu',
   tps_POtrzymane ='tps_POtrzymane',
   tps_PDoWgladu ='tps_PDoWgladu',
   tps_PDoWgladu_Wl ='tps_PDoWgladu_Wl',
