@@ -966,6 +966,8 @@ export class App implements OnInit, OnDestroy {
         return 'Dokumenty bieżące';
       case TSkrzynki.tes_KEleDoreczPrzych:
         return 'eDoręczenia - przychodzące';
+      case TSkrzynki.tps_PWydzialu:
+        return 'Do pobrania';
       default:
         return 'Nieznana skrzynka';
     }
