@@ -120,10 +120,6 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
                 <span class="item-text">Uprawnienia</span>
               </div>
               <div class="menu-separator"></div>
-              <div class="menu-item" (click)="openInstrukcja()">
-                <span class="item-icon">📖</span>
-                <span class="item-text">Instrukcja</span>
-              </div>
               <div class="menu-item" (click)="openInfo()">
                 <span class="item-icon">ℹ️</span>
                 <span class="item-text">Informacja</span>
@@ -1057,11 +1053,6 @@ export class App implements OnInit, OnDestroy {
 
   closeKontrahenciWindow() {
     this.showKontrahenciWindow = false;
-  }
-
-  openInstrukcja() {
-    window.open('instrukcja.html', '_blank');
-    this.showMenu = false;
   }
 
   openInfo() {
