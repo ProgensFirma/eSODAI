@@ -68,6 +68,13 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
             </div>
             <button
               class="todo-button"
+              (click)="toggleDarkMode()"
+              [title]="isDarkMode ? 'Jasny motyw' : 'Ciemny motyw'"
+            >
+              <span class="todo-icon">{{ isDarkMode ? '☀️' : '🌙' }}</span>
+            </button>
+            <button
+              class="todo-button"
               (click)="showDoZrobienia()"
               title="Zadania na dziś"
             >
@@ -303,25 +310,28 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     .app-container {
       display: flex;
       height: 100vh;
-      background-color: #f1f5f9;
+      background-color: var(--bg-app);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      transition: var(--transition-theme);
     }
 
     .sidebar {
       width: 320px;
       min-width: 320px;
-      background: white;
-      border-right: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-default);
       display: flex;
       flex-direction: column;
-      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.05);
+      box-shadow: 4px 0 12px var(--shadow-sm);
+      transition: var(--transition-theme);
     }
 
     .sidebar-header {
       position: relative;
       padding: 16px 20px;
-      border-bottom: 1px solid #e2e8f0;
-      background: white;
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-surface);
+      transition: var(--transition-theme);
     }
 
     .header-actions {
@@ -340,8 +350,8 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-default);
     }
 
     .todo-button {
@@ -350,7 +360,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       justify-content: center;
       padding: 8px 12px;
       background: transparent;
-      color: #475569;
+      color: var(--text-secondary);
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -358,7 +368,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     }
 
     .todo-button:hover {
-      background: #e2e8f0;
+      background: var(--border-default);
       transform: translateY(-1px);
     }
 
@@ -367,19 +377,19 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     }
 
     .menu-trigger:hover {
-      background: #e2e8f0;
+      background: var(--border-default);
       transform: translateY(-1px);
     }
 
     .menu-icon {
       font-size: 16px;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .menu-text {
       font-size: 14px;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .dropdown-menu {
@@ -387,10 +397,10 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       top: 100%;
       left: 0;
       right: 0;
-      background: white;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
       border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 24px var(--shadow-md);
       z-index: 1000;
       opacity: 0;
       visibility: hidden;
@@ -412,7 +422,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       padding: 12px 16px;
       cursor: pointer;
       transition: all 0.2s ease;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--bg-muted);
     }
 
     .menu-item:last-child {
@@ -421,12 +431,12 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
     .menu-separator {
       height: 1px;
-      background: #cbd5e1;
+      background: var(--border-muted);
       margin: 4px 0;
     }
 
     .menu-item:hover {
-      background: #f8fafc;
+      background: var(--bg-subtle);
       transform: translateX(4px);
     }
 
@@ -445,13 +455,13 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     .item-text {
       font-size: 14px;
       font-weight: 500;
-      color: #1e293b;
+      color: var(--text-primary);
       flex: 1;
     }
 
     .submenu-arrow {
       font-size: 10px;
-      color: #64748b;
+      color: var(--text-muted);
       transition: transform 0.2s ease;
       margin-left: auto;
     }
@@ -460,7 +470,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease;
-      background: #f8fafc;
+      background: var(--bg-subtle);
     }
 
     .submenu.visible {
@@ -474,7 +484,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       padding: 10px 16px 10px 32px;
       cursor: pointer;
       transition: all 0.2s ease;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--border-default);
     }
 
     .submenu-item:last-child {
@@ -482,7 +492,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     }
 
     .submenu-item:hover {
-      background: #e2e8f0;
+      background: var(--border-default);
       transform: translateX(4px);
     }
 
@@ -509,12 +519,13 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
     .content-header {
       padding: 32px 40px;
-      background: linear-gradient(135deg, #ffffff, #f8fafc);
-      border-bottom: 1px solid #e2e8f0;
+      background: linear-gradient(135deg, var(--bg-surface), var(--bg-subtle));
+      border-bottom: 1px solid var(--border-default);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 24px;
+      transition: var(--transition-theme);
     }
 
     .header-left {
@@ -530,11 +541,12 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     .user-info {
       font-size: 14px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
       padding: 8px 16px;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
+      transition: var(--transition-theme);
     }
 
     .session-timer {
@@ -543,18 +555,19 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       gap: 8px;
       font-size: 14px;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
       padding: 8px 16px;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       min-width: 100px;
+      transition: var(--transition-theme);
     }
 
     .session-timer.warning {
-      background: #fef3c7;
-      border-color: #fbbf24;
-      color: #92400e;
+      background: var(--warning-bg);
+      border-color: var(--warning-border);
+      color: var(--warning-text);
     }
 
     .timer-icon {
@@ -599,8 +612,8 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       margin: 0 0 8px 0;
       font-size: 32px;
       font-weight: 800;
-      color: #1e293b;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: var(--text-primary);
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -609,7 +622,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     .subtitle {
       margin: 0;
       font-size: 16px;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 500;
     }
 
@@ -659,13 +672,14 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     }
 
     .welcome-card {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
       padding: 40px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 20px var(--shadow-card);
       max-width: 600px;
       margin: 0 auto;
       text-align: center;
+      transition: var(--transition-theme);
     }
 
     .welcome-icon {
@@ -677,14 +691,14 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       margin: 0 0 16px 0;
       font-size: 28px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .welcome-card p {
       margin: 0 0 32px 0;
       font-size: 16px;
       line-height: 1.6;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .feature-list {
@@ -699,8 +713,8 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     .feature-list li {
       padding: 12px 0;
       font-size: 15px;
-      color: #475569;
-      border-bottom: 1px solid #f1f5f9;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--bg-muted);
     }
 
     .feature-list li:last-child {
@@ -708,18 +722,28 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     }
 
     .license-panel {
-      background: #e5e7eb;
+      background: var(--bg-license);
       padding: 16px 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-top: 1px solid #d1d5db;
+      border-top: 1px solid var(--border-license);
+      transition: var(--transition-theme);
     }
 
     .license-text {
       font-size: 14px;
-      color: #374151;
+      color: var(--text-license);
       text-align: center;
+    }
+
+    .theme-toggle-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0;
+      line-height: 1;
     }
 
     @media (max-width: 1024px) {
@@ -756,7 +780,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
         min-width: unset;
         height: 50vh;
         border-right: none;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid var(--border-default);
       }
 
       .main-content {
@@ -807,21 +831,21 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
     .error-message h3 {
       margin: 0 0 0.5rem 0;
-      color: #dc2626;
+      color: var(--error-text);
       font-size: 18px;
       font-weight: 600;
     }
 
     .error-message p {
       margin: 0;
-      color: #64748b;
+      color: var(--text-muted);
       font-size: 14px;
       line-height: 1.5;
     }
 
     ::ng-deep .error-dialog .p-dialog-header {
-      background: #fef2f2;
-      color: #dc2626;
+      background: var(--error-bg);
+      color: var(--error-text);
     }
 
     ::ng-deep .error-dialog .p-dialog-content {
@@ -835,6 +859,7 @@ export class App implements OnInit, OnDestroy {
   selectedDocument: Dokument | null = null;
   selectedSprawa: Sprawa | null = null;
   showMenu = false;
+  isDarkMode = false;
   showKartotekiSubmenu = false;
   showKontrahenciWindow = false;
   showPowiadomieniaWindow = false;
@@ -878,6 +903,17 @@ export class App implements OnInit, OnDestroy {
       this.currentError = error;
       this.showErrorDialog = true;
     });
+    const saved = localStorage.getItem('darkMode');
+    if (saved === 'true') {
+      this.isDarkMode = true;
+      document.body.classList.add('dark');
+    }
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    document.body.classList.toggle('dark', this.isDarkMode);
+    localStorage.setItem('darkMode', String(this.isDarkMode));
   }
 
   @HostListener('document:click')
