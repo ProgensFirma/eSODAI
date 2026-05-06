@@ -843,13 +843,27 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       line-height: 1.5;
     }
 
+    ::ng-deep .error-dialog .p-dialog {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      box-shadow: 0 8px 32px var(--shadow-md);
+    }
+
     ::ng-deep .error-dialog .p-dialog-header {
       background: var(--error-bg);
       color: var(--error-text);
+      border-bottom: 1px solid var(--border-default);
     }
 
     ::ng-deep .error-dialog .p-dialog-content {
+      background: var(--bg-surface);
+      color: var(--text-primary);
       padding: 2rem;
+    }
+
+    ::ng-deep .error-dialog .p-dialog-footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-default);
     }
   `]
 })
