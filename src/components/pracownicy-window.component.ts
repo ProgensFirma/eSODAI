@@ -119,7 +119,7 @@ import { AuthService } from '../services/auth.service';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -128,15 +128,16 @@ import { AuthService } from '../services/auth.service';
     }
 
     .pracownicy-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       width: 90vw;
       height: 85vh;
       max-width: 1200px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transition: var(--transition-theme);
     }
 
     .window-header {
@@ -204,9 +205,9 @@ import { AuthService } from '../services/auth.service';
 
     .pracownicy-list-section {
       flex: 1;
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -217,15 +218,15 @@ import { AuthService } from '../services/auth.service';
       justify-content: space-between;
       align-items: center;
       padding: 16px 20px;
-      background: white;
-      border-bottom: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-default);
     }
 
     .list-header h3 {
       margin: 0;
       font-size: 18px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .list-controls {
@@ -237,15 +238,17 @@ import { AuthService } from '../services/auth.service';
     .filter-label {
       font-size: 14px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .filter-input {
       padding: 6px 12px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       font-size: 14px;
       min-width: 200px;
+      background: var(--input-bg);
+      color: var(--input-text);
       transition: all 0.2s ease;
     }
 
@@ -295,11 +298,11 @@ import { AuthService } from '../services/auth.service';
       grid-template-columns: 150px 1fr;
       gap: 12px;
       padding: 12px 16px;
-      background: #f1f5f9;
-      border-bottom: 2px solid #e2e8f0;
+      background: var(--table-header-bg);
+      border-bottom: 2px solid var(--border-default);
       font-weight: 600;
       font-size: 13px;
-      color: #475569;
+      color: var(--table-header-text);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -314,12 +317,12 @@ import { AuthService } from '../services/auth.service';
     }
 
     .table-body::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .table-body::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
@@ -328,18 +331,18 @@ import { AuthService } from '../services/auth.service';
       grid-template-columns: 150px 1fr;
       gap: 12px;
       padding: 12px 16px;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--table-row-border);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .table-row:hover {
-      background: #f8fafc;
+      background: var(--table-row-hover);
     }
 
     .table-row.selected {
-      background: linear-gradient(135deg, #eff6ff, #dbeafe);
-      border-left: 4px solid #2563eb;
+      background: var(--selected-bg);
+      border-left: 4px solid var(--selected-border);
       padding-left: 12px;
     }
 
@@ -352,13 +355,13 @@ import { AuthService } from '../services/auth.service';
 
     .numer {
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
       font-family: 'Courier New', monospace;
     }
 
     .identyfikator {
       font-weight: 500;
-      color: #1e293b;
+      color: var(--text-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -369,8 +372,8 @@ import { AuthService } from '../services/auth.service';
       justify-content: space-between;
       align-items: center;
       padding: 16px 20px;
-      background: white;
-      border-top: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-default);
     }
 
     .page-button {
@@ -405,12 +408,12 @@ import { AuthService } from '../services/auth.service';
 
     .page-numbers {
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .records-info {
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .loading-state,
@@ -421,13 +424,13 @@ import { AuthService } from '../services/auth.service';
       justify-content: center;
       flex: 1;
       padding: 40px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #e2e8f0;
+      border: 3px solid var(--border-default);
       border-top: 3px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;

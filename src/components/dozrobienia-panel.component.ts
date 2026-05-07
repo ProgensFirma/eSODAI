@@ -71,10 +71,11 @@ interface DoZrobieniaSection {
       height: 100%;
       display: flex;
       flex-direction: column;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       overflow: hidden;
+      transition: var(--transition-theme);
     }
 
     .dozrobienia-header {
@@ -82,8 +83,8 @@ interface DoZrobieniaSection {
       justify-content: space-between;
       align-items: center;
       padding: 16px 24px;
-      background: white;
-      border-bottom: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-default);
     }
 
     .dozrobienia-title {
@@ -93,7 +94,7 @@ interface DoZrobieniaSection {
       margin: 0;
       font-size: 20px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .title-icon {
@@ -148,17 +149,17 @@ interface DoZrobieniaSection {
     }
 
     .dozrobienia-content::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .dozrobienia-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
     .dozrobienia-content::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: var(--scrollbar-thumb-hover);
     }
 
     .section {
@@ -173,7 +174,7 @@ interface DoZrobieniaSection {
       margin: 0 0 16px 0;
       font-size: 18px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
       padding-bottom: 8px;
       border-bottom: 2px solid #2563eb;
     }
@@ -189,15 +190,15 @@ interface DoZrobieniaSection {
       align-items: center;
       gap: 12px;
       padding: 8px 12px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-default);
       border-radius: 8px;
       transition: all 0.2s ease;
     }
 
     .item-row:hover {
-      background: #f1f5f9;
-      border-color: #cbd5e1;
+      background: var(--bg-muted);
+      border-color: var(--border-muted);
       transform: translateX(2px);
     }
 
@@ -222,14 +223,14 @@ interface DoZrobieniaSection {
 
     .item-data {
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 500;
     }
 
     .item-nazwa {
       font-size: 13px;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
       margin-bottom: 2px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -238,7 +239,7 @@ interface DoZrobieniaSection {
 
     .item-dotyczy {
       font-size: 11px;
-      color: #64748b;
+      color: var(--text-muted);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -252,17 +253,17 @@ interface DoZrobieniaSection {
       align-items: center;
       justify-content: center;
       background: transparent;
-      color: #64748b;
-      border: 1px solid #cbd5e1;
+      color: var(--text-muted);
+      border: 1px solid var(--border-muted);
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .item-action:hover {
-      background: #f1f5f9;
-      color: #1e293b;
-      border-color: #94a3b8;
+      background: var(--bg-muted);
+      color: var(--text-primary);
+      border-color: var(--text-faint);
       transform: scale(1.05);
     }
 
@@ -275,10 +276,10 @@ interface DoZrobieniaSection {
       align-items: center;
       gap: 12px;
       padding: 20px;
-      background: #f8fafc;
-      border: 1px dashed #cbd5e1;
+      background: var(--bg-subtle);
+      border: 1px dashed var(--border-muted);
       border-radius: 8px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .empty-icon {
@@ -299,13 +300,13 @@ interface DoZrobieniaSection {
       justify-content: center;
       flex: 1;
       padding: 40px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #e2e8f0;
+      border: 3px solid var(--border-default);
       border-top: 3px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;

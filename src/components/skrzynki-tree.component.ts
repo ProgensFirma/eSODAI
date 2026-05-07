@@ -48,9 +48,9 @@ import { Skrzynka, TreeNode } from '../models/skrzynka.model';
       height: 100%;
       display: flex;
       flex-direction: column;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--shadow-card);
       overflow: hidden;
     }
 
@@ -59,8 +59,8 @@ import { Skrzynka, TreeNode } from '../models/skrzynka.model';
       justify-content: space-between;
       align-items: center;
       padding: 20px 24px;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      border-bottom: 1px solid #e2e8f0;
+      background: linear-gradient(135deg, var(--bg-subtle), var(--bg-muted));
+      border-bottom: 1px solid var(--border-default);
     }
 
     .tree-title {
@@ -70,7 +70,7 @@ import { Skrzynka, TreeNode } from '../models/skrzynka.model';
       margin: 0;
       font-size: 20px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .title-icon {
@@ -125,17 +125,17 @@ import { Skrzynka, TreeNode } from '../models/skrzynka.model';
     }
 
     .tree-content::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 3px;
     }
 
     .tree-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 3px;
     }
 
     .tree-content::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: var(--scrollbar-thumb-hover);
     }
 
     .loading-state,
@@ -146,13 +146,13 @@ import { Skrzynka, TreeNode } from '../models/skrzynka.model';
       justify-content: center;
       flex: 1;
       padding: 40px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #e2e8f0;
+      border: 3px solid var(--border-default);
       border-top: 3px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;

@@ -86,7 +86,7 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -95,15 +95,16 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
     }
 
     .window-container {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       width: 90%;
       max-width: 600px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
       animation: slideIn 0.3s ease;
+      transition: var(--transition-theme);
     }
 
     @keyframes slideIn {
@@ -122,15 +123,15 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
       justify-content: space-between;
       align-items: center;
       padding: 24px 32px;
-      border-bottom: 1px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-bottom: 1px solid var(--border-default);
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
     }
 
     .window-title {
       margin: 0;
       font-size: 24px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .close-button {
@@ -138,8 +139,8 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
       height: 36px;
       border-radius: 8px;
       border: none;
-      background: #f1f5f9;
-      color: #64748b;
+      background: var(--bg-muted);
+      color: var(--text-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -150,8 +151,8 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
     }
 
     .close-button:hover {
-      background: #e2e8f0;
-      color: #1e293b;
+      background: var(--border-default);
+      color: var(--text-primary);
       transform: scale(1.1);
     }
 
@@ -174,29 +175,29 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
       margin-bottom: 8px;
       font-size: 14px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .form-select {
       width: 100%;
       padding: 12px 16px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--input-border);
       border-radius: 8px;
       font-size: 14px;
-      color: #1e293b;
-      background: white;
+      color: var(--input-text);
+      background: var(--input-bg);
       transition: all 0.2s ease;
     }
 
     .form-select:focus {
       outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      border-color: var(--input-focus-border);
+      box-shadow: var(--input-focus-shadow);
     }
 
     .form-select:disabled {
-      background: #f1f5f9;
-      color: #94a3b8;
+      background: var(--bg-muted);
+      color: var(--text-faint);
       cursor: not-allowed;
     }
 
@@ -233,11 +234,11 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
 
     .window-footer {
       padding: 24px 32px;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid var(--border-default);
       display: flex;
       gap: 12px;
       justify-content: flex-end;
-      background: #f8fafc;
+      background: var(--bg-subtle);
     }
 
     .action-button {
@@ -265,18 +266,18 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
     }
 
     .button-save:disabled {
-      background: #cbd5e1;
-      color: #94a3b8;
+      background: var(--border-muted);
+      color: var(--text-faint);
       cursor: not-allowed;
     }
 
     .button-cancel {
-      background: #f1f5f9;
-      color: #475569;
+      background: var(--bg-muted);
+      color: var(--text-secondary);
     }
 
     .button-cancel:hover {
-      background: #e2e8f0;
+      background: var(--border-default);
       transform: translateY(-1px);
     }
 

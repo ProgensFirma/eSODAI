@@ -90,7 +90,7 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -99,14 +99,15 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
     }
 
     .modal-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       width: 1000px;
       max-width: 95vw;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
+      transition: var(--transition-theme);
     }
 
     .modal-header {
@@ -114,15 +115,15 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
       justify-content: space-between;
       align-items: center;
       padding: 24px 32px;
-      border-bottom: 2px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-bottom: 2px solid var(--border-default);
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
     }
 
     .modal-title {
       margin: 0;
       font-size: 24px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .close-button {
@@ -130,7 +131,7 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
       border: none;
       font-size: 28px;
       cursor: pointer;
-      color: #64748b;
+      color: var(--text-muted);
       width: 36px;
       height: 36px;
       display: flex;
@@ -141,8 +142,8 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
     }
 
     .close-button:hover {
-      background: #e2e8f0;
-      color: #1e293b;
+      background: var(--border-default);
+      color: var(--text-primary);
     }
 
     .modal-body {
@@ -163,9 +164,9 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
     }
 
     .tree-panel {
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       border-radius: 8px;
-      background: white;
+      background: var(--bg-surface);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -185,13 +186,13 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
       align-items: center;
       justify-content: center;
       height: 100%;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #e2e8f0;
+      border: 3px solid var(--border-default);
       border-top: 3px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;
@@ -209,9 +210,9 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
     }
 
     .details-panel {
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       border-radius: 8px;
-      background: white;
+      background: var(--bg-surface);
       overflow-y: auto;
       padding: 20px;
       height: 600px;
@@ -226,7 +227,7 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
 
     .empty-state {
       text-align: center;
-      color: #94a3b8;
+      color: var(--text-faint);
     }
 
     .empty-icon {
@@ -246,7 +247,7 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
     }
 
     .detail-section {
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 8px;
       padding: 16px;
     }
@@ -255,7 +256,7 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
       margin: 0 0 12px 0;
       font-size: 14px;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -275,7 +276,7 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
     .detail-item label {
       font-size: 12px;
       font-weight: 600;
-      color: #64748b;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.3px;
     }
@@ -283,26 +284,26 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
     .detail-value {
       font-size: 14px;
       font-weight: 500;
-      color: #1e293b;
-      background: white;
+      color: var(--text-primary);
+      background: var(--bg-surface);
       padding: 8px 12px;
       border-radius: 4px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .uwagi-content {
       font-size: 13px;
       line-height: 1.6;
-      color: #475569;
-      background: white;
+      color: var(--text-secondary);
+      background: var(--bg-surface);
       padding: 12px;
       border-radius: 4px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .no-data {
       font-size: 13px;
-      color: #94a3b8;
+      color: var(--text-faint);
       font-style: italic;
       padding: 8px 12px;
       text-align: center;
@@ -313,8 +314,8 @@ import { WykazAktTreeNodeComponent, WykazAktTreeNode } from './wykaz-akt-tree-no
       justify-content: flex-end;
       gap: 12px;
       padding: 20px 32px;
-      border-top: 1px solid #e2e8f0;
-      background: #f8fafc;
+      border-top: 1px solid var(--border-default);
+      background: var(--bg-subtle);
     }
 
     .button {

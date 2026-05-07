@@ -73,7 +73,7 @@ import { TUprawPoziom } from '../models/enums.model';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -82,13 +82,14 @@ import { TUprawPoziom } from '../models/enums.model';
     }
 
     .modal-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       width: 800px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
+      transition: var(--transition-theme);
     }
 
     .modal-header {
@@ -96,15 +97,15 @@ import { TUprawPoziom } from '../models/enums.model';
       justify-content: space-between;
       align-items: center;
       padding: 24px 32px;
-      border-bottom: 2px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-bottom: 2px solid var(--border-default);
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
     }
 
     .modal-title {
       margin: 0;
       font-size: 24px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .close-button {
@@ -112,7 +113,7 @@ import { TUprawPoziom } from '../models/enums.model';
       border: none;
       font-size: 28px;
       cursor: pointer;
-      color: #64748b;
+      color: var(--text-muted);
       width: 36px;
       height: 36px;
       display: flex;
@@ -123,8 +124,8 @@ import { TUprawPoziom } from '../models/enums.model';
     }
 
     .close-button:hover {
-      background: #e2e8f0;
-      color: #1e293b;
+      background: var(--border-default);
+      color: var(--text-primary);
     }
 
     .modal-body {
@@ -140,7 +141,7 @@ import { TUprawPoziom } from '../models/enums.model';
     .uprawnienia-table {
       width: 100%;
       border-collapse: collapse;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 8px;
       overflow: hidden;
     }
@@ -163,12 +164,12 @@ import { TUprawPoziom } from '../models/enums.model';
     }
 
     .uprawnienia-table tbody tr {
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--border-default);
       transition: background 0.2s ease;
     }
 
     .uprawnienia-table tbody tr:hover {
-      background: #f8fafc;
+      background: var(--table-row-hover);
     }
 
     .uprawnienia-table tbody tr:last-child {
@@ -178,12 +179,12 @@ import { TUprawPoziom } from '../models/enums.model';
     .uprawnienia-table td {
       padding: 10px 16px;
       font-size: 13px;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .uprawnienia-table td.col-uprawnienie {
       font-weight: 500;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .uprawnienia-table td.col-poziom {
@@ -201,8 +202,8 @@ import { TUprawPoziom } from '../models/enums.model';
       justify-content: flex-end;
       gap: 12px;
       padding: 20px 32px;
-      border-top: 1px solid #e2e8f0;
-      background: #f8fafc;
+      border-top: 1px solid var(--border-default);
+      background: var(--bg-subtle);
     }
 
     .button {

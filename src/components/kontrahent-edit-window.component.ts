@@ -296,7 +296,7 @@ import { FormsModule } from '@angular/forms';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -305,15 +305,16 @@ import { FormsModule } from '@angular/forms';
     }
 
     .edit-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       width: 95vw;
       max-width: 1400px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transition: var(--transition-theme);
     }
 
     .window-header {
@@ -367,12 +368,12 @@ import { FormsModule } from '@angular/forms';
     }
 
     .window-content::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .window-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
@@ -383,10 +384,10 @@ import { FormsModule } from '@angular/forms';
     }
 
     .form-section {
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 8px;
       padding: 12px 14px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .form-section.full-width {
@@ -397,8 +398,8 @@ import { FormsModule } from '@angular/forms';
       margin: 0 0 10px 0;
       font-size: 13px;
       font-weight: 700;
-      color: #1e293b;
-      border-bottom: 1px solid #e2e8f0;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-default);
       padding-bottom: 6px;
     }
 
@@ -424,12 +425,12 @@ import { FormsModule } from '@angular/forms';
       justify-content: center;
       gap: 6px;
       padding: 8px 12px;
-      background: white;
-      border: 2px solid #e2e8f0;
+      background: var(--bg-surface);
+      border: 2px solid var(--border-default);
       border-radius: 6px;
       font-size: 13px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
       transition: all 0.2s ease;
     }
 
@@ -438,13 +439,13 @@ import { FormsModule } from '@angular/forms';
     }
 
     .type-option input[type="radio"]:checked + .type-label {
-      background: linear-gradient(135deg, #eff6ff, #dbeafe);
-      border-color: #2563eb;
-      color: #1e40af;
+      background: var(--selected-bg);
+      border-color: var(--selected-border);
+      color: var(--badge-blue-text);
     }
 
     .type-option:hover .type-label {
-      border-color: #cbd5e1;
+      border-color: var(--border-muted);
       transform: translateY(-2px);
     }
 
@@ -497,25 +498,25 @@ import { FormsModule } from '@angular/forms';
     .form-label {
       font-size: 11px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .form-input,
     .form-textarea {
       padding: 6px 10px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       font-size: 13px;
-      color: #1e293b;
-      background: white;
+      color: var(--input-text);
+      background: var(--input-bg);
       transition: all 0.2s ease;
     }
 
     .form-input:focus,
     .form-textarea:focus {
       outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      border-color: var(--input-focus-border);
+      box-shadow: var(--input-focus-shadow);
     }
 
     .form-textarea {
@@ -528,8 +529,8 @@ import { FormsModule } from '@angular/forms';
       justify-content: flex-end;
       gap: 10px;
       padding: 12px 20px;
-      background: #f8fafc;
-      border-top: 1px solid #e2e8f0;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border-default);
     }
 
     .button {
@@ -546,12 +547,12 @@ import { FormsModule } from '@angular/forms';
     }
 
     .button-cancel {
-      background: #e2e8f0;
-      color: #475569;
+      background: var(--border-default);
+      color: var(--text-secondary);
     }
 
     .button-cancel:hover {
-      background: #cbd5e1;
+      background: var(--border-muted);
     }
 
     .button-save {

@@ -121,10 +121,11 @@ import { TSkrzynki } from '../models/enums.model';
       height: 100%;
       display: flex;
       flex-direction: column;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--shadow-card);
       overflow: hidden;
+      transition: var(--transition-theme);
     }
 
     .documents-header {
@@ -132,8 +133,9 @@ import { TSkrzynki } from '../models/enums.model';
       justify-content: space-between;
       align-items: center;
       padding: 20px 24px;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      border-bottom: 1px solid #e2e8f0;
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
+      border-bottom: 1px solid var(--border-default);
+      transition: var(--transition-theme);
     }
 
     .documents-title {
@@ -143,7 +145,7 @@ import { TSkrzynki } from '../models/enums.model';
       margin: 0;
       font-size: 18px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .title-icon {
@@ -152,7 +154,7 @@ import { TSkrzynki } from '../models/enums.model';
 
     .document-count {
       font-size: 14px;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 500;
     }
 
@@ -256,11 +258,11 @@ import { TSkrzynki } from '../models/enums.model';
       grid-template-columns: 100px 120px 1fr 140px 120px 200px 80px;
       gap: 12px;
       padding: 16px 20px;
-      background: #f8fafc;
-      border-bottom: 2px solid #e2e8f0;
+      background: var(--table-header-bg);
+      border-bottom: 2px solid var(--border-default);
       font-weight: 600;
       font-size: 13px;
-      color: #475569;
+      color: var(--table-header-text);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -276,18 +278,18 @@ import { TSkrzynki } from '../models/enums.model';
     }
 
     .table-body::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .table-body::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .table-body::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: var(--scrollbar-thumb-hover);
     }
 
     .table-row {
@@ -296,19 +298,19 @@ import { TSkrzynki } from '../models/enums.model';
       gap: 12px;
       padding: 16px 20px;
       min-height: 64px;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--table-row-border);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .table-row:hover {
-      background: #f8fafc;
+      background: var(--table-row-hover);
       transform: translateX(2px);
     }
 
     .table-row.selected {
-      background: linear-gradient(135deg, #eff6ff, #dbeafe);
-      border-left: 4px solid #2563eb;
+      background: var(--selected-bg);
+      border-left: 4px solid var(--selected-border);
       padding-left: 16px;
     }
 
@@ -317,7 +319,7 @@ import { TSkrzynki } from '../models/enums.model';
     }
 
     .table-row.financial.selected {
-      border-left: 4px solid #2563eb;
+      border-left: 4px solid var(--selected-border);
     }
 
     .cell {
@@ -329,7 +331,7 @@ import { TSkrzynki } from '../models/enums.model';
 
     .document-number {
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .document-type {
@@ -342,28 +344,28 @@ import { TSkrzynki } from '../models/enums.model';
     }
 
     .type-faktura {
-      background: #dcfce7;
-      color: #166534;
+      background: var(--badge-green-bg);
+      color: var(--badge-green-text);
     }
 
     .type-decyzja {
-      background: #dbeafe;
-      color: #1e40af;
+      background: var(--badge-blue-bg);
+      color: var(--badge-blue-text);
     }
 
     .type-postanowienie {
-      background: #fef3c7;
-      color: #92400e;
+      background: var(--badge-amber-bg);
+      color: var(--badge-amber-text);
     }
 
     .type-default {
-      background: #f1f5f9;
-      color: #475569;
+      background: var(--badge-gray-bg);
+      color: var(--badge-gray-text);
     }
 
     .document-name {
       font-weight: 500;
-      color: #1e293b;
+      color: var(--text-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -371,7 +373,7 @@ import { TSkrzynki } from '../models/enums.model';
 
     .document-description {
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       margin-top: 2px;
       white-space: nowrap;
       overflow: hidden;
@@ -381,16 +383,16 @@ import { TSkrzynki } from '../models/enums.model';
     .register-number {
       font-family: 'Courier New', monospace;
       font-size: 13px;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .date {
-      color: #64748b;
+      color: var(--text-muted);
       font-size: 13px;
     }
 
     .contractor {
-      color: #475569;
+      color: var(--text-secondary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -410,13 +412,13 @@ import { TSkrzynki } from '../models/enums.model';
       justify-content: center;
       flex: 1;
       padding: 40px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #e2e8f0;
+      border: 3px solid var(--border-default);
       border-top: 3px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;

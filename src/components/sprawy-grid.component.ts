@@ -104,10 +104,11 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       display: flex;
       flex-direction: column;
       height: 100%;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px var(--shadow-card);
       overflow: hidden;
+      transition: var(--transition-theme);
     }
 
     .sprawy-header {
@@ -115,8 +116,8 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       justify-content: space-between;
       align-items: center;
       padding: 16px 20px;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      border-bottom: 2px solid #cbd5e1;
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
+      border-bottom: 2px solid var(--border-muted);
     }
 
     .sprawy-title {
@@ -126,7 +127,7 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       margin: 0;
       font-size: 18px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .title-icon {
@@ -136,8 +137,8 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
     .sprawa-count {
       font-size: 14px;
       font-weight: 600;
-      color: #64748b;
-      background: white;
+      color: var(--text-muted);
+      background: var(--bg-surface);
       padding: 2px 10px;
       border-radius: 12px;
     }
@@ -152,10 +153,10 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       align-items: center;
       gap: 6px;
       padding: 8px 14px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
-      background: white;
-      color: #475569;
+      background: var(--input-bg);
+      color: var(--text-secondary);
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
@@ -163,8 +164,8 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
     }
 
     .action-button:hover:not(:disabled) {
-      background: #f1f5f9;
-      border-color: #94a3b8;
+      background: var(--bg-muted);
+      border-color: var(--text-faint);
       transform: translateY(-1px);
     }
 
@@ -226,11 +227,11 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       grid-template-columns: 100px 200px 150px 200px 130px 130px 130px;
       gap: 8px;
       padding: 12px 16px;
-      background: #f8fafc;
-      border-bottom: 2px solid #e2e8f0;
+      background: var(--table-header-bg);
+      border-bottom: 2px solid var(--border-default);
       font-weight: 700;
       font-size: 12px;
-      color: #64748b;
+      color: var(--table-header-text);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -245,16 +246,16 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
     }
 
     .table-body::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
     }
 
     .table-body::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 5px;
     }
 
     .table-body::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: var(--scrollbar-thumb-hover);
     }
 
     .table-row {
@@ -262,18 +263,18 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       grid-template-columns: 100px 200px 150px 200px 130px 130px 130px;
       gap: 8px;
       padding: 12px 16px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--table-row-border);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .table-row:hover {
-      background: #f8fafc;
+      background: var(--table-row-hover);
     }
 
     .table-row.selected {
-      background: #eff6ff;
-      border-left: 4px solid #2563eb;
+      background: var(--selected-bg);
+      border-left: 4px solid var(--selected-border);
     }
 
     .table-row.glowna {
@@ -289,7 +290,7 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       display: flex;
       align-items: center;
       font-size: 13px;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .col-number {
@@ -315,20 +316,20 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       font-size: 12px;
       padding: 4px 10px;
       border-radius: 6px;
-      background: #f1f5f9;
-      color: #475569;
+      background: var(--badge-gray-bg);
+      color: var(--badge-gray-text);
       font-weight: 600;
     }
 
     .znak-sprawy {
       font-family: monospace;
       font-size: 12px;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .date-value {
       font-size: 13px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .date-value.termin {
@@ -343,7 +344,7 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       align-items: center;
       justify-content: center;
       padding: 60px 20px;
-      color: #94a3b8;
+      color: var(--text-faint);
     }
 
     .empty-icon {
@@ -365,13 +366,13 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       align-items: center;
       justify-content: center;
       padding: 60px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .spinner {
       width: 40px;
       height: 40px;
-      border: 4px solid #e2e8f0;
+      border: 4px solid var(--border-default);
       border-top-color: #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;

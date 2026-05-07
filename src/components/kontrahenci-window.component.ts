@@ -274,7 +274,7 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -283,15 +283,16 @@ import { TKontrahentInfo } from '../models/typy-info.model';
     }
 
     .kontrahenci-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       width: 95vw;
       height: 90vh;
       max-width: 1400px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transition: var(--transition-theme);
     }
 
     .window-header {
@@ -380,9 +381,9 @@ import { TKontrahentInfo } from '../models/typy-info.model';
 
     .kontrahenci-list-section,
     .kontrahent-details-section {
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -394,8 +395,8 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       justify-content: space-between;
       align-items: center;
       padding: 16px 20px;
-      background: white;
-      border-bottom: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-default);
     }
 
     .list-header h3,
@@ -403,7 +404,7 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       margin: 0;
       font-size: 18px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .list-controls {
@@ -415,15 +416,17 @@ import { TKontrahentInfo } from '../models/typy-info.model';
     .filter-label {
       font-size: 14px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .filter-input {
       padding: 6px 12px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       font-size: 14px;
       min-width: 200px;
+      background: var(--input-bg);
+      color: var(--input-text);
       transition: all 0.2s ease;
     }
 
@@ -473,11 +476,11 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       grid-template-columns: 2fr 120px 140px 140px 1fr;
       gap: 12px;
       padding: 12px 16px;
-      background: #f1f5f9;
-      border-bottom: 2px solid #e2e8f0;
+      background: var(--table-header-bg);
+      border-bottom: 2px solid var(--border-default);
       font-weight: 600;
       font-size: 13px;
-      color: #475569;
+      color: var(--table-header-text);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -492,12 +495,12 @@ import { TKontrahentInfo } from '../models/typy-info.model';
     }
 
     .table-body::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .table-body::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
@@ -506,24 +509,24 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       grid-template-columns: 2fr 120px 140px 140px 1fr;
       gap: 12px;
       padding: 12px 16px;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--table-row-border);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .table-row:hover {
-      background: #f8fafc;
+      background: var(--table-row-hover);
     }
 
     .table-row.selected {
-      background: linear-gradient(135deg, #eff6ff, #dbeafe);
-      border-left: 4px solid #2563eb;
+      background: var(--selected-bg);
+      border-left: 4px solid var(--selected-border);
       padding-left: 12px;
     }
 
     .table-row.archived {
       opacity: 0.7;
-      background: #f9fafb;
+      background: var(--bg-subtle);
     }
 
     .cell {
@@ -535,7 +538,7 @@ import { TKontrahentInfo } from '../models/typy-info.model';
 
     .kontrahent-id {
       font-weight: 500;
-      color: #1e293b;
+      color: var(--text-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -550,24 +553,24 @@ import { TKontrahentInfo } from '../models/typy-info.model';
     }
 
     .type-company {
-      background: #dbeafe;
-      color: #1e40af;
+      background: var(--badge-blue-bg);
+      color: var(--badge-blue-text);
     }
 
     .type-person {
-      background: #dcfce7;
-      color: #166534;
+      background: var(--badge-green-bg);
+      color: var(--badge-green-text);
     }
 
     .pesel,
     .nip {
       font-family: 'Courier New', monospace;
       font-size: 13px;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .place {
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .pagination-controls {
@@ -575,8 +578,8 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       justify-content: space-between;
       align-items: center;
       padding: 16px 20px;
-      background: white;
-      border-top: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-default);
     }
 
     .page-button {
@@ -611,12 +614,12 @@ import { TKontrahentInfo } from '../models/typy-info.model';
 
     .page-numbers {
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .records-info {
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .kontrahent-details {
@@ -630,12 +633,12 @@ import { TKontrahentInfo } from '../models/typy-info.model';
     }
 
     .kontrahent-details::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .kontrahent-details::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
@@ -646,18 +649,18 @@ import { TKontrahentInfo } from '../models/typy-info.model';
     }
 
     .detail-section {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 8px;
       padding: 16px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .section-title {
       margin: 0 0 12px 0;
       font-size: 16px;
       font-weight: 700;
-      color: #1e293b;
-      border-bottom: 2px solid #e2e8f0;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--border-default);
       padding-bottom: 6px;
     }
 
@@ -666,7 +669,7 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       justify-content: space-between;
       align-items: flex-start;
       padding: 6px 0;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--table-row-border);
       gap: 12px;
     }
 
@@ -676,22 +679,22 @@ import { TKontrahentInfo } from '../models/typy-info.model';
 
     .label {
       font-weight: 600;
-      color: #64748b;
+      color: var(--text-muted);
       font-size: 14px;
       min-width: 100px;
       flex-shrink: 0;
     }
 
     .value {
-      color: #1e293b;
+      color: var(--text-primary);
       font-size: 14px;
       text-align: right;
       word-break: break-word;
     }
 
     .archived-badge {
-      background: #fef3c7;
-      color: #92400e;
+      background: var(--badge-amber-bg);
+      color: var(--badge-amber-text);
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 12px;
@@ -704,15 +707,15 @@ import { TKontrahentInfo } from '../models/typy-info.model';
     }
 
     .address-display {
-      background: #f8fafc;
+      background: var(--bg-subtle);
       padding: 12px;
       border-radius: 6px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .address-line {
       margin-bottom: 4px;
-      color: #1e293b;
+      color: var(--text-primary);
       font-size: 14px;
     }
 
@@ -736,13 +739,13 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       justify-content: center;
       flex: 1;
       padding: 40px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #e2e8f0;
+      border: 3px solid var(--border-default);
       border-top: 3px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;

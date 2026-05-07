@@ -108,7 +108,7 @@ import { TSODParamTyp } from '../models/enums.model';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -117,13 +117,14 @@ import { TSODParamTyp } from '../models/enums.model';
     }
 
     .modal-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       width: 900px;
       height: 700px;
       display: flex;
       flex-direction: column;
+      transition: var(--transition-theme);
     }
 
     .modal-header {
@@ -131,15 +132,15 @@ import { TSODParamTyp } from '../models/enums.model';
       justify-content: space-between;
       align-items: center;
       padding: 24px 32px;
-      border-bottom: 2px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-bottom: 2px solid var(--border-default);
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
     }
 
     .modal-title {
       margin: 0;
       font-size: 24px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .close-button {
@@ -147,7 +148,7 @@ import { TSODParamTyp } from '../models/enums.model';
       border: none;
       font-size: 28px;
       cursor: pointer;
-      color: #64748b;
+      color: var(--text-muted);
       width: 36px;
       height: 36px;
       display: flex;
@@ -158,8 +159,8 @@ import { TSODParamTyp } from '../models/enums.model';
     }
 
     .close-button:hover {
-      background: #e2e8f0;
-      color: #1e293b;
+      background: var(--border-default);
+      color: var(--text-primary);
     }
 
     .modal-body {
@@ -180,9 +181,9 @@ import { TSODParamTyp } from '../models/enums.model';
       flex: 1;
       min-height: 0;
       overflow-y: auto;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       border-radius: 12px;
-      background: #f8fafc;
+      background: var(--bg-subtle);
     }
 
     .grupy-list::-webkit-scrollbar {
@@ -190,21 +191,21 @@ import { TSODParamTyp } from '../models/enums.model';
     }
 
     .grupy-list::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .grupy-list::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
     .grupy-list::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: var(--scrollbar-thumb-hover);
     }
 
     .grupa-section {
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--border-default);
     }
 
     .grupa-section:last-child {
@@ -216,16 +217,16 @@ import { TSODParamTyp } from '../models/enums.model';
       align-items: center;
       gap: 12px;
       padding: 10px 16px;
-      background: white;
+      background: var(--bg-surface);
       cursor: pointer;
       transition: all 0.2s ease;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
       user-select: none;
     }
 
     .grupa-header:hover {
-      background: #f1f5f9;
+      background: var(--bg-muted);
     }
 
     .grupa-header.expanded {
@@ -235,7 +236,7 @@ import { TSODParamTyp } from '../models/enums.model';
 
     .expand-icon {
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       transition: transform 0.2s ease;
     }
 
@@ -246,23 +247,23 @@ import { TSODParamTyp } from '../models/enums.model';
 
     .grupa-count {
       font-size: 14px;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 500;
     }
 
     .parametry-list {
-      background: #fefefe;
+      background: var(--bg-surface);
     }
 
     .parametr-item {
       padding: 8px 16px 8px 48px;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--table-row-border);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .parametr-item:hover {
-      background: #f8fafc;
+      background: var(--table-row-hover);
     }
 
     .parametr-item.selected {
@@ -284,7 +285,7 @@ import { TSODParamTyp } from '../models/enums.model';
       flex: 0 0 250px;
       font-size: 13px;
       font-weight: 500;
-      color: #475569;
+      color: var(--text-secondary);
       line-height: 1.3;
     }
 
@@ -295,11 +296,11 @@ import { TSODParamTyp } from '../models/enums.model';
     .value-input {
       width: 100%;
       padding: 6px 10px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       font-size: 13px;
-      background: white;
-      color: #1e293b;
+      background: var(--input-bg);
+      color: var(--input-text);
     }
 
     .value-input:focus {
@@ -324,14 +325,14 @@ import { TSODParamTyp } from '../models/enums.model';
     .checkbox-text {
       font-size: 13px;
       font-weight: 500;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .pomoc-section {
       flex-shrink: 0;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       border-radius: 12px;
-      background: white;
+      background: var(--bg-surface);
       overflow: hidden;
     }
 
@@ -364,11 +365,11 @@ import { TSODParamTyp } from '../models/enums.model';
       margin: 0;
       font-size: 14px;
       line-height: 1.6;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .pomoc-content .no-selection {
-      color: #94a3b8;
+      color: var(--text-faint);
       font-style: italic;
     }
 
@@ -377,8 +378,8 @@ import { TSODParamTyp } from '../models/enums.model';
       justify-content: flex-end;
       gap: 12px;
       padding: 20px 32px;
-      border-top: 1px solid #e2e8f0;
-      background: #f8fafc;
+      border-top: 1px solid var(--border-default);
+      background: var(--bg-subtle);
     }
 
     .button {

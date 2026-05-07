@@ -51,7 +51,7 @@ import { TWydzialInfo } from '../models/typy-info.model';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -60,15 +60,16 @@ import { TWydzialInfo } from '../models/typy-info.model';
     }
 
     .wydzial-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       width: 90%;
       max-width: 600px;
       max-height: 80vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      transition: var(--transition-theme);
     }
 
     .window-header {
@@ -82,7 +83,7 @@ import { TWydzialInfo } from '../models/typy-info.model';
       margin: 0;
       font-size: 24px;
       font-weight: 700;
-      color: #1e293b;
+      color: white;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -104,7 +105,7 @@ import { TWydzialInfo } from '../models/typy-info.model';
     .instruction {
       margin: 0;
       font-size: 16px;
-      color: #475569;
+      color: var(--text-secondary);
       line-height: 1.5;
     }
 
@@ -117,11 +118,11 @@ import { TWydzialInfo } from '../models/typy-info.model';
 
     .wydzial-item {
       padding: 16px 20px;
-      border: 2px solid #e2e8f0;
+      border: 2px solid var(--border-default);
       border-radius: 12px;
       cursor: pointer;
       transition: all 0.2s ease;
-      background: white;
+      background: var(--bg-surface);
     }
 
     .wydzial-item:hover {
@@ -146,7 +147,7 @@ import { TWydzialInfo } from '../models/typy-info.model';
     .wydzial-nazwa {
       font-size: 16px;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .window-footer {
@@ -154,7 +155,7 @@ import { TWydzialInfo } from '../models/typy-info.model';
       justify-content: flex-end;
       gap: 12px;
       padding-top: 20px;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid var(--border-default);
     }
 
     .select-button {
@@ -176,7 +177,7 @@ import { TWydzialInfo } from '../models/typy-info.model';
     }
 
     .select-button:disabled {
-      background: #cbd5e1;
+      background: var(--border-muted);
       cursor: not-allowed;
     }
   `]

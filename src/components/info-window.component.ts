@@ -124,7 +124,7 @@ import { SessionData } from '../models/session.model';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -133,9 +133,10 @@ import { SessionData } from '../models/session.model';
     }
 
     .info-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
+      transition: var(--transition-theme);
       width: 90vw;
       max-width: 700px;
       max-height: 90vh;
@@ -197,12 +198,12 @@ import { SessionData } from '../models/session.model';
     }
 
     .window-content::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .window-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
@@ -242,7 +243,7 @@ import { SessionData } from '../models/session.model';
     .version-label {
       font-size: 14px;
       font-weight: 600;
-      color: #64748b;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -250,16 +251,16 @@ import { SessionData } from '../models/session.model';
     .version-value {
       font-size: 16px;
       font-weight: 700;
-      color: #1e293b;
-      background: #f1f5f9;
+      color: var(--text-primary);
+      background: var(--bg-muted);
       padding: 8px 16px;
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .divider {
       height: 2px;
-      background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+      background: linear-gradient(90deg, transparent, var(--border-default), transparent);
       margin: 32px 0;
     }
 
@@ -270,7 +271,7 @@ import { SessionData } from '../models/session.model';
     .section-title {
       font-size: 20px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
       margin: 0 0 24px 0;
       text-align: center;
     }
@@ -286,20 +287,20 @@ import { SessionData } from '../models/session.model';
       justify-content: space-between;
       align-items: center;
       padding: 12px 16px;
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .session-label {
       font-weight: 600;
-      color: #64748b;
+      color: var(--text-muted);
       font-size: 14px;
     }
 
     .session-value {
       font-weight: 500;
-      color: #1e293b;
+      color: var(--text-primary);
       font-size: 14px;
       text-align: right;
     }
@@ -320,8 +321,8 @@ import { SessionData } from '../models/session.model';
 
     .window-footer {
       padding: 20px 24px;
-      background: #f8fafc;
-      border-top: 1px solid #e2e8f0;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border-default);
       text-align: center;
     }
 

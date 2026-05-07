@@ -177,7 +177,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -192,15 +192,16 @@ import { TZalacznikInfo } from '../models/typy-info.model';
     }
 
     .modal-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       max-width: 900px;
       width: 90%;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
       animation: slideUp 0.3s ease;
+      transition: var(--transition-theme);
     }
 
     @keyframes slideUp {
@@ -219,8 +220,8 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       justify-content: space-between;
       align-items: center;
       padding: 16px 24px;
-      border-bottom: 1px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-bottom: 1px solid var(--border-default);
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
     }
 
     .modal-title {
@@ -230,7 +231,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       margin: 0;
       font-size: 20px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .title-icon {
@@ -241,7 +242,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       background: transparent;
       border: none;
       font-size: 24px;
-      color: #64748b;
+      color: var(--text-muted);
       cursor: pointer;
       padding: 4px 8px;
       border-radius: 8px;
@@ -249,8 +250,8 @@ import { TZalacznikInfo } from '../models/typy-info.model';
     }
 
     .close-button:hover {
-      background: #f1f5f9;
-      color: #1e293b;
+      background: var(--bg-muted);
+      color: var(--text-primary);
     }
 
     .modal-content {
@@ -267,12 +268,12 @@ import { TZalacznikInfo } from '../models/typy-info.model';
     }
 
     .modal-content::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .modal-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
@@ -285,17 +286,17 @@ import { TZalacznikInfo } from '../models/typy-info.model';
     .form-label {
       font-size: 13px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .form-select,
     .form-input,
     .form-textarea {
       padding: 10px 12px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--input-text);
       transition: all 0.2s ease;
       font-family: inherit;
     }
@@ -304,8 +305,8 @@ import { TZalacznikInfo } from '../models/typy-info.model';
     .form-input:focus,
     .form-textarea:focus {
       outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      border-color: var(--input-focus-border);
+      box-shadow: var(--input-focus-shadow);
     }
 
     .form-textarea {
@@ -325,7 +326,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       gap: 8px;
       cursor: pointer;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .radio-option input[type="radio"] {
@@ -336,8 +337,8 @@ import { TZalacznikInfo } from '../models/typy-info.model';
 
     .info-panel,
     .detail-panel {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-default);
       border-radius: 8px;
       padding: 16px;
     }
@@ -346,7 +347,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       margin: 0 0 12px 0;
       font-size: 15px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .info-grid {
@@ -364,12 +365,12 @@ import { TZalacznikInfo } from '../models/typy-info.model';
     .info-item label {
       font-size: 12px;
       font-weight: 600;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .info-item span {
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-primary);
       font-weight: 500;
     }
 
@@ -396,8 +397,8 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       align-items: center;
       gap: 8px;
       padding: 8px 12px;
-      background: white;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
       border-radius: 6px;
     }
 
@@ -407,7 +408,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
 
     .zalacznik-name {
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-primary);
       font-weight: 500;
     }
 
@@ -420,7 +421,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
     .info-text {
       margin: 0;
       font-size: 14px;
-      color: #64748b;
+      color: var(--text-muted);
       text-align: center;
       padding: 20px;
     }
@@ -431,13 +432,13 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       align-items: center;
       justify-content: center;
       padding: 60px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .spinner-large {
       width: 48px;
       height: 48px;
-      border: 4px solid #e2e8f0;
+      border: 4px solid var(--border-default);
       border-top: 4px solid #2563eb;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -453,8 +454,8 @@ import { TZalacznikInfo } from '../models/typy-info.model';
       justify-content: flex-end;
       gap: 12px;
       padding: 16px 24px;
-      border-top: 1px solid #e2e8f0;
-      background: #f8fafc;
+      border-top: 1px solid var(--border-default);
+      background: var(--bg-subtle);
     }
 
     .button {
@@ -471,13 +472,13 @@ import { TZalacznikInfo } from '../models/typy-info.model';
     }
 
     .button-secondary {
-      background: white;
-      color: #475569;
-      border: 1px solid #cbd5e1;
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--input-border);
     }
 
     .button-secondary:hover {
-      background: #f1f5f9;
+      background: var(--bg-muted);
     }
 
     .button-primary {

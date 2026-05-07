@@ -5,74 +5,178 @@
    Theme CSS Variables
    ============================================================ */
 :root {
+  /* Backgrounds */
   --bg-app:         #f1f5f9;
   --bg-surface:     #ffffff;
   --bg-subtle:      #f8fafc;
   --bg-muted:       #f1f5f9;
   --bg-license:     #e5e7eb;
 
+  /* Borders */
   --border-default: #e2e8f0;
   --border-muted:   #cbd5e1;
   --border-license: #d1d5db;
+  --border-strong:  #94a3b8;
 
+  /* Text */
   --text-primary:   #1e293b;
   --text-secondary: #475569;
   --text-muted:     #64748b;
+  --text-faint:     #94a3b8;
   --text-license:   #374151;
 
+  /* Highlights / selections */
   --highlight-bg:   #dbeafe;
   --highlight-text: #1e40af;
+  --selected-bg:    linear-gradient(135deg, #eff6ff, #dbeafe);
+  --selected-border:#2563eb;
+  --hover-bg:       #f8fafc;
 
+  /* Shadows */
   --shadow-sm:      rgba(0, 0, 0, 0.05);
   --shadow-md:      rgba(0, 0, 0, 0.15);
   --shadow-card:    rgba(0, 0, 0, 0.08);
 
+  /* Form elements */
+  --input-bg:       #ffffff;
+  --input-border:   #cbd5e1;
+  --input-text:     #1e293b;
+  --input-focus-border: #2563eb;
+  --input-focus-shadow: rgba(37, 99, 235, 0.1);
+  --input-disabled-bg: #f8fafc;
+  --input-disabled-text: #94a3b8;
+
+  /* Table */
+  --table-header-bg: #f8fafc;
+  --table-header-text: #475569;
+  --table-row-border: #f1f5f9;
+  --table-row-hover: #f8fafc;
+
+  /* Scrollbar */
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+
+  /* Modal overlay */
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+
+  /* Status colors (kept fixed across themes) */
+  --color-blue:     #2563eb;
+  --color-blue-dark:#1d4ed8;
+  --color-blue-light:#3b82f6;
+  --color-green:    #16a34a;
+  --color-green-dark:#15803d;
+  --color-teal:     #10b981;
+  --color-teal-dark:#059669;
+  --color-red:      #dc2626;
+  --color-red-dark: #b91c1c;
+  --color-red-shadow: rgba(220, 38, 38, 0.3);
+  --color-amber:    #f59e0b;
+  --color-amber-dark:#d97706;
+  --color-sky:      #0ea5e9;
+  --color-sky-dark: #0284c7;
+
+  /* Warnings */
   --warning-bg:     #fef3c7;
   --warning-border: #fbbf24;
   --warning-text:   #92400e;
 
+  /* Errors */
   --error-bg:       #fef2f2;
   --error-text:     #dc2626;
-  --error-hover:    #b91c1c;
-  --error-shadow:   rgba(220, 38, 38, 0.3);
 
+  /* Badge colors */
+  --badge-blue-bg:  #eff6ff;
+  --badge-blue-text:#2563eb;
+  --badge-green-bg: #dcfce7;
+  --badge-green-text:#166534;
+  --badge-amber-bg: #fef3c7;
+  --badge-amber-text:#92400e;
+  --badge-gray-bg:  #f1f5f9;
+  --badge-gray-text:#475569;
+
+  /* Focus */
   --focus-ring:     #2563eb;
 
   --transition-theme: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body.dark {
+  /* Backgrounds */
   --bg-app:         #0f172a;
   --bg-surface:     #1e293b;
   --bg-subtle:      #1e293b;
   --bg-muted:       #0f172a;
   --bg-license:     #1e293b;
 
+  /* Borders */
   --border-default: #334155;
   --border-muted:   #475569;
   --border-license: #334155;
+  --border-strong:  #64748b;
 
+  /* Text */
   --text-primary:   #f1f5f9;
   --text-secondary: #94a3b8;
   --text-muted:     #64748b;
+  --text-faint:     #475569;
   --text-license:   #94a3b8;
 
+  /* Highlights / selections */
   --highlight-bg:   #1e3a5f;
   --highlight-text: #93c5fd;
+  --selected-bg:    linear-gradient(135deg, #1e3a5f, #1e3a6e);
+  --selected-border:#3b82f6;
+  --hover-bg:       #263148;
 
+  /* Shadows */
   --shadow-sm:      rgba(0, 0, 0, 0.3);
   --shadow-md:      rgba(0, 0, 0, 0.5);
   --shadow-card:    rgba(0, 0, 0, 0.4);
 
+  /* Form elements */
+  --input-bg:       #0f172a;
+  --input-border:   #475569;
+  --input-text:     #f1f5f9;
+  --input-focus-border: #60a5fa;
+  --input-focus-shadow: rgba(96, 165, 250, 0.15);
+  --input-disabled-bg: #1e293b;
+  --input-disabled-text: #475569;
+
+  /* Table */
+  --table-header-bg: #263148;
+  --table-header-text: #94a3b8;
+  --table-row-border: #1e293b;
+  --table-row-hover: #263148;
+
+  /* Scrollbar */
+  --scrollbar-track: #0f172a;
+  --scrollbar-thumb: #334155;
+  --scrollbar-thumb-hover: #475569;
+
+  /* Modal overlay */
+  --overlay-bg: rgba(0, 0, 0, 0.75);
+
+  /* Warnings */
   --warning-bg:     #451a03;
   --warning-border: #d97706;
   --warning-text:   #fde68a;
 
+  /* Errors */
   --error-bg:       #450a0a;
   --error-text:     #fca5a5;
-  --error-hover:    #f87171;
-  --error-shadow:   rgba(239, 68, 68, 0.3);
 
+  /* Badge colors */
+  --badge-blue-bg:  #1e3a5f;
+  --badge-blue-text:#93c5fd;
+  --badge-green-bg: #14532d;
+  --badge-green-text:#86efac;
+  --badge-amber-bg: #451a03;
+  --badge-amber-text:#fde68a;
+  --badge-gray-bg:  #1e293b;
+  --badge-gray-text:#94a3b8;
+
+  /* Focus */
   --focus-ring:     #60a5fa;
 }
 
@@ -167,6 +271,14 @@ button:focus-visible,
 [role="button"]:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+}
+
+/* Global input/select theming */
+input, select, textarea {
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  border-color: var(--input-border);
+  transition: var(--transition-theme);
 }
 
 /* Animations */

@@ -154,12 +154,13 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     .details-container {
       height: 100%;
       max-height: 100%;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--shadow-card);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      transition: var(--transition-theme);
     }
 
     .details-header {
@@ -167,8 +168,8 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       justify-content: space-between;
       align-items: center;
       padding: 20px 24px;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      border-bottom: 1px solid #e2e8f0;
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
+      border-bottom: 1px solid var(--border-default);
     }
 
     .details-title {
@@ -178,7 +179,7 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       margin: 0;
       font-size: 18px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .title-icon {
@@ -198,8 +199,8 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      background: #f1f5f9;
-      color: #475569;
+      background: var(--badge-gray-bg);
+      color: var(--badge-gray-text);
     }
 
     .financial-badge {
@@ -207,8 +208,8 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       border-radius: 20px;
       font-size: 12px;
       font-weight: 600;
-      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-      color: #166534;
+      background: linear-gradient(135deg, var(--badge-green-bg), #bbf7d0);
+      color: var(--badge-green-text);
     }
 
     .details-content {
@@ -223,18 +224,18 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     }
 
     .details-content::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .details-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .details-content::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: var(--scrollbar-thumb-hover);
     }
 
     .details-grid {
@@ -244,18 +245,18 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     }
 
     .detail-section {
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 12px;
       padding: 20px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .section-title {
       margin: 0 0 16px 0;
       font-size: 16px;
       font-weight: 700;
-      color: #1e293b;
-      border-bottom: 2px solid #e2e8f0;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--border-default);
       padding-bottom: 8px;
     }
 
@@ -264,7 +265,7 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       justify-content: space-between;
       align-items: flex-start;
       padding: 8px 0;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--table-row-border);
       gap: 16px;
     }
 
@@ -274,14 +275,14 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
 
     .label {
       font-weight: 600;
-      color: #64748b;
+      color: var(--text-muted);
       font-size: 14px;
       min-width: 120px;
       flex-shrink: 0;
     }
 
     .value {
-      color: #1e293b;
+      color: var(--text-primary);
       font-size: 14px;
       text-align: right;
       word-break: break-word;
@@ -296,28 +297,28 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     }
 
     .type-faktura {
-      background: #dcfce7;
-      color: #166534;
+      background: var(--badge-green-bg);
+      color: var(--badge-green-text);
     }
 
     .type-decyzja {
-      background: #dbeafe;
-      color: #1e40af;
+      background: var(--badge-blue-bg);
+      color: var(--badge-blue-text);
     }
 
     .type-postanowienie {
-      background: #fef3c7;
-      color: #92400e;
+      background: var(--badge-amber-bg);
+      color: var(--badge-amber-text);
     }
 
     .type-default {
-      background: #f1f5f9;
-      color: #475569;
+      background: var(--badge-gray-bg);
+      color: var(--badge-gray-text);
     }
 
     .register {
       font-family: 'Courier New', monospace;
-      background: #f1f5f9;
+      background: var(--bg-muted);
       padding: 4px 8px;
       border-radius: 4px;
     }
@@ -328,7 +329,7 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
 
     .contractor-type {
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 400;
     }
 
@@ -349,22 +350,22 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     }
 
     .financial-item {
-      background: white;
+      background: var(--bg-surface);
       padding: 12px;
       border-radius: 8px;
       text-align: center;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
     }
 
     .financial-item.total {
-      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+      background: linear-gradient(135deg, var(--badge-green-bg), #bbf7d0);
       border-color: #16a34a;
     }
 
     .financial-label {
       display: block;
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 600;
       text-transform: uppercase;
       margin-bottom: 4px;
@@ -374,7 +375,7 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       display: block;
       font-size: 16px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .financial-item.total .financial-value {
@@ -390,9 +391,9 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     .attachment-item {
       display: flex;
       flex-direction: column;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       cursor: pointer;
       transition: all 0.2s ease;
     }
@@ -421,26 +422,26 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     .attachment-name {
       flex: 1;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .attachment-number {
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       font-family: 'Courier New', monospace;
     }
 
     .expand-indicator {
       margin-left: auto;
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       transition: transform 0.2s ease;
     }
 
     .attachment-content {
-      border-top: 1px solid #f1f5f9;
+      border-top: 1px solid var(--table-row-border);
       padding: 12px;
-      background: #f8fafc;
+      background: var(--bg-subtle);
       animation: slideDown 0.2s ease;
     }
 
@@ -448,14 +449,14 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       display: flex;
       align-items: center;
       gap: 8px;
-      color: #64748b;
+      color: var(--text-muted);
       font-size: 14px;
     }
 
     .loading-spinner-small {
       width: 16px;
       height: 16px;
-      border: 2px solid #e2e8f0;
+      border: 2px solid var(--border-default);
       border-top: 2px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;
@@ -466,7 +467,7 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       gap: 16px;
       margin-bottom: 8px;
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .meta-item {
@@ -499,13 +500,13 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     }
 
     .content-text {
-      background: white;
+      background: var(--bg-surface);
       padding: 12px;
       border-radius: 6px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border-default);
       font-size: 14px;
       line-height: 1.5;
-      color: #1e293b;
+      color: var(--text-primary);
       white-space: pre-wrap;
       max-height: 200px;
       overflow-y: auto;
@@ -516,12 +517,12 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     }
 
     .content-text::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 3px;
     }
 
     .content-text::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 3px;
     }
 
@@ -558,10 +559,10 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      color: #64748b;
+      box-shadow: 0 4px 12px var(--shadow-card);
+      color: var(--text-muted);
       padding: 40px;
     }
 

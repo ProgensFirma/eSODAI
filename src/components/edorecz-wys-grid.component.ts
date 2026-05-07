@@ -172,12 +172,13 @@ import { DokumentyService } from '../services/dokumenty.service';
     }
 
     .grid-section {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--shadow-card);
       overflow: hidden;
       flex-shrink: 0;
       min-height: 250px;
+      transition: var(--transition-theme);
     }
 
     .grid-header {
@@ -185,15 +186,15 @@ import { DokumentyService } from '../services/dokumenty.service';
       justify-content: space-between;
       align-items: center;
       padding: 20px 24px;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      border-bottom: 1px solid #e2e8f0;
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
+      border-bottom: 1px solid var(--border-default);
     }
 
     .grid-title {
       margin: 0;
       font-size: 18px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .header-buttons {
@@ -203,8 +204,8 @@ import { DokumentyService } from '../services/dokumenty.service';
     }
 
     .action-button {
-      background: #475569;
-      color: white;
+      background: var(--text-secondary);
+      color: var(--bg-surface);
       border: none;
       border-radius: 6px;
       padding: 8px 16px;
@@ -284,7 +285,7 @@ import { DokumentyService } from '../services/dokumenty.service';
     .data-table thead {
       position: sticky;
       top: 0;
-      background: #f8fafc;
+      background: var(--table-header-bg);
       z-index: 10;
     }
 
@@ -293,17 +294,17 @@ import { DokumentyService } from '../services/dokumenty.service';
       text-align: left;
       font-size: 13px;
       font-weight: 700;
-      color: #475569;
+      color: var(--table-header-text);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      border-bottom: 2px solid #e2e8f0;
+      border-bottom: 2px solid var(--border-default);
     }
 
     .data-table td {
       padding: 14px 16px;
       font-size: 14px;
-      color: #1e293b;
-      border-bottom: 1px solid #f1f5f9;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--table-row-border);
     }
 
     .data-table tbody tr {
@@ -312,11 +313,11 @@ import { DokumentyService } from '../services/dokumenty.service';
     }
 
     .data-table tbody tr:hover {
-      background: #f8fafc;
+      background: var(--table-row-hover);
     }
 
     .data-table tbody tr.selected {
-      background: #dbeafe;
+      background: var(--highlight-bg);
     }
 
     .loading-state,
@@ -327,13 +328,13 @@ import { DokumentyService } from '../services/dokumenty.service';
       align-items: center;
       justify-content: center;
       padding: 60px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .loading-spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #e2e8f0;
+      border: 3px solid var(--border-default);
       border-top: 3px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;
@@ -362,25 +363,26 @@ import { DokumentyService } from '../services/dokumenty.service';
     }
 
     .content-panel {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--shadow-card);
       padding: 20px 24px;
+      transition: var(--transition-theme);
     }
 
     .panel-title {
       margin: 0 0 12px 0;
       font-size: 16px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .content-text {
       font-size: 14px;
-      color: #475569;
+      color: var(--text-secondary);
       line-height: 1.6;
       padding: 12px;
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 8px;
       min-height: 60px;
       white-space: pre-wrap;
@@ -394,10 +396,11 @@ import { DokumentyService } from '../services/dokumenty.service';
 
     .attachments-panel,
     .confirmations-panel {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--shadow-card);
       padding: 20px 24px;
+      transition: var(--transition-theme);
     }
 
     .panel-header {
@@ -441,7 +444,7 @@ import { DokumentyService } from '../services/dokumenty.service';
       align-items: center;
       gap: 8px;
       padding: 10px 12px;
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 6px;
       margin-bottom: 8px;
       transition: all 0.2s ease;
@@ -449,11 +452,11 @@ import { DokumentyService } from '../services/dokumenty.service';
     }
 
     .attachment-item:hover {
-      background: #e2e8f0;
+      background: var(--border-default);
     }
 
     .attachment-item.selected {
-      background: #dbeafe;
+      background: var(--highlight-bg);
       border: 2px solid #2563eb;
     }
 
@@ -463,13 +466,13 @@ import { DokumentyService } from '../services/dokumenty.service';
 
     .attachment-name {
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-primary);
       font-weight: 500;
     }
 
     .confirmation-item {
       padding: 12px;
-      background: #f8fafc;
+      background: var(--bg-subtle);
       border-radius: 6px;
       margin-bottom: 12px;
       border-left: 3px solid #2563eb;
@@ -478,12 +481,12 @@ import { DokumentyService } from '../services/dokumenty.service';
     }
 
     .confirmation-item:hover {
-      background: #e2e8f0;
+      background: var(--border-default);
       transform: translateX(2px);
     }
 
     .confirmation-item.selected {
-      background: #dbeafe;
+      background: var(--highlight-bg);
       border-left-color: #1d4ed8;
       box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
     }
@@ -501,12 +504,12 @@ import { DokumentyService } from '../services/dokumenty.service';
 
     .confirmation-label {
       font-weight: 700;
-      color: #475569;
+      color: var(--text-secondary);
       min-width: 50px;
     }
 
     .confirmation-value {
-      color: #1e293b;
+      color: var(--text-primary);
       flex: 1;
       word-break: break-word;
     }
@@ -514,7 +517,7 @@ import { DokumentyService } from '../services/dokumenty.service';
     .empty-list {
       text-align: center;
       padding: 20px;
-      color: #94a3b8;
+      color: var(--text-faint);
       font-size: 14px;
     }
 

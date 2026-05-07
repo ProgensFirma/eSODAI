@@ -236,7 +236,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -244,14 +244,15 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     }
 
     .modal-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 8px;
       width: 90%;
       max-width: 900px;
       max-height: 90vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 40px var(--shadow-md);
+      transition: var(--transition-theme);
     }
 
     .modal-header {
@@ -259,14 +260,14 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       align-items: center;
       justify-content: space-between;
       padding: 1.25rem 1.5rem;
-      border-bottom: 1px solid #dee2e6;
+      border-bottom: 1px solid var(--border-default);
     }
 
     .modal-header h2 {
       margin: 0;
       font-size: 1.25rem;
       font-weight: 600;
-      color: #212529;
+      color: var(--text-primary);
     }
 
     .close-btn {
@@ -275,7 +276,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       font-size: 2rem;
       line-height: 1;
       cursor: pointer;
-      color: #6c757d;
+      color: var(--text-muted);
       padding: 0;
       width: 2rem;
       height: 2rem;
@@ -286,7 +287,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     }
 
     .close-btn:hover {
-      color: #212529;
+      color: var(--text-primary);
     }
 
     .modal-body {
@@ -300,8 +301,8 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       gap: 0.5rem;
       justify-content: flex-end;
       padding: 1rem 1.5rem;
-      border-top: 1px solid #dee2e6;
-      background-color: #f8f9fa;
+      border-top: 1px solid var(--border-default);
+      background-color: var(--bg-subtle);
     }
 
     .form-container {
@@ -319,7 +320,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     .field label {
       font-weight: 600;
       font-size: 0.875rem;
-      color: #495057;
+      color: var(--text-secondary);
     }
 
     .field-group {
@@ -331,7 +332,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     .form-input, .form-select, .form-textarea {
       width: 100%;
       padding: 0.5rem 0.75rem;
-      border: 1px solid #ced4da;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       font-size: 1rem;
       transition: border-color 0.2s, box-shadow 0.2s;
@@ -339,18 +340,18 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
     .form-input:focus, .form-select:focus, .form-textarea:focus {
       outline: none;
-      border-color: #80bdff;
-      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      border-color: var(--input-focus-border);
+      box-shadow: var(--input-focus-shadow);
     }
 
     .form-input[readonly] {
-      background-color: #e9ecef;
+      background-color: var(--input-disabled-bg);
       cursor: not-allowed;
     }
 
     .form-select {
       cursor: pointer;
-      background-color: white;
+      background-color: var(--input-bg);
     }
 
     .form-textarea {
@@ -386,16 +387,16 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     }
 
     .btn-primary {
-      background-color: #007bff;
+      background-color: #2563eb;
       color: white;
     }
 
     .btn-primary:hover:not(:disabled) {
-      background-color: #0056b3;
+      background-color: #1d4ed8;
     }
 
     .btn-secondary {
-      background-color: #6c757d;
+      background-color: var(--text-faint);
       color: white;
     }
 
@@ -419,42 +420,42 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     }
 
     .section-panel {
-      border: 1px solid #dee2e6;
+      border: 1px solid var(--border-default);
       border-radius: 6px;
       padding: 1rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      background-color: #f8f9fa;
+      background-color: var(--bg-subtle);
     }
 
     .section-panel h3 {
       margin: 0;
       font-size: 1rem;
       font-weight: 600;
-      color: #495057;
+      color: var(--text-secondary);
     }
 
     .documents-panel {
-      border: 1px solid #dee2e6;
+      border: 1px solid var(--border-default);
       border-radius: 6px;
       padding: 1rem;
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      background-color: #f8f9fa;
+      background-color: var(--bg-subtle);
     }
 
     .documents-panel.disabled {
       opacity: 0.5;
-      background-color: #e9ecef;
+      background-color: var(--input-disabled-bg);
     }
 
     .documents-panel h3 {
       margin: 0;
       font-size: 1rem;
       font-weight: 600;
-      color: #495057;
+      color: var(--text-secondary);
     }
 
     .documents-buttons {

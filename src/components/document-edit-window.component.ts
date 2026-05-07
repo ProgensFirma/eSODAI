@@ -308,7 +308,7 @@ import { AuthService } from '../services/auth.service';
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -323,15 +323,16 @@ import { AuthService } from '../services/auth.service';
     }
 
     .modal-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       max-width: 1400px;
       width: 95%;
       max-height: 95vh;
       display: flex;
       flex-direction: column;
       animation: slideUp 0.3s ease;
+      transition: var(--transition-theme);
     }
 
     @keyframes slideUp {
@@ -350,8 +351,8 @@ import { AuthService } from '../services/auth.service';
       justify-content: space-between;
       align-items: center;
       padding: 16px 24px;
-      border-bottom: 1px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-bottom: 1px solid var(--border-default);
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
     }
 
     .modal-title {
@@ -361,7 +362,7 @@ import { AuthService } from '../services/auth.service';
       margin: 0;
       font-size: 20px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .title-icon {
@@ -372,7 +373,7 @@ import { AuthService } from '../services/auth.service';
       background: transparent;
       border: none;
       font-size: 24px;
-      color: #64748b;
+      color: var(--text-muted);
       cursor: pointer;
       padding: 4px 8px;
       border-radius: 8px;
@@ -380,8 +381,8 @@ import { AuthService } from '../services/auth.service';
     }
 
     .close-button:hover {
-      background: #f1f5f9;
-      color: #1e293b;
+      background: var(--bg-muted);
+      color: var(--text-primary);
     }
 
     .modal-content {
@@ -395,12 +396,12 @@ import { AuthService } from '../services/auth.service';
     }
 
     .modal-content::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .modal-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
@@ -421,15 +422,15 @@ import { AuthService } from '../services/auth.service';
     }
 
     .form-group.readonly .form-input {
-      background: #f8fafc;
-      color: #64748b;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
       cursor: not-allowed;
     }
 
     .form-label {
       font-size: 13px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .required {
@@ -440,10 +441,10 @@ import { AuthService } from '../services/auth.service';
     .form-select,
     .form-textarea {
       padding: 8px 12px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--input-text);
       transition: all 0.2s ease;
       font-family: inherit;
     }
@@ -452,8 +453,8 @@ import { AuthService } from '../services/auth.service';
     .form-select:focus,
     .form-textarea:focus {
       outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      border-color: var(--input-focus-border);
+      box-shadow: var(--input-focus-shadow);
     }
 
     .form-textarea {
@@ -469,8 +470,8 @@ import { AuthService } from '../services/auth.service';
     }
 
     .form-select:disabled {
-      background: #f8fafc;
-      color: #94a3b8;
+      background: var(--bg-subtle);
+      color: var(--text-faint);
       cursor: not-allowed;
     }
 
@@ -491,15 +492,15 @@ import { AuthService } from '../services/auth.service';
 
     .select-button {
       padding: 8px 14px;
-      background: #e2e8f0;
-      border: 1px solid #cbd5e1;
+      background: var(--border-default);
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .select-button:not(:disabled):hover {
-      background: #cbd5e1;
+      background: var(--border-muted);
     }
 
     .select-button:disabled {
@@ -575,11 +576,11 @@ import { AuthService } from '../services/auth.service';
     .file-select-button {
       flex: 1;
       padding: 12px 16px;
-      background: #e2e8f0;
-      border: 1px solid #cbd5e1;
+      background: var(--border-default);
+      border: 1px solid var(--input-border);
       border-radius: 8px;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-primary);
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
@@ -589,7 +590,7 @@ import { AuthService } from '../services/auth.service';
     }
 
     .file-select-button:hover {
-      background: #cbd5e1;
+      background: var(--border-muted);
     }
 
     .file-clear-button {
@@ -613,8 +614,8 @@ import { AuthService } from '../services/auth.service';
       flex-direction: column;
       gap: 8px;
       padding: 12px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-default);
       border-radius: 6px;
       max-height: 150px;
       overflow-y: auto;
@@ -625,12 +626,12 @@ import { AuthService } from '../services/auth.service';
     }
 
     .attachments-list::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 3px;
     }
 
     .attachments-list::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 3px;
     }
 
@@ -639,14 +640,14 @@ import { AuthService } from '../services/auth.service';
       align-items: center;
       gap: 10px;
       padding: 8px 12px;
-      background: white;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
       border-radius: 6px;
       transition: all 0.2s ease;
     }
 
     .attachment-item:hover {
-      border-color: #cbd5e1;
+      border-color: var(--border-muted);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
@@ -658,7 +659,7 @@ import { AuthService } from '../services/auth.service';
     .attachment-name {
       flex: 1;
       font-size: 13px;
-      color: #1e293b;
+      color: var(--text-primary);
       font-weight: 500;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -667,10 +668,10 @@ import { AuthService } from '../services/auth.service';
 
     .attachment-number {
       font-size: 12px;
-      color: #64748b;
+      color: var(--text-muted);
       font-weight: 600;
       padding: 2px 8px;
-      background: #f1f5f9;
+      background: var(--bg-muted);
       border-radius: 4px;
       flex-shrink: 0;
     }
@@ -680,8 +681,8 @@ import { AuthService } from '../services/auth.service';
       justify-content: flex-end;
       gap: 12px;
       padding: 16px 24px;
-      border-top: 1px solid #e2e8f0;
-      background: #f8fafc;
+      border-top: 1px solid var(--border-default);
+      background: var(--bg-subtle);
     }
 
     .button {
@@ -698,13 +699,13 @@ import { AuthService } from '../services/auth.service';
     }
 
     .button-secondary {
-      background: white;
-      color: #475569;
-      border: 1px solid #cbd5e1;
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--input-border);
     }
 
     .button-secondary:hover {
-      background: #f1f5f9;
+      background: var(--bg-muted);
     }
 
     .button-primary {

@@ -62,42 +62,42 @@ export interface WykazAktTreeNode {
     }
 
     .node-content:hover {
-      background-color: #f1f5f9;
+      background-color: var(--bg-muted);
     }
 
     .node-content.selected {
-      background-color: #dbeafe;
-      border-left: 3px solid #2563eb;
+      background-color: var(--selected-bg);
+      border-left: 3px solid var(--selected-border);
     }
 
     .node-content.level-1 {
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
       font-size: 14px;
     }
 
     .node-content.level-2 {
       font-weight: 600;
-      color: #334155;
+      color: var(--text-primary);
       font-size: 13px;
     }
 
     .node-content.level-3 {
       font-weight: 500;
-      color: #475569;
+      color: var(--text-secondary);
       font-size: 13px;
     }
 
     .node-content.level-4 {
       font-weight: 400;
-      color: #64748b;
+      color: var(--text-muted);
       font-size: 12px;
     }
 
     .expand-icon {
       transition: transform 0.2s ease;
       font-size: 10px;
-      color: #64748b;
+      color: var(--text-muted);
       width: 16px;
       text-align: center;
       flex-shrink: 0;

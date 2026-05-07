@@ -259,7 +259,7 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: var(--overlay-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -274,15 +274,16 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     }
 
     .modal-window {
-      background: white;
+      background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 20px 60px var(--shadow-md);
       max-width: 1600px;
       width: 95%;
       max-height: 95vh;
       display: flex;
       flex-direction: column;
       animation: slideUp 0.3s ease;
+      transition: var(--transition-theme);
     }
 
     @keyframes slideUp {
@@ -301,8 +302,8 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       justify-content: space-between;
       align-items: center;
       padding: 16px 24px;
-      border-bottom: 1px solid #e2e8f0;
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-bottom: 1px solid var(--border-default);
+      background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
     }
 
     .modal-title {
@@ -312,7 +313,7 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       margin: 0;
       font-size: 20px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .title-icon {
@@ -323,7 +324,7 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       background: transparent;
       border: none;
       font-size: 24px;
-      color: #64748b;
+      color: var(--text-muted);
       cursor: pointer;
       padding: 4px 8px;
       border-radius: 8px;
@@ -331,8 +332,8 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     }
 
     .close-button:hover {
-      background: #f1f5f9;
-      color: #1e293b;
+      background: var(--bg-muted);
+      color: var(--text-primary);
     }
 
     .filter-section {
@@ -340,8 +341,8 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       gap: 12px;
       align-items: flex-end;
       padding: 16px 24px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-default);
     }
 
     .filter-group {
@@ -354,22 +355,22 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     .filter-label {
       font-size: 12px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
     }
 
     .filter-input {
       padding: 8px 12px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--input-border);
       border-radius: 6px;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--input-text);
       transition: all 0.2s ease;
     }
 
     .filter-input:focus {
       outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      border-color: var(--input-focus-border);
+      box-shadow: var(--input-focus-shadow);
     }
 
     .filter-button,
@@ -398,13 +399,13 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     }
 
     .clear-button {
-      background: white;
-      color: #64748b;
-      border: 1px solid #cbd5e1;
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      border: 1px solid var(--input-border);
     }
 
     .clear-button:hover {
-      background: #f1f5f9;
+      background: var(--bg-muted);
     }
 
     .button-icon {
@@ -422,12 +423,12 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     }
 
     .modal-content::-webkit-scrollbar-track {
-      background: #f1f5f9;
+      background: var(--scrollbar-track);
       border-radius: 4px;
     }
 
     .modal-content::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: var(--scrollbar-thumb);
       border-radius: 4px;
     }
 
@@ -440,14 +441,14 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     .data-grid {
       width: 100%;
       border-collapse: collapse;
-      background: white;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
       border-radius: 8px;
       overflow: hidden;
     }
 
     .data-grid thead {
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      background: var(--table-header-bg);
     }
 
     .data-grid th {
@@ -455,29 +456,29 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       text-align: left;
       font-size: 13px;
       font-weight: 700;
-      color: #475569;
-      border-bottom: 2px solid #cbd5e1;
+      color: var(--table-header-text);
+      border-bottom: 2px solid var(--border-muted);
     }
 
     .data-grid tbody tr {
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--border-default);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .data-grid tbody tr:hover {
-      background: #f8fafc;
+      background: var(--table-row-hover);
     }
 
     .data-grid tbody tr.selected {
-      background: #dbeafe;
-      border-left: 3px solid #2563eb;
+      background: var(--selected-bg);
+      border-left: 3px solid var(--selected-border);
     }
 
     .data-grid td {
       padding: 12px 16px;
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .pagination {
@@ -494,17 +495,17 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       justify-content: center;
       width: 36px;
       height: 36px;
-      background: white;
-      border: 1px solid #cbd5e1;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-muted);
       border-radius: 6px;
-      color: #475569;
+      color: var(--text-secondary);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .pagination-button:not(:disabled):hover {
-      background: #f1f5f9;
-      border-color: #94a3b8;
+      background: var(--bg-muted);
+      border-color: var(--text-faint);
     }
 
     .pagination-button:disabled {
@@ -515,7 +516,7 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     .pagination-info {
       font-size: 14px;
       font-weight: 600;
-      color: #475569;
+      color: var(--text-secondary);
       min-width: 150px;
       text-align: center;
     }
@@ -527,13 +528,13 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       align-items: center;
       justify-content: center;
       padding: 60px 20px;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .spinner-large {
       width: 48px;
       height: 48px;
-      border: 4px solid #e2e8f0;
+      border: 4px solid var(--border-default);
       border-top: 4px solid #2563eb;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -558,8 +559,8 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     }
 
     .detail-panel {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-default);
       border-radius: 8px;
       padding: 16px;
     }
@@ -575,7 +576,7 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       margin: 0;
       font-size: 15px;
       font-weight: 700;
-      color: #1e293b;
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
@@ -605,12 +606,12 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     .detail-item label {
       font-size: 12px;
       font-weight: 600;
-      color: #64748b;
+      color: var(--text-muted);
     }
 
     .detail-item span {
       font-size: 14px;
-      color: #1e293b;
+      color: var(--text-primary);
       font-weight: 500;
     }
 
@@ -627,15 +628,15 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     }
 
     .wiadomosc-item {
-      background: white;
-      border: 1px solid #e2e8f0;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
       border-radius: 6px;
       padding: 12px;
       transition: all 0.2s ease;
     }
 
     .wiadomosc-item:hover {
-      border-color: #cbd5e1;
+      border-color: var(--border-muted);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
@@ -653,14 +654,14 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     .wiadomosc-kontrahent {
       font-size: 14px;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--text-primary);
     }
 
     .wiadomosc-details {
       display: flex;
       gap: 8px;
       font-size: 13px;
-      color: #64748b;
+      color: var(--text-muted);
       margin-top: 4px;
     }
 
@@ -673,8 +674,8 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
       justify-content: flex-end;
       gap: 12px;
       padding: 16px 24px;
-      border-top: 1px solid #e2e8f0;
-      background: #f8fafc;
+      border-top: 1px solid var(--border-default);
+      background: var(--bg-subtle);
     }
 
     .button {
@@ -702,19 +703,19 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     }
 
     .button-primary:disabled {
-      background: #94a3b8;
+      background: var(--text-faint);
       cursor: not-allowed;
       opacity: 0.5;
     }
 
     .button-secondary {
-      background: white;
-      color: #475569;
-      border: 1px solid #cbd5e1;
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--input-border);
     }
 
     .button-secondary:hover {
-      background: #f1f5f9;
+      background: var(--bg-muted);
     }
 
     @media (max-width: 768px) {
