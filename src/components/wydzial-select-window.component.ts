@@ -127,20 +127,20 @@ import { TWydzialInfo } from '../models/typy-info.model';
 
     .wydzial-item:hover {
       border-color: #3b82f6;
-      background: #f0f9ff;
+      background: var(--highlight-bg);
       transform: translateX(4px);
     }
 
     .wydzial-item.selected {
       border-color: #3b82f6;
-      background: #dbeafe;
+      background: var(--highlight-bg);
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
     }
 
     .wydzial-symbol {
       font-size: 14px;
       font-weight: 700;
-      color: #3b82f6;
+      color: var(--highlight-text);
       margin-bottom: 4px;
     }
 
