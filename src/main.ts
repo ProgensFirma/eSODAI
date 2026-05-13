@@ -952,19 +952,13 @@ export class App implements OnInit, OnDestroy {
   }
 
   onDoZrobieniaItemClicked(item: TZadNaDzisItem) {
-    const skrzynkaTyp = this.mapDoZrobieniaTypToSkrzynka(item.typ);
-    if (!skrzynkaTyp) {
-      console.error('Nieznany typ do zrobienia:', item.typ);
-      return;
-    }
-
     const targetSkrzynka: Skrzynka = {
       sql: '',
       sqlOrder: '',
-      skrzynka: skrzynkaTyp,
+      skrzynka: item.skrzynka,
       poziom: 1,
       typ: this.getSkrzynkaTyp(item.typ),
-      nazwa: this.getSkrzynkaNazwa(skrzynkaTyp),
+      nazwa: this.getSkrzynkaNazwa(item.skrzynka),
       zliczana: false,
       ilosc: 0,
       suma: 0,
@@ -984,19 +978,6 @@ export class App implements OnInit, OnDestroy {
     setTimeout(() => {
       this.selectItemByNumber(item.numer, item.typ);
     }, 500);
-  }
-
-  private mapDoZrobieniaTypToSkrzynka(typ: string): TSkrzynki | null {
-    switch (typ) {
-      case TZadNaDzisTyp.Sprawa:
-        return TSkrzynki.tss_SSprTermin;
-      case TZadNaDzisTyp.Dokument:
-        return TSkrzynki.tps_PBiezace;
-      case TZadNaDzisTyp.EDorecz:
-        return TSkrzynki.tes_KEleDoreczPrzych;
-      default:
-        return null;
-    }
   }
 
   private getSkrzynkaTyp(itemTyp: string): string {
