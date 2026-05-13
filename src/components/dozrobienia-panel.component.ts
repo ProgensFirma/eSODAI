@@ -358,7 +358,7 @@ export class DoZrobieniaComponent implements OnInit {
     this.loading = true;
     this.doZrobieniaService.getDoZrobienia().subscribe({
       next: (response) => {
-        this.buildSections(response.dozrobienia);
+        this.buildSections(response?.dozrobienia ?? []);
         this.loading = false;
       },
       error: (error) => {

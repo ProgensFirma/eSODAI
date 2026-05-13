@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { TZadNaDzisResponse, TZadNaDzisTyp } from '../models/dozrobienia.model';
@@ -22,9 +22,10 @@ export class DoZrobieniaService {
     const session = this.authService.getCurrentSession();
     const url = `${this.configService.apiBaseUrl}/zadnadzis`;
 
-    return this.http.get<TZadNaDzisResponse>(url, {
+    return this.http.get<any>(url, {
       params: { sesja: session?.sesja?.toString() || '' }
     }).pipe(
+      map(response => this.normalizeResponse(response)),
       catchError(() => {
         if (!environment.production) {
           console.warn('Błąd pobierania danych z API, używam danych mockowych');
@@ -33,6 +34,16 @@ export class DoZrobieniaService {
         throw new Error('Błąd pobierania listy do zrobienia');
       })
     );
+  }
+
+  private normalizeResponse(response: any): TZadNaDzisResponse {
+    if (Array.isArray(response)) {
+      return { dozrobienia: response };
+    }
+    if (response && Array.isArray(response.dozrobienia)) {
+      return response as TZadNaDzisResponse;
+    }
+    return { dozrobienia: [] };
   }
 
   private getMockData(): TZadNaDzisResponse {
