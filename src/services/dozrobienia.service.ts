@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
-import { TZadNaDzisResponse, TZadNaDzisItem, TZadNaDzisTyp } from '../models/dozrobienia.model';
+import { TZadNaDzisResponse, TZadNaDzisTyp } from '../models/dozrobienia.model';
+import { TBazaOper, TeSodStatus, TSkrzynki } from '../models/enums.model';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -24,7 +25,6 @@ export class DoZrobieniaService {
     return this.http.get<TZadNaDzisResponse>(url, {
       params: { sesja: session?.sesja?.toString() || '' }
     }).pipe(
-      map(response => this.mapResponseTypes(response)),
       catchError(() => {
         if (!environment.production) {
           console.warn('Błąd pobierania danych z API, używam danych mockowych');
@@ -35,100 +35,80 @@ export class DoZrobieniaService {
     );
   }
 
-  private mapResponseTypes(response: TZadNaDzisResponse): TZadNaDzisResponse {
-    return {
-      ...response,
-      dozrobienia: response.dozrobienia.map(item => ({
-        ...item,
-        typ: this.mapTypToEnum(item.typ)
-      }))
-    };
-  }
-
-  private mapTypToEnum(typ: string): string {
-    if (typ === 'tss_SSprTermin' || typ === 'tss_SSprPilne') {
-      return TZadNaDzisTyp.Sprawa;
-    } else if (typ === 'tps_PBiezace') {
-      return TZadNaDzisTyp.Dokument;
-    } else if (typ === 'tes_KEleDoreczPrzych') {
-      return TZadNaDzisTyp.EDorecz;
-    }
-    return typ;
-  }
-
   private getMockData(): TZadNaDzisResponse {
-    const currentDate = new Date();
-    const futureDate = new Date(currentDate);
-    futureDate.setMonth(futureDate.getMonth() + 5);
-
-    const pastDate = new Date(currentDate);
-    pastDate.setMonth(pastDate.getMonth() - 5);
-
     return {
       dozrobienia: [
         {
+          numer: 2221481,
           typ: TZadNaDzisTyp.Sprawa,
-          numer: 1,
-          nazwa: 'Rozpatrzenie wniosku budowlanego - Kowalski',
-          znak: '01/0100/2026',
-          data: futureDate.toISOString().split('T')[0],
-          dotyczy: 'Jan Kowalski'
+          skrzynka: TSkrzynki.tss_SSprTermin,
+          nazwa: 'PRZETARG',
+          znak: 'F.3120.1.2026',
+          data: '2026-03-21T00:00:00.000Z',
+          dotyczy: '',
+          oper: TBazaOper.tboSelect,
+          status: TeSodStatus.sBrak,
+          statusDane: ''
         },
         {
+          numer: 2221458,
           typ: TZadNaDzisTyp.Sprawa,
-          numer: 2,
-          nazwa: 'Decyzja o warunkach zabudowy - ul. Polna',
-          znak: '02/0150/2026',
-          data: futureDate.toISOString().split('T')[0],
-          dotyczy: 'Anna Nowak'
+          skrzynka: TSkrzynki.tss_SSprPilne,
+          nazwa: 'UMORZENIA',
+          znak: 'F.3210.1.2026',
+          data: '2026-03-29T00:00:00.000Z',
+          dotyczy: '',
+          oper: TBazaOper.tboSelect,
+          status: TeSodStatus.sBrak,
+          statusDane: ''
         },
         {
-          typ: TZadNaDzisTyp.Sprawa,
-          numer: 3,
-          nazwa: 'Pozwolenie na użytkowanie obiektu',
-          znak: '03/0200/2026',
-          data: currentDate.toISOString().split('T')[0],
-          dotyczy: 'Piotr Wiśniewski'
-        },
-        {
+          numer: 2229700,
           typ: TZadNaDzisTyp.Dokument,
-          numer: 1237,
-          nazwa: 'Wniosek o wydanie zaświadczenia',
-          znak: '01/RP/2026',
-          data: futureDate.toISOString().split('T')[0],
-          dotyczy: 'Maria Dąbrowska'
+          skrzynka: TSkrzynki.tps_PBiezace,
+          nazwa: 'DECYZJA',
+          znak: '28/R-FK/26',
+          data: '2026-04-08T00:00:00.000Z',
+          dotyczy: '',
+          oper: TBazaOper.tboSelect,
+          status: TeSodStatus.sBrak,
+          statusDane: ''
         },
         {
+          numer: 2237541,
           typ: TZadNaDzisTyp.Dokument,
-          numer: 12222,
-          nazwa: 'Skarga na decyzję administracyjną',
-          znak: '02/RP/2026',
-          data: pastDate.toISOString().split('T')[0],
-          dotyczy: 'Krzysztof Lewandowski'
+          skrzynka: TSkrzynki.tps_PBiezace,
+          nazwa: 'FAKTURA KSEF 2026/FVS/136872/BS',
+          znak: '29/R-FK/26',
+          data: '2026-04-03T00:00:00.000Z',
+          dotyczy: '',
+          oper: TBazaOper.tboSelect,
+          status: TeSodStatus.sBrak,
+          statusDane: ''
         },
         {
-          typ: TZadNaDzisTyp.Dokument,
-          numer: 15678,
-          nazwa: 'Zapytanie ofertowe - dostawa materiałów',
-          znak: '03/RP/2026',
-          data: currentDate.toISOString().split('T')[0],
-          dotyczy: 'Zofia Kamińska'
-        },
-        {
+          numer: 2226183,
           typ: TZadNaDzisTyp.EDorecz,
-          numer: 3458,
-          nazwa: 'Doręczenie elektroniczne - postępowanie administracyjne',
-          znak: '01/ED/2026',
-          data: futureDate.toISOString().split('T')[0],
-          dotyczy: 'Tomasz Szymański'
+          skrzynka: TSkrzynki.tes_KEleDoreczPrzych,
+          nazwa: 'RE: Test 0322',
+          znak: 'PPSA-E-df1b35f5-613f-4397-96d3-2ab920bf6b69',
+          data: '2026-03-22T11:17:44.447Z',
+          dotyczy: '',
+          oper: TBazaOper.tboSelect,
+          status: TeSodStatus.sBrak,
+          statusDane: ''
         },
         {
+          numer: 2221174,
           typ: TZadNaDzisTyp.EDorecz,
-          numer: 3459,
-          nazwa: 'Pismo z urzędu skarbowego',
-          znak: '02/ED/2026',
-          data: currentDate.toISOString().split('T')[0],
-          dotyczy: 'Ewa Wójcik'
+          skrzynka: TSkrzynki.tes_KEleDoreczPrzych,
+          nazwa: 'Dotyczy kartoteki: 03/2 - Gospodarowanie odpadami - OF',
+          znak: 'PPSA-E-7cc7930f-4e17-4296-b09f-0224226565dc',
+          data: '2026-02-11T14:15:46.817Z',
+          dotyczy: '',
+          oper: TBazaOper.tboSelect,
+          status: TeSodStatus.sBrak,
+          statusDane: ''
         }
       ]
     };
