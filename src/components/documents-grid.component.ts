@@ -484,6 +484,7 @@ import { TSkrzynki } from '../models/enums.model';
 export class DocumentsGridComponent implements OnChanges {
   @Input() selectedSkrzynka: Skrzynka | null = null;
   @Input() selectedSprawa: Sprawa | null = null;
+  @Input() waitForSprawa: boolean = false;
   @Output() documentSelected = new EventEmitter<Dokument>();
   @Output() newDocumentRequested = new EventEmitter<void>();
   @Output() editDocumentRequested = new EventEmitter<Dokument>();
@@ -496,10 +497,10 @@ export class DocumentsGridComponent implements OnChanges {
   constructor(private dokumentyService: DokumentyService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['selectedSkrzynka'] && this.selectedSkrzynka) {
+    if (changes['selectedSkrzynka'] && this.selectedSkrzynka && !this.waitForSprawa) {
       this.loadDocuments();
     }
-    if (changes['selectedSprawa']) {
+    if (changes['selectedSprawa'] && this.selectedSprawa) {
       this.loadDocuments();
     }
   }

@@ -211,6 +211,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
             <app-documents-grid
               [selectedSkrzynka]="selectedSkrzynka"
               [selectedSprawa]="selectedSprawa"
+              [waitForSprawa]="true"
               (documentSelected)="onDocumentSelected($event)"
               (newDocumentRequested)="onNewDocumentRequested()"
               (editDocumentRequested)="onEditDocumentRequested($event)"
