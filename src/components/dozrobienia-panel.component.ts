@@ -35,13 +35,15 @@ interface DoZrobieniaSection {
 
           <div class="items-list" *ngIf="section.items.length > 0">
             <div class="item-row" *ngFor="let item of section.items">
-              <div class="item-content">
-                <div class="item-header">
-                  <span class="item-znak">{{ item.znak }}</span>
-                  <span class="item-data">{{ formatDate(item.data) }}</span>
-                </div>
-                <div class="item-nazwa">{{ item.nazwa }}</div>
-                <div class="item-dotyczy">{{ item.dotyczy }}</div>
+              <div class="item-col item-col-left">
+                <span class="item-znak">{{ item.znak }}</span>
+                <span class="item-nazwa">{{ item.nazwa }}</span>
+              </div>
+              <div class="item-col item-col-center">
+                <div class="item-dotyczy" *ngIf="item.dotyczy"><span class="item-dotyczy-label">Dotyczy:</span> {{ item.dotyczy }}</div>
+              </div>
+              <div class="item-col item-col-right">
+                <span class="item-data">{{ formatDate(item.data) }}</span>
               </div>
               <button
                 class="item-action"
@@ -202,47 +204,65 @@ interface DoZrobieniaSection {
       transform: translateX(2px);
     }
 
-    .item-content {
-      flex: 1;
+    .item-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       min-width: 0;
     }
 
-    .item-header {
-      display: flex;
-      justify-content: space-between;
+    .item-col-left {
+      flex: 2;
+    }
+
+    .item-col-center {
+      flex: 3;
       align-items: center;
-      margin-bottom: 4px;
-      gap: 12px;
+      text-align: center;
+    }
+
+    .item-col-right {
+      flex: 1;
+      align-items: flex-end;
+      text-align: right;
     }
 
     .item-znak {
       font-size: 13px;
       font-weight: 600;
       color: #2563eb;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .item-data {
       font-size: 12px;
       color: var(--text-muted);
       font-weight: 500;
+      white-space: nowrap;
     }
 
     .item-nazwa {
       font-size: 13px;
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 2px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .item-dotyczy {
-      font-size: 11px;
-      color: var(--text-muted);
+      font-size: 12px;
+      color: var(--text-secondary);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .item-dotyczy-label {
+      font-weight: 700;
+      color: var(--text-primary);
     }
 
     .item-action {
