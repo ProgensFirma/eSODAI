@@ -56,7 +56,7 @@ export class DoZrobieniaService {
           nazwa: 'PRZETARG',
           znak: 'F.3120.1.2026',
           data: '2026-03-21T00:00:00.000Z',
-          dotyczy: '',
+          dotyczy: 'Softres Sp.z o.o.',
           oper: TBazaOper.tboSelect,
           status: TeSodStatus.sBrak,
           statusDane: ''
@@ -92,7 +92,7 @@ export class DoZrobieniaService {
           nazwa: 'FAKTURA KSEF 2026/FVS/136872/BS',
           znak: '29/R-FK/26',
           data: '2026-04-03T00:00:00.000Z',
-          dotyczy: '',
+          dotyczy: 'Jan Nowak',
           oper: TBazaOper.tboSelect,
           status: TeSodStatus.sBrak,
           statusDane: ''
