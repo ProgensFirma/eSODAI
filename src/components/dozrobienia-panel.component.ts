@@ -213,16 +213,19 @@ interface DoZrobieniaSection {
 
     .item-col-left {
       flex: 2;
+      overflow: hidden;
     }
 
     .item-col-center {
       flex: 3;
       align-items: center;
       text-align: center;
+      overflow: hidden;
     }
 
     .item-col-right {
-      flex: 1;
+      flex-shrink: 0;
+      width: 80px;
       align-items: flex-end;
       text-align: right;
     }
