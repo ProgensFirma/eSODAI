@@ -528,7 +528,7 @@ export class EDoreczGridComponent implements OnInit, OnChanges {
     }
 
     this.loading = true;
-    this.edoreczService.getEDoreczDokumenty().subscribe({
+    this.edoreczService.getEDoreczDokumenty(this.skrzynkaTyp).subscribe({
       next: (dokumenty) => {
         this.dokumenty = dokumenty;
         this.loading = false;

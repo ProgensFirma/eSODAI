@@ -481,11 +481,13 @@ export class EDoreczService {
     private errorService: ErrorNotificationService
   ) {}
 
-  getEDoreczDokumenty(): Observable<EDoreczDokument[]> {
+  getEDoreczDokumenty(skrzynka: string): Observable<EDoreczDokument[]> {
     const session = this.authService.getCurrentSession();
     const sesjaId = session?.sesja || 123;
 
-    const params = new HttpParams().set('sesja', sesjaId.toString());
+    const params = new HttpParams()
+      .set('sesja', sesjaId.toString())
+      .set('skrzynka', skrzynka);
     const url = `${this.configService.apiBaseUrl}/skrzynki/eDoreczWej`;
     return this.http.get<EDoreczDokument[]>(url, { params }).pipe(
       catchError(error => {
