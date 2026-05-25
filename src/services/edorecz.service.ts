@@ -482,8 +482,12 @@ export class EDoreczService {
   ) {}
 
   getEDoreczDokumenty(): Observable<EDoreczDokument[]> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
     const url = `${this.configService.apiBaseUrl}/skrzynki/eDoreczWej`;
-    return this.http.get<EDoreczDokument[]>(url).pipe(
+    return this.http.get<EDoreczDokument[]>(url, { params }).pipe(
       catchError(error => {
         console.warn('Could not fetch eDoreczenia, using mock data:', error);
 
