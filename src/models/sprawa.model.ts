@@ -1,5 +1,5 @@
 import { TOsobaInfo, TWydzialInfo, TKontrahentInfo } from './typy-info.model';
-import { TBazaOper, TeSodStatus } from './enums.model';
+import { TBazaOper, TeSodStatus, TSprStatusPrzek } from './enums.model';
 
 export interface SprawaTyp {
   nazwa: string;
@@ -27,7 +27,7 @@ export interface Sprawa {
   dataPrzekazania: string;
   dataOdebrania: string;
   osobaPrzek: TOsobaInfo;
-  statusPrzek: string;
+  statusPrzek: TSprStatusPrzek;
   odrzucona: boolean;
   kontrahent: TKontrahentInfo;
   nadzorWydzial: TWydzialInfo;

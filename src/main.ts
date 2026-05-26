@@ -1253,7 +1253,7 @@ export class App implements OnInit, OnDestroy {
       odpowiedzialny: { numer: osobaNumer, identyfikator: '' },
       dataPrzyjecia: currentDate,
       uprawPoziom: '0',
-      statusPrzek: TDokStatusPrzek.sp_oczek,
+      statusPrzek: TDokStatusPrzek.spd_oczek,
       dataAlert: currentDate,
       dataPlan: currentDate,
       daneFinansowe: null,

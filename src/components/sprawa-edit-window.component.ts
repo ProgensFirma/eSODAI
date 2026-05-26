@@ -11,7 +11,7 @@ import { WykazAktService } from '../services/wykaz-akt.service';
 import { SprawyService } from '../services/sprawy.service';
 import { AuthService } from '../services/auth.service';
 import { WykazAkt } from '../models/wykaz-akt.model';
-import { TBazaOper, TeSodStatus } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
 @Component({
@@ -723,7 +723,7 @@ export class SprawaEditWindowComponent implements OnInit {
       dataPrzekazania: '',
       dataOdebrania: '',
       osobaPrzek: { numer: 0, identyfikator: '' },
-      statusPrzek: '',
+      statusPrzek: TSprStatusPrzek.sps_oczek,
       odrzucona: false,
       kontrahent: {
         numer: 0,

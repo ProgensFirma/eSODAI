@@ -6,7 +6,7 @@ import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
-import { TBazaOper, TeSodStatus } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -96,7 +96,7 @@ export class SprawyService {
           "numer": 0,
           "identyfikator": ""
         },
-        "statusPrzek": "sp_przyj",
+        "statusPrzek": TSprStatusPrzek.sps_przyj,
         "odrzucona": false,
         "kontrahent": {
           "numer": 1875284,
@@ -158,7 +158,7 @@ export class SprawyService {
           "numer": 861528,
           "identyfikator": "BLICHARZ JOANNA"
         },
-        "statusPrzek": "sp_realizacja",
+        "statusPrzek": TSprStatusPrzek.sps_przyj,
         "odrzucona": false,
         "kontrahent": {
           "numer": 2679291,
@@ -220,7 +220,7 @@ export class SprawyService {
           "numer": 1059948,
           "identyfikator": "KUŚ DOROTA"
         },
-        "statusPrzek": "sp_przyj",
+        "statusPrzek": TSprStatusPrzek.sps_przyj,
         "odrzucona": false,
         "kontrahent": {
           "numer": 2770462,
@@ -282,7 +282,7 @@ export class SprawyService {
           "numer": 0,
           "identyfikator": ""
         },
-        "statusPrzek": "sp_oczekuje",
+        "statusPrzek": TSprStatusPrzek.sps_oczek,
         "odrzucona": false,
         "kontrahent": {
           "numer": 1875284,
@@ -344,7 +344,7 @@ export class SprawyService {
           "numer": 861490,
           "identyfikator": "KONIECZNA TERESA"
         },
-        "statusPrzek": "sp_zakonczono",
+        "statusPrzek": TSprStatusPrzek.sps_przyj,
         "odrzucona": false,
         "kontrahent": {
           "numer": 2654837,
@@ -406,7 +406,7 @@ export class SprawyService {
           "numer": 0,
           "identyfikator": ""
         },
-        "statusPrzek": "sp_przyj",
+        "statusPrzek": TSprStatusPrzek.sps_przyj,
         "odrzucona": false,
         "kontrahent": {
           "numer": 284879,
@@ -468,7 +468,7 @@ export class SprawyService {
           "numer": 861528,
           "identyfikator": "BLICHARZ JOANNA"
         },
-        "statusPrzek": "sp_przyj",
+        "statusPrzek": TSprStatusPrzek.sps_przyj,
         "odrzucona": false,
         "kontrahent": {
           "numer": 284879,
