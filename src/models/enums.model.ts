@@ -58,6 +58,14 @@ export enum TStatWysylki {
   tw_anulowano = 'tw_anulowano'
 }
 
+export enum TSprStatusPrzek {
+  sps_oczek = 'sps_oczek',
+  sps_przyj = 'sps_przyj',
+  sps_odrzuc = 'sps_odrzuc',
+  sps_zwrot = 'sps_zwrot',
+  sps_anulprzek = 'sps_anulprzek'
+}
+
 //parametry
 export enum TSODParamTyp {
   ptNieznany = 'ptNieznany',
