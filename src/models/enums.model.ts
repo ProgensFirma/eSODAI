@@ -42,7 +42,7 @@ export enum TKanalTyp {
   tk_Portal = 'tk_Portal'
 }
 
-export enum TStatusPrzek {
+export enum TDokStatusPrzek {
   sp_oczek = 'sp_oczek',
   sp_przyj = 'sp_przyj',
   sp_odrzuc = 'sp_odrzuc',

@@ -6,7 +6,7 @@ import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
-import { TBazaOper, TeSodStatus, TDokStatusEdycji, TKanalTyp, TStatusPrzek } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TDokStatusEdycji, TKanalTyp, TDokStatusPrzek } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -197,7 +197,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "1899-12-30T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": TStatusPrzek.sp_przyj,
+        "statusPrzek": TDokStatusPrzek.sp_przyj,
         "dataAlert": "2024-10-11T00:00:00.000Z",
         "dataPlan": "1899-12-30T00:00:00.000Z",
         "daneFinansowe": null,
@@ -275,7 +275,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "1899-12-30T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": TStatusPrzek.sp_przyj,
+        "statusPrzek": TDokStatusPrzek.sp_przyj,
         "dataAlert": "1899-12-30T00:00:00.000Z",
         "dataPlan": "1899-12-30T00:00:00.000Z",
         "daneFinansowe": null,
@@ -353,7 +353,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "1899-12-30T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": TStatusPrzek.sp_przyj,
+        "statusPrzek": TDokStatusPrzek.sp_przyj,
         "dataAlert": "1899-12-30T00:00:00.000Z",
         "dataPlan": "1899-12-30T00:00:00.000Z",
         "daneFinansowe": {
@@ -446,7 +446,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "2024-12-15T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": TStatusPrzek.sp_przyj,
+        "statusPrzek": TDokStatusPrzek.sp_przyj,
         "dataAlert": "2024-12-22T00:00:00.000Z",
         "dataPlan": "2024-12-29T00:00:00.000Z",
         "daneFinansowe": null,
@@ -529,7 +529,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "1899-12-30T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": TStatusPrzek.sp_oczek,
+        "statusPrzek": TDokStatusPrzek.sp_oczek,
         "dataAlert": "1899-12-30T00:00:00.000Z",
         "dataPlan": "1899-12-30T00:00:00.000Z",
         "daneFinansowe": null,
@@ -607,7 +607,7 @@ export class DokumentyService {
         },
         "dataPrzyjecia": "2024-12-17T00:00:00.000Z",
         "uprawPoziom": "",
-        "statusPrzek": TStatusPrzek.sp_przyj,
+        "statusPrzek": TDokStatusPrzek.sp_przyj,
         "dataAlert": "1899-12-30T00:00:00.000Z",
         "dataPlan": "1899-12-30T00:00:00.000Z",
         "daneFinansowe": {
