@@ -26,7 +26,7 @@ export enum TDBSerwer {
 }
 
 //dokument
-export enum TStatusEdycji {
+export enum TDokStatusEdycji {
   se_DoWgladu = 'se_DoWgladu',
   se_Zmieniany = 'se_Zmieniany',
   se_DoZatw = 'se_DoZatw',

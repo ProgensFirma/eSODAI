@@ -28,7 +28,7 @@ import { PowiadomieniaWindowComponent } from './components/powiadomienia-window.
 import { PracownicyWindowComponent } from './components/pracownicy-window.component';
 import { DoZrobieniaComponent } from './components/dozrobienia-panel.component';
 import { Dokument } from './models/dokument.model';
-import { TBazaOper, TeSodStatus, TStatusEdycji, TStatusPrzek, TSkrzynki } from './models/enums.model';
+import { TBazaOper, TeSodStatus, TDokStatusEdycji, TStatusPrzek, TSkrzynki } from './models/enums.model';
 import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
@@ -1232,7 +1232,7 @@ export class App implements OnInit, OnDestroy {
       dokGlowny: 0,
       wersja: 0,
       aktualny: true,
-      statusEdycji: TStatusEdycji.se_DoWgladu,
+      statusEdycji: TDokStatusEdycji.se_DoWgladu,
       doWgladu: false,
       typ: { nazwa: '', finansowy: false, poleceniezaplaty: false },
       szablon: null,

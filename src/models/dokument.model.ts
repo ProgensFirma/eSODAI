@@ -1,6 +1,6 @@
 import { TOsobaInfo, TWydzialInfo, TKontrahentInfo, TDokTypInfo, TSzablonInfo, TZalacznikInfo, TSprawaInfo } from './typy-info.model';
 import { DaneFinansowe } from './dane-finansowe.model';
-import { TBazaOper, TeSodStatus, TStatusEdycji, TKanalTyp, TStatusPrzek } from './enums.model';
+import { TBazaOper, TeSodStatus, TDokStatusEdycji, TKanalTyp, TStatusPrzek } from './enums.model';
 
 export interface Dokument {
   numer: number;
@@ -8,7 +8,7 @@ export interface Dokument {
   dokGlowny: number;
   wersja: number;
   aktualny: boolean;
-  statusEdycji?: TStatusEdycji;
+  statusEdycji?: TDokStatusEdycji;
   doWgladu: boolean;
   typ: TDokTypInfo;
   szablon: TSzablonInfo | null;

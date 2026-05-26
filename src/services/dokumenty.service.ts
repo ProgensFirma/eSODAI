@@ -6,7 +6,7 @@ import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
-import { TBazaOper, TeSodStatus, TStatusEdycji, TKanalTyp, TStatusPrzek } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TDokStatusEdycji, TKanalTyp, TStatusPrzek } from '../models/enums.model';
 
 @Injectable({
   providedIn: 'root'
@@ -142,7 +142,7 @@ export class DokumentyService {
         "dokGlowny": 2799963,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": TStatusEdycji.se_Zmieniany,
+        "statusEdycji": TDokStatusEdycji.se_Zmieniany,
         "doWgladu": false,
         "typ": {
           "nazwa": "E-PUAP",
@@ -220,7 +220,7 @@ export class DokumentyService {
         "dokGlowny": 2806367,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": TStatusEdycji.se_Zmieniany,
+        "statusEdycji": TDokStatusEdycji.se_Zmieniany,
         "doWgladu": false,
         "typ": {
           "nazwa": "DECYZJA",
@@ -298,7 +298,7 @@ export class DokumentyService {
         "dokGlowny": 2827761,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": TStatusEdycji.se_Zmieniany,
+        "statusEdycji": TDokStatusEdycji.se_Zmieniany,
         "doWgladu": false,
         "typ": {
           "nazwa": "FAKTURA",
@@ -391,7 +391,7 @@ export class DokumentyService {
         "dokGlowny": 2827800,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": TStatusEdycji.se_Zmieniany,
+        "statusEdycji": TDokStatusEdycji.se_Zmieniany,
         "doWgladu": false,
         "typ": {
           "nazwa": "WNIOSEK",
@@ -474,7 +474,7 @@ export class DokumentyService {
         "dokGlowny": 2827850,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": TStatusEdycji.se_Zmieniany,
+        "statusEdycji": TDokStatusEdycji.se_Zmieniany,
         "doWgladu": false,
         "typ": {
           "nazwa": "PISMO",
@@ -552,7 +552,7 @@ export class DokumentyService {
         "dokGlowny": 2827900,
         "wersja": 0,
         "aktualny": true,
-        "statusEdycji": TStatusEdycji.se_DoZatw,
+        "statusEdycji": TDokStatusEdycji.se_DoZatw,
         "doWgladu": true,
         "typ": {
           "nazwa": "NOTA",
