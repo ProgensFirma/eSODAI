@@ -43,11 +43,11 @@ export enum TKanalTyp {
 }
 
 export enum TDokStatusPrzek {
-  sp_oczek = 'sp_oczek',
-  sp_przyj = 'sp_przyj',
-  sp_odrzuc = 'sp_odrzuc',
-  sp_zwrot = 'sp_zwrot',
-  sp_anulprzek = 'sp_anulprzek'
+  spd_oczek = 'spd_oczek',
+  spd_przyj = 'spd_przyj',
+  spd_odrzuc = 'spd_odrzuc',
+  spd_zwrot = 'spd_zwrot',
+  spd_anulprzek = 'spd_anulprzek'
 }
 
 //dokument wyjścia
