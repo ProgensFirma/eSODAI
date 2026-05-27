@@ -16,13 +16,35 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
           <span class="title-icon">📋</span>
           Szczegóły dokumentu
         </h3>
-        <div class="document-status">
-          <span class="status-badge" [class]="getStatusClass()">
-            {{ document.statusEdycji }}
-          </span>
-          <span class="financial-badge" *ngIf="document.typ.finansowy">
-            💰 Finansowy
-          </span>
+        <div class="header-right">
+          <span class="register-tag">{{ document.rejestrNrPozycji }}</span>
+          <div class="status-icons">
+            <span
+              class="status-icon"
+              [title]="getStatusEdycjiLabel()"
+              [class]="'icon-status-' + (document.statusEdycji || 'default')"
+            >{{ getStatusEdycjiIcon() }}</span>
+            <span
+              class="status-icon"
+              [title]="getStatusPrzekLabel()"
+              [class]="'icon-przek-' + document.statusPrzek"
+            >{{ getStatusPrzekIcon() }}</span>
+            <span
+              class="status-icon icon-fin"
+              title="Finansowy"
+              *ngIf="document.typ.finansowy"
+            >💰</span>
+            <span
+              class="status-icon icon-archiwum"
+              title="Archiwum"
+              *ngIf="document.archiwum"
+            >🗄️</span>
+            <span
+              class="status-icon icon-publiczny"
+              title="Publiczny"
+              *ngIf="document.publiczny"
+            >🌐</span>
+          </div>
         </div>
       </div>
       
@@ -186,31 +208,61 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
       font-size: 20px;
     }
 
-    .document-status {
+    .header-right {
       display: flex;
-      gap: 8px;
       align-items: center;
+      gap: 10px;
     }
 
-    .status-badge {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
+    .register-tag {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--text-primary);
+      color: var(--bg-surface);
       letter-spacing: 0.5px;
-      background: var(--badge-gray-bg);
-      color: var(--badge-gray-text);
+      white-space: nowrap;
     }
 
-    .financial-badge {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      background: linear-gradient(135deg, var(--badge-green-bg), #bbf7d0);
-      color: var(--badge-green-text);
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
+
+    .status-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: default;
+      transition: transform 0.15s ease;
+    }
+
+    .status-icon:hover {
+      transform: scale(1.2);
+    }
+
+    .icon-status-se_DoWgladu  { background: var(--badge-blue-bg);  color: var(--badge-blue-text); }
+    .icon-status-se_Zmieniany { background: var(--badge-amber-bg); color: var(--badge-amber-text); }
+    .icon-status-se_DoZatw    { background: var(--badge-green-bg); color: var(--badge-green-text); }
+    .icon-status-se_Niewidoczny { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+    .icon-status-default      { background: var(--badge-gray-bg);  color: var(--badge-gray-text); }
+
+    .icon-przek-spd_oczek    { background: var(--badge-amber-bg); color: var(--badge-amber-text); }
+    .icon-przek-spd_przyj    { background: var(--badge-green-bg); color: var(--badge-green-text); }
+    .icon-przek-spd_odrzuc   { background: var(--badge-red-bg, #fee2e2); color: var(--badge-red-text, #b91c1c); }
+    .icon-przek-spd_zwrot    { background: var(--badge-amber-bg); color: var(--badge-amber-text); }
+    .icon-przek-spd_anulprzek{ background: var(--badge-gray-bg);  color: var(--badge-gray-text); }
+
+    .icon-fin       { background: #fef3c7; color: #92400e; }
+    .icon-archiwum  { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
+    .icon-publiczny { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
 
     .details-content {
       flex: 1;
@@ -659,14 +711,50 @@ export class DocumentDetailsComponent {
     return !!(dateString && dateString !== '1899-12-30T00:00:00.000Z');
   }
 
+  getStatusEdycjiIcon(): string {
+    switch (this.document?.statusEdycji) {
+      case 'se_DoWgladu':    return '👁';
+      case 'se_Zmieniany':   return '✏️';
+      case 'se_DoZatw':      return '✅';
+      case 'se_Niewidoczny': return '🚫';
+      default:               return '📋';
+    }
+  }
+
+  getStatusEdycjiLabel(): string {
+    switch (this.document?.statusEdycji) {
+      case 'se_DoWgladu':    return 'Do wglądu';
+      case 'se_Zmieniany':   return 'Zmieniany';
+      case 'se_DoZatw':      return 'Do zatwierdzenia';
+      case 'se_Niewidoczny': return 'Niewidoczny';
+      default:               return 'Status edycji';
+    }
+  }
+
+  getStatusPrzekIcon(): string {
+    switch (this.document?.statusPrzek) {
+      case 'spd_oczek':     return '⏳';
+      case 'spd_przyj':     return '📥';
+      case 'spd_odrzuc':    return '❌';
+      case 'spd_zwrot':     return '↩️';
+      case 'spd_anulprzek': return '🚫';
+      default:              return '📤';
+    }
+  }
+
+  getStatusPrzekLabel(): string {
+    switch (this.document?.statusPrzek) {
+      case 'spd_oczek':     return 'Oczekuje na przekazanie';
+      case 'spd_przyj':     return 'Przyjęty';
+      case 'spd_odrzuc':    return 'Odrzucony';
+      case 'spd_zwrot':     return 'Zwrócony';
+      case 'spd_anulprzek': return 'Anulowane przekazanie';
+      default:              return 'Status przekazania';
+    }
+  }
+
   getStatusClass(): string {
-    if (!this.document) return '';
-    if (!this.document.statusEdycji) return '';
-    
-    const status = this.document.statusEdycji.toLowerCase();
-    if (status.includes('zmieniany')) return 'status-editing';
-    if (status.includes('gotowy')) return 'status-ready';
-    return 'status-default';
+    return '';
   }
 
   getTypeClass(typeName: string): string {
