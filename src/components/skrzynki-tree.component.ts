@@ -25,9 +25,10 @@ import { Skrzynka, TreeNode } from '../models/skrzynka.model';
       </div>
       
       <div class="tree-content" *ngIf="!loading && treeNodes.length > 0">
-        <app-tree-node 
-          *ngFor="let node of treeNodes" 
+        <app-tree-node
+          *ngFor="let node of treeNodes"
           [node]="node"
+          [selectedSkrzynka]="selectedSkrzynka"
           (nodeSelected)="onNodeSelected($event)"
         ></app-tree-node>
       </div>

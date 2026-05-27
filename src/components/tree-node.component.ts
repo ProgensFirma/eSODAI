@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeNode, Skrzynka } from '../models/skrzynka.model';
 
@@ -8,11 +8,12 @@ import { TreeNode, Skrzynka } from '../models/skrzynka.model';
   imports: [CommonModule, TreeNodeComponent],
   template: `
     <div class="tree-node" [class.expanded]="node.expanded">
-      <div 
-        class="node-content" 
+      <div
+        class="node-content"
         [class.level-0]="node.data.poziom === 1"
         [class.level-1]="node.data.poziom === 2"
         [class.level-2]="node.data.poziom === 3"
+        [class.selected]="isSelected()"
         (click)="handleNodeClick()"
       >
         <div class="node-info">
@@ -41,9 +42,10 @@ import { TreeNode, Skrzynka } from '../models/skrzynka.model';
       </div>
       
       <div class="children" *ngIf="hasChildren() && node.expanded">
-        <app-tree-node 
-          *ngFor="let child of node.children" 
+        <app-tree-node
+          *ngFor="let child of node.children"
           [node]="child"
+          [selectedSkrzynka]="selectedSkrzynka"
           (nodeSelected)="onChildNodeSelected($event)"
         ></app-tree-node>
       </div>
@@ -90,6 +92,23 @@ import { TreeNode, Skrzynka } from '../models/skrzynka.model';
       font-weight: 500;
       color: var(--text-primary);
       margin-left: 16px;
+    }
+
+    .node-content.selected.level-1,
+    .node-content.selected.level-2 {
+      background-color: #1e40af;
+      border-color: #1e3a8a;
+      color: white;
+    }
+
+    .node-content.selected.level-1:hover,
+    .node-content.selected.level-2:hover {
+      background-color: #1e3a8a;
+    }
+
+    .node-content.selected.level-1 .node-count,
+    .node-content.selected.level-2 .node-count {
+      background: rgba(255, 255, 255, 0.25);
     }
 
     .node-content.level-2 {
@@ -200,10 +219,13 @@ import { TreeNode, Skrzynka } from '../models/skrzynka.model';
 })
 export class TreeNodeComponent implements OnInit {
   @Input() node!: TreeNode;
+  @Input() selectedSkrzynka: Skrzynka | null = null;
   @Output() nodeSelected = new EventEmitter<Skrzynka>();
 
-  ngOnInit() {
-    // Level 1 nodes start collapsed by default
+  ngOnInit() {}
+
+  isSelected(): boolean {
+    return !!this.selectedSkrzynka && this.selectedSkrzynka.skrzynka === this.node.data.skrzynka;
   }
 
   handleNodeClick() {
