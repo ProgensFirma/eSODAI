@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DokumentyService } from '../services/dokumenty.service';
+import { DokumentPrzyjmijService } from '../services/dokument-przyjmij.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
@@ -19,30 +20,41 @@ import { TSkrzynki } from '../models/enums.model';
           <span class="document-count" *ngIf="documents.length > 0">({{ documents.length }})</span>
         </h3>
         <div class="header-buttons">
+          <ng-container *ngIf="!isPrzyjmijSkrzynka()">
+            <button
+              class="action-button button-new"
+              (click)="onNewDocument()"
+              [disabled]="!selectedSkrzynka"
+            >
+              <span class="button-icon">➕</span>
+              Nowy
+            </button>
+            <button
+              class="action-button button-edit"
+              (click)="onEditDocument()"
+              [disabled]="!selectedDocument"
+            >
+              <span class="button-icon">✏️</span>
+              Edycja
+            </button>
+            <button
+              *ngIf="showPrzekazButton()"
+              class="action-button button-przekaz"
+              (click)="onPrzekazDocument()"
+              [disabled]="!selectedDocument"
+            >
+              <span class="button-icon">📤</span>
+              Przekaż
+            </button>
+          </ng-container>
           <button
-            class="action-button button-new"
-            (click)="onNewDocument()"
-            [disabled]="!selectedSkrzynka"
+            *ngIf="isPrzyjmijSkrzynka()"
+            class="action-button button-przyjmij"
+            (click)="onPrzyjmijDocument()"
+            [disabled]="!selectedDocument || przyjmijLoading"
           >
-            <span class="button-icon">➕</span>
-            Nowy
-          </button>
-          <button
-            class="action-button button-edit"
-            (click)="onEditDocument()"
-            [disabled]="!selectedDocument"
-          >
-            <span class="button-icon">✏️</span>
-            Edycja
-          </button>
-          <button
-            *ngIf="showPrzekazButton()"
-            class="action-button button-przekaz"
-            (click)="onPrzekazDocument()"
-            [disabled]="!selectedDocument"
-          >
-            <span class="button-icon">📤</span>
-            Przekaż
+            <span class="button-icon">✔</span>
+            {{ przyjmijLoading ? 'Przyjmowanie...' : 'Przyjmij' }}
           </button>
           <button
             class="action-button button-refresh"
@@ -203,6 +215,16 @@ import { TSkrzynki } from '../models/enums.model';
 
     .button-przekaz:hover:not(:disabled) {
       background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .button-przyjmij {
+      background: #16a34a;
+      color: white;
+    }
+
+    .button-przyjmij:hover:not(:disabled) {
+      background: #15803d;
       transform: translateY(-1px);
     }
 
@@ -493,8 +515,12 @@ export class DocumentsGridComponent implements OnChanges {
   documents: Dokument[] = [];
   selectedDocument: Dokument | null = null;
   loading = false;
+  przyjmijLoading = false;
 
-  constructor(private dokumentyService: DokumentyService) {}
+  constructor(
+    private dokumentyService: DokumentyService,
+    private dokumentPrzyjmijService: DokumentPrzyjmijService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedSkrzynka'] && this.selectedSkrzynka && !this.waitForSprawa) {
@@ -590,5 +616,29 @@ export class DocumentsGridComponent implements OnChanges {
     }
     const skrzynkaId = this.selectedSkrzynka.skrzynka;
     return skrzynkaId === TSkrzynki.tps_POtrzymane || skrzynkaId === TSkrzynki.tps_PBiezace;
+  }
+
+  isPrzyjmijSkrzynka(): boolean {
+    if (!this.selectedSkrzynka) {
+      return false;
+    }
+    const skrzynkaId = this.selectedSkrzynka.skrzynka;
+    return skrzynkaId === TSkrzynki.tps_POtrzymane || skrzynkaId === TSkrzynki.tps_PWydzialu;
+  }
+
+  onPrzyjmijDocument() {
+    if (!this.selectedDocument) return;
+
+    this.przyjmijLoading = true;
+    this.dokumentPrzyjmijService.przyjmijDokument(this.selectedDocument.numer).subscribe({
+      next: () => {
+        this.przyjmijLoading = false;
+        this.loadDocuments();
+      },
+      error: (error) => {
+        console.error('Error przyjmij document:', error);
+        this.przyjmijLoading = false;
+      }
+    });
   }
 }
