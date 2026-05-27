@@ -96,19 +96,32 @@ import { TreeNode, Skrzynka } from '../models/skrzynka.model';
 
     .node-content.selected.level-1,
     .node-content.selected.level-2 {
-      background-color: #1e40af;
-      border-color: #1e3a8a;
-      color: white;
+      background-color: #374151;
+      border-color: #1f2937;
+      color: #f9fafb;
     }
 
     .node-content.selected.level-1:hover,
     .node-content.selected.level-2:hover {
-      background-color: #1e3a8a;
+      background-color: #1f2937;
+      transform: translateX(2px);
     }
 
     .node-content.selected.level-1 .node-count,
     .node-content.selected.level-2 .node-count {
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    :host-context(body.dark) .node-content.selected.level-1,
+    :host-context(body.dark) .node-content.selected.level-2 {
+      background-color: #4b5563;
+      border-color: #374151;
+      color: #f9fafb;
+    }
+
+    :host-context(body.dark) .node-content.selected.level-1:hover,
+    :host-context(body.dark) .node-content.selected.level-2:hover {
+      background-color: #374151;
     }
 
     .node-content.level-2 {
