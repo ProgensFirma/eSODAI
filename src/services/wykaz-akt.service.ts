@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class WykazAktService {
-  private useMockData = true;
+  private useMockData = !environment.production;
 
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/wykazakt/pelny`;
