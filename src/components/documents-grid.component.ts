@@ -538,7 +538,7 @@ export class DocumentsGridComponent implements OnChanges {
     this.selectedDocument = null;
 
     if (this.selectedSprawa) {
-      this.dokumentyService.getDokumentyDlaSsprawy(this.selectedSprawa.sprawa).subscribe({
+      this.dokumentyService.getDokumentyDlaSsprawy(this.selectedSprawa.sprawaGlowna).subscribe({
         next: (documents) => {
           this.documents = documents;
           this.loading = false;
