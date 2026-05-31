@@ -90,7 +90,8 @@ export class DokumentyService {
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
-      .append('sprawa', sprawaNumer.toString());
+      .append('sprawa', sprawaNumer.toString())
+      .append('zalInfo', environment.SkrzynkiDokumentySprawyZalInfo.toString());
 
     return this.http.get<Dokument[]>(`${this.configService.apiBaseUrl}/sprawy/dokumenty`, { params }).pipe(
       catchError(error => {
