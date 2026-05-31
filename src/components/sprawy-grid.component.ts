@@ -8,10 +8,9 @@ import { SprawaPrzekazWindowComponent, PrzekazData } from './sprawa-przekaz-wind
 import { SprawaZakonczWindowComponent, ZakonczData } from './sprawa-zakoncz-window.component';
 import { TBazaOper, TeSodStatus, TSprStatusPrzek, TSkrzynki } from '../models/enums.model';
 
-const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
+const SKRZYNKI_PRZEKAZ_ZAKONCZ = new Set<TSkrzynki>([
   TSkrzynki.tss_SSprTermin,
-  TSkrzynki.tss_SSprPilne,
-  TSkrzynki.tss_SBiezace
+  TSkrzynki.tss_SSprPilne
 ]);
 
 @Component({
@@ -27,14 +26,54 @@ const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
           <span class="sprawa-count" *ngIf="sprawy.length > 0">({{ sprawy.length }})</span>
         </h3>
         <div class="header-buttons">
-          <button
-            class="action-button button-create"
-            (click)="createSprawa()"
-            [disabled]="!selectedSkrzynka || loading"
-          >
-            <span class="plus-icon">+</span>
-            Utwórz sprawę
-          </button>
+          <!-- Skrzynki: przeterminowane i pilne -->
+          <ng-container *ngIf="showPrzekazZakoncz">
+            <button
+              class="action-button button-przekaz"
+              (click)="openPrzekazWindow(selectedSprawa!)"
+              [disabled]="!selectedSprawa || loading"
+            >Przekaż</button>
+            <button
+              class="action-button button-zakoncz"
+              (click)="openZakonczWindow(selectedSprawa!)"
+              [disabled]="!selectedSprawa || loading"
+            >Zakończ</button>
+            <button
+              class="action-button button-zmien"
+              (click)="editSprawa(selectedSprawa!)"
+              [disabled]="!selectedSprawa || loading"
+            >Zmień</button>
+          </ng-container>
+
+          <!-- Skrzynka: bieżące -->
+          <ng-container *ngIf="showBiezace">
+            <button
+              class="action-button button-create"
+              (click)="createSprawa()"
+              [disabled]="loading"
+            >
+              <span class="plus-icon">+</span>
+              Utwórz sprawę
+            </button>
+            <button
+              class="action-button button-zmien"
+              (click)="editSprawa(selectedSprawa!)"
+              [disabled]="!selectedSprawa || loading"
+            >Zmień</button>
+          </ng-container>
+
+          <!-- Pozostałe skrzynki -->
+          <ng-container *ngIf="!showPrzekazZakoncz && !showBiezace">
+            <button
+              class="action-button button-create"
+              (click)="createSprawa()"
+              [disabled]="!selectedSkrzynka || loading"
+            >
+              <span class="plus-icon">+</span>
+              Utwórz sprawę
+            </button>
+          </ng-container>
+
           <button
             class="action-button button-refresh"
             (click)="loadSprawy()"
@@ -47,7 +86,7 @@ const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
 
       <div class="sprawy-content" *ngIf="!loading && sprawy.length > 0">
         <div class="sprawy-table">
-          <div class="table-header" [class.with-actions]="showActions">
+          <div class="table-header">
             <div class="header-cell col-number">Numer</div>
             <div class="header-cell col-name">Nazwa</div>
             <div class="header-cell col-type">Typ</div>
@@ -55,7 +94,6 @@ const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
             <div class="header-cell col-date">Data rozpoczęcia</div>
             <div class="header-cell col-date">Data zakończenia</div>
             <div class="header-cell col-date">Termin zakończenia</div>
-            <div class="header-cell col-actions" *ngIf="showActions">Akcje</div>
           </div>
 
           <div class="table-body">
@@ -64,7 +102,6 @@ const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
               class="table-row"
               [class.selected]="selectedSprawa?.numer === sprawa.numer"
               [class.glowna]="sprawa.glowna"
-              [class.with-actions]="showActions"
               (click)="selectSprawa(sprawa)"
             >
               <div class="cell col-number">
@@ -87,11 +124,6 @@ const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
               </div>
               <div class="cell col-date">
                 <span class="date-value termin">{{ formatDate(sprawa.terminPlan) }}</span>
-              </div>
-              <div class="cell col-actions" *ngIf="showActions" (click)="$event.stopPropagation()">
-                <button class="row-btn btn-przekaz" (click)="openPrzekazWindow(sprawa)">Przekaż</button>
-                <button class="row-btn btn-zakoncz" (click)="openZakonczWindow(sprawa)">Zakończ</button>
-                <button class="row-btn btn-zmien" (click)="editSprawa(sprawa)">Zmień</button>
               </div>
             </div>
           </div>
@@ -266,10 +298,6 @@ const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
       letter-spacing: 0.5px;
     }
 
-    .table-header.with-actions {
-      grid-template-columns: 100px 200px 150px 200px 130px 130px 130px 200px;
-    }
-
     .table-body {
       flex: 1;
       overflow-y: auto;
@@ -300,10 +328,6 @@ const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
       border-bottom: 1px solid var(--table-row-border);
       cursor: pointer;
       transition: all 0.2s ease;
-    }
-
-    .table-row.with-actions {
-      grid-template-columns: 100px 200px 150px 200px 130px 130px 130px 200px;
     }
 
     .table-row:hover {
@@ -375,43 +399,26 @@ const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
       color: #dc2626;
     }
 
-    .col-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .row-btn {
-      padding: 4px 10px;
-      border-radius: 5px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: all 0.15s;
-      white-space: nowrap;
-    }
-
-    .btn-przekaz {
+    .button-przekaz {
       background: #eff6ff;
       color: #2563eb;
       border-color: #bfdbfe;
     }
-    .btn-przekaz:hover { background: #dbeafe; }
+    .button-przekaz:hover:not(:disabled) { background: #dbeafe; }
 
-    .btn-zakoncz {
+    .button-zakoncz {
       background: #fef2f2;
       color: #dc2626;
       border-color: #fecaca;
     }
-    .btn-zakoncz:hover { background: #fee2e2; }
+    .button-zakoncz:hover:not(:disabled) { background: #fee2e2; }
 
-    .btn-zmien {
+    .button-zmien {
       background: #f0fdf4;
       color: #16a34a;
       border-color: #bbf7d0;
     }
-    .btn-zmien:hover { background: #dcfce7; }
+    .button-zmien:hover:not(:disabled) { background: #dcfce7; }
 
     .empty-state {
       flex: 1;
@@ -479,8 +486,12 @@ export class SprawyGridComponent implements OnChanges {
 
   constructor(private sprawyService: SprawyService) {}
 
-  get showActions(): boolean {
-    return !!this.selectedSkrzynka && SKRZYNKI_Z_AKCJAMI.has(this.selectedSkrzynka.skrzynka);
+  get showPrzekazZakoncz(): boolean {
+    return !!this.selectedSkrzynka && SKRZYNKI_PRZEKAZ_ZAKONCZ.has(this.selectedSkrzynka.skrzynka);
+  }
+
+  get showBiezace(): boolean {
+    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tss_SBiezace;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
