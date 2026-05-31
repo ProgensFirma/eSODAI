@@ -29,7 +29,7 @@ export interface Sprawa {
   osobaPrzek: TOsobaInfo;
   statusPrzek: TSprStatusPrzek;
   odrzucona: boolean;
-  kontrahent: TKontrahentInfo;
+  kontrahent: TKontrahentInfo | null;
   nadzorWydzial: TWydzialInfo;
   nadzorOsoba: TOsobaInfo;
   wykWydzial: TWydzialInfo;
