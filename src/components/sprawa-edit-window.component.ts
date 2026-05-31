@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Sprawa } from '../models/sprawa.model';
@@ -467,7 +467,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     }
   `]
 })
-export class SprawaEditWindowComponent implements OnInit {
+export class SprawaEditWindowComponent implements OnInit, OnChanges {
   @Input() visible: boolean = false;
   @Input() sprawa: Sprawa = this.getEmptySprawa();
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -507,6 +507,12 @@ export class SprawaEditWindowComponent implements OnInit {
     this.loadInitialData();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['visible'] && this.visible && this.sprawa.numer === 0) {
+      this.setNewSprawaDefaults();
+    }
+  }
+
   private loadInitialData() {
     const session = this.authService.getCurrentSession();
     if (!session) return;
@@ -534,6 +540,43 @@ export class SprawaEditWindowComponent implements OnInit {
     });
   }
 
+  private setNewSprawaDefaults() {
+    const today = new Date();
+    today.setHours(12, 0, 0, 0);
+    this.dataStartModel = today.toISOString().split('T')[0];
+    this.sprawa.dataStart = today.toISOString();
+
+    const planDate = new Date(today);
+    planDate.setDate(planDate.getDate() + 21);
+    this.terminPlanModel = planDate.toISOString().split('T')[0];
+    this.sprawa.terminPlan = planDate.toISOString();
+
+    const alarmDate = new Date(planDate);
+    alarmDate.setDate(alarmDate.getDate() - 3);
+    this.terminAlarmModel = alarmDate.toISOString().split('T')[0];
+    this.sprawa.terminAlarm = alarmDate.toISOString();
+
+    const session = this.authService.getCurrentSession();
+    if (!session) return;
+
+    const jedn = session.jednostkaAkt;
+    this.selectedNadzorJednostkaId = jedn.symbol;
+    this.selectedWykJednostkaId = jedn.symbol;
+
+    this.pracownicyService.getPracownicy(jedn.symbol).subscribe({
+      next: (pracownicy) => {
+        this.nadzorPracownicy = pracownicy;
+        this.wykPracownicy = pracownicy;
+        const osobaZSesji = pracownicy.find(p => p.numer === session.osoba);
+        if (osobaZSesji) {
+          this.selectedNadzorPracownikId = osobaZSesji.numer;
+          this.selectedWykPracownikId = osobaZSesji.numer;
+        }
+      },
+      error: (err) => console.error('Error loading default pracownicy:', err)
+    });
+  }
+
   onTypSprawyChange() {
     if (this.selectedTypSprawyId) {
       const selectedTyp = this.sprawyTypy.find(t => t.typ === this.selectedTypSprawyId);
@@ -546,21 +589,6 @@ export class SprawaEditWindowComponent implements OnInit {
         if (!this.sprawa.nazwa || this.sprawa.nazwa.trim() === '') {
           this.sprawa.nazwa = selectedTyp.typ;
         }
-
-        const today = new Date();
-        today.setHours(12, 0, 0, 0);
-        this.dataStartModel = today.toISOString().split('T')[0];
-        this.sprawa.dataStart = today.toISOString();
-
-        const planDate = new Date(today);
-        planDate.setDate(planDate.getDate() + 21);
-        this.terminPlanModel = planDate.toISOString().split('T')[0];
-        this.sprawa.terminPlan = planDate.toISOString();
-
-        const alarmDate = new Date(planDate);
-        alarmDate.setDate(alarmDate.getDate() - 3);
-        this.terminAlarmModel = alarmDate.toISOString().split('T')[0];
-        this.sprawa.terminAlarm = alarmDate.toISOString();
       }
     }
   }
