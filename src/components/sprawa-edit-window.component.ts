@@ -56,7 +56,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
           <div class="kontrahent-select">
             <input
               id="kontrahent"
-              [value]="sprawa.kontrahent.identyfikator || ''"
+              [value]="sprawa.kontrahent?.identyfikator || ''"
               type="text"
               readonly
               class="form-input"

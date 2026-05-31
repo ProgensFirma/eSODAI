@@ -4,6 +4,7 @@ import { SprawyService } from '../services/sprawy.service';
 import { Sprawa } from '../models/sprawa.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
+import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
 
 @Component({
   selector: 'app-sprawy-grid',
@@ -394,7 +395,7 @@ export class SprawyGridComponent implements OnChanges {
   selectedSprawa: Sprawa | null = null;
   loading = false;
   showSprawaEditWindow = false;
-  editingSprawa: Sprawa = {} as Sprawa;
+  editingSprawa: Sprawa = this.getEmptySprawa();
 
   constructor(private sprawyService: SprawyService) {}
 
@@ -428,8 +429,45 @@ export class SprawyGridComponent implements OnChanges {
   }
 
   createSprawa(): void {
-    this.editingSprawa = {} as Sprawa;
+    this.editingSprawa = this.getEmptySprawa();
     this.showSprawaEditWindow = true;
+  }
+
+  private getEmptySprawa(): Sprawa {
+    return {
+      numer: 0,
+      nazwa: '',
+      typ: { nazwa: '', rWA: '' },
+      znakDef: '',
+      znakSprawy: '',
+      znak_wydzial: '',
+      znak_RWA: '',
+      znak_rok: new Date().getFullYear(),
+      sprawaGlowna: 0,
+      etapOstatni: 0,
+      glowna: false,
+      dataStart: '',
+      dataStop: '',
+      terminPlan: '',
+      terminAlarm: '',
+      dataOtrzymania: '',
+      dataPrzyjecia: '',
+      dataPrzekazania: '',
+      dataOdebrania: '',
+      osobaPrzek: { numer: 0, identyfikator: '' },
+      statusPrzek: TSprStatusPrzek.sps_oczek,
+      odrzucona: false,
+      kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: '' },
+      nadzorWydzial: { symbol: '', nazwa: '', kod: '', stanowisko: false },
+      nadzorOsoba: { numer: 0, identyfikator: '' },
+      wykWydzial: { symbol: '', nazwa: '', kod: '', stanowisko: false },
+      wykOsoba: { numer: 0, identyfikator: '' },
+      uprawPoziom: '',
+      oper: TBazaOper.tboSelect,
+      status: TeSodStatus.sBrak,
+      statusDane: '',
+      opis: ''
+    };
   }
 
   onSprawaSaved(): void {
