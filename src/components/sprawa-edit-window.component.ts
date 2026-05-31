@@ -23,7 +23,8 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     KontrahenciWindowComponent
   ],
   template: `
-    <div class="modal-overlay" *ngIf="visible" (click)="onClose()">
+    <ng-container *ngIf="visible">
+    <div class="modal-overlay" (click)="onClose()">
       <div class="modal-window" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <h2>{{ sprawa.numer ? 'Edycja sprawy' : 'Nowa sprawa' }}</h2>
@@ -221,13 +222,15 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
         </div>
       </div>
 
-      <app-kontrahenci-window
-        *ngIf="showKontrahentWindow"
-        [pWybor]="true"
-        (closeRequested)="closeKontrahentWindow()"
-        (kontrahentSelected)="onKontrahentSelected($event)"
-      ></app-kontrahenci-window>
     </div>
+
+    <app-kontrahenci-window
+      *ngIf="showKontrahentWindow"
+      [pWybor]="true"
+      (closeRequested)="closeKontrahentWindow()"
+      (kontrahentSelected)="onKontrahentSelected($event)"
+    ></app-kontrahenci-window>
+    </ng-container>
   `,
   styles: [`
     .modal-overlay {
