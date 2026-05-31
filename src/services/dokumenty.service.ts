@@ -84,13 +84,13 @@ export class DokumentyService {
     );
   }
 
-  getDokumentyDlaSsprawy(sprawaNumer: number): Observable<Dokument[]> {
+  getDokumentyDlaSsprawy(sprawaNumer: number, glowna: boolean): Observable<Dokument[]> {
     const session = this.authService.getCurrentSession();
     const sesjaId = session?.sesja || 123;
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
-      .append('etapSprawy', sprawaNumer.toString())
+      .append(glowna ? 'sprawa' : 'etapSprawy', sprawaNumer.toString())
       .append('zalInfo', environment.SkrzynkiDokumentySprawyZalInfo.toString());
 
     return this.http.get<Dokument[]>(`${this.configService.apiBaseUrl}/sprawy/dokumenty`, { params }).pipe(
