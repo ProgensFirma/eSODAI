@@ -67,6 +67,54 @@ export class SprawyService {
     );
   }
 
+  przekazSprawa(sprawa: number, body: {
+    doJednostki: string;
+    doOsoby: number;
+    doJednostkiNadzor: string;
+    doOsobyNadzor: number;
+    notatka: string;
+  }): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams()
+      .set('sesja', sesjaId.toString())
+      .set('sprawa', sprawa.toString());
+
+    return this.http.post(`${this.configService.apiBaseUrl}/sprawa/przekaz`, body, { params }).pipe(
+      catchError(error => {
+        console.error('Error przekaz sprawa:', error);
+        this.errorService.showError(
+          'Błąd przekazania sprawy',
+          'Nie udało się przekazać sprawy.'
+        );
+        return throwError(() => error);
+      })
+    );
+  }
+
+  zakonczSprawa(body: {
+    sprawa: number;
+    data: string;
+    pozytywnie: boolean;
+  }): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
+
+    return this.http.post(`${this.configService.apiBaseUrl}/sprawa/zakoncz`, body, { params }).pipe(
+      catchError(error => {
+        console.error('Error zakoncz sprawa:', error);
+        this.errorService.showError(
+          'Błąd kończenia sprawy',
+          'Nie udało się zakończyć sprawy.'
+        );
+        return throwError(() => error);
+      })
+    );
+  }
+
   private getMockData(): Sprawa[] {
     return [
       {

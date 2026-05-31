@@ -27,7 +27,13 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     <div class="modal-overlay" (click)="onClose()">
       <div class="modal-window" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h2>{{ sprawa.numer ? 'Edycja sprawy' : 'Nowa sprawa' }}</h2>
+          <div class="header-title">
+            <h2>{{ sprawa.numer ? 'Edycja sprawy' : 'Nowa sprawa' }}</h2>
+            <div class="sprawa-meta" *ngIf="sprawa.numer">
+              <span class="meta-numer">Nr {{ sprawa.numer }}</span>
+              <span class="meta-znak" *ngIf="sprawa.znakSprawy">{{ sprawa.znakSprawy }}</span>
+            </div>
+          </div>
           <button class="close-btn" (click)="onClose()">&times;</button>
         </div>
 
@@ -271,6 +277,33 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       font-size: 1.25rem;
       font-weight: 600;
       color: var(--text-primary);
+    }
+
+    .header-title {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sprawa-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .meta-numer {
+      font-size: 12px;
+      font-weight: 700;
+      color: #2563eb;
+      background: #eff6ff;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .meta-znak {
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--text-secondary);
     }
 
     .close-btn {

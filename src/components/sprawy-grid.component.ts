@@ -4,12 +4,20 @@ import { SprawyService } from '../services/sprawy.service';
 import { Sprawa } from '../models/sprawa.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
-import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
+import { SprawaPrzekazWindowComponent, PrzekazData } from './sprawa-przekaz-window.component';
+import { SprawaZakonczWindowComponent, ZakonczData } from './sprawa-zakoncz-window.component';
+import { TBazaOper, TeSodStatus, TSprStatusPrzek, TSkrzynki } from '../models/enums.model';
+
+const SKRZYNKI_Z_AKCJAMI = new Set<TSkrzynki>([
+  TSkrzynki.tss_SSprTermin,
+  TSkrzynki.tss_SSprPilne,
+  TSkrzynki.tss_SBiezace
+]);
 
 @Component({
   selector: 'app-sprawy-grid',
   standalone: true,
-  imports: [CommonModule, SprawaEditWindowComponent],
+  imports: [CommonModule, SprawaEditWindowComponent, SprawaPrzekazWindowComponent, SprawaZakonczWindowComponent],
   template: `
     <div class="sprawy-container">
       <div class="sprawy-header">
@@ -39,7 +47,7 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
 
       <div class="sprawy-content" *ngIf="!loading && sprawy.length > 0">
         <div class="sprawy-table">
-          <div class="table-header">
+          <div class="table-header" [class.with-actions]="showActions">
             <div class="header-cell col-number">Numer</div>
             <div class="header-cell col-name">Nazwa</div>
             <div class="header-cell col-type">Typ</div>
@@ -47,6 +55,7 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
             <div class="header-cell col-date">Data rozpoczęcia</div>
             <div class="header-cell col-date">Data zakończenia</div>
             <div class="header-cell col-date">Termin zakończenia</div>
+            <div class="header-cell col-actions" *ngIf="showActions">Akcje</div>
           </div>
 
           <div class="table-body">
@@ -55,6 +64,7 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
               class="table-row"
               [class.selected]="selectedSprawa?.numer === sprawa.numer"
               [class.glowna]="sprawa.glowna"
+              [class.with-actions]="showActions"
               (click)="selectSprawa(sprawa)"
             >
               <div class="cell col-number">
@@ -78,6 +88,11 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
               <div class="cell col-date">
                 <span class="date-value termin">{{ formatDate(sprawa.terminPlan) }}</span>
               </div>
+              <div class="cell col-actions" *ngIf="showActions" (click)="$event.stopPropagation()">
+                <button class="row-btn btn-przekaz" (click)="openPrzekazWindow(sprawa)">Przekaż</button>
+                <button class="row-btn btn-zakoncz" (click)="openZakonczWindow(sprawa)">Zakończ</button>
+                <button class="row-btn btn-zmien" (click)="editSprawa(sprawa)">Zmień</button>
+              </div>
             </div>
           </div>
         </div>
@@ -98,6 +113,20 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
         [sprawa]="editingSprawa"
         (sprawaSaved)="onSprawaSaved()">
       </app-sprawa-edit-window>
+
+      <app-sprawa-przekaz-window
+        [visible]="showPrzekazWindow"
+        [sprawa]="actionSprawa"
+        (closeRequested)="closePrzekazWindow()"
+        (przekazConfirmed)="onPrzekazConfirmed($event)">
+      </app-sprawa-przekaz-window>
+
+      <app-sprawa-zakoncz-window
+        [visible]="showZakonczWindow"
+        [sprawa]="actionSprawa"
+        (closeRequested)="closeZakonczWindow()"
+        (zakonczConfirmed)="onZakonczConfirmed($event)">
+      </app-sprawa-zakoncz-window>
     </div>
   `,
   styles: [`
@@ -237,6 +266,10 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
       letter-spacing: 0.5px;
     }
 
+    .table-header.with-actions {
+      grid-template-columns: 100px 200px 150px 200px 130px 130px 130px 200px;
+    }
+
     .table-body {
       flex: 1;
       overflow-y: auto;
@@ -267,6 +300,10 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
       border-bottom: 1px solid var(--table-row-border);
       cursor: pointer;
       transition: all 0.2s ease;
+    }
+
+    .table-row.with-actions {
+      grid-template-columns: 100px 200px 150px 200px 130px 130px 130px 200px;
     }
 
     .table-row:hover {
@@ -338,6 +375,44 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
       color: #dc2626;
     }
 
+    .col-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .row-btn {
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-przekaz {
+      background: #eff6ff;
+      color: #2563eb;
+      border-color: #bfdbfe;
+    }
+    .btn-przekaz:hover { background: #dbeafe; }
+
+    .btn-zakoncz {
+      background: #fef2f2;
+      color: #dc2626;
+      border-color: #fecaca;
+    }
+    .btn-zakoncz:hover { background: #fee2e2; }
+
+    .btn-zmien {
+      background: #f0fdf4;
+      color: #16a34a;
+      border-color: #bbf7d0;
+    }
+    .btn-zmien:hover { background: #dcfce7; }
+
     .empty-state {
       flex: 1;
       display: flex;
@@ -394,10 +469,19 @@ export class SprawyGridComponent implements OnChanges {
   sprawy: Sprawa[] = [];
   selectedSprawa: Sprawa | null = null;
   loading = false;
+
   showSprawaEditWindow = false;
   editingSprawa: Sprawa = this.getEmptySprawa();
 
+  showPrzekazWindow = false;
+  showZakonczWindow = false;
+  actionSprawa: Sprawa | null = null;
+
   constructor(private sprawyService: SprawyService) {}
+
+  get showActions(): boolean {
+    return !!this.selectedSkrzynka && SKRZYNKI_Z_AKCJAMI.has(this.selectedSkrzynka.skrzynka);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedSkrzynka'] && this.selectedSkrzynka) {
@@ -406,9 +490,7 @@ export class SprawyGridComponent implements OnChanges {
   }
 
   loadSprawy(): void {
-    if (!this.selectedSkrzynka) {
-      return;
-    }
+    if (!this.selectedSkrzynka) return;
 
     this.loading = true;
     this.sprawyService.getSprawy(this.selectedSkrzynka.skrzynka).subscribe({
@@ -431,6 +513,52 @@ export class SprawyGridComponent implements OnChanges {
   createSprawa(): void {
     this.editingSprawa = this.getEmptySprawa();
     this.showSprawaEditWindow = true;
+  }
+
+  editSprawa(sprawa: Sprawa): void {
+    this.editingSprawa = { ...sprawa };
+    this.showSprawaEditWindow = true;
+  }
+
+  openPrzekazWindow(sprawa: Sprawa): void {
+    this.actionSprawa = sprawa;
+    this.showPrzekazWindow = true;
+  }
+
+  closePrzekazWindow(): void {
+    this.showPrzekazWindow = false;
+    this.actionSprawa = null;
+  }
+
+  onPrzekazConfirmed(data: PrzekazData): void {
+    if (!this.actionSprawa) return;
+    this.sprawyService.przekazSprawa(this.actionSprawa.numer, data).subscribe({
+      next: () => {
+        this.closePrzekazWindow();
+        this.loadSprawy();
+      },
+      error: (err) => console.error('Błąd przekazania sprawy:', err)
+    });
+  }
+
+  openZakonczWindow(sprawa: Sprawa): void {
+    this.actionSprawa = sprawa;
+    this.showZakonczWindow = true;
+  }
+
+  closeZakonczWindow(): void {
+    this.showZakonczWindow = false;
+    this.actionSprawa = null;
+  }
+
+  onZakonczConfirmed(data: ZakonczData): void {
+    this.sprawyService.zakonczSprawa(data).subscribe({
+      next: () => {
+        this.closeZakonczWindow();
+        this.loadSprawy();
+      },
+      error: (err) => console.error('Błąd kończenia sprawy:', err)
+    });
   }
 
   private getEmptySprawa(): Sprawa {
