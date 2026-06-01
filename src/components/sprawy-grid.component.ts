@@ -13,6 +13,10 @@ const SKRZYNKI_PRZEKAZ_ZAKONCZ = new Set<TSkrzynki>([
   TSkrzynki.tss_SSprPilne
 ]);
 
+const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
+  TSkrzynki.tss_SOtrzymane
+]);
+
 @Component({
   selector: 'app-sprawy-grid',
   standalone: true,
@@ -62,8 +66,17 @@ const SKRZYNKI_PRZEKAZ_ZAKONCZ = new Set<TSkrzynki>([
             >Zmień</button>
           </ng-container>
 
+          <!-- Skrzynka: otrzymane -->
+          <ng-container *ngIf="showOtrzymane">
+            <button
+              class="action-button button-przyjmij"
+              (click)="przyjmijSprawa(selectedSprawa!)"
+              [disabled]="!selectedSprawa || loading"
+            >Przyjmij</button>
+          </ng-container>
+
           <!-- Pozostałe skrzynki -->
-          <ng-container *ngIf="!showPrzekazZakoncz && !showBiezace">
+          <ng-container *ngIf="!showPrzekazZakoncz && !showBiezace && !showOtrzymane">
             <button
               class="action-button button-create"
               (click)="createSprawa()"
@@ -399,6 +412,13 @@ const SKRZYNKI_PRZEKAZ_ZAKONCZ = new Set<TSkrzynki>([
       color: #dc2626;
     }
 
+    .button-przyjmij {
+      background: #f0fdf4;
+      color: #16a34a;
+      border-color: #bbf7d0;
+    }
+    .button-przyjmij:hover:not(:disabled) { background: #dcfce7; }
+
     .button-przekaz {
       background: #eff6ff;
       color: #2563eb;
@@ -494,6 +514,10 @@ export class SprawyGridComponent implements OnChanges {
     return this.selectedSkrzynka?.skrzynka === TSkrzynki.tss_SBiezace;
   }
 
+  get showOtrzymane(): boolean {
+    return !!this.selectedSkrzynka && SKRZYNKI_OTRZYMANE.has(this.selectedSkrzynka.skrzynka);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedSkrzynka'] && this.selectedSkrzynka) {
       this.loadSprawy();
@@ -529,6 +553,13 @@ export class SprawyGridComponent implements OnChanges {
   editSprawa(sprawa: Sprawa): void {
     this.editingSprawa = { ...sprawa };
     this.showSprawaEditWindow = true;
+  }
+
+  przyjmijSprawa(sprawa: Sprawa): void {
+    this.sprawyService.przyjmijSprawa(sprawa.numer).subscribe({
+      next: () => this.loadSprawy(),
+      error: (err) => console.error('Błąd przyjmowania sprawy:', err)
+    });
   }
 
   openPrzekazWindow(sprawa: Sprawa): void {

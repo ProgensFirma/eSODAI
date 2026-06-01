@@ -93,6 +93,24 @@ export class SprawyService {
     );
   }
 
+  przyjmijSprawa(sprawa: number): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja || 123;
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
+
+    return this.http.post(`${this.configService.apiBaseUrl}/sprawa/przyjmij`, { sprawa, odrzuc: false }, { params }).pipe(
+      catchError(error => {
+        console.error('Error przyjmij sprawa:', error);
+        this.errorService.showError(
+          'Błąd przyjmowania sprawy',
+          'Nie udało się przyjąć sprawy.'
+        );
+        return throwError(() => error);
+      })
+    );
+  }
+
   zakonczSprawa(body: {
     sprawa: number;
     data: string;
