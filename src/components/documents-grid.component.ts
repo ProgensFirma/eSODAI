@@ -140,7 +140,7 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
       <app-sprawa-edit-window
         [(visible)]="showSprawaEditFromDoc"
         [sprawa]="nowaSprawaFromDoc"
-        [attachedDocumentNumer]="attachedDocNumer"
+        [attachedDocument]="attachedDoc"
         (sprawaSaved)="onSprawaFromDocSaved()">
       </app-sprawa-edit-window>
     </div>
@@ -547,7 +547,7 @@ export class DocumentsGridComponent implements OnChanges {
 
   showSprawaEditFromDoc = false;
   nowaSprawaFromDoc: Sprawa = this.getEmptySprawa();
-  attachedDocNumer: number | null = null;
+  attachedDoc: { numer: number; rejestrNrPozycji: string; nazwa: string } | null = null;
 
   constructor(
     private dokumentyService: DokumentyService,
@@ -648,14 +648,18 @@ export class DocumentsGridComponent implements OnChanges {
 
   onUtworzSpraweFromDocument() {
     if (!this.selectedDocument) return;
-    this.attachedDocNumer = this.selectedDocument.numer;
+    this.attachedDoc = {
+      numer: this.selectedDocument.numer,
+      rejestrNrPozycji: this.selectedDocument.rejestrNrPozycji,
+      nazwa: this.selectedDocument.nazwa
+    };
     this.nowaSprawaFromDoc = this.getEmptySprawa();
     this.showSprawaEditFromDoc = true;
   }
 
   onSprawaFromDocSaved() {
     this.showSprawaEditFromDoc = false;
-    this.attachedDocNumer = null;
+    this.attachedDoc = null;
   }
 
   private getEmptySprawa(): Sprawa {

@@ -188,11 +188,12 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
         <div class="documents-panel" [class.disabled]="!sprawaCreated">
           <h3>Dokumenty sprawy</h3>
-          <div class="attached-docs-list" *ngIf="attachedDocumentNumer">
+          <div class="attached-docs-list" *ngIf="attachedDocument">
             <div class="attached-doc-item">
               <span class="attached-doc-icon">📄</span>
-              <span class="attached-doc-label">Dokument nr</span>
-              <span class="attached-doc-numer">{{ attachedDocumentNumer }}</span>
+              <span class="attached-doc-numer">{{ attachedDocument!.numer }}</span>
+              <span class="attached-doc-rejestr" *ngIf="attachedDocument!.rejestrNrPozycji">{{ attachedDocument!.rejestrNrPozycji }}</span>
+              <span class="attached-doc-nazwa">{{ attachedDocument!.nazwa }}</span>
             </div>
           </div>
           <div class="documents-buttons">
@@ -522,13 +523,28 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       font-size: 1rem;
     }
 
-    .attached-doc-label {
-      color: var(--text-secondary);
-    }
-
     .attached-doc-numer {
       font-weight: 700;
       color: #2563eb;
+      white-space: nowrap;
+    }
+
+    .attached-doc-rejestr {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      background: var(--bg-subtle);
+      padding: 1px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .attached-doc-nazwa {
+      color: var(--text-primary);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .documents-buttons {
@@ -540,7 +556,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 export class SprawaEditWindowComponent implements OnInit, OnChanges {
   @Input() visible: boolean = false;
   @Input() sprawa: Sprawa = this.getEmptySprawa();
-  @Input() attachedDocumentNumer: number | null = null;
+  @Input() attachedDocument: { numer: number; rejestrNrPozycji: string; nazwa: string } | null = null;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() sprawaSaved = new EventEmitter<void>();
 
