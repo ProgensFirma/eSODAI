@@ -188,6 +188,13 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
         <div class="documents-panel" [class.disabled]="!sprawaCreated">
           <h3>Dokumenty sprawy</h3>
+          <div class="attached-docs-list" *ngIf="attachedDocumentNumer">
+            <div class="attached-doc-item">
+              <span class="attached-doc-icon">📄</span>
+              <span class="attached-doc-label">Dokument nr</span>
+              <span class="attached-doc-numer">{{ attachedDocumentNumer }}</span>
+            </div>
+          </div>
           <div class="documents-buttons">
             <button
               class="btn btn-primary"
@@ -494,6 +501,36 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       color: var(--text-secondary);
     }
 
+    .attached-docs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .attached-doc-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      font-size: 0.875rem;
+    }
+
+    .attached-doc-icon {
+      font-size: 1rem;
+    }
+
+    .attached-doc-label {
+      color: var(--text-secondary);
+    }
+
+    .attached-doc-numer {
+      font-weight: 700;
+      color: #2563eb;
+    }
+
     .documents-buttons {
       display: flex;
       gap: 0.5rem;
@@ -503,6 +540,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 export class SprawaEditWindowComponent implements OnInit, OnChanges {
   @Input() visible: boolean = false;
   @Input() sprawa: Sprawa = this.getEmptySprawa();
+  @Input() attachedDocumentNumer: number | null = null;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() sprawaSaved = new EventEmitter<void>();
 

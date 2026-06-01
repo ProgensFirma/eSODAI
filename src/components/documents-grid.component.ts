@@ -5,12 +5,13 @@ import { DokumentPrzyjmijService } from '../services/dokument-przyjmij.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
-import { TSkrzynki } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TSprStatusPrzek, TSkrzynki } from '../models/enums.model';
+import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
 
 @Component({
   selector: 'app-documents-grid',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SprawaEditWindowComponent],
   template: `
     <div class="documents-container">
       <div class="documents-header">
@@ -45,6 +46,15 @@ import { TSkrzynki } from '../models/enums.model';
             >
               <span class="button-icon">📤</span>
               Przekaż
+            </button>
+            <button
+              *ngIf="showUtworzSpraweButton()"
+              class="action-button button-utworz-sprawe"
+              (click)="onUtworzSpraweFromDocument()"
+              [disabled]="!selectedDocument"
+            >
+              <span class="button-icon">📋</span>
+              Utwórz sprawę
             </button>
           </ng-container>
           <button
@@ -126,6 +136,13 @@ import { TSkrzynki } from '../models/enums.model';
         <div class="empty-icon">📭</div>
         <p>Brak dokumentów w wybranej skrzynce</p>
       </div>
+
+      <app-sprawa-edit-window
+        [(visible)]="showSprawaEditFromDoc"
+        [sprawa]="nowaSprawaFromDoc"
+        [attachedDocumentNumer]="attachedDocNumer"
+        (sprawaSaved)="onSprawaFromDocSaved()">
+      </app-sprawa-edit-window>
     </div>
   `,
   styles: [`
@@ -225,6 +242,16 @@ import { TSkrzynki } from '../models/enums.model';
 
     .button-przyjmij:hover:not(:disabled) {
       background: #15803d;
+      transform: translateY(-1px);
+    }
+
+    .button-utworz-sprawe {
+      background: #0891b2;
+      color: white;
+    }
+
+    .button-utworz-sprawe:hover:not(:disabled) {
+      background: #0e7490;
       transform: translateY(-1px);
     }
 
@@ -511,11 +538,16 @@ export class DocumentsGridComponent implements OnChanges {
   @Output() newDocumentRequested = new EventEmitter<void>();
   @Output() editDocumentRequested = new EventEmitter<Dokument>();
   @Output() przekazDocumentRequested = new EventEmitter<Dokument>();
+  @Output() createSprawaFromDocumentRequested = new EventEmitter<Dokument>();
 
   documents: Dokument[] = [];
   selectedDocument: Dokument | null = null;
   loading = false;
   przyjmijLoading = false;
+
+  showSprawaEditFromDoc = false;
+  nowaSprawaFromDoc: Sprawa = this.getEmptySprawa();
+  attachedDocNumer: number | null = null;
 
   constructor(
     private dokumentyService: DokumentyService,
@@ -608,6 +640,59 @@ export class DocumentsGridComponent implements OnChanges {
     if (this.selectedDocument) {
       this.przekazDocumentRequested.emit(this.selectedDocument);
     }
+  }
+
+  showUtworzSpraweButton(): boolean {
+    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PBiezace;
+  }
+
+  onUtworzSpraweFromDocument() {
+    if (!this.selectedDocument) return;
+    this.attachedDocNumer = this.selectedDocument.numer;
+    this.nowaSprawaFromDoc = this.getEmptySprawa();
+    this.showSprawaEditFromDoc = true;
+  }
+
+  onSprawaFromDocSaved() {
+    this.showSprawaEditFromDoc = false;
+    this.attachedDocNumer = null;
+  }
+
+  private getEmptySprawa(): Sprawa {
+    return {
+      numer: 0,
+      nazwa: '',
+      typ: { nazwa: '', rWA: '' },
+      znakDef: '',
+      znakSprawy: '',
+      znak_wydzial: '',
+      znak_RWA: '',
+      znak_rok: new Date().getFullYear(),
+      sprawaGlowna: 0,
+      etapOstatni: 0,
+      glowna: false,
+      dataStart: '',
+      dataStop: '',
+      terminPlan: '',
+      terminAlarm: '',
+      dataOtrzymania: '',
+      dataPrzyjecia: '',
+      dataPrzekazania: '',
+      dataOdebrania: '',
+      osobaPrzek: { numer: 0, identyfikator: '' },
+      statusPrzek: TSprStatusPrzek.sps_oczek,
+      odrzucona: false,
+      kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: '' },
+      nadzorWydzial: { symbol: '', nazwa: '', kod: '', stanowisko: false },
+      nadzorOsoba: { numer: 0, identyfikator: '' },
+      wykWydzial: { symbol: '', nazwa: '', kod: '', stanowisko: false },
+      wykOsoba: { numer: 0, identyfikator: '' },
+      uprawPoziom: '',
+      oper: TBazaOper.tboSelect,
+      status: TeSodStatus.sBrak,
+      statusDane: '',
+      opis: ''
+    };
   }
 
   showPrzekazButton(): boolean {
