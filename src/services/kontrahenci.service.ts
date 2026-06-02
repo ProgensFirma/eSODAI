@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, catchError, of, map, throwError } from 'rxjs';
 import { KontrahentDetailed, KontrahenciResponse } from '../models/kontrahent.model';
 import { ConfigService } from './config.service';
+import { AuthService } from './auth.service';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
@@ -11,7 +12,7 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class KontrahenciService {
-  
+
   private get apiUrl(): string {
     return `${this.configService.apiBaseUrl}/kontrahenci`;
   }
@@ -19,13 +20,19 @@ export class KontrahenciService {
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
+    private authService: AuthService,
     private errorService: ErrorNotificationService
   ) {}
 
   getKontrahenci(rekStart: number = 1, rekIlosc: number = 10, fraza: string = ''): Observable<KontrahenciResponse> {
-    
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) {
+      return throwError(() => new Error('Brak sesji'));
+    }
+
     let params = new HttpParams()
-      .set('sesja', '123')
+      .set('sesja', sesjaId.toString())
       .set('rekStart', rekStart.toString())
       .set('rekIlosc', rekIlosc.toString());
 

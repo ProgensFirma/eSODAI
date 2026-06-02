@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 
@@ -23,7 +23,8 @@ export class DokumentPrzekazService {
 
   przekazDokument(request: DokumentPrzekazRequest): Observable<any> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

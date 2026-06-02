@@ -26,7 +26,8 @@ export class SprawyService {
 
   getSprawy(skrzynka: string): Observable<Sprawa[]> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
@@ -51,7 +52,8 @@ export class SprawyService {
 
   createSprawa(sprawa: Sprawa): Observable<any> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams().set('sesja', sesjaId.toString());
 
@@ -75,7 +77,8 @@ export class SprawyService {
     notatka: string;
   }): Observable<any> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams()
       .set('sesja', sesjaId.toString())
@@ -95,7 +98,8 @@ export class SprawyService {
 
   przyjmijSprawa(sprawa: number): Observable<any> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams().set('sesja', sesjaId.toString());
 
@@ -117,7 +121,8 @@ export class SprawyService {
     pozytywnie: boolean;
   }): Observable<any> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams().set('sesja', sesjaId.toString());
 

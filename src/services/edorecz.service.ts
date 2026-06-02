@@ -483,7 +483,8 @@ export class EDoreczService {
 
   getEDoreczDokumenty(skrzynka: string): Observable<EDoreczDokument[]> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams()
       .set('sesja', sesjaId.toString())

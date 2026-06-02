@@ -32,7 +32,8 @@ export class DokumentyService {
 
   getDokumenty(skrzynka: string, zalInfo: boolean = true): Observable<Dokument[]> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
@@ -58,7 +59,8 @@ export class DokumentyService {
 
   getDokument(numer: number): Observable<Dokument> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
@@ -86,7 +88,8 @@ export class DokumentyService {
 
   getDokumentyDlaSsprawy(sprawaNumer: number, glowna: boolean): Observable<Dokument[]> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
@@ -112,7 +115,8 @@ export class DokumentyService {
     
   getOsobaRejestr(): Observable<{ Rejestr: string }> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString());

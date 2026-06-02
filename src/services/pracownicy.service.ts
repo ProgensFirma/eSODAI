@@ -25,7 +25,8 @@ export class PracownicyService {
 
   getPracownicy(jednostka: string): Observable<TOsobaInfo[]> {
     const session = this.authService.getCurrentSession();
-    const sesjaId = session?.sesja || 123;
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())

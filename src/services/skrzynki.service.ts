@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, of, throwError } from 'rxjs';
 import { Skrzynka } from '../models/skrzynka.model';
 import { TSkrzynki } from '../models/enums.model';
 import { ConfigService } from './config.service';
+import { AuthService } from './auth.service';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
 
@@ -19,16 +20,20 @@ export class SkrzynkiService {
   constructor(
     private http: HttpClient,
     private configService: ConfigService,
+    private authService: AuthService,
     private errorService: ErrorNotificationService
   ) {}
 
   getSkrzynki(): Observable<Skrzynka[]> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) {
+      return throwError(() => new Error('Brak sesji'));
+    }
 
-    const params = {
-      sesja: '123',
-    };
+    const params = new HttpParams().set('sesja', sesjaId.toString());
 
-    return this.http.get<Skrzynka[]>(this.apiUrl, { params }).pipe(
+    return this.http.get<Skrzynka[]>(this.apiUrl, { params: params }).pipe(
       catchError(error => {
         console.error('Error fetching skrzynki:', error);
 
