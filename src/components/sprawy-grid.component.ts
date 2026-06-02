@@ -36,17 +36,26 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
               class="action-button button-przekaz"
               (click)="openPrzekazWindow(selectedSprawa!)"
               [disabled]="!selectedSprawa || loading"
-            >Przekaż</button>
+            >
+              <span class="button-icon">📤</span>
+              Przekaż
+            </button>
             <button
               class="action-button button-zakoncz"
               (click)="openZakonczWindow(selectedSprawa!)"
               [disabled]="!selectedSprawa || loading"
-            >Zakończ</button>
+            >
+              <span class="button-icon">✔</span>
+              Zakończ
+            </button>
             <button
               class="action-button button-zmien"
               (click)="editSprawa(selectedSprawa!)"
               [disabled]="!selectedSprawa || loading"
-            >Zmień</button>
+            >
+              <span class="button-icon">✏️</span>
+              Zmień
+            </button>
           </ng-container>
 
           <!-- Skrzynka: bieżące -->
@@ -56,14 +65,17 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
               (click)="createSprawa()"
               [disabled]="loading"
             >
-              <span class="plus-icon">+</span>
-              Utwórz sprawę
+              <span class="button-icon">➕</span>
+              Nowa sprawa
             </button>
             <button
               class="action-button button-zmien"
               (click)="editSprawa(selectedSprawa!)"
               [disabled]="!selectedSprawa || loading"
-            >Zmień</button>
+            >
+              <span class="button-icon">✏️</span>
+              Zmień
+            </button>
           </ng-container>
 
           <!-- Skrzynka: otrzymane -->
@@ -72,7 +84,10 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
               class="action-button button-przyjmij"
               (click)="przyjmijSprawa(selectedSprawa!)"
               [disabled]="!selectedSprawa || loading"
-            >Przyjmij</button>
+            >
+              <span class="button-icon">✔</span>
+              Przyjmij
+            </button>
           </ng-container>
 
           <!-- Pozostałe skrzynki -->
@@ -82,8 +97,8 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
               (click)="createSprawa()"
               [disabled]="!selectedSkrzynka || loading"
             >
-              <span class="plus-icon">+</span>
-              Utwórz sprawę
+              <span class="button-icon">➕</span>
+              Nowa sprawa
             </button>
           </ng-container>
 
@@ -181,7 +196,7 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
       height: 100%;
       background: var(--bg-surface);
       border-radius: 12px;
-      box-shadow: 0 2px 8px var(--shadow-card);
+      box-shadow: 0 4px 12px var(--shadow-card);
       overflow: hidden;
       transition: var(--transition-theme);
     }
@@ -190,9 +205,10 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 20px;
+      padding: 20px 24px;
       background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
-      border-bottom: 2px solid var(--border-muted);
+      border-bottom: 1px solid var(--border-default);
+      transition: var(--transition-theme);
     }
 
     .sprawy-title {
@@ -206,16 +222,13 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     }
 
     .title-icon {
-      font-size: 22px;
+      font-size: 20px;
     }
 
     .sprawa-count {
       font-size: 14px;
-      font-weight: 600;
       color: var(--text-muted);
-      background: var(--bg-surface);
-      padding: 2px 10px;
-      border-radius: 12px;
+      font-weight: 500;
     }
 
     .header-buttons {
@@ -224,55 +237,55 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     }
 
     .action-button {
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 14px;
-      border: 1px solid var(--input-border);
-      border-radius: 6px;
-      background: var(--input-bg);
-      color: var(--text-secondary);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
       transition: all 0.2s ease;
-    }
-
-    .action-button:hover:not(:disabled) {
-      background: var(--bg-muted);
-      border-color: var(--text-faint);
-      transform: translateY(-1px);
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .action-button:disabled {
-      opacity: 0.5;
+      opacity: 0.6;
       cursor: not-allowed;
     }
 
+    .button-icon {
+      font-size: 16px;
+    }
+
     .button-create {
-      background: #2563eb;
+      background: #16a34a;
       color: white;
-      border-color: #2563eb;
     }
 
     .button-create:hover:not(:disabled) {
-      background: #1d4ed8;
-      border-color: #1d4ed8;
+      background: #15803d;
+      transform: translateY(-1px);
     }
 
     .plus-icon {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 700;
     }
 
     .button-refresh {
-      padding: 8px 12px;
+      background: #2563eb;
+      color: white;
+    }
+
+    .button-refresh:hover:not(:disabled) {
+      background: #1d4ed8;
+      transform: translateY(-1px);
     }
 
     .refresh-icon {
-      font-size: 18px;
-      display: inline-block;
-      transition: transform 0.3s ease;
+      font-size: 16px;
+      transition: transform 0.5s ease;
     }
 
     .refresh-icon.spinning {
@@ -282,6 +295,46 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
+    }
+
+    .button-przyjmij {
+      background: #16a34a;
+      color: white;
+    }
+
+    .button-przyjmij:hover:not(:disabled) {
+      background: #15803d;
+      transform: translateY(-1px);
+    }
+
+    .button-przekaz {
+      background: #2563eb;
+      color: white;
+    }
+
+    .button-przekaz:hover:not(:disabled) {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .button-zakoncz {
+      background: #dc2626;
+      color: white;
+    }
+
+    .button-zakoncz:hover:not(:disabled) {
+      background: #b91c1c;
+      transform: translateY(-1px);
+    }
+
+    .button-zmien {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .button-zmien:hover:not(:disabled) {
+      background: #d97706;
+      transform: translateY(-1px);
     }
 
     .sprawy-content {
@@ -301,11 +354,11 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
       display: grid;
       grid-template-columns: 100px 200px 150px 200px 130px 130px 130px;
       gap: 8px;
-      padding: 12px 16px;
+      padding: 16px 20px;
       background: var(--table-header-bg);
       border-bottom: 2px solid var(--border-default);
-      font-weight: 700;
-      font-size: 12px;
+      font-weight: 600;
+      font-size: 13px;
       color: var(--table-header-text);
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -314,19 +367,22 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     .table-body {
       flex: 1;
       overflow-y: auto;
+      max-height: calc(5 * 60px);
     }
 
     .table-body::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
     }
 
     .table-body::-webkit-scrollbar-track {
       background: var(--scrollbar-track);
+      border-radius: 4px;
     }
 
     .table-body::-webkit-scrollbar-thumb {
       background: var(--scrollbar-thumb);
-      border-radius: 5px;
+      border-radius: 4px;
+      border: 1px solid var(--border-default);
     }
 
     .table-body::-webkit-scrollbar-thumb:hover {
@@ -337,7 +393,8 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
       display: grid;
       grid-template-columns: 100px 200px 150px 200px 130px 130px 130px;
       gap: 8px;
-      padding: 12px 16px;
+      padding: 16px 20px;
+      min-height: 60px;
       border-bottom: 1px solid var(--table-row-border);
       cursor: pointer;
       transition: all 0.2s ease;
@@ -345,26 +402,24 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
 
     .table-row:hover {
       background: var(--table-row-hover);
+      transform: translateX(2px);
     }
 
     .table-row.selected {
       background: var(--selected-bg);
       border-left: 4px solid var(--selected-border);
+      padding-left: 16px;
     }
 
     .table-row.glowna {
       font-weight: 600;
-      background: #fefce8;
-    }
-
-    .table-row.glowna:hover {
-      background: #fef9c3;
     }
 
     .cell {
       display: flex;
       align-items: center;
-      font-size: 13px;
+      font-size: 14px;
+      overflow: hidden;
       color: var(--text-primary);
     }
 
@@ -374,31 +429,31 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
 
     .sprawa-number {
       font-weight: 600;
-      color: #2563eb;
-      background: #eff6ff;
-      padding: 4px 10px;
-      border-radius: 6px;
+      color: var(--text-primary);
     }
 
     .sprawa-name {
-      font-weight: 600;
+      font-weight: 500;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      color: var(--text-primary);
     }
 
     .sprawa-type {
       font-size: 12px;
-      padding: 4px 10px;
+      padding: 4px 8px;
       border-radius: 6px;
       background: var(--badge-gray-bg);
       color: var(--badge-gray-text);
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .znak-sprawy {
-      font-family: monospace;
-      font-size: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
       color: var(--text-secondary);
     }
 
@@ -412,80 +467,38 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
       color: #dc2626;
     }
 
-    .button-przyjmij {
-      background: #f0fdf4;
-      color: #16a34a;
-      border-color: #bbf7d0;
-    }
-    .button-przyjmij:hover:not(:disabled) { background: #dcfce7; }
-
-    .button-przekaz {
-      background: #eff6ff;
-      color: #2563eb;
-      border-color: #bfdbfe;
-    }
-    .button-przekaz:hover:not(:disabled) { background: #dbeafe; }
-
-    .button-zakoncz {
-      background: #fef2f2;
-      color: #dc2626;
-      border-color: #fecaca;
-    }
-    .button-zakoncz:hover:not(:disabled) { background: #fee2e2; }
-
-    .button-zmien {
-      background: #f0fdf4;
-      color: #16a34a;
-      border-color: #bbf7d0;
-    }
-    .button-zmien:hover:not(:disabled) { background: #dcfce7; }
-
-    .empty-state {
-      flex: 1;
+    .empty-state,
+    .loading-state {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 60px 20px;
-      color: var(--text-faint);
+      flex: 1;
+      padding: 40px 20px;
+      color: var(--text-muted);
     }
 
     .empty-icon {
-      font-size: 64px;
+      font-size: 48px;
       margin-bottom: 16px;
       opacity: 0.5;
     }
 
-    .empty-state p {
+    .empty-state p,
+    .loading-state p {
       margin: 0;
       font-size: 16px;
       font-weight: 500;
     }
 
-    .loading-state {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-    }
-
     .spinner {
       width: 40px;
       height: 40px;
-      border: 4px solid var(--border-default);
-      border-top-color: #2563eb;
+      border: 3px solid var(--border-default);
+      border-top: 3px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin-bottom: 16px;
-    }
-
-    .loading-state p {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 500;
     }
   `]
 })
