@@ -1335,6 +1335,8 @@ export class App implements OnInit, OnDestroy {
     this.availableWydzialy = [];
     this.editingDocument = null;
     this.sessionTimeLeft = this.sessionTimeoutMinutes * 60;
+    this.showErrorDialog = false;
+    this.currentError = null;
     this.authService.clearSession();
   }
 
