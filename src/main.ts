@@ -1293,7 +1293,10 @@ export class App implements OnInit, OnDestroy {
       clearInterval(this.timerInterval);
     }
 
-    this.http.get(`${this.configService.apiBaseUrl}/logout`).subscribe({
+    const session = this.authService.getCurrentSession();
+    const params = session ? { params: { sesja: session.sesja.toString() } } : {};
+
+    this.http.get(`${this.configService.apiBaseUrl}/logout`, params).subscribe({
       next: () => {
         this.resetApplicationState();
       },
@@ -1341,6 +1344,9 @@ export class App implements OnInit, OnDestroy {
     }
     if (this.timerInterval) {
       clearInterval(this.timerInterval);
+    }
+    if (this.isLoggedIn) {
+      this.logout();
     }
   }
 }
