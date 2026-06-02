@@ -281,31 +281,31 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       (visibleChange)="showPracownicyWindow = $event"
     ></app-pracownicy-window>
 
-    <p-dialog
-      [(visible)]="showErrorDialog"
-      [modal]="true"
-      [style]="{width: '500px'}"
-      [draggable]="false"
-      [resizable]="false"
-      header="Błąd"
-      styleClass="error-dialog"
-    >
-      <div class="error-content">
-        <div class="error-icon">⚠️</div>
-        <div class="error-message">
-          <h3>{{ currentError?.message }}</h3>
-          <p *ngIf="currentError?.details">{{ currentError?.details }}</p>
+    <div class="error-overlay" *ngIf="showErrorDialog" (click)="showErrorDialog = false">
+      <div class="error-modal" (click)="$event.stopPropagation()">
+        <div class="error-modal-header">
+          <span class="error-modal-title">Błąd</span>
+          <button class="error-modal-close" (click)="showErrorDialog = false" title="Zamknij">
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+        <div class="error-modal-body">
+          <div class="error-content">
+            <div class="error-icon">⚠️</div>
+            <div class="error-message">
+              <h3>{{ currentError?.message }}</h3>
+              <p *ngIf="currentError?.details">{{ currentError?.details }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="error-modal-footer">
+          <button class="error-close-btn" (click)="showErrorDialog = false">
+            <i class="pi pi-times"></i>
+            Zamknij
+          </button>
         </div>
       </div>
-      <ng-template pTemplate="footer">
-        <button
-          pButton
-          label="Zamknij"
-          icon="pi pi-times"
-          (click)="showErrorDialog = false"
-        ></button>
-      </ng-template>
-    </p-dialog>
+    </div>
   `,
   styles: [`
     .app-container {
@@ -819,6 +819,77 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       }
     }
 
+    .error-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(2px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.15s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .error-modal {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+      width: 480px;
+      max-width: calc(100vw - 2rem);
+      animation: slideIn 0.15s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-12px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .error-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: var(--error-bg);
+      border-bottom: 1px solid var(--border-default);
+      border-radius: 8px 8px 0 0;
+    }
+
+    .error-modal-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--error-text);
+    }
+
+    .error-modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--error-text);
+      opacity: 0.7;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: opacity 0.15s, background 0.15s;
+    }
+
+    .error-modal-close:hover {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .error-modal-body {
+      padding: 1.5rem 1.25rem;
+    }
+
     .error-content {
       display: flex;
       gap: 1rem;
@@ -826,14 +897,15 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     }
 
     .error-icon {
-      font-size: 48px;
+      font-size: 40px;
       flex-shrink: 0;
+      line-height: 1;
     }
 
     .error-message h3 {
       margin: 0 0 0.5rem 0;
       color: var(--error-text);
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
     }
 
@@ -844,27 +916,32 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       line-height: 1.5;
     }
 
-    ::ng-deep .error-dialog .p-dialog {
+    .error-modal-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--border-default);
+      display: flex;
+      justify-content: flex-end;
       background: var(--bg-surface);
-      border: 1px solid var(--border-default);
-      box-shadow: 0 8px 32px var(--shadow-md);
+      border-radius: 0 0 8px 8px;
     }
 
-    ::ng-deep .error-dialog .p-dialog-header {
+    .error-close-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
       background: var(--error-bg);
       color: var(--error-text);
-      border-bottom: 1px solid var(--border-default);
+      border: 1px solid var(--error-text);
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
     }
 
-    ::ng-deep .error-dialog .p-dialog-content {
-      background: var(--bg-surface);
-      color: var(--text-primary);
-      padding: 2rem;
-    }
-
-    ::ng-deep .error-dialog .p-dialog-footer {
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border-default);
+    .error-close-btn:hover {
+      opacity: 0.85;
     }
   `]
 })
