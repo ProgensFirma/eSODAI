@@ -4,5 +4,19 @@
       "Bash(node_modules/.bin/ng build*)",
       "Bash(npm run build*)"
     ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd /tmp/cc-agent/58255875/project && npm run build 2>&1 | tail -5",
+            "timeout": 120,
+            "statusMessage": "Building project..."
+          }
+        ]
+      }
+    ]
   }
 }

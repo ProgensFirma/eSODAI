@@ -1,4 +1,4 @@
-import { TSkrzynki } from './enums.model';
+import { TBazaOper, TeSodStatus, TSkrzynki } from './enums.model';
 
 export interface Skrzynka {
   sql: string;
@@ -17,6 +17,18 @@ export interface Skrzynka {
   skrDef: number;
   dokFinPoziom: number;
   dokFinZmiana: boolean;
+}
+
+export interface TSkrzynkaStan {
+  osoba: number;
+  skrzynka: TSkrzynki;
+  archiwum: boolean;
+  ilosc: number;
+  suma: number;
+  skrzynkaDef: number;
+  oper: TBazaOper;
+  status: TeSodStatus;
+  statusDane: string;
 }
 
 export function isSprawySkrzynka(skrzynka: Skrzynka): boolean {
