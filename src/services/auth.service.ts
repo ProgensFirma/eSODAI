@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { LoginRequest, SessionData, LoginResponse } from '../models/session.model';
 import { TSystem, TDBSerwer } from '../models/enums.model';
 import { ConfigService } from './config.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -62,8 +63,7 @@ export class AuthService {
       }),
       catchError(error => {
         console.error('Login error:', error);
-        // Return mock data for development
-        if (error.status === 0 || error.status === 404) {
+        if (!environment.production && (error.status === 0 || error.status === 404)) {
           const mockSessionData: SessionData = {
             sesja: 123,
             gUnikNr: 60589538,
