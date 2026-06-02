@@ -80,7 +80,7 @@ export class SkrzynkiService {
         zliczana: true,
         ilosc: 3,
         suma: 0,
-        zmiana: false,
+        zmiana: true,
         doWgl: false,
         doUsun: false,
         korEl: false,
