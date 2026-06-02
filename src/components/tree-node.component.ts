@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeNode, Skrzynka } from '../models/skrzynka.model';
+import { SkrzynkiService } from '../services/skrzynki.service';
 
 @Component({
   selector: 'app-tree-node',
@@ -31,10 +32,11 @@ import { TreeNode, Skrzynka } from '../models/skrzynka.model';
           
           <span class="node-name">{{ node.data.nazwa }}</span>
           
-          <span 
-            class="node-count" 
+          <span
+            class="node-count"
             *ngIf="node.data.zliczana && node.data.ilosc > 0"
-            [class.warning]="isWarning()"
+            [class.changed]="node.data.zmiana"
+            [class.warning]="isWarning() && !node.data.zmiana"
           >
             {{ node.data.ilosc }}
           </span>
@@ -195,6 +197,10 @@ import { TreeNode, Skrzynka } from '../models/skrzynka.model';
       text-align: center;
     }
 
+    .node-count.changed {
+      background: linear-gradient(135deg, #b91c1c, #ef4444);
+    }
+
     .node-count.warning {
       background: linear-gradient(135deg, #ea580c, #f97316);
     }
@@ -235,6 +241,11 @@ export class TreeNodeComponent implements OnInit {
   @Input() selectedSkrzynka: Skrzynka | null = null;
   @Output() nodeSelected = new EventEmitter<Skrzynka>();
 
+  constructor(
+    private skrzynkiService: SkrzynkiService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
   ngOnInit() {}
 
   isSelected(): boolean {
@@ -246,8 +257,16 @@ export class TreeNodeComponent implements OnInit {
       this.node.expanded = !this.node.expanded;
     }
 
-    // Emit the selected node for document types
     if (this.node.data.typ === 'ts_pisma' || this.node.data.typ === 'ts_sprawy' || this.node.data.typ === 'ts_korespEl') {
+      if (this.node.data.zliczana && this.node.data.zmiana) {
+        this.skrzynkiService.postStan(this.node.data).subscribe({
+          next: () => {
+            this.node.data.zmiana = false;
+            this.cdr.markForCheck();
+          },
+          error: () => {}
+        });
+      }
       this.nodeSelected.emit(this.node.data);
     }
   }

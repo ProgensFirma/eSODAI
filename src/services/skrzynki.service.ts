@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, of, throwError } from 'rxjs';
-import { Skrzynka } from '../models/skrzynka.model';
-import { TSkrzynki } from '../models/enums.model';
+import { Skrzynka, TSkrzynkaStan } from '../models/skrzynka.model';
+import { TBazaOper, TeSodStatus, TSkrzynki } from '../models/enums.model';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { ErrorNotificationService } from './error-notification.service';
@@ -46,6 +46,37 @@ export class SkrzynkiService {
           );
           return throwError(() => error);
         }
+      })
+    );
+  }
+
+  postStan(skrzynka: Skrzynka): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) {
+      return throwError(() => new Error('Brak sesji'));
+    }
+
+    const body: TSkrzynkaStan = {
+      osoba: session!.osoba,
+      skrzynka: skrzynka.skrzynka,
+      archiwum: false,
+      ilosc: skrzynka.ilosc,
+      suma: skrzynka.suma,
+      skrzynkaDef: skrzynka.skrDef,
+      oper: TBazaOper.tboSelect,
+      status: TeSodStatus.sBrak,
+      statusDane: ''
+    };
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
+
+    return this.http.post<any>(`${this.apiUrl}/stan`, body, { params }).pipe(
+      catchError(error => {
+        if (!environment.production) {
+          return of(null);
+        }
+        return throwError(() => error);
       })
     );
   }
