@@ -64,7 +64,7 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
             [disabled]="!selectedDocument || przyjmijLoading"
           >
             <span class="button-icon">✔</span>
-            {{ przyjmijLoading ? 'Przyjmowanie...' : 'Przyjmij' }}
+            {{ przyjmijLoading ? (isPobierzSkrzynka() ? 'Pobieranie...' : 'Przyjmowanie...') : (isPobierzSkrzynka() ? 'Pobierz' : 'Przyjmij') }}
           </button>
           <button
             class="action-button button-refresh"
@@ -708,11 +708,13 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   isPrzyjmijSkrzynka(): boolean {
-    if (!this.selectedSkrzynka) {
-      return false;
-    }
+    if (!this.selectedSkrzynka) return false;
     const skrzynkaId = this.selectedSkrzynka.skrzynka;
     return skrzynkaId === TSkrzynki.tps_POtrzymane || skrzynkaId === TSkrzynki.tps_PWydzialu;
+  }
+
+  isPobierzSkrzynka(): boolean {
+    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PWydzialu;
   }
 
   onPrzyjmijDocument() {
