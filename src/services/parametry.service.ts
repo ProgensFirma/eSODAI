@@ -24,6 +24,18 @@ export class ParametryService {
     private errorService: ErrorNotificationService
   ) {}
 
+  getParametr(parametr: string): Observable<Parametr> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString())
+      .append('parametr', parametr);
+
+    return this.http.get<Parametr>(`${this.apiUrl}/parametr`, { params });
+  }
+
   getParametry(): Observable<Parametr[]> {
     const session = this.authService.getCurrentSession();
     const sesjaId = session?.sesja;

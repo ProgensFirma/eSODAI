@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { JednostkiService } from '../services/jednostki.service';
 import { PracownicyService } from '../services/pracownicy.service';
 import { DokumentPrzekazService } from '../services/dokument-przekaz.service';
+import { ParametryService } from '../services/parametry.service';
 import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
 
 @Component({
@@ -40,13 +41,25 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
             <select
               class="form-select"
               [(ngModel)]="selectedOsoba"
-              [disabled]="!selectedJednostka || loadingPracownicy"
+              [disabled]="!selectedJednostka || loadingPracownicy || przekazDoWydzialu"
             >
               <option [ngValue]="null">-- Wybierz pracownika --</option>
               <option *ngFor="let osoba of pracownicy" [ngValue]="osoba">
                 {{ osoba.identyfikator }}
               </option>
             </select>
+          </div>
+
+          <div class="form-group checkbox-group" [style.visibility]="pokazCheckWydzialu ? 'visible' : 'hidden'">
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                class="checkbox-input"
+                [(ngModel)]="przekazDoWydzialu"
+                (ngModelChange)="onPrzekazDoWydzialu()"
+              />
+              <span class="checkbox-text">Przekaż do wydziału</span>
+            </label>
           </div>
 
           <div class="loading-message" *ngIf="loadingPracownicy">
@@ -201,6 +214,31 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
       cursor: not-allowed;
     }
 
+    .checkbox-group {
+      margin-bottom: 16px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #2563eb;
+    }
+
+    .checkbox-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
     .loading-message {
       padding: 12px;
       background: #eff6ff;
@@ -328,15 +366,32 @@ export class DokumentPrzekazWindowComponent implements OnInit {
   submitting = false;
   errorMessage = '';
   successMessage = '';
+  przekazDoWydzialu = false;
+  pokazCheckWydzialu = false;
+
+  private readonly OSOBA_WYDZIALU = 1410;
 
   constructor(
     private jednostkiService: JednostkiService,
     private pracownicyService: PracownicyService,
-    private dokumentPrzekazService: DokumentPrzekazService
+    private dokumentPrzekazService: DokumentPrzekazService,
+    private parametryService: ParametryService
   ) {}
 
   ngOnInit() {
     this.loadJednostki();
+    this.checkParamWydzialu();
+  }
+
+  private checkParamWydzialu() {
+    this.parametryService.getParametr('PAR_SKR_DOK_WYDZIALU').subscribe({
+      next: (parametr) => {
+        this.pokazCheckWydzialu = parametr.wartosc.toLowerCase() === 'true';
+      },
+      error: () => {
+        this.pokazCheckWydzialu = false;
+      }
+    });
   }
 
   loadJednostki() {
@@ -356,7 +411,7 @@ export class DokumentPrzekazWindowComponent implements OnInit {
     this.pracownicy = [];
     this.errorMessage = '';
 
-    if (this.selectedJednostka) {
+    if (this.selectedJednostka && !this.przekazDoWydzialu) {
       this.loadingPracownicy = true;
       this.pracownicyService.getPracownicy(this.selectedJednostka.symbol).subscribe({
         next: (pracownicy) => {
@@ -372,14 +427,22 @@ export class DokumentPrzekazWindowComponent implements OnInit {
     }
   }
 
+  onPrzekazDoWydzialu() {
+    this.selectedOsoba = null;
+    this.errorMessage = '';
+    if (!this.przekazDoWydzialu && this.selectedJednostka) {
+      this.onJednostkaChange();
+    }
+  }
+
   canPrzekaz(): boolean {
-    return this.selectedJednostka !== null && this.selectedOsoba !== null;
+    if (!this.selectedJednostka) return false;
+    if (this.przekazDoWydzialu) return true;
+    return this.selectedOsoba !== null;
   }
 
   onPrzekaz() {
-    if (!this.canPrzekaz()) {
-      return;
-    }
+    if (!this.canPrzekaz()) return;
 
     this.submitting = true;
     this.errorMessage = '';
@@ -388,7 +451,7 @@ export class DokumentPrzekazWindowComponent implements OnInit {
     const request = {
       Dokument: this.dokumentNumer,
       Jednostka: this.selectedJednostka!.symbol,
-      Osoba: this.selectedOsoba!.numer
+      Osoba: this.przekazDoWydzialu ? this.OSOBA_WYDZIALU : this.selectedOsoba!.numer
     };
 
     this.dokumentPrzekazService.przekazDokument(request).subscribe({
