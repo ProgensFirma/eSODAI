@@ -539,6 +539,7 @@ export class DocumentsGridComponent implements OnChanges {
   @Output() editDocumentRequested = new EventEmitter<Dokument>();
   @Output() przekazDocumentRequested = new EventEmitter<Dokument>();
   @Output() createSprawaFromDocumentRequested = new EventEmitter<Dokument>();
+  @Output() dokumentPrzyjety = new EventEmitter<'przyjmij' | 'pobierz'>();
 
   documents: Dokument[] = [];
   selectedDocument: Dokument | null = null;
@@ -720,11 +721,12 @@ export class DocumentsGridComponent implements OnChanges {
   onPrzyjmijDocument() {
     if (!this.selectedDocument) return;
 
+    const typ: 'przyjmij' | 'pobierz' = this.isPobierzSkrzynka() ? 'pobierz' : 'przyjmij';
     this.przyjmijLoading = true;
     this.dokumentPrzyjmijService.przyjmijDokument(this.selectedDocument.numer).subscribe({
       next: () => {
         this.przyjmijLoading = false;
-        this.loadDocuments();
+        this.dokumentPrzyjety.emit(typ);
       },
       error: (error) => {
         console.error('Error przyjmij document:', error);

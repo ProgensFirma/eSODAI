@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener, ViewChild } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
@@ -190,7 +190,8 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
               (documentSelected)="onDocumentSelected($event)"
               (newDocumentRequested)="onNewDocumentRequested()"
               (editDocumentRequested)="onEditDocumentRequested($event)"
-              (przekazDocumentRequested)="onPrzekazDocumentRequested($event)">
+              (przekazDocumentRequested)="onPrzekazDocumentRequested($event)"
+              (dokumentPrzyjety)="onDokumentPrzyjety($event)">
             </app-documents-grid>
           </div>
 
@@ -215,7 +216,8 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
               (documentSelected)="onDocumentSelected($event)"
               (newDocumentRequested)="onNewDocumentRequested()"
               (editDocumentRequested)="onEditDocumentRequested($event)"
-              (przekazDocumentRequested)="onPrzekazDocumentRequested($event)">
+              (przekazDocumentRequested)="onPrzekazDocumentRequested($event)"
+              (dokumentPrzyjety)="onDokumentPrzyjety($event)">
             </app-documents-grid>
           </div>
         </div>
@@ -280,6 +282,31 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
       [visible]="showPracownicyWindow"
       (visibleChange)="showPracownicyWindow = $event"
     ></app-pracownicy-window>
+
+    <div class="info-overlay" *ngIf="showPrzyjmijKomunikat" (click)="closePrzyjmijKomunikat()">
+      <div class="info-modal" (click)="$event.stopPropagation()">
+        <div class="info-modal-header">
+          <span class="info-modal-title">Informacja</span>
+          <button class="info-modal-close" (click)="closePrzyjmijKomunikat()" title="Zamknij">
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+        <div class="info-modal-body">
+          <div class="info-content">
+            <div class="info-icon">✔</div>
+            <div class="info-message">
+              <h3>{{ przyjmijKomunikat }}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="info-modal-footer">
+          <button class="info-close-btn" (click)="closePrzyjmijKomunikat()">
+            <i class="pi pi-check"></i>
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="error-overlay" *ngIf="showErrorDialog" (click)="showErrorDialog = false">
       <div class="error-modal" (click)="$event.stopPropagation()">
@@ -943,10 +970,124 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     .error-close-btn:hover {
       opacity: 0.85;
     }
+
+    .info-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.15s ease;
+    }
+
+    .info-modal {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+      width: 380px;
+      max-width: calc(100vw - 2rem);
+      animation: slideIn 0.15s ease;
+    }
+
+    .info-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: #f0fdf4;
+      border-bottom: 1px solid #bbf7d0;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .info-modal-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #166534;
+    }
+
+    .info-modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #166534;
+      opacity: 0.7;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: opacity 0.15s, background 0.15s;
+    }
+
+    .info-modal-close:hover {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .info-modal-body {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .info-content {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .info-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+      color: #16a34a;
+      line-height: 1;
+    }
+
+    .info-message h3 {
+      margin: 0;
+      color: #166534;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .info-modal-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid #bbf7d0;
+      display: flex;
+      justify-content: flex-end;
+      background: var(--bg-surface);
+      border-radius: 0 0 8px 8px;
+    }
+
+    .info-close-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1.25rem;
+      background: #16a34a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .info-close-btn:hover {
+      background: #15803d;
+    }
   `]
 })
 
 export class App implements OnInit, OnDestroy {
+  @ViewChild(SkrzynkiTreeComponent) skrzynkiTree!: SkrzynkiTreeComponent;
+
+  przyjmijKomunikat: string = '';
+  showPrzyjmijKomunikat = false;
+
   selectedSkrzynka: Skrzynka | null = null;
   selectedDocument: Dokument | null = null;
   selectedSprawa: Sprawa | null = null;
@@ -1294,6 +1435,17 @@ export class App implements OnInit, OnDestroy {
     if (this.selectedSkrzynka) {
       this.selectedDocument = null;
     }
+  }
+
+  onDokumentPrzyjety(typ: 'przyjmij' | 'pobierz') {
+    this.przyjmijKomunikat = typ === 'pobierz' ? 'Dokument pobrany' : 'Dokument przyjęty';
+    this.showPrzyjmijKomunikat = true;
+    this.skrzynkiTree.refreshAndSelectBiezace();
+  }
+
+  closePrzyjmijKomunikat() {
+    this.showPrzyjmijKomunikat = false;
+    this.przyjmijKomunikat = '';
   }
 
   private createEmptyDokument(): Dokument {

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TreeNodeComponent } from './tree-node.component';
 import { SkrzynkiService } from '../services/skrzynki.service';
 import { Skrzynka, TreeNode } from '../models/skrzynka.model';
+import { TSkrzynki } from '../models/enums.model';
 
 @Component({
   selector: 'app-skrzynki-tree',
@@ -212,6 +213,25 @@ export class SkrzynkiTreeComponent implements OnInit {
       next: (skrzynki) => {
         this.treeNodes = this.buildTree(skrzynki);
         this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading skrzynki:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  refreshAndSelectBiezace() {
+    this.loading = true;
+    this.skrzynkiService.getSkrzynki().subscribe({
+      next: (skrzynki) => {
+        this.treeNodes = this.buildTree(skrzynki);
+        this.loading = false;
+        const biezace = skrzynki.find(s => s.skrzynka === TSkrzynki.tps_PBiezace);
+        if (biezace) {
+          this.selectedSkrzynka = biezace;
+          this.skrzynkaSelected.emit(biezace);
+        }
       },
       error: (error) => {
         console.error('Error loading skrzynki:', error);
