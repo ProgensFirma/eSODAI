@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { DokumentyService } from '../services/dokumenty.service';
 import { DokumentPrzyjmijService } from '../services/dokument-przyjmij.service';
+import { DokumentPodpiszService } from '../services/dokument-podpisz.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
@@ -21,7 +22,7 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
           <span class="document-count" *ngIf="documents.length > 0">({{ documents.length }})</span>
         </h3>
         <div class="header-buttons">
-          <ng-container *ngIf="!isPrzyjmijSkrzynka()">
+          <ng-container *ngIf="!isPrzyjmijSkrzynka() && !isPodpisuSkrzynka()">
             <button
               class="action-button button-new"
               (click)="onNewDocument()"
@@ -55,6 +56,24 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
             >
               <span class="button-icon">📋</span>
               Utwórz sprawę
+            </button>
+          </ng-container>
+          <ng-container *ngIf="isPodpisuSkrzynka()">
+            <button
+              class="action-button button-podpisz"
+              (click)="onPodpiszDocument(false)"
+              [disabled]="!selectedDocument || podpiszLoading"
+            >
+              <span class="button-icon">✍</span>
+              {{ podpiszLoading ? 'Podpisywanie...' : 'Podpisz' }}
+            </button>
+            <button
+              class="action-button button-oznacz"
+              (click)="onPodpiszDocument(true)"
+              [disabled]="!selectedDocument || podpiszLoading"
+            >
+              <span class="button-icon">✔</span>
+              {{ podpiszLoading ? 'Oznaczanie...' : 'Oznacz podpisanie' }}
             </button>
           </ng-container>
           <button
@@ -251,6 +270,26 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
     }
 
     .button-utworz-sprawe:hover:not(:disabled) {
+      background: #0e7490;
+      transform: translateY(-1px);
+    }
+
+    .button-podpisz {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .button-podpisz:hover:not(:disabled) {
+      background: #6d28d9;
+      transform: translateY(-1px);
+    }
+
+    .button-oznacz {
+      background: #0891b2;
+      color: white;
+    }
+
+    .button-oznacz:hover:not(:disabled) {
       background: #0e7490;
       transform: translateY(-1px);
     }
@@ -545,6 +584,7 @@ export class DocumentsGridComponent implements OnChanges {
   selectedDocument: Dokument | null = null;
   loading = false;
   przyjmijLoading = false;
+  podpiszLoading = false;
 
   showSprawaEditFromDoc = false;
   nowaSprawaFromDoc: Sprawa = this.getEmptySprawa();
@@ -552,7 +592,8 @@ export class DocumentsGridComponent implements OnChanges {
 
   constructor(
     private dokumentyService: DokumentyService,
-    private dokumentPrzyjmijService: DokumentPrzyjmijService
+    private dokumentPrzyjmijService: DokumentPrzyjmijService,
+    private dokumentPodpiszService: DokumentPodpiszService
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -716,6 +757,26 @@ export class DocumentsGridComponent implements OnChanges {
 
   isPobierzSkrzynka(): boolean {
     return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PWydzialu;
+  }
+
+  isPodpisuSkrzynka(): boolean {
+    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoPodpisu;
+  }
+
+  onPodpiszDocument(tylkoOznacz: boolean) {
+    if (!this.selectedDocument) return;
+
+    this.podpiszLoading = true;
+    this.dokumentPodpiszService.podpiszDokument(this.selectedDocument.numer, tylkoOznacz).subscribe({
+      next: () => {
+        this.podpiszLoading = false;
+        this.loadDocuments();
+      },
+      error: (error) => {
+        console.error('Error podpisz document:', error);
+        this.podpiszLoading = false;
+      }
+    });
   }
 
   onPrzyjmijDocument() {
