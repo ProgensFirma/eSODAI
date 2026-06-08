@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 
@@ -14,6 +15,19 @@ export class DokumentPodpiszService {
   }
 
   constructor(private http: HttpClient, private configService: ConfigService, private authService: AuthService) {}
+
+  checkUslugaPodpisu(): Observable<boolean> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return of(false);
+
+    return this.http.get(`${this.apiUrl}/usluga`, {
+      params: new HttpParams().append('sesja', sesjaId.toString())
+    }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
 
   podpiszDokument(dokument: number, tylkoOznacz: boolean = false): Observable<any> {
     const session = this.authService.getCurrentSession();

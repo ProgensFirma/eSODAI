@@ -61,8 +61,10 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
           <ng-container *ngIf="isPodpisuSkrzynka()">
             <button
               class="action-button button-podpisz"
+              [class.usluga-nieaktywna]="!podpisuUslugaAktywna"
               (click)="onPodpiszDocument(false)"
-              [disabled]="!selectedDocument || podpiszLoading"
+              [disabled]="!selectedDocument || podpiszLoading || !podpisuUslugaAktywna"
+              [title]="!podpisuUslugaAktywna ? 'Usługa podpisu niedostępna' : ''"
             >
               <span class="button-icon">✍</span>
               {{ podpiszLoading ? 'Podpisywanie...' : 'Podpisz' }}
@@ -275,13 +277,19 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
     }
 
     .button-podpisz {
-      background: #7c3aed;
+      background: #15803d;
       color: white;
     }
 
     .button-podpisz:hover:not(:disabled) {
-      background: #6d28d9;
+      background: #166534;
       transform: translateY(-1px);
+    }
+
+    .button-podpisz.usluga-nieaktywna {
+      background: #6b7280;
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .button-oznacz {
@@ -585,6 +593,7 @@ export class DocumentsGridComponent implements OnChanges {
   loading = false;
   przyjmijLoading = false;
   podpiszLoading = false;
+  podpisuUslugaAktywna = true;
 
   showSprawaEditFromDoc = false;
   nowaSprawaFromDoc: Sprawa = this.getEmptySprawa();
@@ -598,11 +607,22 @@ export class DocumentsGridComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedSkrzynka'] && this.selectedSkrzynka && !this.waitForSprawa) {
+      if (this.isPodpisuSkrzynka()) {
+        this.sprawdzUslugePodpisu();
+      } else {
+        this.podpisuUslugaAktywna = true;
+      }
       this.loadDocuments();
     }
     if (changes['selectedSprawa'] && this.selectedSprawa) {
       this.loadDocuments();
     }
+  }
+
+  private sprawdzUslugePodpisu() {
+    this.dokumentPodpiszService.checkUslugaPodpisu().subscribe(aktywna => {
+      this.podpisuUslugaAktywna = aktywna;
+    });
   }
 
   loadDocuments() {
