@@ -395,13 +395,13 @@ export class DoZrobieniaComponent implements OnInit {
     const sectionMap = new Map<string, DoZrobieniaSection>();
 
     sectionMap.set(TZadNaDzisTyp.Sprawa, {
-      title: 'Sprawy',
+      title: 'Sprawy przeterminowane i pilne',
       typ: TZadNaDzisTyp.Sprawa,
       items: []
     });
 
     sectionMap.set(TZadNaDzisTyp.Dokument, {
-      title: 'Dokumenty',
+      title: 'Dokumenty otrzymane',
       typ: TZadNaDzisTyp.Dokument,
       items: []
     });
