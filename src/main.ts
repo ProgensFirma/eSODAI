@@ -189,7 +189,8 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
               (newDocumentRequested)="onNewDocumentRequested()"
               (editDocumentRequested)="onEditDocumentRequested($event)"
               (przekazDocumentRequested)="onPrzekazDocumentRequested($event)"
-              (dokumentPrzyjety)="onDokumentPrzyjety($event)">
+              (dokumentPrzyjety)="onDokumentPrzyjety($event)"
+              (wyslijDokumentyWychodzaceRequested)="onWyslijDokumentyWychodzaceRequested($event)">
             </app-documents-grid>
           </div>
 
@@ -215,7 +216,8 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
               (newDocumentRequested)="onNewDocumentRequested()"
               (editDocumentRequested)="onEditDocumentRequested($event)"
               (przekazDocumentRequested)="onPrzekazDocumentRequested($event)"
-              (dokumentPrzyjety)="onDokumentPrzyjety($event)">
+              (dokumentPrzyjety)="onDokumentPrzyjety($event)"
+              (wyslijDokumentyWychodzaceRequested)="onWyslijDokumentyWychodzaceRequested($event)">
             </app-documents-grid>
           </div>
         </div>
@@ -258,6 +260,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
     <app-dokumenty-wychodzace-window
       *ngIf="showDokumentyWychodzaceWindow"
+      [dokumentNumer]="dokumentyWychodzaceDokumentNumer"
       (closeRequested)="closeDokumentyWychodzaceWindow()"
     ></app-dokumenty-wychodzace-window>
 
@@ -1104,6 +1107,7 @@ export class App implements OnInit, OnDestroy {
   showWykazAktWindow = false;
   showDocumentEditWindow = false;
   showDokumentyWychodzaceWindow = false;
+  dokumentyWychodzaceDokumentNumer: number | null = null;
   showDokumentPrzekazWindow = false;
   przekazDokumentNumer: number | null = null;
   isLoggedIn = false;
@@ -1340,12 +1344,19 @@ export class App implements OnInit, OnDestroy {
   }
 
   openDokumentyWychodzace() {
+    this.dokumentyWychodzaceDokumentNumer = null;
     this.showDokumentyWychodzaceWindow = true;
     this.showMenu = false;
   }
 
   closeDokumentyWychodzaceWindow() {
     this.showDokumentyWychodzaceWindow = false;
+    this.dokumentyWychodzaceDokumentNumer = null;
+  }
+
+  onWyslijDokumentyWychodzaceRequested(numer: number) {
+    this.dokumentyWychodzaceDokumentNumer = numer;
+    this.showDokumentyWychodzaceWindow = true;
   }
 
   onLoginSuccess() {

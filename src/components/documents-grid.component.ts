@@ -1,18 +1,20 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DokumentyService } from '../services/dokumenty.service';
 import { DokumentPrzyjmijService } from '../services/dokument-przyjmij.service';
 import { DokumentPodpiszService } from '../services/dokument-podpisz.service';
+import { DokumentWyslijService } from '../services/dokument-wyslij.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
-import { TBazaOper, TeSodStatus, TSprStatusPrzek, TSkrzynki } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TSprStatusPrzek, TSkrzynki, TKanalTyp } from '../models/enums.model';
 import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
 
 @Component({
   selector: 'app-documents-grid',
   standalone: true,
-  imports: [CommonModule, SprawaEditWindowComponent],
+  imports: [CommonModule, FormsModule, SprawaEditWindowComponent],
   template: `
     <div class="documents-container">
       <div class="documents-header">
@@ -47,6 +49,15 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
             >
               <span class="button-icon">📤</span>
               Przekaż
+            </button>
+            <button
+              *ngIf="showWyslijButton()"
+              class="action-button button-wyslij"
+              (click)="onWyslij()"
+              [disabled]="!selectedDocument || wyslijLoading"
+            >
+              <span class="button-icon">📨</span>
+              {{ wyslijLoading ? 'Sprawdzanie...' : 'Wyślij' }}
             </button>
             <button
               *ngIf="showUtworzSpraweButton()"
@@ -164,6 +175,46 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
         [attachedDocument]="attachedDoc"
         (sprawaSaved)="onSprawaFromDocSaved()">
       </app-sprawa-edit-window>
+
+      <!-- Dialog: wybór kanału wyjścia -->
+      <div class="wyslij-overlay" *ngIf="showWyslijKanalDialog" (click)="closeWyslijKanalDialog()">
+        <div class="wyslij-modal" (click)="$event.stopPropagation()">
+          <div class="wyslij-modal-header">
+            <h3>Wyślij dokument</h3>
+            <button class="wyslij-close" (click)="closeWyslijKanalDialog()">✕</button>
+          </div>
+          <div class="wyslij-modal-body">
+            <label class="wyslij-label">Kanał wyjścia</label>
+            <select class="wyslij-select" [(ngModel)]="selectedKanal">
+              <option *ngFor="let k of kanalOptions" [value]="k.value">{{ k.label }}</option>
+            </select>
+          </div>
+          <div class="wyslij-modal-footer">
+            <button class="wyslij-btn wyslij-btn-secondary" (click)="closeWyslijKanalDialog()">Anuluj</button>
+            <button class="wyslij-btn wyslij-btn-primary" (click)="onWyslijKanalConfirm()" [disabled]="wyslijPosting">
+              {{ wyslijPosting ? 'Wysyłanie...' : 'Wybierz' }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dialog: duplikat (400) -->
+      <div class="wyslij-overlay" *ngIf="showWyslijKonfliktDialog" (click)="closeWyslijKonfliktDialog()">
+        <div class="wyslij-modal wyslij-modal-konflikt" (click)="$event.stopPropagation()">
+          <div class="wyslij-modal-header">
+            <h3>Dokument na rejestrze wyjścia</h3>
+            <button class="wyslij-close" (click)="closeWyslijKonfliktDialog()">✕</button>
+          </div>
+          <div class="wyslij-modal-body">
+            <p class="wyslij-konflikt-msg">Dokument znajduje się już na rejestrze wyjścia! Pokazać znajdujący się dokument na rejestrze wyjścia czy utworzyć nowy wpis?</p>
+          </div>
+          <div class="wyslij-modal-footer wyslij-modal-footer-three">
+            <button class="wyslij-btn wyslij-btn-secondary" (click)="closeWyslijKonfliktDialog()">Anuluj</button>
+            <button class="wyslij-btn wyslij-btn-outline" (click)="onWyslijDuplUtworzNowy()">Utwórz</button>
+            <button class="wyslij-btn wyslij-btn-primary" (click)="onWyslijDuplOkaz()">Pokaż</button>
+          </div>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
@@ -263,6 +314,16 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
 
     .button-przyjmij:hover:not(:disabled) {
       background: #15803d;
+      transform: translateY(-1px);
+    }
+
+    .button-wyslij {
+      background: #d97706;
+      color: white;
+    }
+
+    .button-wyslij:hover:not(:disabled) {
+      background: #b45309;
       transform: translateY(-1px);
     }
 
@@ -575,6 +636,135 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
         display: none;
       }
     }
+
+    .wyslij-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+    }
+
+    .wyslij-modal {
+      background: var(--bg-surface, #fff);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      width: 400px;
+      max-width: 95vw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wyslij-modal-konflikt {
+      width: 480px;
+    }
+
+    .wyslij-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-default, #e5e7eb);
+    }
+
+    .wyslij-modal-header h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary, #111);
+    }
+
+    .wyslij-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text-muted, #6b7280);
+      line-height: 1;
+      padding: 0 4px;
+    }
+
+    .wyslij-close:hover { color: var(--text-primary, #111); }
+
+    .wyslij-modal-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .wyslij-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary, #374151);
+    }
+
+    .wyslij-select {
+      width: 100%;
+      padding: 9px 10px;
+      border: 1px solid var(--input-border, #d1d5db);
+      border-radius: 6px;
+      font-size: 14px;
+      background: var(--input-bg, #fff);
+      color: var(--text-primary, #111);
+    }
+
+    .wyslij-konflikt-msg {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-primary, #111);
+      line-height: 1.5;
+    }
+
+    .wyslij-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-default, #e5e7eb);
+    }
+
+    .wyslij-modal-footer-three {
+      justify-content: space-between;
+    }
+
+    .wyslij-btn {
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .wyslij-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .wyslij-btn-primary {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+    }
+
+    .wyslij-btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+
+    .wyslij-btn-secondary {
+      background: var(--input-bg, #fff);
+      border-color: var(--input-border, #d1d5db);
+      color: var(--text-secondary, #374151);
+    }
+
+    .wyslij-btn-secondary:hover { background: var(--bg-muted, #f3f4f6); }
+
+    .wyslij-btn-outline {
+      background: transparent;
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+
+    .wyslij-btn-outline:hover { background: #eff6ff; }
   `]
 })
 export class DocumentsGridComponent implements OnChanges {
@@ -587,6 +777,7 @@ export class DocumentsGridComponent implements OnChanges {
   @Output() przekazDocumentRequested = new EventEmitter<Dokument>();
   @Output() createSprawaFromDocumentRequested = new EventEmitter<Dokument>();
   @Output() dokumentPrzyjety = new EventEmitter<'przyjmij' | 'pobierz'>();
+  @Output() wyslijDokumentyWychodzaceRequested = new EventEmitter<number>();
 
   documents: Dokument[] = [];
   selectedDocument: Dokument | null = null;
@@ -599,10 +790,27 @@ export class DocumentsGridComponent implements OnChanges {
   nowaSprawaFromDoc: Sprawa = this.getEmptySprawa();
   attachedDoc: { numer: number; rejestrNrPozycji: string; nazwa: string } | null = null;
 
+  wyslijLoading = false;
+  wyslijPosting = false;
+  showWyslijKanalDialog = false;
+  showWyslijKonfliktDialog = false;
+  selectedKanal: TKanalTyp = TKanalTyp.tk_brak;
+  wyslijDokumentNumer = 0;
+
+  readonly kanalOptions: { value: TKanalTyp; label: string }[] = [
+    { value: TKanalTyp.tk_brak, label: 'nieokreślony' },
+    { value: TKanalTyp.tk_papierowy, label: 'papierowy' },
+    { value: TKanalTyp.tk_email, label: 'e-mail' },
+    { value: TKanalTyp.tk_ePuap, label: 'ePuap' },
+    { value: TKanalTyp.tk_eDorecz, label: 'eDoręczenie' },
+    { value: TKanalTyp.tk_Portal, label: 'Portal eBom' },
+  ];
+
   constructor(
     private dokumentyService: DokumentyService,
     private dokumentPrzyjmijService: DokumentPrzyjmijService,
-    private dokumentPodpiszService: DokumentPodpiszService
+    private dokumentPodpiszService: DokumentPodpiszService,
+    private dokumentWyslijService: DokumentWyslijService
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -706,6 +914,65 @@ export class DocumentsGridComponent implements OnChanges {
 
   showUtworzSpraweButton(): boolean {
     return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PBiezace;
+  }
+
+  showWyslijButton(): boolean {
+    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PBiezace;
+  }
+
+  onWyslij() {
+    if (!this.selectedDocument) return;
+    const numer = this.selectedDocument.numer;
+    this.wyslijLoading = true;
+    this.dokumentWyslijService.sprawdzWyslij(numer).subscribe({
+      next: () => {
+        this.wyslijLoading = false;
+        this.wyslijDokumentNumer = numer;
+        this.selectedKanal = TKanalTyp.tk_brak;
+        this.showWyslijKanalDialog = true;
+      },
+      error: (err) => {
+        this.wyslijLoading = false;
+        if (err?.status === 400) {
+          this.wyslijDokumentNumer = numer;
+          this.showWyslijKonfliktDialog = true;
+        }
+      }
+    });
+  }
+
+  closeWyslijKanalDialog() {
+    this.showWyslijKanalDialog = false;
+  }
+
+  closeWyslijKonfliktDialog() {
+    this.showWyslijKonfliktDialog = false;
+  }
+
+  onWyslijKanalConfirm() {
+    this.wyslijPosting = true;
+    this.dokumentWyslijService.wyslij(this.wyslijDokumentNumer, this.selectedKanal).subscribe({
+      next: () => {
+        this.wyslijPosting = false;
+        this.showWyslijKanalDialog = false;
+        this.wyslijDokumentyWychodzaceRequested.emit(this.wyslijDokumentNumer);
+      },
+      error: (err) => {
+        console.error('Błąd wysyłania dokumentu:', err);
+        this.wyslijPosting = false;
+      }
+    });
+  }
+
+  onWyslijDuplOkaz() {
+    this.showWyslijKonfliktDialog = false;
+    this.wyslijDokumentyWychodzaceRequested.emit(this.wyslijDokumentNumer);
+  }
+
+  onWyslijDuplUtworzNowy() {
+    this.showWyslijKonfliktDialog = false;
+    this.selectedKanal = TKanalTyp.tk_brak;
+    this.showWyslijKanalDialog = true;
   }
 
   onUtworzSpraweFromDocument() {

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DokumentWychodzacy } from '../models/dokument-wychodzacy.model';
@@ -748,6 +748,7 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
   `]
 })
 export class DokumentyWychodzaceWindowComponent implements OnInit {
+  @Input() dokumentNumer: number | null = null;
   @Output() closeRequested = new EventEmitter<void>();
 
   dokumenty: DokumentWychodzacy[] = [];
@@ -793,6 +794,14 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
         this.filteredDokumenty = data;
         this.loading = false;
         this.currentPage = 1;
+        if (this.dokumentNumer) {
+          const found = data.find(d => d.dokument?.numer === this.dokumentNumer);
+          if (found) {
+            this.selectedDokument = found;
+            const pageIdx = data.indexOf(found);
+            this.currentPage = Math.floor(pageIdx / this.pageSize) + 1;
+          }
+        }
       },
       error: (error) => {
         console.error('Error loading dokumenty wychodzace:', error);
