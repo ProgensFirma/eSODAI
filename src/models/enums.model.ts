@@ -139,5 +139,6 @@ export enum TSkrzynki {
   tfs_FRepPryw ='tfs_FRepPryw',
   tfs_FRepOsob ='tfs_FRepOsob',
   tfs_Pulpit ='tfs_Pulpit',
-  tfs_MojKomp ='tfs_MojKomp'
+  tfs_MojKomp ='tfs_MojKomp',
+  txx_Brak = 'txx_Brak'
 }
