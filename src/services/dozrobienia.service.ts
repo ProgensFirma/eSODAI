@@ -82,7 +82,7 @@ export class DoZrobieniaService {
       stats: {
         [TZadNaDzisTyp.Sprawa]:      { ilosc: 12, wyswDla0: true },
         [TZadNaDzisTyp.Dokument]:    { ilosc: 2, wyswDla0: true },
-        [TZadNaDzisTyp.EDorecz]:     { ilosc: 5, wyswDla0: true },
+        [TZadNaDzisTyp.EDorecz]:     { ilosc: 5, wyswDla0: false },
         [TZadNaDzisTyp.PowWyslania]: { ilosc: 2, wyswDla0: false },
         [TZadNaDzisTyp.DokWyslane]:  { ilosc: 0, wyswDla0: false },
       },
