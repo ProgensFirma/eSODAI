@@ -1,12 +1,14 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DoZrobieniaService } from '../services/dozrobienia.service';
-import { TZadNaDzisItem, TZadNaDzisTyp } from '../models/dozrobienia.model';
+import { TZadNaDzisItem, TZadNaDzisTyp, TZadNaDzisResponse } from '../models/dozrobienia.model';
 
 interface DoZrobieniaSection {
   title: string;
-  typ: string;
+  typ: TZadNaDzisTyp;
   items: TZadNaDzisItem[];
+  ilosc: number;
+  wyswDla0: boolean;
 }
 
 @Component({
@@ -30,36 +32,41 @@ interface DoZrobieniaSection {
       </div>
 
       <div class="dozrobienia-content" *ngIf="!loading">
-        <div class="section" *ngFor="let section of sections">
-          <h3 class="section-title">{{ section.title }}</h3>
+        <ng-container *ngFor="let section of visibleSections">
+          <div class="section">
+            <h3 class="section-title">
+              <span class="section-title-text">{{ section.title }}</span>
+              <span class="section-count" *ngIf="section.ilosc > 0">{{ section.ilosc }}</span>
+            </h3>
 
-          <div class="items-list" *ngIf="section.items.length > 0">
-            <div class="item-row" *ngFor="let item of section.items">
-              <div class="item-col item-col-left">
-                <span class="item-znak">{{ item.znak }}</span>
-                <span class="item-nazwa">{{ item.nazwa }}</span>
+            <div class="items-list" *ngIf="section.items.length > 0">
+              <div class="item-row" *ngFor="let item of section.items">
+                <div class="item-col item-col-left">
+                  <span class="item-znak">{{ item.znak }}</span>
+                  <span class="item-nazwa">{{ item.nazwa }}</span>
+                </div>
+                <div class="item-col item-col-center">
+                  <div class="item-dotyczy" *ngIf="item.dotyczy"><span class="item-dotyczy-label">Dotyczy:</span> {{ item.dotyczy }}</div>
+                </div>
+                <div class="item-col item-col-right">
+                  <span class="item-data">{{ formatDate(item.data) }}</span>
+                </div>
+                <button
+                  class="item-action"
+                  (click)="onItemClick(item)"
+                  title="Pokaż szczegóły"
+                >
+                  <span class="action-icon">🔍</span>
+                </button>
               </div>
-              <div class="item-col item-col-center">
-                <div class="item-dotyczy" *ngIf="item.dotyczy"><span class="item-dotyczy-label">Dotyczy:</span> {{ item.dotyczy }}</div>
-              </div>
-              <div class="item-col item-col-right">
-                <span class="item-data">{{ formatDate(item.data) }}</span>
-              </div>
-              <button
-                class="item-action"
-                (click)="onItemClick(item)"
-                title="Pokaż szczegóły"
-              >
-                <span class="action-icon">🔍</span>
-              </button>
+            </div>
+
+            <div class="empty-section" *ngIf="section.items.length === 0">
+              <span class="empty-icon">✓</span>
+              <span class="empty-text">Brak elementów</span>
             </div>
           </div>
-
-          <div class="empty-section" *ngIf="section.items.length === 0">
-            <span class="empty-icon">✓</span>
-            <span class="empty-text">Brak elementów</span>
-          </div>
-        </div>
+        </ng-container>
       </div>
 
       <div class="loading-state" *ngIf="loading">
@@ -173,12 +180,31 @@ interface DoZrobieniaSection {
     }
 
     .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin: 0 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #2563eb;
+    }
+
+    .section-title-text {
       font-size: 18px;
       font-weight: 700;
       color: var(--text-primary);
-      padding-bottom: 8px;
-      border-bottom: 2px solid #2563eb;
+    }
+
+    .section-count {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: #2563eb;
+      border-radius: 12px;
+      padding: 2px 10px;
+      min-width: 28px;
+      text-align: right;
+      line-height: 1.6;
+      flex-shrink: 0;
     }
 
     .items-list {
@@ -359,7 +385,7 @@ interface DoZrobieniaSection {
         margin-bottom: 24px;
       }
 
-      .section-title {
+      .section-title-text {
         font-size: 16px;
       }
     }
@@ -371,6 +397,10 @@ export class DoZrobieniaComponent implements OnInit {
   loading = false;
   sections: DoZrobieniaSection[] = [];
 
+  get visibleSections(): DoZrobieniaSection[] {
+    return this.sections.filter(s => s.ilosc > 0 || s.wyswDla0);
+  }
+
   constructor(private doZrobieniaService: DoZrobieniaService) {}
 
   ngOnInit() {
@@ -381,7 +411,7 @@ export class DoZrobieniaComponent implements OnInit {
     this.loading = true;
     this.doZrobieniaService.getDoZrobienia().subscribe({
       next: (response) => {
-        this.buildSections(response?.dozrobienia ?? []);
+        this.buildSections(response);
         this.loading = false;
       },
       error: (error) => {
@@ -391,45 +421,34 @@ export class DoZrobieniaComponent implements OnInit {
     });
   }
 
-  private buildSections(items: TZadNaDzisItem[]) {
-    const sectionMap = new Map<string, DoZrobieniaSection>();
+  private buildSections(response: TZadNaDzisResponse) {
+    const SECTION_CONFIG: { typ: TZadNaDzisTyp; title: string }[] = [
+      { typ: TZadNaDzisTyp.Sprawa,      title: 'Sprawy przeterminowane i pilne' },
+      { typ: TZadNaDzisTyp.Dokument,    title: 'Dokumenty otrzymane' },
+      { typ: TZadNaDzisTyp.EDorecz,     title: 'eDoręczenia' },
+      { typ: TZadNaDzisTyp.PowWyslania, title: 'Potwierdzenia' },
+      { typ: TZadNaDzisTyp.DokWyslane,  title: 'Dokumenty wysłane niepotwierdzone' },
+    ];
 
-    sectionMap.set(TZadNaDzisTyp.Sprawa, {
-      title: 'Sprawy przeterminowane i pilne',
-      typ: TZadNaDzisTyp.Sprawa,
-      items: []
+    this.sections = SECTION_CONFIG.map(cfg => {
+      const stat = response.stats[cfg.typ];
+      const items = (response.dozrobienia ?? []).filter(i => i.typ === cfg.typ);
+      return {
+        title: cfg.title,
+        typ: cfg.typ,
+        items,
+        ilosc: stat?.ilosc ?? items.length,
+        wyswDla0: stat?.wyswDla0 ?? true,
+      };
     });
-
-    sectionMap.set(TZadNaDzisTyp.Dokument, {
-      title: 'Dokumenty otrzymane',
-      typ: TZadNaDzisTyp.Dokument,
-      items: []
-    });
-
-    sectionMap.set(TZadNaDzisTyp.EDorecz, {
-      title: 'eDoręczenia',
-      typ: TZadNaDzisTyp.EDorecz,
-      items: []
-    });
-
-    items.forEach(item => {
-      const section = sectionMap.get(item.typ);
-      if (section) {
-        section.items.push(item);
-      }
-    });
-
-    this.sections = Array.from(sectionMap.values());
   }
 
   formatDate(dateString: string): string {
     if (!dateString) return '';
-
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
-
     return `${day}.${month}.${year}`;
   }
 

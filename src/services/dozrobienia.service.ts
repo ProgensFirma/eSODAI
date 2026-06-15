@@ -4,9 +4,17 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
-import { TZadNaDzisResponse, TZadNaDzisTyp } from '../models/dozrobienia.model';
+import { TZadNaDzisResponse, TZadNaDzisTyp, TZadNaDzisStats } from '../models/dozrobienia.model';
 import { TBazaOper, TeSodStatus, TSkrzynki } from '../models/enums.model';
 import { environment } from '../environments/environment';
+
+const DEFAULT_STATS: TZadNaDzisStats = {
+  [TZadNaDzisTyp.Sprawa]:      { ilosc: 0, wyswDla0: true },
+  [TZadNaDzisTyp.Dokument]:    { ilosc: 0, wyswDla0: true },
+  [TZadNaDzisTyp.EDorecz]:     { ilosc: 0, wyswDla0: true },
+  [TZadNaDzisTyp.PowWyslania]: { ilosc: 0, wyswDla0: false },
+  [TZadNaDzisTyp.DokWyslane]:  { ilosc: 0, wyswDla0: false },
+};
 
 @Injectable({
   providedIn: 'root'
@@ -37,17 +45,47 @@ export class DoZrobieniaService {
   }
 
   private normalizeResponse(response: any): TZadNaDzisResponse {
+    // Nowy format: tablica [statsObj, itemsArray]
+    if (Array.isArray(response) && response.length === 2 && Array.isArray(response[1])) {
+      const stats = this.parseStats(response[0]);
+      const items = response[1];
+      return { stats, dozrobienia: items };
+    }
+    // Stary format: tablica elementów
     if (Array.isArray(response)) {
-      return { dozrobienia: response };
+      return { stats: { ...DEFAULT_STATS }, dozrobienia: response };
     }
+    // Stary format: obiekt z polem dozrobienia
     if (response && Array.isArray(response.dozrobienia)) {
-      return response as TZadNaDzisResponse;
+      return { stats: { ...DEFAULT_STATS }, dozrobienia: response.dozrobienia };
     }
-    return { dozrobienia: [] };
+    return { stats: { ...DEFAULT_STATS }, dozrobienia: [] };
+  }
+
+  private parseStats(raw: any): TZadNaDzisStats {
+    const result = { ...DEFAULT_STATS };
+    if (!raw || typeof raw !== 'object') return result;
+
+    for (const typ of Object.values(TZadNaDzisTyp)) {
+      if (raw[typ]) {
+        result[typ] = {
+          ilosc: raw[typ].ilosc ?? 0,
+          wyswDla0: raw[typ].wyswDla0 ?? false,
+        };
+      }
+    }
+    return result;
   }
 
   private getMockData(): TZadNaDzisResponse {
     return {
+      stats: {
+        [TZadNaDzisTyp.Sprawa]:      { ilosc: 2, wyswDla0: true },
+        [TZadNaDzisTyp.Dokument]:    { ilosc: 2, wyswDla0: true },
+        [TZadNaDzisTyp.EDorecz]:     { ilosc: 2, wyswDla0: true },
+        [TZadNaDzisTyp.PowWyslania]: { ilosc: 2, wyswDla0: false },
+        [TZadNaDzisTyp.DokWyslane]:  { ilosc: 0, wyswDla0: false },
+      },
       dozrobienia: [
         {
           numer: 2221481,
@@ -113,10 +151,34 @@ export class DoZrobieniaService {
           numer: 2221174,
           typ: TZadNaDzisTyp.EDorecz,
           skrzynka: TSkrzynki.tes_KEleDoreczPrzych,
-          nazwa: 'Dotyczy kartoteki: 03/2 - Gospodarowanie odpadami - OF',
+          nazwa: 'Dotyczy kartoteki: 03/2 - Gospodarowanie odpadami',
           znak: 'PPSA-E-7cc7930f-4e17-4296-b09f-0224226565dc',
           data: '2026-02-11T14:15:46.817Z',
           dotyczy: '',
+          oper: TBazaOper.tboSelect,
+          status: TeSodStatus.sBrak,
+          statusDane: ''
+        },
+        {
+          numer: 2241001,
+          typ: TZadNaDzisTyp.PowWyslania,
+          skrzynka: TSkrzynki.tps_PWyslane,
+          nazwa: 'DECYZJA O PODATKU OD NIERUCHOMOŚCI',
+          znak: 'FN.3120.15.2026',
+          data: '2026-04-10T08:30:00.000Z',
+          dotyczy: 'Kowalski Piotr',
+          oper: TBazaOper.tboSelect,
+          status: TeSodStatus.sBrak,
+          statusDane: ''
+        },
+        {
+          numer: 2241055,
+          typ: TZadNaDzisTyp.PowWyslania,
+          skrzynka: TSkrzynki.tps_PWyslane,
+          nazwa: 'WEZWANIE DO UZUPEŁNIENIA WNIOSKU',
+          znak: 'FN.3120.16.2026',
+          data: '2026-04-12T09:00:00.000Z',
+          dotyczy: 'Nowak Anna',
           oper: TBazaOper.tboSelect,
           status: TeSodStatus.sBrak,
           statusDane: ''
