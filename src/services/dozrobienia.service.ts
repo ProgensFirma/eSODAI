@@ -45,19 +45,14 @@ export class DoZrobieniaService {
   }
 
   private normalizeResponse(response: any): TZadNaDzisResponse {
-    // Nowy format: tablica [statsObj, itemsArray]
-    if (Array.isArray(response) && response.length === 2 && Array.isArray(response[1])) {
-      const stats = this.parseStats(response[0]);
-      const items = response[1];
-      return { stats, dozrobienia: items };
+    // Format: { podsumowanie: {...}, elementy: [...] }
+    if (response && typeof response === 'object' && !Array.isArray(response) && response.elementy) {
+      const stats = this.parseStats(response.podsumowanie);
+      return { stats, dozrobienia: Array.isArray(response.elementy) ? response.elementy : [] };
     }
     // Stary format: tablica elementów
     if (Array.isArray(response)) {
       return { stats: { ...DEFAULT_STATS }, dozrobienia: response };
-    }
-    // Stary format: obiekt z polem dozrobienia
-    if (response && Array.isArray(response.dozrobienia)) {
-      return { stats: { ...DEFAULT_STATS }, dozrobienia: response.dozrobienia };
     }
     return { stats: { ...DEFAULT_STATS }, dozrobienia: [] };
   }
