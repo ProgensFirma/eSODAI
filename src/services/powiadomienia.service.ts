@@ -24,6 +24,7 @@ export class PowiadomieniaService {
   getPowiadomienia(sesja: string, rekStart: number, rekIlosc: number): Observable<HttpResponse<TPowiadomienie[]>> {
     const params = new HttpParams()
       .set('sesja', sesja)
+      .set('wlasne', true)
       .set('rekStart', rekStart.toString())
       .set('rekIlosc', rekIlosc.toString());
 
