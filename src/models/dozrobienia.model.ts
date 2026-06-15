@@ -17,6 +17,9 @@ export interface TZadNaDzisItem {
   znak: string;
   data: string;
   dotyczy: string;
+  oper: TBazaOper;
+  status: TeSodStatus;
+  statusDane: string;
 }
 
 export interface TZadNaDzisStat {
@@ -31,8 +34,4 @@ export type TZadNaDzisStats = {
 export interface TZadNaDzisResponse {
   stats: TZadNaDzisStats;
   dozrobienia: TZadNaDzisItem[];
-
-  oper: TBazaOper;
-  status: TeSodStatus;
-  statusDane: string;
 }
