@@ -30,5 +30,9 @@ export type TZadNaDzisStats = {
 
 export interface TZadNaDzisResponse {
   stats: TZadNaDzisStats;
-  dozrobienia: TZadNaDzisItem[];
+  dozrobienia: TZadNaDzisItem
+
+  oper: TBazaOper;
+  status: TeSodStatus;
+  statusDane: string;
 }
