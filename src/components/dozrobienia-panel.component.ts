@@ -426,7 +426,6 @@ export class DoZrobieniaComponent implements OnInit {
       { typ: TZadNaDzisTyp.Sprawa,      title: 'Sprawy przeterminowane i pilne' },
       { typ: TZadNaDzisTyp.Dokument,    title: 'Dokumenty otrzymane' },
       { typ: TZadNaDzisTyp.EDorecz,     title: 'eDoręczenia' },
-      { typ: TZadNaDzisTyp.PowWyslania, title: 'Potwierdzenia' },
       { typ: TZadNaDzisTyp.DokWyslane,  title: 'Dokumenty wysłane niepotwierdzone' },
     ];
 
