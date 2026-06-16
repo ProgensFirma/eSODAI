@@ -12,7 +12,6 @@ const DEFAULT_STATS: TZadNaDzisStats = {
   [TZadNaDzisTyp.Sprawa]:      { ilosc: 0, wyswDla0: true },
   [TZadNaDzisTyp.Dokument]:    { ilosc: 0, wyswDla0: true },
   [TZadNaDzisTyp.EDorecz]:     { ilosc: 0, wyswDla0: true },
-  [TZadNaDzisTyp.PowWyslania]: { ilosc: 0, wyswDla0: false },
   [TZadNaDzisTyp.DokWyslane]:  { ilosc: 0, wyswDla0: false },
 };
 
