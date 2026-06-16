@@ -1,20 +1,9 @@
-import { TBazaOper, TeSodStatus, TStatWysylki } from './enums.model';
-import { TZalacznikInfo, TKontrahentInfo } from './typy-info.model';
+import { TBazaOper, TeSodStatus, TStatWysylki, TKanalTyp } from './enums.model';
+import { TZalacznikInfo, TKontrahentInfo, TOsobaInfo, TDokumentInfo, TSprawaInfo } from './typy-info.model';
 
 export interface DokumentWychodzacy {
   numer: number;
-  dokument: {
-    numer: number;
-    typ: {
-      nazwa: string;
-      finansowy: boolean;
-      polecenieZaplaty: boolean;
-    };
-    nazwa: string;
-    rejestrNrPozycji: string;
-    kontrahent: TKontrahentInfo | null;
-    zalaczniki?: TZalacznikInfo[];
-  } | null;
+  dokument: TDokumentInfo & { zalaczniki?: TZalacznikInfo[] } | null;
   rejestr: string;
   rejestrNumer: number;
   rejestrRok: number;
@@ -22,29 +11,17 @@ export interface DokumentWychodzacy {
   typ: string;
   dataWyjscia: string;
   godzWyjscia: number;
-  kontrahent: {
-    numer: number;
-    identyfikator: string;
-    firma: boolean;
-    nip: string;
-    adres: string;
-  } | null;
-  wprowadzil: {
-    numer: number;
-    identyfikator: string;
-  };
+  kontrahent: TKontrahentInfo | null;
+  wprowadzil: TOsobaInfo;
   wprowadzilData: string;
-  wyslal: {
-    numer: number;
-    identyfikator: string;
-  };
+  wyslal: TOsobaInfo;
   statusWysylki: TStatWysylki;
-  kanalWysylki: string;
+  kanalWysylki: TKanalTyp;
   wysylkaEpuap: number | null;
   wysylkaeDorecz: number | null;
   sprawa: TSprawaInfo | null;
   doWiadomosci: DoWiadomosc[];
-  
+
   oper: TBazaOper;
   status: TeSodStatus;
   statusDane: string;
@@ -52,17 +29,8 @@ export interface DokumentWychodzacy {
 
 export interface DoWiadomosc {
   numer: number;
-  kontrahent: {
-    numer: number;
-    identyfikator: string;
-    firma: boolean;
-    nip: string;
-    adres: string;
-  } | null;
-  osoba: {
-    numer: number;
-    identyfikator: string;
-  } | null;
+  kontrahent: TKontrahentInfo | null;
+  osoba: TOsobaInfo | null;
   wysylkaEpuap: number | null;
   wysylkaeDorecz: number | null;
   

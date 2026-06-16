@@ -65,7 +65,7 @@ export interface TDokumentInfo {
   typ: TDokTypInfo;
   nazwa: string;
   rejestrNrPozycji: string;
-  kontrahent: TKontrahentInfo;
+  kontrahent: TKontrahentInfo | null;
 }
 
 export interface TDokWyjsciaInfo {

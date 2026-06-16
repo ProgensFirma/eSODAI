@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { DokumentWychodzacy } from '../models/dokument-wychodzacy.model';
 import { ConfigService } from './config.service';
-import { TBazaOper, TeSodStatus, TStatWysylki } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TStatWysylki, TKanalTyp } from '../models/enums.model';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
 
@@ -63,7 +63,7 @@ export class DokumentyWychodzaceService {
           typ: {
             nazwa: "ZGŁOSZENIE ZAKOŃCZENIA BUDOWY",
             finansowy: false,
-            polecenieZaplaty: false
+            poleceniezaplaty: false
           },
           nazwa: "ZGŁOSZENIE ZAKOŃCZENIA BUDOWY",
           rejestrNrPozycji: "115/R-DTWI-JBL/24",
@@ -93,9 +93,10 @@ export class DokumentyWychodzaceService {
           identyfikator: "BLICHARZ JOANNA"
         },
         statusWysylki: TStatWysylki.tw_wyslano,
-        kanalWysylki: "tk_brak",
+        kanalWysylki: TKanalTyp.tk_brak,
         wysylkaEpuap: null,
         wysylkaeDorecz: 2827815,
+        sprawa: null,
         doWiadomosci: [
           {
             numer: 2827820,
@@ -180,9 +181,10 @@ export class DokumentyWychodzaceService {
           identyfikator: "KUŚ DOROTA"
         },
         statusWysylki: TStatWysylki.tw_wyslano,
-        kanalWysylki: "tk_brak",
+        kanalWysylki: TKanalTyp.tk_brak,
         wysylkaEpuap: null,
         wysylkaeDorecz: null,
+        sprawa: null,
         doWiadomosci: [],
 
         oper: TBazaOper.tboSelect,
@@ -196,7 +198,7 @@ export class DokumentyWychodzaceService {
           typ: {
             nazwa: "POSTANOWIENIE",
             finansowy: false,
-            polecenieZaplaty: false
+            poleceniezaplaty: false
           },
           nazwa: "POSTANOWIENIE",
           rejestrNrPozycji: "182/R-DJWI-CD/24",
@@ -226,9 +228,10 @@ export class DokumentyWychodzaceService {
           identyfikator: "KONIECZNA TERESA"
         },
         statusWysylki: TStatWysylki.tw_wyslano,
-        kanalWysylki: "tk_brak",
+        kanalWysylki: TKanalTyp.tk_brak,
         wysylkaEpuap: null,
         wysylkaeDorecz: null,
+        sprawa: null,
         doWiadomosci: [],
 
         oper: TBazaOper.tboSelect,
@@ -242,7 +245,7 @@ export class DokumentyWychodzaceService {
           typ: {
             nazwa: "NOTA",
             finansowy: true,
-            polecenieZaplaty: false
+            poleceniezaplaty: false
           },
           nazwa: "Nota obciążeniowa",
           rejestrNrPozycji: "183/R-DJWI-CD/24",
@@ -272,9 +275,10 @@ export class DokumentyWychodzaceService {
           identyfikator: "KONIECZNA TERESA"
         },
         statusWysylki: TStatWysylki.tw_wyslano,
-        kanalWysylki: "tk_poczta",
+        kanalWysylki: TKanalTyp.tk_papierowy,
         wysylkaEpuap: null,
         wysylkaeDorecz: null,
+        sprawa: null,
         doWiadomosci: [],
 
         oper: TBazaOper.tboSelect,
@@ -288,7 +292,7 @@ export class DokumentyWychodzaceService {
           typ: {
             nazwa: "PISMO",
             finansowy: false,
-            polecenieZaplaty: false
+            poleceniezaplaty: false
           },
           nazwa: "Pismo ogólne",
           rejestrNrPozycji: "112/R-DTWI-JBL/24",
@@ -318,9 +322,10 @@ export class DokumentyWychodzaceService {
           identyfikator: "KUŚ DOROTA"
         },
         statusWysylki: TStatWysylki.tw_wyslano,
-        kanalWysylki: "tk_epuap",
+        kanalWysylki: TKanalTyp.tk_ePuap,
         wysylkaEpuap: 2828001,
         wysylkaeDorecz: null,
+        sprawa: null,
         doWiadomosci: [],
 
         oper: TBazaOper.tboSelect,
@@ -334,7 +339,7 @@ export class DokumentyWychodzaceService {
           typ: {
             nazwa: "WNIOSEK",
             finansowy: false,
-            polecenieZaplaty: false
+            poleceniezaplaty: false
           },
           nazwa: "Wniosek o wydanie zaświadczenia",
           rejestrNrPozycji: "10997/RPP/24",
@@ -364,9 +369,10 @@ export class DokumentyWychodzaceService {
           identyfikator: "BLICHARZ JOANNA"
         },
         statusWysylki: TStatWysylki.tw_niewyslano,
-        kanalWysylki: "tk_eDorecz",
+        kanalWysylki: TKanalTyp.tk_eDorecz,
         wysylkaEpuap: null,
         wysylkaeDorecz: 2828051,
+        sprawa: null,
         doWiadomosci: [],
 
         oper: TBazaOper.tboSelect,
