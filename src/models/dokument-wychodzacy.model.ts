@@ -42,6 +42,7 @@ export interface DokumentWychodzacy {
   kanalWysylki: string;
   wysylkaEpuap: number | null;
   wysylkaeDorecz: number | null;
+  sprawa: TSprawaInfo | null;
   doWiadomosci: DoWiadomosc[];
   
   oper: TBazaOper;
