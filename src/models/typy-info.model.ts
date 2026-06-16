@@ -23,6 +23,7 @@ export interface TSprawaInfo {
   znaksprawy: string;  
   nazwa: string;
   glowna: boolean;
+  zakonczona: boolean;
 }
 
 export interface TDokTypInfo {
