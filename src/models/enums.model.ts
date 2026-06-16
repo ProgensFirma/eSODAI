@@ -95,6 +95,7 @@ export enum TSkrzynki {
   tss_SWstrzymane ='tss_SWstrzymane',
   tss_SNadzorGl ='tss_SNadzorGl',
   tss_SNadzorEtap ='tss_SNadzorEtap',
+  
   tzs_Zadania ='tzs_Zadania',
   tzs_ZZadTermin ='tzs_ZZadTermin',
   tzs_ZZadPilne ='tzs_ZZadPilne',
@@ -103,12 +104,14 @@ export enum TSkrzynki {
   tzs_ZPrzekazane ='tzs_ZPrzekazane',
   tzs_ZZlecone ='tzs_ZZlecone',
   tzs_ZZakonczone ='tzs_ZZakonczone',
+  
   tks_Koresp ='tks_Koresp',
   tks_KOtrzymana ='tks_KOtrzymana',
   tks_KDoWgladu ='tks_KDoWgladu',
   tks_KZwrotna ='tks_KZwrotna',
   tks_KBiezaca ='tks_KBiezaca',
   tks_KPrzekazana ='tks_KPrzekazana',
+  
   tes_korespEle ='tes_korespEle',
   tes_KEleEMail ='tes_KEleEMail',
   tes_KEleePUAPPrzych ='tes_KEleePUAPPrzych',
@@ -120,6 +123,7 @@ export enum TSkrzynki {
   tes_KElKSEFPrzych ='tes_KElKSEFPrzych',
   tes_KElKSEFDoWys ='tes_KElKSEFDoWys',
   tes_KElKSEFWyslana ='tes_KElKSEFWyslana',
+  
   tps_Pisma ='tps_Pisma',  
   tps_POtrzymane ='tps_POtrzymane',
   tps_PWydzialu = 'tps_PWydzialu',
@@ -132,6 +136,7 @@ export enum TSkrzynki {
   tps_PDokFinansowe ='tps_PDokFinansowe',
   tps_PPrzekazane ='tps_PPrzekazane',
   tps_PWyslane ='tps_PWyslane',
+  
   tqs_Skladnica ='tqs_Skladnica',
   tfs_Foldery ='tfs_Foldery',
   tfs_FMojeDok ='tfs_FMojeDok',
@@ -140,5 +145,6 @@ export enum TSkrzynki {
   tfs_FRepOsob ='tfs_FRepOsob',
   tfs_Pulpit ='tfs_Pulpit',
   tfs_MojKomp ='tfs_MojKomp',
+  
   txx_Brak = 'txx_Brak'
 }
