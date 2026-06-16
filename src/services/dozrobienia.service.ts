@@ -81,7 +81,6 @@ export class DoZrobieniaService {
         [TZadNaDzisTyp.Sprawa]:      { ilosc: 12, wyswDla0: true },
         [TZadNaDzisTyp.Dokument]:    { ilosc: 2, wyswDla0: true },
         [TZadNaDzisTyp.EDorecz]:     { ilosc: 5, wyswDla0: false },
-        [TZadNaDzisTyp.PowWyslania]: { ilosc: 2, wyswDla0: false },
         [TZadNaDzisTyp.DokWyslane]:  { ilosc: 0, wyswDla0: false },
       },
       oper: TBazaOper.tboSelect,
@@ -141,24 +140,6 @@ export class DoZrobieniaService {
           znak: 'PPSA-E-7cc7930f-4e17-4296-b09f-0224226565dc',
           data: '2026-02-11T14:15:46.817Z',
           dotyczy: ''
-        },
-        {
-          numer: 2241001,
-          typ: TZadNaDzisTyp.PowWyslania,
-          skrzynka: TSkrzynki.tps_PWyslane,
-          nazwa: 'DECYZJA O PODATKU OD NIERUCHOMOŚCI',
-          znak: 'FN.3120.15.2026',
-          data: '2026-04-10T08:30:00.000Z',
-          dotyczy: 'Kowalski Piotr'
-        },
-        {
-          numer: 2241055,
-          typ: TZadNaDzisTyp.PowWyslania,
-          skrzynka: TSkrzynki.tps_PWyslane,
-          nazwa: 'WEZWANIE DO UZUPEŁNIENIA WNIOSKU',
-          znak: 'FN.3120.16.2026',
-          data: '2026-04-12T09:00:00.000Z',
-          dotyczy: 'Nowak Anna'
         }
       ]
     };
