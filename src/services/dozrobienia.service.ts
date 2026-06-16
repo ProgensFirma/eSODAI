@@ -9,6 +9,7 @@ import { TBazaOper, TeSodStatus, TSkrzynki } from '../models/enums.model';
 import { environment } from '../environments/environment';
 
 const DEFAULT_STATS: TZadNaDzisStats = {
+  [TZadNaDzisTyp.Komunikat]:   { ilosc: 0, wyswDla0: false },
   [TZadNaDzisTyp.Sprawa]:      { ilosc: 0, wyswDla0: true },
   [TZadNaDzisTyp.Dokument]:    { ilosc: 0, wyswDla0: true },
   [TZadNaDzisTyp.EDorecz]:     { ilosc: 0, wyswDla0: true },
@@ -77,6 +78,7 @@ export class DoZrobieniaService {
   private getMockData(): TZadNaDzisResponse {
     return {
       stats: {
+        [TZadNaDzisTyp.Komunikat]:      { ilosc: 1, wyswDla0: false },
         [TZadNaDzisTyp.Sprawa]:      { ilosc: 12, wyswDla0: true },
         [TZadNaDzisTyp.Dokument]:    { ilosc: 2, wyswDla0: true },
         [TZadNaDzisTyp.EDorecz]:     { ilosc: 5, wyswDla0: false },
@@ -86,6 +88,15 @@ export class DoZrobieniaService {
       status: TeSodStatus.sOK,
       statusDane: '',
       dozrobienia: [
+        {
+          numer: 111,
+          typ: TZadNaDzisTyp.Komunikat,
+          skrzynka: TSkrzynki.txx_Brak,
+          nazwa: 'Zarządzenie',
+          znak: '',
+          data: '2026-03-21T00:00:00.000Z',
+          dotyczy: 'Kierownik wydziału'
+        },
         {
           numer: 2221481,
           typ: TZadNaDzisTyp.Sprawa,
