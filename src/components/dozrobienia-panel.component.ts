@@ -423,6 +423,7 @@ export class DoZrobieniaComponent implements OnInit {
 
   private buildSections(response: TZadNaDzisResponse) {
     const SECTION_CONFIG: { typ: TZadNaDzisTyp; title: string }[] = [
+      { typ: TZadNaDzisTyp.Komunikat,   title: 'Komunikaty' },
       { typ: TZadNaDzisTyp.Sprawa,      title: 'Sprawy przeterminowane i pilne' },
       { typ: TZadNaDzisTyp.Dokument,    title: 'Dokumenty otrzymane' },
       { typ: TZadNaDzisTyp.EDorecz,     title: 'eDoręczenia' },
