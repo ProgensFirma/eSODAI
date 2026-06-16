@@ -5,7 +5,6 @@ export enum TZadNaDzisTyp {
   Sprawa = 'tzd_sprawa',
   Dokument = 'tzd_dokument',
   EDorecz = 'tzd_edorecz',
-  PowWyslania = 'tzd_powWyslania',
   DokWyslane = 'tzd_dokWyslane'
 }
 
