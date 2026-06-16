@@ -2,6 +2,7 @@ import { TSkrzynki } from './enums.model';
 import { TBazaOper, TeSodStatus } from './enums.model';
 
 export enum TZadNaDzisTyp {
+  Komunikat = 'tzd_komunikat',
   Sprawa = 'tzd_sprawa',
   Dokument = 'tzd_dokument',
   EDorecz = 'tzd_edorecz',
