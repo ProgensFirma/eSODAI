@@ -45,16 +45,19 @@ export class DoZrobieniaService {
   }
 
   private normalizeResponse(response: any): TZadNaDzisResponse {
-    // Format: { podsumowanie: {...}, elementy: [...] }
     if (response && typeof response === 'object' && !Array.isArray(response) && response.elementy) {
-      const stats = this.parseStats(response.podsumowanie);
-      return { stats, dozrobienia: Array.isArray(response.elementy) ? response.elementy : [] };
+      return {
+        stats: this.parseStats(response.podsumowanie),
+        dozrobienia: Array.isArray(response.elementy) ? response.elementy : [],
+        oper: response.oper ?? TBazaOper.tboSelect,
+        status: response.status ?? TeSodStatus.sBrak,
+        statusDane: response.statusDane ?? '',
+      };
     }
-    // Stary format: tablica elementów
     if (Array.isArray(response)) {
-      return { stats: { ...DEFAULT_STATS }, dozrobienia: response };
+      return { stats: { ...DEFAULT_STATS }, dozrobienia: response, oper: TBazaOper.tboSelect, status: TeSodStatus.sBrak, statusDane: '' };
     }
-    return { stats: { ...DEFAULT_STATS }, dozrobienia: [] };
+    return { stats: { ...DEFAULT_STATS }, dozrobienia: [], oper: TBazaOper.tboSelect, status: TeSodStatus.sBrak, statusDane: '' };
   }
 
   private parseStats(raw: any): TZadNaDzisStats {
@@ -81,6 +84,9 @@ export class DoZrobieniaService {
         [TZadNaDzisTyp.PowWyslania]: { ilosc: 2, wyswDla0: false },
         [TZadNaDzisTyp.DokWyslane]:  { ilosc: 0, wyswDla0: false },
       },
+      oper: TBazaOper.tboSelect,
+      status: TeSodStatus.sOK,
+      statusDane: '',
       dozrobienia: [
         {
           numer: 2221481,
@@ -89,10 +95,7 @@ export class DoZrobieniaService {
           nazwa: 'PRZETARG',
           znak: 'F.3120.1.2026',
           data: '2026-03-21T00:00:00.000Z',
-          dotyczy: 'Softres Sp.z o.o.',
-          oper: TBazaOper.tboSelect,
-          status: TeSodStatus.sBrak,
-          statusDane: ''
+          dotyczy: 'Softres Sp.z o.o.'
         },
         {
           numer: 2221458,
@@ -101,10 +104,7 @@ export class DoZrobieniaService {
           nazwa: 'UMORZENIA',
           znak: 'F.3210.1.2026',
           data: '2026-03-29T00:00:00.000Z',
-          dotyczy: '',
-          oper: TBazaOper.tboSelect,
-          status: TeSodStatus.sBrak,
-          statusDane: ''
+          dotyczy: ''
         },
         {
           numer: 2229700,
@@ -113,10 +113,7 @@ export class DoZrobieniaService {
           nazwa: 'DECYZJA',
           znak: '28/R-FK/26',
           data: '2026-04-08T00:00:00.000Z',
-          dotyczy: '',
-          oper: TBazaOper.tboSelect,
-          status: TeSodStatus.sBrak,
-          statusDane: ''
+          dotyczy: ''
         },
         {
           numer: 2237541,
@@ -125,10 +122,7 @@ export class DoZrobieniaService {
           nazwa: 'FAKTURA KSEF 2026/FVS/136872/BS',
           znak: '29/R-FK/26',
           data: '2026-04-03T00:00:00.000Z',
-          dotyczy: 'Jan Nowak',
-          oper: TBazaOper.tboSelect,
-          status: TeSodStatus.sBrak,
-          statusDane: ''
+          dotyczy: 'Jan Nowak'
         },
         {
           numer: 2226183,
@@ -137,10 +131,7 @@ export class DoZrobieniaService {
           nazwa: 'RE: Test 0322',
           znak: 'PPSA-E-df1b35f5-613f-4397-96d3-2ab920bf6b69',
           data: '2026-03-22T11:17:44.447Z',
-          dotyczy: '',
-          oper: TBazaOper.tboSelect,
-          status: TeSodStatus.sBrak,
-          statusDane: ''
+          dotyczy: ''
         },
         {
           numer: 2221174,
@@ -149,10 +140,7 @@ export class DoZrobieniaService {
           nazwa: 'Dotyczy kartoteki: 03/2 - Gospodarowanie odpadami',
           znak: 'PPSA-E-7cc7930f-4e17-4296-b09f-0224226565dc',
           data: '2026-02-11T14:15:46.817Z',
-          dotyczy: '',
-          oper: TBazaOper.tboSelect,
-          status: TeSodStatus.sBrak,
-          statusDane: ''
+          dotyczy: ''
         },
         {
           numer: 2241001,
@@ -161,10 +149,7 @@ export class DoZrobieniaService {
           nazwa: 'DECYZJA O PODATKU OD NIERUCHOMOŚCI',
           znak: 'FN.3120.15.2026',
           data: '2026-04-10T08:30:00.000Z',
-          dotyczy: 'Kowalski Piotr',
-          oper: TBazaOper.tboSelect,
-          status: TeSodStatus.sBrak,
-          statusDane: ''
+          dotyczy: 'Kowalski Piotr'
         },
         {
           numer: 2241055,
@@ -173,10 +158,7 @@ export class DoZrobieniaService {
           nazwa: 'WEZWANIE DO UZUPEŁNIENIA WNIOSKU',
           znak: 'FN.3120.16.2026',
           data: '2026-04-12T09:00:00.000Z',
-          dotyczy: 'Nowak Anna',
-          oper: TBazaOper.tboSelect,
-          status: TeSodStatus.sBrak,
-          statusDane: ''
+          dotyczy: 'Nowak Anna'
         }
       ]
     };
