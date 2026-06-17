@@ -201,7 +201,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
             </div>
             <div class="wyslij-field">
               <label class="wyslij-label">Rodzaj wysyłki</label>
-              <select class="wyslij-select" [(ngModel)]="selectedRodzajNazwa" [disabled]="rodzajeLoading">
+              <select class="wyslij-select" [ngModel]="selectedRodzajNazwa" (ngModelChange)="onRodzajNazwaChange($event)" [disabled]="rodzajeLoading">
                 <option value="">-- wybierz --</option>
                 <option *ngFor="let r of rodzajeWysylki" [value]="r.nazwa">{{ r.nazwa }}</option>
               </select>
@@ -874,10 +874,12 @@ export class DocumentsGridComponent implements OnChanges {
   adresatKontrahent: TKontrahentInfo | null = null;
   originalKontrahentNumer: number | null = null;
   showKontrahentWindowWyslij = false;
+  selectedRodzajKanal: TKanalTyp | null = null;
 
-  get selectedRodzajKanal(): TKanalTyp | null {
-    const r = this.rodzajeWysylki.find(r => r.nazwa === this.selectedRodzajNazwa);
-    return r ? r.kanalWy : null;
+  onRodzajNazwaChange(nazwa: string) {
+    this.selectedRodzajNazwa = nazwa;
+    const r = this.rodzajeWysylki.find(x => x.nazwa === nazwa);
+    this.selectedRodzajKanal = r ? r.kanalWy : null;
   }
 
   readonly kanalLabels: Record<TKanalTyp, string> = {
@@ -1013,6 +1015,7 @@ export class DocumentsGridComponent implements OnChanges {
         this.wyslijLoading = false;
         this.wyslijDokumentNumer = numer;
         this.selectedRodzajNazwa = '';
+        this.selectedRodzajKanal = null;
         this.adresatKontrahent = this.selectedDocument?.kontrahent ?? null;
         this.originalKontrahentNumer = this.selectedDocument?.kontrahent?.numer ?? null;
         this.showWyslijKanalDialog = true;
@@ -1086,6 +1089,7 @@ export class DocumentsGridComponent implements OnChanges {
   onWyslijDuplUtworzNowy() {
     this.showWyslijKonfliktDialog = false;
     this.selectedRodzajNazwa = '';
+    this.selectedRodzajKanal = null;
     this.showWyslijKanalDialog = true;
     this.loadRodzajeWysylki();
   }
