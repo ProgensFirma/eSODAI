@@ -206,7 +206,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
                 <option *ngFor="let r of rodzajeWysylki" [value]="r.nazwa">{{ r.nazwa }}</option>
               </select>
               <div class="wyslij-kanal-info" *ngIf="selectedRodzajKanal && selectedRodzajKanal !== 'tk_brak'">
-                Kanał: {{ getKanalLabel(selectedRodzajKanal) }}
+                Sposób wysyłki: {{ getKanalLabel(selectedRodzajKanal) }}
               </div>
             </div>
           </div>
