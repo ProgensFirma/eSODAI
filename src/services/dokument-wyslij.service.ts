@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +30,14 @@ export class DokumentWyslijService {
       .set('sesja', sesjaId.toString())
       .set('dokument', dokument.toString());
 
-    return this.http.get(`${this.apiUrl}/sprawdz`, { params });
+    return this.http.get(`${this.apiUrl}/sprawdz`, { params }).pipe(
+      catchError((err) => {
+        if (!environment.production) {
+          return of({});
+        }
+        throw err;
+      })
+    );
   }
 
   wyslij(dokument: number, rodzajNazwa: string, kontrahentNumer?: number): Observable<any> {
@@ -42,7 +51,14 @@ export class DokumentWyslijService {
       body['kontrahent'] = kontrahentNumer;
     }
 
-    return this.http.post(this.apiUrl, body, { params });
+    return this.http.post(this.apiUrl, body, { params }).pipe(
+      catchError((err) => {
+        if (!environment.production) {
+          return of({});
+        }
+        throw err;
+      })
+    );
   }
 }
 
