@@ -5,16 +5,20 @@ import { DokumentyService } from '../services/dokumenty.service';
 import { DokumentPrzyjmijService } from '../services/dokument-przyjmij.service';
 import { DokumentPodpiszService } from '../services/dokument-podpisz.service';
 import { DokumentWyslijService } from '../services/dokument-wyslij.service';
+import { DokWyjRodzajWysylkiService } from '../services/dok-wyj-rodzaj-wysylki.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
+import { TDokWyjRodzajWysylki } from '../models/dok-wyj-rodzaj-wysylki.model';
 import { TBazaOper, TeSodStatus, TSprStatusPrzek, TSkrzynki, TKanalTyp } from '../models/enums.model';
+import { TKontrahentInfo } from '../models/typy-info.model';
 import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
+import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
 @Component({
   selector: 'app-documents-grid',
   standalone: true,
-  imports: [CommonModule, FormsModule, SprawaEditWindowComponent],
+  imports: [CommonModule, FormsModule, SprawaEditWindowComponent, KontrahenciWindowComponent],
   template: `
     <div class="documents-container">
       <div class="documents-header">
@@ -176,7 +180,7 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
         (sprawaSaved)="onSprawaFromDocSaved()">
       </app-sprawa-edit-window>
 
-      <!-- Dialog: wybór kanału wyjścia -->
+      <!-- Dialog: wybór rodzaju wysyłki -->
       <div class="wyslij-overlay" *ngIf="showWyslijKanalDialog" (click)="closeWyslijKanalDialog()">
         <div class="wyslij-modal" (click)="$event.stopPropagation()">
           <div class="wyslij-modal-header">
@@ -184,19 +188,43 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
             <button class="wyslij-close" (click)="closeWyslijKanalDialog()">✕</button>
           </div>
           <div class="wyslij-modal-body">
-            <label class="wyslij-label">Kanał wyjścia</label>
-            <select class="wyslij-select" [(ngModel)]="selectedKanal">
-              <option *ngFor="let k of kanalOptions" [value]="k.value">{{ k.label }}</option>
-            </select>
+            <div class="wyslij-field">
+              <label class="wyslij-label">Adresat</label>
+              <div class="wyslij-kontrahent-row">
+                <input class="wyslij-input" type="text" readonly
+                  [value]="adresatKontrahent?.identyfikator || ''"
+                  placeholder="Wybierz kontrahenta" />
+                <button class="wyslij-btn-icon" type="button" (click)="openKontrahentWindowWyslij()">
+                  <i class="pi pi-search"></i>
+                </button>
+              </div>
+            </div>
+            <div class="wyslij-field">
+              <label class="wyslij-label">Rodzaj wysyłki</label>
+              <select class="wyslij-select" [(ngModel)]="selectedRodzajNazwa" [disabled]="rodzajeLoading">
+                <option value="">-- wybierz --</option>
+                <option *ngFor="let r of rodzajeWysylki" [value]="r.nazwa">{{ r.nazwa }}</option>
+              </select>
+              <div class="wyslij-kanal-info" *ngIf="selectedRodzajKanal && selectedRodzajKanal !== 'tk_brak'">
+                Kanał: {{ getKanalLabel(selectedRodzajKanal) }}
+              </div>
+            </div>
           </div>
           <div class="wyslij-modal-footer">
             <button class="wyslij-btn wyslij-btn-secondary" (click)="closeWyslijKanalDialog()">Anuluj</button>
-            <button class="wyslij-btn wyslij-btn-primary" (click)="onWyslijKanalConfirm()" [disabled]="wyslijPosting">
-              {{ wyslijPosting ? 'Wysyłanie...' : 'Wybierz' }}
+            <button class="wyslij-btn wyslij-btn-primary" (click)="onWyslijKanalConfirm()" [disabled]="wyslijPosting || !selectedRodzajNazwa">
+              {{ wyslijPosting ? 'Wysyłanie...' : 'Wyślij' }}
             </button>
           </div>
         </div>
       </div>
+
+      <app-kontrahenci-window
+        *ngIf="showKontrahentWindowWyslij"
+        [pWybor]="true"
+        (closeRequested)="showKontrahentWindowWyslij = false"
+        (kontrahentSelected)="onKontrahentSelectedWyslij($event)">
+      </app-kontrahenci-window>
 
       <!-- Dialog: duplikat (400) -->
       <div class="wyslij-overlay" *ngIf="showWyslijKonfliktDialog" (click)="closeWyslijKonfliktDialog()">
@@ -765,6 +793,51 @@ import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
     }
 
     .wyslij-btn-outline:hover { background: #eff6ff; }
+
+    .wyslij-field { margin-bottom: 14px; }
+    .wyslij-field:last-child { margin-bottom: 0; }
+
+    .wyslij-kontrahent-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .wyslij-input {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1px solid var(--input-border, #d1d5db);
+      border-radius: 6px;
+      font-size: 14px;
+      background: var(--input-bg, #f9fafb);
+      color: var(--text-primary, #111827);
+    }
+
+    .wyslij-btn-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--input-border, #d1d5db);
+      border-radius: 6px;
+      background: var(--input-bg, #fff);
+      cursor: pointer;
+      color: var(--text-secondary, #374151);
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .wyslij-btn-icon:hover { background: var(--bg-muted, #f3f4f6); }
+
+    .wyslij-kanal-info {
+      margin-top: 5px;
+      font-size: 12px;
+      color: var(--text-muted, #6b7280);
+      padding: 4px 8px;
+      background: var(--bg-subtle, #f3f4f6);
+      border-radius: 4px;
+    }
   `]
 })
 export class DocumentsGridComponent implements OnChanges {
@@ -794,23 +867,34 @@ export class DocumentsGridComponent implements OnChanges {
   wyslijPosting = false;
   showWyslijKanalDialog = false;
   showWyslijKonfliktDialog = false;
-  selectedKanal: TKanalTyp = TKanalTyp.tk_brak;
+  selectedRodzajNazwa = '';
   wyslijDokumentNumer = 0;
+  rodzajeWysylki: TDokWyjRodzajWysylki[] = [];
+  rodzajeLoading = false;
+  adresatKontrahent: TKontrahentInfo | null = null;
+  originalKontrahentNumer: number | null = null;
+  showKontrahentWindowWyslij = false;
 
-  readonly kanalOptions: { value: TKanalTyp; label: string }[] = [
-    { value: TKanalTyp.tk_brak, label: 'nieokreślony' },
-    { value: TKanalTyp.tk_papierowy, label: 'papierowy' },
-    { value: TKanalTyp.tk_email, label: 'e-mail' },
-    { value: TKanalTyp.tk_ePuap, label: 'ePuap' },
-    { value: TKanalTyp.tk_eDorecz, label: 'eDoręczenie' },
-    { value: TKanalTyp.tk_Portal, label: 'Portal eBom' },
-  ];
+  get selectedRodzajKanal(): TKanalTyp | null {
+    const r = this.rodzajeWysylki.find(r => r.nazwa === this.selectedRodzajNazwa);
+    return r ? r.kanalWy : null;
+  }
+
+  readonly kanalLabels: Record<TKanalTyp, string> = {
+    [TKanalTyp.tk_brak]:      'nieokreślony',
+    [TKanalTyp.tk_papierowy]: 'papierowy',
+    [TKanalTyp.tk_email]:     'e-mail',
+    [TKanalTyp.tk_ePuap]:     'ePUAP',
+    [TKanalTyp.tk_eDorecz]:   'eDoręczenia',
+    [TKanalTyp.tk_Portal]:    'Portal eBom',
+  };
 
   constructor(
     private dokumentyService: DokumentyService,
     private dokumentPrzyjmijService: DokumentPrzyjmijService,
     private dokumentPodpiszService: DokumentPodpiszService,
-    private dokumentWyslijService: DokumentWyslijService
+    private dokumentWyslijService: DokumentWyslijService,
+    private rodzajWysylkiService: DokWyjRodzajWysylkiService
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -928,8 +1012,11 @@ export class DocumentsGridComponent implements OnChanges {
       next: () => {
         this.wyslijLoading = false;
         this.wyslijDokumentNumer = numer;
-        this.selectedKanal = TKanalTyp.tk_brak;
+        this.selectedRodzajNazwa = '';
+        this.adresatKontrahent = this.selectedDocument?.kontrahent ?? null;
+        this.originalKontrahentNumer = this.selectedDocument?.kontrahent?.numer ?? null;
         this.showWyslijKanalDialog = true;
+        this.loadRodzajeWysylki();
       },
       error: (err) => {
         this.wyslijLoading = false;
@@ -941,6 +1028,28 @@ export class DocumentsGridComponent implements OnChanges {
     });
   }
 
+  private loadRodzajeWysylki() {
+    if (this.rodzajeWysylki.length > 0) return;
+    this.rodzajeLoading = true;
+    this.rodzajWysylkiService.getRodzaje().subscribe({
+      next: (rodzaje) => { this.rodzajeWysylki = rodzaje; this.rodzajeLoading = false; },
+      error: () => { this.rodzajeLoading = false; }
+    });
+  }
+
+  getKanalLabel(kanal: TKanalTyp): string {
+    return this.kanalLabels[kanal] ?? kanal;
+  }
+
+  openKontrahentWindowWyslij() {
+    this.showKontrahentWindowWyslij = true;
+  }
+
+  onKontrahentSelectedWyslij(kontrahent: TKontrahentInfo) {
+    this.adresatKontrahent = kontrahent;
+    this.showKontrahentWindowWyslij = false;
+  }
+
   closeWyslijKanalDialog() {
     this.showWyslijKanalDialog = false;
   }
@@ -950,8 +1059,13 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   onWyslijKanalConfirm() {
+    if (!this.selectedRodzajNazwa) return;
     this.wyslijPosting = true;
-    this.dokumentWyslijService.wyslij(this.wyslijDokumentNumer, this.selectedKanal).subscribe({
+    const changedKontrahent =
+      this.adresatKontrahent?.numer !== this.originalKontrahentNumer
+        ? this.adresatKontrahent?.numer
+        : undefined;
+    this.dokumentWyslijService.wyslij(this.wyslijDokumentNumer, this.selectedRodzajNazwa, changedKontrahent).subscribe({
       next: () => {
         this.wyslijPosting = false;
         this.showWyslijKanalDialog = false;
@@ -971,8 +1085,9 @@ export class DocumentsGridComponent implements OnChanges {
 
   onWyslijDuplUtworzNowy() {
     this.showWyslijKonfliktDialog = false;
-    this.selectedKanal = TKanalTyp.tk_brak;
+    this.selectedRodzajNazwa = '';
     this.showWyslijKanalDialog = true;
+    this.loadRodzajeWysylki();
   }
 
   onUtworzSpraweFromDocument() {
