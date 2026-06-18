@@ -875,6 +875,7 @@ export class DocumentsGridComponent implements OnChanges {
   originalKontrahentNumer: number | null = null;
   showKontrahentWindowWyslij = false;
   selectedRodzajKanal: TKanalTyp | null = null;
+  wyslijDomKanalWy: TKanalTyp | null = null;
 
   onRodzajNazwaChange(nazwa: string) {
     this.selectedRodzajNazwa = nazwa;
@@ -1016,9 +1017,13 @@ export class DocumentsGridComponent implements OnChanges {
         this.wyslijDokumentNumer = numer;
         this.selectedRodzajNazwa = '';
         this.selectedRodzajKanal = null;
+        this.wyslijDomKanalWy = this.selectedDocument?.domKanalWy ?? null;
         this.adresatKontrahent = this.selectedDocument?.kontrahent ?? null;
         this.originalKontrahentNumer = this.selectedDocument?.kontrahent?.numer ?? null;
         this.showWyslijKanalDialog = true;
+        if (this.rodzajeWysylki.length > 0) {
+          this.autoSelectRodzaj();
+        }
         this.loadRodzajeWysylki();
       },
       error: (err) => {
@@ -1035,9 +1040,23 @@ export class DocumentsGridComponent implements OnChanges {
     if (this.rodzajeWysylki.length > 0) return;
     this.rodzajeLoading = true;
     this.rodzajWysylkiService.getRodzaje().subscribe({
-      next: (rodzaje) => { this.rodzajeWysylki = rodzaje; this.rodzajeLoading = false; },
+      next: (rodzaje) => {
+        this.rodzajeWysylki = rodzaje;
+        this.rodzajeLoading = false;
+        this.autoSelectRodzaj();
+      },
       error: () => { this.rodzajeLoading = false; }
     });
+  }
+
+  private autoSelectRodzaj() {
+    const kanal = this.wyslijDomKanalWy;
+    if (!kanal || kanal === TKanalTyp.tk_brak) return;
+    const match = this.rodzajeWysylki.find(r => r.kanalWy === kanal);
+    if (match) {
+      this.selectedRodzajNazwa = match.nazwa;
+      this.selectedRodzajKanal = match.kanalWy;
+    }
   }
 
   getKanalLabel(kanal: TKanalTyp): string {
