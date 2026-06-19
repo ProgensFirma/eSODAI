@@ -201,9 +201,9 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
             </div>
             <div class="wyslij-field">
               <label class="wyslij-label">Rodzaj wysyłki</label>
-              <select class="wyslij-select" [ngModel]="selectedRodzajNazwa" (ngModelChange)="onRodzajNazwaChange($event)" [disabled]="rodzajeLoading">
-                <option value="">-- wybierz --</option>
-                <option *ngFor="let r of rodzajeWysylki" [value]="r.nazwa">{{ r.nazwa }}</option>
+              <select class="wyslij-select" [ngModel]="selectedRodzaj" (ngModelChange)="onRodzajChange($event)" [disabled]="rodzajeLoading">
+                <option [ngValue]="null">-- wybierz --</option>
+                <option *ngFor="let r of rodzajeWysylki" [ngValue]="r">{{ r.nazwa }}</option>
               </select>
               <div class="wyslij-kanal-info" *ngIf="selectedRodzajKanal && selectedRodzajKanal !== 'tk_brak'">
                 Sposób wysyłki: {{ getKanalLabel(selectedRodzajKanal) }}
@@ -212,7 +212,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
           </div>
           <div class="wyslij-modal-footer">
             <button class="wyslij-btn wyslij-btn-secondary" (click)="closeWyslijKanalDialog()">Anuluj</button>
-            <button class="wyslij-btn wyslij-btn-primary" (click)="onWyslijKanalConfirm()" [disabled]="wyslijPosting || !selectedRodzajNazwa">
+            <button class="wyslij-btn wyslij-btn-primary" (click)="onWyslijKanalConfirm()" [disabled]="wyslijPosting || !selectedRodzaj">
               {{ wyslijPosting ? 'Wysyłanie...' : 'Wyślij' }}
             </button>
           </div>
@@ -867,7 +867,7 @@ export class DocumentsGridComponent implements OnChanges {
   wyslijPosting = false;
   showWyslijKanalDialog = false;
   showWyslijKonfliktDialog = false;
-  selectedRodzajNazwa = '';
+  selectedRodzaj: TDokWyjRodzajWysylki | null = null;
   wyslijDokumentNumer = 0;
   rodzajeWysylki: TDokWyjRodzajWysylki[] = [];
   rodzajeLoading = false;
@@ -877,9 +877,8 @@ export class DocumentsGridComponent implements OnChanges {
   selectedRodzajKanal: TKanalTyp | null = null;
   wyslijDomKanalWy: TKanalTyp | null = null;
 
-  onRodzajNazwaChange(nazwa: string) {
-    this.selectedRodzajNazwa = nazwa;
-    const r = this.rodzajeWysylki.find(x => x.nazwa === nazwa);
+  onRodzajChange(r: TDokWyjRodzajWysylki | null) {
+    this.selectedRodzaj = r;
     this.selectedRodzajKanal = r ? r.kanalWy : null;
   }
 
@@ -1015,7 +1014,7 @@ export class DocumentsGridComponent implements OnChanges {
       next: () => {
         this.wyslijLoading = false;
         this.wyslijDokumentNumer = numer;
-        this.selectedRodzajNazwa = '';
+        this.selectedRodzaj = null;
         this.selectedRodzajKanal = null;
         this.wyslijDomKanalWy = this.selectedDocument?.domKanalWy ?? null;
         this.adresatKontrahent = this.selectedDocument?.kontrahent ?? null;
@@ -1054,7 +1053,7 @@ export class DocumentsGridComponent implements OnChanges {
     if (!kanal || kanal === TKanalTyp.tk_brak) return;
     const match = this.rodzajeWysylki.find(r => r.kanalWy === kanal);
     if (match) {
-      this.selectedRodzajNazwa = match.nazwa;
+      this.selectedRodzaj = match;
       this.selectedRodzajKanal = match.kanalWy;
     }
   }
@@ -1081,13 +1080,13 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   onWyslijKanalConfirm() {
-    if (!this.selectedRodzajNazwa) return;
+    if (!this.selectedRodzaj) return;
     this.wyslijPosting = true;
     const changedKontrahent =
       this.adresatKontrahent?.numer !== this.originalKontrahentNumer
         ? this.adresatKontrahent?.numer
         : undefined;
-    this.dokumentWyslijService.wyslij(this.wyslijDokumentNumer, this.selectedRodzajNazwa, changedKontrahent).subscribe({
+    this.dokumentWyslijService.wyslij(this.wyslijDokumentNumer, this.selectedRodzaj, changedKontrahent).subscribe({
       next: () => {
         this.wyslijPosting = false;
         this.showWyslijKanalDialog = false;
@@ -1110,7 +1109,7 @@ export class DocumentsGridComponent implements OnChanges {
 
   onWyslijDuplUtworzNowy() {
     this.showWyslijKonfliktDialog = false;
-    this.selectedRodzajNazwa = '';
+    this.selectedRodzaj = null;
     this.selectedRodzajKanal = null;
     this.showWyslijKanalDialog = true;
     this.loadRodzajeWysylki();

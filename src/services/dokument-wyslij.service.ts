@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { environment } from '../environments/environment';
+import { TDokWyjRodzajWysylki } from '../models/dok-wyj-rodzaj-wysylki.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,13 +41,13 @@ export class DokumentWyslijService {
     );
   }
 
-  wyslij(dokument: number, rodzajNazwa: string, kontrahentNumer?: number): Observable<any> {
+  wyslij(dokument: number, rodzaj: TDokWyjRodzajWysylki, kontrahentNumer?: number): Observable<any> {
     const session = this.authService.getCurrentSession();
     const sesjaId = session?.sesja;
     if (!sesjaId) return throwError(() => new Error('Brak sesji'));
 
     const params = new HttpParams().set('sesja', sesjaId.toString());
-    const body: Record<string, unknown> = { dokument, rodzaj: rodzajNazwa };
+    const body: Record<string, unknown> = { dokument, rodzaj };
     if (kontrahentNumer !== undefined) {
       body['kontrahent'] = kontrahentNumer;
     }
