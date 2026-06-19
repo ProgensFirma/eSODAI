@@ -749,6 +749,7 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
 })
 export class DokumentyWychodzaceWindowComponent implements OnInit {
   @Input() dokumentNumer: number | null = null;
+  @Input() autoOpenEdorecz = false;
   @Output() closeRequested = new EventEmitter<void>();
 
   dokumenty: DokumentWychodzacy[] = [];
@@ -800,6 +801,9 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
             this.selectedDokument = found;
             const pageIdx = data.indexOf(found);
             this.currentPage = Math.floor(pageIdx / this.pageSize) + 1;
+            if (this.autoOpenEdorecz) {
+              this.showEdoreczKoperta = true;
+            }
           }
         }
       },

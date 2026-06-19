@@ -850,7 +850,7 @@ export class DocumentsGridComponent implements OnChanges {
   @Output() przekazDocumentRequested = new EventEmitter<Dokument>();
   @Output() createSprawaFromDocumentRequested = new EventEmitter<Dokument>();
   @Output() dokumentPrzyjety = new EventEmitter<'przyjmij' | 'pobierz'>();
-  @Output() wyslijDokumentyWychodzaceRequested = new EventEmitter<number>();
+  @Output() wyslijDokumentyWychodzaceRequested = new EventEmitter<{ numer: number; autoEdorecz: boolean }>();
 
   documents: Dokument[] = [];
   selectedDocument: Dokument | null = null;
@@ -1091,7 +1091,10 @@ export class DocumentsGridComponent implements OnChanges {
       next: () => {
         this.wyslijPosting = false;
         this.showWyslijKanalDialog = false;
-        this.wyslijDokumentyWychodzaceRequested.emit(this.wyslijDokumentNumer);
+        this.wyslijDokumentyWychodzaceRequested.emit({
+          numer: this.wyslijDokumentNumer,
+          autoEdorecz: this.selectedRodzajKanal === TKanalTyp.tk_eDorecz
+        });
       },
       error: (err) => {
         console.error('Błąd wysyłania dokumentu:', err);
@@ -1102,7 +1105,7 @@ export class DocumentsGridComponent implements OnChanges {
 
   onWyslijDuplOkaz() {
     this.showWyslijKonfliktDialog = false;
-    this.wyslijDokumentyWychodzaceRequested.emit(this.wyslijDokumentNumer);
+    this.wyslijDokumentyWychodzaceRequested.emit({ numer: this.wyslijDokumentNumer, autoEdorecz: false });
   }
 
   onWyslijDuplUtworzNowy() {

@@ -261,6 +261,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
     <app-dokumenty-wychodzace-window
       *ngIf="showDokumentyWychodzaceWindow"
       [dokumentNumer]="dokumentyWychodzaceDokumentNumer"
+      [autoOpenEdorecz]="autoOpenEdorecz"
       (closeRequested)="closeDokumentyWychodzaceWindow()"
     ></app-dokumenty-wychodzace-window>
 
@@ -1108,6 +1109,7 @@ export class App implements OnInit, OnDestroy {
   showDocumentEditWindow = false;
   showDokumentyWychodzaceWindow = false;
   dokumentyWychodzaceDokumentNumer: number | null = null;
+  autoOpenEdorecz = false;
   showDokumentPrzekazWindow = false;
   przekazDokumentNumer: number | null = null;
   isLoggedIn = false;
@@ -1352,10 +1354,12 @@ export class App implements OnInit, OnDestroy {
   closeDokumentyWychodzaceWindow() {
     this.showDokumentyWychodzaceWindow = false;
     this.dokumentyWychodzaceDokumentNumer = null;
+    this.autoOpenEdorecz = false;
   }
 
-  onWyslijDokumentyWychodzaceRequested(numer: number) {
-    this.dokumentyWychodzaceDokumentNumer = numer;
+  onWyslijDokumentyWychodzaceRequested(event: { numer: number; autoEdorecz: boolean }) {
+    this.dokumentyWychodzaceDokumentNumer = event.numer;
+    this.autoOpenEdorecz = event.autoEdorecz;
     this.showDokumentyWychodzaceWindow = true;
   }
 
