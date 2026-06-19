@@ -237,9 +237,10 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     }
 
     .action-button {
-      border: none;
+      background: transparent;
+      border: 2px solid transparent;
       border-radius: 8px;
-      padding: 8px 16px;
+      padding: 7px 15px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -250,7 +251,7 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     }
 
     .action-button:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
@@ -259,12 +260,12 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     }
 
     .button-create {
-      background: #16a34a;
-      color: white;
+      border-color: #16a34a;
+      color: #16a34a;
     }
 
     .button-create:hover:not(:disabled) {
-      background: #15803d;
+      background: rgba(22, 163, 74, 0.12);
       transform: translateY(-1px);
     }
 
@@ -274,12 +275,12 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     }
 
     .button-refresh {
-      background: #2563eb;
-      color: white;
+      border-color: #2563eb;
+      color: #2563eb;
     }
 
     .button-refresh:hover:not(:disabled) {
-      background: #1d4ed8;
+      background: rgba(37, 99, 235, 0.12);
       transform: translateY(-1px);
     }
 
@@ -298,42 +299,42 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
     }
 
     .button-przyjmij {
-      background: #16a34a;
-      color: white;
+      border-color: #16a34a;
+      color: #16a34a;
     }
 
     .button-przyjmij:hover:not(:disabled) {
-      background: #15803d;
+      background: rgba(22, 163, 74, 0.12);
       transform: translateY(-1px);
     }
 
     .button-przekaz {
-      background: #2563eb;
-      color: white;
+      border-color: #2563eb;
+      color: #2563eb;
     }
 
     .button-przekaz:hover:not(:disabled) {
-      background: #1d4ed8;
+      background: rgba(37, 99, 235, 0.12);
       transform: translateY(-1px);
     }
 
     .button-zakoncz {
-      background: #dc2626;
-      color: white;
+      border-color: #dc2626;
+      color: #dc2626;
     }
 
     .button-zakoncz:hover:not(:disabled) {
-      background: #b91c1c;
+      background: rgba(220, 38, 38, 0.12);
       transform: translateY(-1px);
     }
 
     .button-zmien {
-      background: #f59e0b;
-      color: white;
+      border-color: #d97706;
+      color: #d97706;
     }
 
     .button-zmien:hover:not(:disabled) {
-      background: #d97706;
+      background: rgba(217, 119, 6, 0.12);
       transform: translateY(-1px);
     }
 

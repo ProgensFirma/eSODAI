@@ -293,9 +293,10 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     }
 
     .action-button {
-      border: none;
+      background: transparent;
+      border: 2px solid transparent;
       border-radius: 8px;
-      padding: 8px 16px;
+      padding: 7px 15px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -306,103 +307,104 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     }
 
     .button-new {
-      background: #16a34a;
-      color: white;
+      border-color: #16a34a;
+      color: #16a34a;
     }
 
     .button-new:hover:not(:disabled) {
-      background: #15803d;
+      background: rgba(22, 163, 74, 0.12);
       transform: translateY(-1px);
     }
 
     .button-edit {
-      background: #f59e0b;
-      color: white;
+      border-color: #d97706;
+      color: #d97706;
     }
 
     .button-edit:hover:not(:disabled) {
-      background: #d97706;
+      background: rgba(217, 119, 6, 0.12);
       transform: translateY(-1px);
     }
 
     .button-przekaz {
-      background: #2563eb;
-      color: white;
+      border-color: #2563eb;
+      color: #2563eb;
     }
 
     .button-przekaz:hover:not(:disabled) {
-      background: #1d4ed8;
+      background: rgba(37, 99, 235, 0.12);
       transform: translateY(-1px);
     }
 
     .button-przyjmij {
-      background: #16a34a;
-      color: white;
+      border-color: #16a34a;
+      color: #16a34a;
     }
 
     .button-przyjmij:hover:not(:disabled) {
-      background: #15803d;
+      background: rgba(22, 163, 74, 0.12);
       transform: translateY(-1px);
     }
 
     .button-wyslij {
-      background: #d97706;
-      color: white;
+      border-color: #d97706;
+      color: #d97706;
     }
 
     .button-wyslij:hover:not(:disabled) {
-      background: #b45309;
+      background: rgba(217, 119, 6, 0.12);
       transform: translateY(-1px);
     }
 
     .button-utworz-sprawe {
-      background: #0891b2;
-      color: white;
+      border-color: #0891b2;
+      color: #0891b2;
     }
 
     .button-utworz-sprawe:hover:not(:disabled) {
-      background: #0e7490;
+      background: rgba(8, 145, 178, 0.12);
       transform: translateY(-1px);
     }
 
     .button-podpisz {
-      background: #15803d;
-      color: white;
+      border-color: #16a34a;
+      color: #16a34a;
     }
 
     .button-podpisz:hover:not(:disabled) {
-      background: #166534;
+      background: rgba(22, 163, 74, 0.12);
       transform: translateY(-1px);
     }
 
     .button-podpisz.usluga-nieaktywna {
-      background: #6b7280;
+      border-color: #6b7280;
+      color: #6b7280;
       opacity: 0.6;
       cursor: not-allowed;
     }
 
     .button-oznacz {
-      background: #0891b2;
-      color: white;
+      border-color: #0891b2;
+      color: #0891b2;
     }
 
     .button-oznacz:hover:not(:disabled) {
-      background: #0e7490;
+      background: rgba(8, 145, 178, 0.12);
       transform: translateY(-1px);
     }
 
     .button-refresh {
-      background: #2563eb;
-      color: white;
+      border-color: #2563eb;
+      color: #2563eb;
     }
 
     .button-refresh:hover:not(:disabled) {
-      background: #1d4ed8;
+      background: rgba(37, 99, 235, 0.12);
       transform: translateY(-1px);
     }
 
     .action-button:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
