@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DoZrobieniaService } from '../services/dozrobienia.service';
+import { PrzypomnienieService } from '../services/przypomnienie.service';
 import { TZadNaDzisItem, TZadNaDzisTyp, TZadNaDzisResponse } from '../models/dozrobienia.model';
+import { Przypomnienie } from '../models/przypomnienie.model';
 
 interface DoZrobieniaSection {
   title: string;
@@ -74,6 +76,72 @@ interface DoZrobieniaSection {
         <p>Ładowanie...</p>
       </div>
     </div>
+
+    <!-- Modal: Komunikat / Przypomnienie -->
+    <div class="modal-overlay" *ngIf="showKomunikatModal" (click)="closeKomunikatModal()">
+      <div class="modal-box" (click)="$event.stopPropagation()">
+
+        <div class="modal-loading-state" *ngIf="komunikatLoading">
+          <div class="modal-spinner"></div>
+          <p>Ładowanie...</p>
+        </div>
+
+        <ng-container *ngIf="!komunikatLoading && komunikat">
+          <div class="modal-header">
+            <h2 class="modal-title">{{ komunikat.naglowek }}</h2>
+            <button class="modal-close-btn" (click)="closeKomunikatModal()">✕</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-tresc">{{ komunikat.tresc }}</div>
+
+            <div class="modal-panel" *ngIf="komunikat.osobaZlec">
+              <div class="modal-panel-title">Osoba zlecająca</div>
+              <div class="modal-panel-row">
+                <span class="modal-panel-value">{{ komunikat.osobaZlec.identyfikator }}</span>
+              </div>
+            </div>
+
+            <div class="modal-panel" *ngIf="komunikat.dokument">
+              <div class="modal-panel-title">Dokument</div>
+              <div class="modal-panel-row">
+                <div class="modal-panel-info">
+                  <span class="modal-panel-sub">{{ komunikat.dokument.rejestrNrPozycji }}</span>
+                  <span class="modal-panel-value">{{ komunikat.dokument.nazwa }}</span>
+                  <span class="modal-panel-sub" *ngIf="komunikat.dokument.kontrahent">
+                    {{ komunikat.dokument.kontrahent.identyfikator }}
+                  </span>
+                </div>
+                <button class="modal-lupa-btn" (click)="onShowDokument(komunikat.dokument!.numer)" title="Pokaż dokument">
+                  <i class="pi pi-search"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="modal-panel" *ngIf="komunikat.sprawa">
+              <div class="modal-panel-title">Sprawa</div>
+              <div class="modal-panel-row">
+                <div class="modal-panel-info">
+                  <span class="modal-panel-sub">{{ komunikat.sprawa.znaksprawy }}</span>
+                  <span class="modal-panel-value">{{ komunikat.sprawa.nazwa }}</span>
+                </div>
+                <button class="modal-lupa-btn" (click)="onShowSprawa(komunikat.sprawa!.numer)" title="Pokaż sprawę">
+                  <i class="pi pi-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="modal-btn modal-btn-secondary" (click)="onPomin()">Pomiń</button>
+            <button class="modal-btn modal-btn-primary" (click)="onPamietam()" [disabled]="pamietamLoading">
+              {{ pamietamLoading ? 'Zapisywanie...' : 'Pamiętam' }}
+            </button>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
   `,
   styles: [`
     .dozrobienia-container {
@@ -111,11 +179,11 @@ interface DoZrobieniaSection {
     }
 
     .refresh-button {
-      background: #2563eb;
-      color: white;
-      border: none;
+      background: transparent;
+      color: #2563eb;
+      border: 2px solid #2563eb;
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 9px 13px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -124,12 +192,12 @@ interface DoZrobieniaSection {
     }
 
     .refresh-button:hover:not(:disabled) {
-      background: #1d4ed8;
+      background: rgba(37, 99, 235, 0.12);
       transform: translateY(-1px);
     }
 
     .refresh-button:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
       cursor: not-allowed;
     }
 
@@ -389,19 +457,233 @@ interface DoZrobieniaSection {
         font-size: 16px;
       }
     }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+    }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 560px;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+    }
+
+    .modal-loading-state p {
+      margin: 12px 0 0;
+      font-size: 15px;
+    }
+
+    .modal-spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border-default);
+      border-top: 3px solid #2563eb;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .modal-close-btn {
+      flex-shrink: 0;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--bg-muted);
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-tresc {
+      font-size: 15px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .modal-panel {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+
+    .modal-panel-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .modal-panel-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-panel-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .modal-panel-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .modal-panel-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .modal-lupa-btn {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 2px solid #2563eb;
+      color: #2563eb;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 14px;
+    }
+
+    .modal-lupa-btn:hover {
+      background: rgba(37, 99, 235, 0.12);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-default);
+    }
+
+    .modal-btn {
+      padding: 9px 20px;
+      border-radius: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+
+    .modal-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .modal-btn-secondary {
+      background: transparent;
+      border-color: var(--border-muted, #d1d5db);
+      color: var(--text-secondary);
+    }
+
+    .modal-btn-secondary:hover {
+      background: var(--bg-muted);
+    }
+
+    .modal-btn-primary {
+      background: transparent;
+      border-color: #16a34a;
+      color: #16a34a;
+    }
+
+    .modal-btn-primary:hover:not(:disabled) {
+      background: rgba(22, 163, 74, 0.12);
+    }
   `]
 })
 export class DoZrobieniaComponent implements OnInit {
   @Output() itemClicked = new EventEmitter<TZadNaDzisItem>();
+  @Output() showDokumentDetails = new EventEmitter<number>();
+  @Output() showSprawaDetails = new EventEmitter<number>();
 
   loading = false;
   sections: DoZrobieniaSection[] = [];
+
+  showKomunikatModal = false;
+  komunikatLoading = false;
+  komunikat: Przypomnienie | null = null;
+  pamietamLoading = false;
 
   get visibleSections(): DoZrobieniaSection[] {
     return this.sections.filter(s => s.ilosc > 0 || s.wyswDla0);
   }
 
-  constructor(private doZrobieniaService: DoZrobieniaService) {}
+  constructor(
+    private doZrobieniaService: DoZrobieniaService,
+    private przypomnienieService: PrzypomnienieService
+  ) {}
 
   ngOnInit() {
     this.loadData();
@@ -453,6 +735,62 @@ export class DoZrobieniaComponent implements OnInit {
   }
 
   onItemClick(item: TZadNaDzisItem) {
+    if (item.typ === TZadNaDzisTyp.Komunikat) {
+      this.openKomunikatModal(item.numer);
+      return;
+    }
     this.itemClicked.emit(item);
+  }
+
+  private openKomunikatModal(numer: number) {
+    this.komunikat = null;
+    this.showKomunikatModal = true;
+    this.komunikatLoading = true;
+    this.przypomnienieService.getPrzypomnienie(numer).subscribe({
+      next: (data) => {
+        this.komunikat = data;
+        this.komunikatLoading = false;
+      },
+      error: () => {
+        this.komunikatLoading = false;
+        this.showKomunikatModal = false;
+      }
+    });
+  }
+
+  closeKomunikatModal() {
+    this.showKomunikatModal = false;
+    this.komunikat = null;
+    this.pamietamLoading = false;
+  }
+
+  onPomin() {
+    this.closeKomunikatModal();
+  }
+
+  onPamietam() {
+    if (!this.komunikat) return;
+    this.pamietamLoading = true;
+    this.przypomnienieService.przeczytane(this.komunikat.numer).subscribe({
+      next: () => {
+        this.pamietamLoading = false;
+        this.closeKomunikatModal();
+        this.loadData();
+      },
+      error: () => {
+        this.pamietamLoading = false;
+        this.closeKomunikatModal();
+      }
+    });
+  }
+
+  onShowDokument(numer: number) {
+    this.closeKomunikatModal();
+    this.showDokumentDetails.emit(numer);
+  }
+
+  onShowSprawa(numer: number) {
+    this.closeKomunikatModal();
+    this.showSprawaDetails.emit(numer);
   }
 }
