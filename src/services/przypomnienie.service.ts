@@ -36,14 +36,26 @@ export class PrzypomnienieService {
             rodzaj: 'tp_przyp',
             archiwum: false,
             osoba: { numer: 1, identyfikator: 'Jan Kowalski' },
-            osobaZlec: null,
-            typPowiaz: 'htBrak',
-            dokument: null,
-            sprawa: null,
+            osobaZlec: { numer: 2, identyfikator: 'Anna Nowak' },
+            typPowiaz: 'htDokument',
+            dokument: {
+              numer: 101,
+              typ: { nazwa: 'Pismo przychodzące', finansowy: false, poleceniezaplaty: false },
+              nazwa: 'Wniosek o wydanie decyzji administracyjnej',
+              rejestrNrPozycji: 'KOR/2026/00042',
+              kontrahent: { numer: 5, identyfikator: 'ABC Sp. z o.o.', firma: true, nip: '123-456-78-90', adres: 'ul. Testowa 1, 00-001 Warszawa' }
+            },
+            sprawa: {
+              numer: 55,
+              znaksprawy: 'OR.0012.5.2026',
+              nazwa: 'Postępowanie w sprawie wydania decyzji',
+              glowna: true,
+              zakonczona: false
+            },
             harmonogram: { cykliczne: false },
             dataCzas: new Date().toISOString(),
-            naglowek: 'Testowe przypomnienie',
-            tresc: 'To jest treść testowego przypomnienia.',
+            naglowek: 'Przypomnienie o terminie realizacji',
+            tresc: 'Upływa termin rozpatrzenia wniosku złożonego przez ABC Sp. z o.o. Proszę o pilną weryfikację stanu sprawy i podjęcie stosownych działań.',
             dataPrzyj: '',
             potwierdz: false,
           } as unknown as Przypomnienie);
