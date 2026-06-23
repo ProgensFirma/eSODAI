@@ -138,6 +138,28 @@ export class SprawyService {
     );
   }
 
+  dolaczDokumentDoSprawy(dokumentNumer: number, sprawaNumer: number): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
+
+    return this.http.post(`${this.configService.apiBaseUrl}/sprawy/dokumenty`, { dokument: dokumentNumer, sprawa: sprawaNumer }, { params }).pipe(
+      catchError(error => {
+        console.error('Error dolacz dokument do sprawy:', error);
+        if (!environment.production) {
+          return of({});
+        }
+        this.errorService.showError(
+          'Błąd dołączania do sprawy',
+          'Nie udało się dołączyć dokumentu do sprawy.'
+        );
+        return throwError(() => error);
+      })
+    );
+  }
+
   private getMockData(): Sprawa[] {
     return [
       {

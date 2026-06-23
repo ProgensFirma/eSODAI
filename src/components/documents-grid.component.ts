@@ -6,6 +6,7 @@ import { DokumentPrzyjmijService } from '../services/dokument-przyjmij.service';
 import { DokumentPodpiszService } from '../services/dokument-podpisz.service';
 import { DokumentWyslijService } from '../services/dokument-wyslij.service';
 import { DokWyjRodzajWysylkiService } from '../services/dok-wyj-rodzaj-wysylki.service';
+import { SprawyService } from '../services/sprawy.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
@@ -63,15 +64,22 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
               <span class="button-icon">📨</span>
               {{ wyslijLoading ? 'Sprawdzanie...' : 'Wyślij' }}
             </button>
-            <button
-              *ngIf="showUtworzSpraweButton()"
-              class="action-button button-utworz-sprawe"
-              (click)="onUtworzSpraweFromDocument()"
-              [disabled]="!selectedDocument"
-            >
-              <span class="button-icon">📋</span>
-              Utwórz sprawę
-            </button>
+            <div class="sprawa-menu-wrap" *ngIf="showUtworzSpraweButton()">
+              <button
+                class="action-button button-sprawa-menu"
+                (click)="toggleSprawaMenu($event)"
+                [disabled]="!selectedDocument"
+              >
+                <span class="button-icon">📋</span>
+                Sprawa
+                <span class="dropdown-caret">▾</span>
+              </button>
+              <div class="sprawa-dropdown" *ngIf="showSprawaMenu" (click)="$event.stopPropagation()">
+                <div class="sprawa-dropdown-item" (click)="onUtworzSpraweFromDocument()">Utwórz sprawę</div>
+                <div class="sprawa-dropdown-item" (click)="onDolaczDoSprawy()">Dołącz do sprawy</div>
+              </div>
+              <div class="sprawa-menu-backdrop" *ngIf="showSprawaMenu" (click)="showSprawaMenu = false"></div>
+            </div>
           </ng-container>
           <ng-container *ngIf="isPodpisuSkrzynka()">
             <button
@@ -240,6 +248,48 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
             <button class="wyslij-btn wyslij-btn-secondary" (click)="closeWyslijKonfliktDialog()">Anuluj</button>
             <button class="wyslij-btn wyslij-btn-outline" (click)="onWyslijDuplUtworzNowy()">Utwórz</button>
             <button class="wyslij-btn wyslij-btn-primary" (click)="onWyslijDuplOkaz()">Pokaż</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: Dołącz do sprawy -->
+      <div class="dolacz-overlay" *ngIf="showDolaczModal" (click)="onDolaczCancel()">
+        <div class="dolacz-modal" (click)="$event.stopPropagation()">
+          <div class="dolacz-header">
+            <h3 class="dolacz-title">Dołącz do sprawy</h3>
+            <button class="dolacz-close" (click)="onDolaczCancel()">✕</button>
+          </div>
+
+          <div class="dolacz-body">
+            <div class="dolacz-loading" *ngIf="sprawyListLoading">
+              <div class="dolacz-spinner"></div>
+              <span>Ładowanie spraw...</span>
+            </div>
+            <div class="dolacz-empty" *ngIf="!sprawyListLoading && sprawyList.length === 0">
+              Brak dostępnych spraw
+            </div>
+            <div class="dolacz-list" *ngIf="!sprawyListLoading && sprawyList.length > 0">
+              <div
+                *ngFor="let sprawa of sprawyList"
+                class="dolacz-row"
+                [class.dolacz-row-selected]="selectedSprawaInModal?.numer === sprawa.numer"
+                (click)="selectedSprawaInModal = sprawa"
+              >
+                <span class="dolacz-znak">{{ sprawa.znakSprawy }}</span>
+                <span class="dolacz-nazwa">{{ sprawa.nazwa }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dolacz-footer">
+            <button class="dolacz-btn dolacz-btn-secondary" (click)="onDolaczCancel()">Anuluj</button>
+            <button
+              class="dolacz-btn dolacz-btn-primary"
+              (click)="onDolaczConfirm()"
+              [disabled]="!selectedSprawaInModal || dolaczLoading"
+            >
+              {{ dolaczLoading ? 'Przetwarzanie...' : 'Wybierz' }}
+            </button>
           </div>
         </div>
       </div>
@@ -840,6 +890,221 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       background: var(--bg-subtle, #f3f4f6);
       border-radius: 4px;
     }
+
+    /* Dropdown "Sprawa" */
+    .sprawa-menu-wrap {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .button-sprawa-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dropdown-caret {
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .sprawa-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      z-index: 200;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-default);
+      border-radius: 7px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+      min-width: 160px;
+      overflow: hidden;
+    }
+
+    .sprawa-dropdown-item {
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .sprawa-dropdown-item:hover {
+      background: var(--bg-muted);
+    }
+
+    .sprawa-menu-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 199;
+    }
+
+    /* Modal: Dołącz do sprawy */
+    .dolacz-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 24px;
+    }
+
+    .dolacz-modal {
+      background: var(--bg-surface);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+      width: 100%;
+      max-width: 640px;
+      max-height: 75vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .dolacz-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .dolacz-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .dolacz-close {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+
+    .dolacz-close:hover { background: var(--bg-muted); color: var(--text-primary); }
+
+    .dolacz-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+    }
+
+    .dolacz-loading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .dolacz-spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--border-default);
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: dg-spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes dg-spin { to { transform: rotate(360deg); } }
+
+    .dolacz-empty {
+      padding: 32px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    .dolacz-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .dolacz-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 9px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.12s;
+    }
+
+    .dolacz-row:hover {
+      background: var(--bg-muted);
+    }
+
+    .dolacz-row-selected {
+      background: rgba(37,99,235,0.08);
+      border-color: rgba(37,99,235,0.35);
+    }
+
+    .dolacz-znak {
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2563eb;
+      font-family: monospace;
+      min-width: 140px;
+    }
+
+    .dolacz-nazwa {
+      font-size: 13px;
+      color: var(--text-primary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .dolacz-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 14px 24px;
+      border-top: 1px solid var(--border-default);
+    }
+
+    .dolacz-btn {
+      padding: 8px 20px;
+      border-radius: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .dolacz-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .dolacz-btn-secondary {
+      background: transparent;
+      border-color: var(--border-muted, #d1d5db);
+      color: var(--text-secondary);
+    }
+
+    .dolacz-btn-secondary:hover { background: var(--bg-muted); }
+
+    .dolacz-btn-primary {
+      background: transparent;
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+
+    .dolacz-btn-primary:hover:not(:disabled) { background: rgba(37,99,235,0.1); }
   `]
 })
 export class DocumentsGridComponent implements OnChanges {
@@ -864,6 +1129,13 @@ export class DocumentsGridComponent implements OnChanges {
   showSprawaEditFromDoc = false;
   nowaSprawaFromDoc: Sprawa = this.getEmptySprawa();
   attachedDoc: { numer: number; rejestrNrPozycji: string; nazwa: string } | null = null;
+
+  showSprawaMenu = false;
+  showDolaczModal = false;
+  sprawyList: Sprawa[] = [];
+  sprawyListLoading = false;
+  selectedSprawaInModal: Sprawa | null = null;
+  dolaczLoading = false;
 
   wyslijLoading = false;
   wyslijPosting = false;
@@ -898,7 +1170,8 @@ export class DocumentsGridComponent implements OnChanges {
     private dokumentPrzyjmijService: DokumentPrzyjmijService,
     private dokumentPodpiszService: DokumentPodpiszService,
     private dokumentWyslijService: DokumentWyslijService,
-    private rodzajWysylkiService: DokWyjRodzajWysylkiService
+    private rodzajWysylkiService: DokWyjRodzajWysylkiService,
+    private sprawyService: SprawyService
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -1131,6 +1404,45 @@ export class DocumentsGridComponent implements OnChanges {
   onSprawaFromDocSaved() {
     this.showSprawaEditFromDoc = false;
     this.attachedDoc = null;
+  }
+
+  toggleSprawaMenu(event: MouseEvent) {
+    event.stopPropagation();
+    this.showSprawaMenu = !this.showSprawaMenu;
+  }
+
+  onDolaczDoSprawy() {
+    if (!this.selectedDocument) return;
+    this.showSprawaMenu = false;
+    this.selectedSprawaInModal = null;
+    this.sprawyList = [];
+    this.showDolaczModal = true;
+    this.sprawyListLoading = true;
+    this.sprawyService.getSprawy('tss_SBiezace').subscribe({
+      next: (list) => {
+        this.sprawyList = list;
+        this.sprawyListLoading = false;
+      },
+      error: () => { this.sprawyListLoading = false; }
+    });
+  }
+
+  onDolaczConfirm() {
+    if (!this.selectedDocument || !this.selectedSprawaInModal) return;
+    this.dolaczLoading = true;
+    this.sprawyService.dolaczDokumentDoSprawy(this.selectedDocument.numer, this.selectedSprawaInModal.numer).subscribe({
+      next: () => {
+        this.dolaczLoading = false;
+        this.showDolaczModal = false;
+        this.loadDocuments();
+      },
+      error: () => { this.dolaczLoading = false; }
+    });
+  }
+
+  onDolaczCancel() {
+    this.showDolaczModal = false;
+    this.selectedSprawaInModal = null;
   }
 
   private getEmptySprawa(): Sprawa {
