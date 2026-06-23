@@ -901,6 +901,13 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       display: flex;
       align-items: center;
       gap: 6px;
+      border-color: #0891b2;
+      color: #0891b2;
+    }
+
+    .button-sprawa-menu:hover:not(:disabled) {
+      background: rgba(8, 145, 178, 0.12);
+      transform: translateY(-1px);
     }
 
     .dropdown-caret {
