@@ -142,6 +142,80 @@ interface DoZrobieniaSection {
 
       </div>
     </div>
+
+    <!-- Detail modal: Dokument -->
+    <div class="modal-overlay detail-overlay" *ngIf="showDetailDokumentModal && komunikat?.dokument" (click)="closeDetailDokumentModal()">
+      <div class="modal-box detail-box" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Dokument</h2>
+        </div>
+        <div class="modal-body detail-body">
+          <div class="detail-field">
+            <span class="detail-label">Nr w rejestrze</span>
+            <span class="detail-value detail-value-mono">{{ komunikat!.dokument!.rejestrNrPozycji }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">Typ</span>
+            <span class="detail-value">{{ komunikat!.dokument!.typ.nazwa }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">Nazwa</span>
+            <span class="detail-value">{{ komunikat!.dokument!.nazwa }}</span>
+          </div>
+          <ng-container *ngIf="komunikat!.dokument!.kontrahent">
+            <div class="detail-separator"></div>
+            <div class="detail-section-label">Kontrahent</div>
+            <div class="detail-field">
+              <span class="detail-label">Nazwa</span>
+              <span class="detail-value">{{ komunikat!.dokument!.kontrahent!.identyfikator }}</span>
+            </div>
+            <div class="detail-field" *ngIf="komunikat!.dokument!.kontrahent!.nip">
+              <span class="detail-label">NIP</span>
+              <span class="detail-value detail-value-mono">{{ komunikat!.dokument!.kontrahent!.nip }}</span>
+            </div>
+            <div class="detail-field" *ngIf="komunikat!.dokument!.kontrahent!.adres">
+              <span class="detail-label">Adres</span>
+              <span class="detail-value">{{ komunikat!.dokument!.kontrahent!.adres }}</span>
+            </div>
+          </ng-container>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn modal-btn-exit" (click)="closeDetailDokumentModal()">Wyjście</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail modal: Sprawa -->
+    <div class="modal-overlay detail-overlay" *ngIf="showDetailSprawaModal && komunikat?.sprawa" (click)="closeDetailSprawaModal()">
+      <div class="modal-box detail-box" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Sprawa</h2>
+        </div>
+        <div class="modal-body detail-body">
+          <div class="detail-field">
+            <span class="detail-label">Znak sprawy</span>
+            <span class="detail-value detail-value-mono">{{ komunikat!.sprawa!.znaksprawy }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">Nazwa</span>
+            <span class="detail-value">{{ komunikat!.sprawa!.nazwa }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">Główna</span>
+            <span class="detail-value">{{ komunikat!.sprawa!.glowna ? 'Tak' : 'Nie' }}</span>
+          </div>
+          <div class="detail-field">
+            <span class="detail-label">Zakończona</span>
+            <span class="detail-value" [style.color]="komunikat!.sprawa!.zakonczona ? '#dc2626' : '#16a34a'">
+              {{ komunikat!.sprawa!.zakonczona ? 'Tak' : 'Nie' }}
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn modal-btn-exit" (click)="closeDetailSprawaModal()">Wyjście</button>
+        </div>
+      </div>
+    </div>
   `,
   styles: [`
     .dozrobienia-container {
@@ -661,12 +735,85 @@ interface DoZrobieniaSection {
     .modal-btn-primary:hover:not(:disabled) {
       background: rgba(22, 163, 74, 0.12);
     }
+
+    .modal-btn-exit {
+      background: transparent;
+      border-color: var(--border-muted, #d1d5db);
+      color: var(--text-secondary);
+    }
+
+    .modal-btn-exit:hover {
+      background: var(--bg-muted);
+    }
+
+    /* Detail overlay sits above the komunikat modal */
+    .detail-overlay {
+      z-index: 1010;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .detail-box {
+      max-width: 480px;
+    }
+
+    .detail-body {
+      gap: 8px;
+    }
+
+    .detail-field {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    .detail-field:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      flex-shrink: 0;
+      width: 120px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding-top: 1px;
+    }
+
+    .detail-value {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .detail-value-mono {
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .detail-separator {
+      height: 1px;
+      background: var(--border-default);
+      margin: 8px 0 4px;
+    }
+
+    .detail-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
   `]
 })
 export class DoZrobieniaComponent implements OnInit {
   @Output() itemClicked = new EventEmitter<TZadNaDzisItem>();
-  @Output() showDokumentDetails = new EventEmitter<number>();
-  @Output() showSprawaDetails = new EventEmitter<number>();
 
   loading = false;
   sections: DoZrobieniaSection[] = [];
@@ -675,6 +822,9 @@ export class DoZrobieniaComponent implements OnInit {
   komunikatLoading = false;
   komunikat: Przypomnienie | null = null;
   pamietamLoading = false;
+
+  showDetailDokumentModal = false;
+  showDetailSprawaModal = false;
 
   get visibleSections(): DoZrobieniaSection[] {
     return this.sections.filter(s => s.ilosc > 0 || s.wyswDla0);
@@ -784,13 +934,19 @@ export class DoZrobieniaComponent implements OnInit {
     });
   }
 
-  onShowDokument(numer: number) {
-    this.closeKomunikatModal();
-    this.showDokumentDetails.emit(numer);
+  onShowDokument(_numer: number) {
+    this.showDetailDokumentModal = true;
   }
 
-  onShowSprawa(numer: number) {
-    this.closeKomunikatModal();
-    this.showSprawaDetails.emit(numer);
+  onShowSprawa(_numer: number) {
+    this.showDetailSprawaModal = true;
+  }
+
+  closeDetailDokumentModal() {
+    this.showDetailDokumentModal = false;
+  }
+
+  closeDetailSprawaModal() {
+    this.showDetailSprawaModal = false;
   }
 }

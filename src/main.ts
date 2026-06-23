@@ -165,9 +165,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
         
         <div class="content-body" *ngIf="!selectedSkrzynka">
           <app-dozrobienia-panel
-            (itemClicked)="onDoZrobieniaItemClicked($event)"
-            (showDokumentDetails)="onShowDokumentFromKomunikat($event)"
-            (showSprawaDetails)="onShowSprawaFromKomunikat($event)">
+            (itemClicked)="onDoZrobieniaItemClicked($event)">
           </app-dozrobienia-panel>
         </div>
 
@@ -1211,40 +1209,6 @@ export class App implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.selectItemByNumber(item.numer, item.typ);
-    }, 500);
-  }
-
-  onShowDokumentFromKomunikat(numer: number) {
-    const targetSkrzynka: Skrzynka = {
-      sql: '', sqlOrder: '',
-      skrzynka: TSkrzynki.tps_PBiezace,
-      poziom: 1, typ: 'ts_pisma', nazwa: 'Dokumenty bieżące',
-      zliczana: false, ilosc: 0, suma: 0, zmiana: false,
-      doWgl: false, doUsun: false, korEl: false, skrDef: 0,
-      dokFinPoziom: 0, dokFinZmiana: false
-    };
-    this.selectedSkrzynka = targetSkrzynka;
-    this.selectedDocument = null;
-    this.selectedSprawa = null;
-    setTimeout(() => {
-      this.selectItemByNumber(numer, TZadNaDzisTyp.Dokument);
-    }, 500);
-  }
-
-  onShowSprawaFromKomunikat(numer: number) {
-    const targetSkrzynka: Skrzynka = {
-      sql: '', sqlOrder: '',
-      skrzynka: TSkrzynki.tss_SBiezace,
-      poziom: 1, typ: 'ts_sprawy', nazwa: 'Sprawy bieżące',
-      zliczana: false, ilosc: 0, suma: 0, zmiana: false,
-      doWgl: false, doUsun: false, korEl: false, skrDef: 0,
-      dokFinPoziom: 0, dokFinZmiana: false
-    };
-    this.selectedSkrzynka = targetSkrzynka;
-    this.selectedDocument = null;
-    this.selectedSprawa = null;
-    setTimeout(() => {
-      this.selectItemByNumber(numer, TZadNaDzisTyp.Sprawa);
     }, 500);
   }
 
