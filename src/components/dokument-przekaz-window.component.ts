@@ -413,7 +413,7 @@ export class DokumentPrzekazWindowComponent implements OnInit {
 
     if (this.selectedJednostka && !this.przekazDoWydzialu) {
       this.loadingPracownicy = true;
-      this.pracownicyService.getPracownicy(this.selectedJednostka.symbol).subscribe({
+      this.pracownicyService.getPracownicyJednostki(this.selectedJednostka.symbol).subscribe({
         next: (pracownicy) => {
           this.pracownicy = pracownicy;
           this.loadingPracownicy = false;
