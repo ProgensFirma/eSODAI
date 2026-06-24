@@ -419,8 +419,8 @@ export class DokumentPrzekazWindowComponent implements OnInit {
           this.loadingPracownicy = false;
         },
         error: (error) => {
-          console.error('Error loading pracownicy:', error);
-          this.errorMessage = 'Błąd podczas ładowania pracowników';
+          console.error('Error loading pracownicy jednostki:', error);
+          this.errorMessage = 'Błąd podczas ładowania pracowników jednostki';
           this.loadingPracownicy = false;
         }
       });
