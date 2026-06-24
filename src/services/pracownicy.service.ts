@@ -49,6 +49,32 @@ export class PracownicyService {
     );
   }
 
+  getPracownicyJednostki(jednostka: string): Observable<TOsobaInfo[]> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString())
+      .append('jednostka', jednostka);
+
+    return this.http.get<TOsobaInfo[]>(`${this.configService.apiBaseUrl}/jednostki/pracownicy`, { params }).pipe(
+      catchError(error => {
+        console.error('Error fetching pracownicy jednostki:', error);
+
+        if (!environment.production) {
+          return of(this.getMockPracownicy());
+        } else {
+          this.errorService.showError(
+            'Błąd pobierania pracowników jednostki',
+            'Nie udało się pobrać listy pracowników z serwera.'
+          );
+          return throwError(() => error);
+        }
+      })
+    );
+  }
+
   getMockPracownicy(): TOsobaInfo[] {
     return [
       {
