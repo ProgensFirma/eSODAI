@@ -12,7 +12,7 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="window-overlay" (click)="onOverlayClick($event)">
+    <div class="window-overlay">
       <div class="window-container" (click)="$event.stopPropagation()">
         <div class="window-header">
           <h2 class="window-title">Przekaż dokument</h2>

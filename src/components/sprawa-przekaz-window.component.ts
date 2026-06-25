@@ -21,7 +21,7 @@ export interface PrzekazData {
   imports: [CommonModule, FormsModule],
   template: `
     <ng-container *ngIf="visible">
-      <div class="modal-overlay" (click)="onCancel()">
+      <div class="modal-overlay">
         <div class="modal-window" (click)="$event.stopPropagation()">
           <div class="modal-header">
             <h2>Przekaż sprawę</h2>

@@ -19,7 +19,7 @@ import { AuthService } from '../services/auth.service';
   standalone: true,
   imports: [CommonModule, FormsModule, KontrahenciWindowComponent],
   template: `
-    <div class="modal-overlay" (click)="onOverlayClick($event)">
+    <div class="modal-overlay">
       <div class="modal-window" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <h2 class="modal-title">

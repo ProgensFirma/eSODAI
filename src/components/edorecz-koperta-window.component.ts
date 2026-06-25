@@ -13,7 +13,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="modal-overlay" (click)="onOverlayClick($event)">
+    <div class="modal-overlay">
       <div class="modal-window" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <h2 class="modal-title">

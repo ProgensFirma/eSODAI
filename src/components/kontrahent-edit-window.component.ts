@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="edit-overlay" (click)="closeWindow()">
+    <div class="edit-overlay">
       <div class="edit-window" (click)="$event.stopPropagation()">
         <div class="window-header">
           <h2 class="window-title">

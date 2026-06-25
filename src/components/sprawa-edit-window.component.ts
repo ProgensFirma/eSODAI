@@ -24,7 +24,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
   ],
   template: `
     <ng-container *ngIf="visible">
-    <div class="modal-overlay" (click)="onClose()">
+    <div class="modal-overlay">
       <div class="modal-window" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <div class="header-title">
