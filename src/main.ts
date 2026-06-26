@@ -1504,7 +1504,7 @@ export class App implements OnInit, OnDestroy {
       dataPrzekazania: currentDate,
       prowadzacy: { numer: osobaNumer, identyfikator: '' },
       prowadzacyWydzial: { stanowisko: false, symbol: jednostkaSymbol, nazwa: jednostkaNazwa, kod: jednostkaKod },
-      odpowiedzialny: { numer: osobaNumer, identyfikator: '' },
+      odpowiedzialny: { numer: 0, identyfikator: '' },
       dataPrzyjecia: currentDate,
       uprawPoziom: '0',
       statusPrzek: TDokStatusPrzek.spd_oczek,
