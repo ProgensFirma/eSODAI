@@ -26,7 +26,7 @@ import { PowiadomieniaWindowComponent } from './components/powiadomienia-window.
 import { PracownicyWindowComponent } from './components/pracownicy-window.component';
 import { DoZrobieniaComponent } from './components/dozrobienia-panel.component';
 import { Dokument } from './models/dokument.model';
-import { TBazaOper, TeSodStatus, TDokStatusEdycji, TDokStatusPrzek, TSkrzynki } from './models/enums.model';
+import { TBazaOper, TeSodStatus, TDokStatusEdycji, TDokStatusPrzek, TSkrzynki, TKanalTyp } from './models/enums.model';
 import { SessionData } from './models/session.model';
 import { Skrzynka, isSprawySkrzynka } from './models/skrzynka.model';
 import { TWydzialInfo } from './models/typy-info.model';
