@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
@@ -1088,6 +1088,7 @@ import { LicencjaService, LicencjaResponse } from './services/licencja.service';
 
 export class App implements OnInit, OnDestroy {
   @ViewChild(SkrzynkiTreeComponent) skrzynkiTree!: SkrzynkiTreeComponent;
+  @ViewChildren(DocumentsGridComponent) documentsGrids!: QueryList<DocumentsGridComponent>;
 
   przyjmijKomunikat: string = '';
   showPrzyjmijKomunikat = false;
@@ -1434,6 +1435,7 @@ export class App implements OnInit, OnDestroy {
   closeDocumentEditWindow() {
     this.showDocumentEditWindow = false;
     this.editingDocument = null;
+    this.documentsGrids?.forEach(grid => grid.loadDocuments());
   }
 
   onDocumentSaved() {
