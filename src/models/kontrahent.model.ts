@@ -11,6 +11,7 @@ export interface KontaktKontrahenta {
   emailZgoda: boolean;
   epuapZgoda: boolean;
   eDoreczZgoda: boolean;
+  pushZgoda: boolean;
 }
 
 export interface AdresKontrahenta {
