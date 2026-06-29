@@ -82,7 +82,7 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
             <h4 class="section-title">Daty</h4>
             <div class="detail-row">
               <span class="label">Data wpływu:</span>
-              <span class="value">{{ formatDate(document.dataWplywu) }}</span>
+              <span class="value">{{ formatDate(document.dataCzasWplywu) }}</span>
             </div>
             <div class="detail-row">
               <span class="label">Data przekazania:</span>

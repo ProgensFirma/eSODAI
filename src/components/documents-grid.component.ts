@@ -156,7 +156,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
                 <span class="register-number">{{ document.rejestrNrPozycji }}</span>
               </div>
               <div class="cell col-date">
-                <span class="date">{{ formatDate(document.dataWplywu) }}</span>
+                <span class="date">{{ formatDate(document.dataCzasWplywu) }}</span>
               </div>
               <div class="cell col-contractor">
                 <span class="contractor">{{ document.kontrahent.identyfikator }}</span>

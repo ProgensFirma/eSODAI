@@ -19,8 +19,7 @@ export interface Dokument {
   rejestrNumer: number;
   rejestrRok: number;
   rejestrNrPozycji: string;
-  dataWplywu: string;
-  godzinaWplywu: number;
+  dataCzasWplywu: string;
   numerNaDok?: string;
   dataNaDok?: string;
   kanalWe?: TKanalTyp;

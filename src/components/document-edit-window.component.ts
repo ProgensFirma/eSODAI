@@ -143,21 +143,11 @@ import { AuthService } from '../services/auth.service';
             </div>
 
             <div class="form-group" [class.readonly]="mode === 'readonly'">
-              <label class="form-label">Data wpływu</label>
+              <label class="form-label">Data i czas wpływu</label>
               <input
-                type="date"
+                type="datetime-local"
                 class="form-input"
-                [(ngModel)]="dataWplywuStr"
-                [disabled]="mode === 'readonly'"
-              />
-            </div>
-
-            <div class="form-group" [class.readonly]="mode === 'readonly'">
-              <label class="form-label">Godzina wpływu</label>
-              <input
-                type="time"
-                class="form-input"
-                [(ngModel)]="godzinaWplywuStr"
+                [(ngModel)]="dataCzasWplywuStr"
                 [disabled]="mode === 'readonly'"
               />
             </div>
@@ -809,8 +799,7 @@ export class DocumentEditWindowComponent implements OnInit {
 
   dokumentTypy: DokumentTyp[] = [];
   selectedTypNazwa: string = '';
-  dataWplywuStr: string = '';
-  godzinaWplywuStr: string = '';
+  dataCzasWplywuStr: string = '';
   saving = false;
   errorMessage: string = '';
   successMessage: string = '';
@@ -891,15 +880,10 @@ export class DocumentEditWindowComponent implements OnInit {
       this.selectedJrwa = this.dokument.jrwa;
     }
 
-    if (this.dokument.dataWplywu && this.dokument.dataWplywu !== '1899-12-30T00:00:00.000Z') {
-      const date = new Date(this.dokument.dataWplywu);
-      this.dataWplywuStr = date.toISOString().split('T')[0];
-    }
-
-    if (this.dokument.godzinaWplywu) {
-      const hours = Math.floor(this.dokument.godzinaWplywu / 3600000);
-      const minutes = Math.floor((this.dokument.godzinaWplywu % 3600000) / 60000);
-      this.godzinaWplywuStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    if (this.dokument.dataCzasWplywu && this.dokument.dataCzasWplywu !== '1899-12-30T00:00:00.000Z') {
+      const date = new Date(this.dokument.dataCzasWplywu);
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      this.dataCzasWplywuStr = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
   }
 
@@ -934,13 +918,8 @@ export class DocumentEditWindowComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    if (this.dataWplywuStr) {
-      this.dokument.dataWplywu = new Date(this.dataWplywuStr).toISOString();
-    }
-
-    if (this.godzinaWplywuStr) {
-      const [hours, minutes] = this.godzinaWplywuStr.split(':').map(Number);
-      this.dokument.godzinaWplywu = (hours * 3600000) + (minutes * 60000);
+    if (this.dataCzasWplywuStr) {
+      this.dokument.dataCzasWplywu = new Date(this.dataCzasWplywuStr).toISOString();
     }
 
     if (this.selectedJrwa) {
