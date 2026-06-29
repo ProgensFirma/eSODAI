@@ -9,7 +9,6 @@ export interface KontaktKontrahenta {
   eDoreczAdres: string;
   sMSZgoda: boolean;
   emailZgoda: boolean;
-  epuapZgoda: boolean;
   eDoreczZgoda: boolean;
   pushZgoda: boolean;
 }
