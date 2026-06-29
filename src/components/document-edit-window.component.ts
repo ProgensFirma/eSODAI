@@ -162,7 +162,7 @@ import { AuthService } from '../services/auth.service';
               />
             </div>
 
-            <div class="form-group readonly" [class.success-field]="documentSavedSuccessfully && mode === 'add'">
+            <div class="form-group span-2 readonly" [class.success-field]="documentSavedSuccessfully && mode === 'add'">
               <label class="form-label">GUID</label>
               <div class="input-with-button" *ngIf="documentSavedSuccessfully && mode === 'add'; else normalGuid">
                 <input
@@ -397,7 +397,7 @@ import { AuthService } from '../services/auth.service';
 
     .form-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr 1.5fr;
+      grid-template-columns: 1fr 1fr 2fr;
       gap: 12px 16px;
     }
 
@@ -409,6 +409,10 @@ import { AuthService } from '../services/auth.service';
 
     .form-group.full-width {
       grid-column: 1 / -1;
+    }
+
+    .form-group.span-2 {
+      grid-column: span 2;
     }
 
     .form-group.readonly .form-input {
