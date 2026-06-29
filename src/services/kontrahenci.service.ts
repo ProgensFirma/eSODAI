@@ -96,7 +96,6 @@ export class KontrahenciService {
           "eDoreczAdres": "",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "eDoreczZgoda": false,
           "pushZgoda": false
         },
         "opis": "",
@@ -162,7 +161,6 @@ export class KontrahenciService {
           "eDoreczAdres": "",
           "sMSZgoda": false,
           "emailZgoda": false,
-          "eDoreczZgoda": false,
           "pushZgoda": false
         },
         "opis": "",
@@ -228,7 +226,6 @@ export class KontrahenciService {
           "eDoreczAdres": "AE:PL-12345-67890-ABCDE-12",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "eDoreczZgoda": true,
           "pushZgoda": false
         },
         "opis": "Starostwo Powiatowe w Mielcu",
@@ -294,7 +291,6 @@ export class KontrahenciService {
           "eDoreczAdres": "",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "eDoreczZgoda": false,
           "pushZgoda": false
         },
         "opis": "Przedsiębiorstwo zajmujące się gospodarką komunalną",
@@ -360,7 +356,6 @@ export class KontrahenciService {
           "eDoreczAdres": "AE:PL-98765-43210-ZYXWV-98",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "eDoreczZgoda": true,
           "pushZgoda": false
         },
         "opis": "Wojewódzki Inspektorat Ochrony Środowiska",
@@ -426,7 +421,6 @@ export class KontrahenciService {
           "eDoreczAdres": "AE:PL-55555-66666-QWERT-55",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "eDoreczZgoda": true,
           "pushZgoda": false
         },
         "opis": "Organ odwoławczy II instancji",
