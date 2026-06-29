@@ -97,7 +97,8 @@ export class KontrahenciService {
           "sMSZgoda": false,
           "emailZgoda": true,
           "epuapZgoda": false,
-          "eDoreczZgoda": false
+          "eDoreczZgoda": false,
+          "pushZgoda": false
         },
         "opis": "",
         "nazwaDluga": "",
@@ -163,7 +164,8 @@ export class KontrahenciService {
           "sMSZgoda": false,
           "emailZgoda": false,
           "epuapZgoda": false,
-          "eDoreczZgoda": false
+          "eDoreczZgoda": false,
+          "pushZgoda": false
         },
         "opis": "",
         "nazwaDluga": "",
@@ -229,7 +231,8 @@ export class KontrahenciService {
           "sMSZgoda": false,
           "emailZgoda": true,
           "epuapZgoda": true,
-          "eDoreczZgoda": true
+          "eDoreczZgoda": true,
+          "pushZgoda": false
         },
         "opis": "Starostwo Powiatowe w Mielcu",
         "nazwaDluga": "STAROSTWO POWIATOWE W MIELCU",
@@ -295,7 +298,8 @@ export class KontrahenciService {
           "sMSZgoda": false,
           "emailZgoda": true,
           "epuapZgoda": true,
-          "eDoreczZgoda": false
+          "eDoreczZgoda": false,
+          "pushZgoda": false
         },
         "opis": "Przedsiębiorstwo zajmujące się gospodarką komunalną",
         "nazwaDluga": "",
@@ -361,7 +365,8 @@ export class KontrahenciService {
           "sMSZgoda": false,
           "emailZgoda": true,
           "epuapZgoda": true,
-          "eDoreczZgoda": true
+          "eDoreczZgoda": true,
+          "pushZgoda": false
         },
         "opis": "Wojewódzki Inspektorat Ochrony Środowiska",
         "nazwaDluga": "WOJEWÓDZKI INSPEKTORAT OCHRONY ŚRODOWISKA W GDAŃSKU",
@@ -427,7 +432,8 @@ export class KontrahenciService {
           "sMSZgoda": false,
           "emailZgoda": true,
           "epuapZgoda": true,
-          "eDoreczZgoda": true
+          "eDoreczZgoda": true,
+          "pushZgoda": false
         },
         "opis": "Organ odwoławczy II instancji",
         "nazwaDluga": "",
