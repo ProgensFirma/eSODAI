@@ -397,7 +397,7 @@ import { AuthService } from '../services/auth.service';
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1.5fr 1fr 1.5fr;
       gap: 12px 16px;
     }
 
