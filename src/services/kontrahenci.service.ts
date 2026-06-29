@@ -96,7 +96,6 @@ export class KontrahenciService {
           "eDoreczAdres": "",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "epuapZgoda": false,
           "eDoreczZgoda": false,
           "pushZgoda": false
         },
@@ -163,7 +162,6 @@ export class KontrahenciService {
           "eDoreczAdres": "",
           "sMSZgoda": false,
           "emailZgoda": false,
-          "epuapZgoda": false,
           "eDoreczZgoda": false,
           "pushZgoda": false
         },
@@ -230,7 +228,6 @@ export class KontrahenciService {
           "eDoreczAdres": "AE:PL-12345-67890-ABCDE-12",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "epuapZgoda": true,
           "eDoreczZgoda": true,
           "pushZgoda": false
         },
@@ -297,7 +294,6 @@ export class KontrahenciService {
           "eDoreczAdres": "",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "epuapZgoda": true,
           "eDoreczZgoda": false,
           "pushZgoda": false
         },
@@ -364,7 +360,6 @@ export class KontrahenciService {
           "eDoreczAdres": "AE:PL-98765-43210-ZYXWV-98",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "epuapZgoda": true,
           "eDoreczZgoda": true,
           "pushZgoda": false
         },
@@ -431,7 +426,6 @@ export class KontrahenciService {
           "eDoreczAdres": "AE:PL-55555-66666-QWERT-55",
           "sMSZgoda": false,
           "emailZgoda": true,
-          "epuapZgoda": true,
           "eDoreczZgoda": true,
           "pushZgoda": false
         },
