@@ -1496,7 +1496,7 @@ export class App implements OnInit, OnDestroy {
       rejestrRok: new Date().getFullYear(),
       rejestrNrPozycji: '',
       dataCzasWplywu: '',
-      kanalWe: TKanalTyp.tk_papierowy,
+      kanalWe: TKanalTyp.tk_brak,
       kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: null },
       przekazujacy: { numer: osobaNumer, identyfikator: '' },
       przekazujacyWydzial: { stanowisko: false, symbol: jednostkaSymbol, nazwa: jednostkaNazwa, kod: jednostkaKod },
