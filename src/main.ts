@@ -1474,6 +1474,7 @@ export class App implements OnInit, OnDestroy {
 
   private createEmptyDokument(): Dokument {
     const currentDate = new Date().toISOString().split('T')[0];
+    const currentDateTime = new Date().toISOString();
     const osobaNumer = this.sessionData?.osoba || 0;
     const jednostkaSymbol = this.sessionData?.jednostkaAkt?.symbol || '';
     const jednostkaNazwa = this.sessionData?.jednostkaAkt?.nazwa || '';
@@ -1500,11 +1501,11 @@ export class App implements OnInit, OnDestroy {
       kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: null },
       przekazujacy: { numer: osobaNumer, identyfikator: '' },
       przekazujacyWydzial: { stanowisko: false, symbol: jednostkaSymbol, nazwa: jednostkaNazwa, kod: jednostkaKod },
-      dataPrzekazania: currentDate,
+      dataPrzekazania: currentDateTime,
       prowadzacy: { numer: osobaNumer, identyfikator: '' },
       prowadzacyWydzial: { stanowisko: false, symbol: jednostkaSymbol, nazwa: jednostkaNazwa, kod: jednostkaKod },
       odpowiedzialny: { numer: 0, identyfikator: '' },
-      dataPrzyjecia: currentDate,
+      dataPrzyjecia: currentDateTime,
       uprawPoziom: '0',
       statusPrzek: TDokStatusPrzek.spd_oczek,
       dataAlert: new Date(new Date().setDate(new Date().getDate() + 30 - 3)).toISOString().split('T')[0],
