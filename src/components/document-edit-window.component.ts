@@ -405,6 +405,7 @@ import { AuthService } from '../services/auth.service';
       display: flex;
       flex-direction: column;
       gap: 6px;
+      min-width: 0;
     }
 
     .form-group.full-width {
@@ -441,6 +442,8 @@ import { AuthService } from '../services/auth.service';
       color: var(--input-text);
       transition: all 0.2s ease;
       font-family: inherit;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .form-input:focus,
