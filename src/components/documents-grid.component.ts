@@ -1405,6 +1405,9 @@ export class DocumentsGridComponent implements OnChanges {
       nazwa: this.selectedDocument.nazwa
     };
     this.nowaSprawaFromDoc = this.getEmptySprawa();
+    if (this.selectedDocument.kontrahent?.numer) {
+      this.nowaSprawaFromDoc.kontrahent = { ...this.selectedDocument.kontrahent };
+    }
     this.showSprawaEditFromDoc = true;
   }
 
