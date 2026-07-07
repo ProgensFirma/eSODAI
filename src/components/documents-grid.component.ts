@@ -1408,6 +1408,9 @@ export class DocumentsGridComponent implements OnChanges {
     if (this.selectedDocument.kontrahent?.numer) {
       this.nowaSprawaFromDoc.kontrahent = { ...this.selectedDocument.kontrahent };
     }
+    if (this.selectedDocument.jrwa) {
+      this.nowaSprawaFromDoc.znak_RWA = this.selectedDocument.jrwa;
+    }
     this.showSprawaEditFromDoc = true;
   }
 

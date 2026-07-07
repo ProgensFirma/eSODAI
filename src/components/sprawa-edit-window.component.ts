@@ -597,6 +597,9 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['visible'] && this.visible && this.sprawa.numer === 0) {
       this.setNewSprawaDefaults();
+      if (this.sprawa.znak_RWA) {
+        this.selectedRWAId = this.sprawa.znak_RWA;
+      }
     }
   }
 
