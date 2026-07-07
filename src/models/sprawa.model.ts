@@ -19,13 +19,13 @@ export interface Sprawa {
   etapOstatni: number;
   glowna: boolean;
   dataStart: string;
-  dataStop: string;
+  dataStop: string | null;
   terminPlan: string;
   terminAlarm: string;
-  dataOtrzymania: string;
-  dataPrzyjecia: string;
-  dataPrzekazania: string;
-  dataOdebrania: string;
+  dataOtrzymania: string | null;
+  dataPrzyjecia: string | null;
+  dataPrzekazania: string | null;
+  dataOdebrania: string | null;
   osobaPrzek: TOsobaInfo;
   statusPrzek: TSprStatusPrzek;
   odrzucona: boolean;

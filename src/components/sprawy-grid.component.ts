@@ -148,7 +148,7 @@ const SKRZYNKI_OTRZYMANE = new Set<TSkrzynki>([
                 <span class="date-value">{{ formatDate(sprawa.dataStart) }}</span>
               </div>
               <div class="cell col-date">
-                <span class="date-value">{{ formatDate(sprawa.dataStop) }}</span>
+                <span class="date-value">{{ formatDate(sprawa.dataStop ?? '') }}</span>
               </div>
               <div class="cell col-date">
                 <span class="date-value termin">{{ formatDate(sprawa.terminPlan) }}</span>
@@ -631,13 +631,13 @@ export class SprawyGridComponent implements OnChanges {
       etapOstatni: 0,
       glowna: false,
       dataStart: '',
-      dataStop: '',
+      dataStop: null,
       terminPlan: '',
       terminAlarm: '',
-      dataOtrzymania: '',
-      dataPrzyjecia: '',
-      dataPrzekazania: '',
-      dataOdebrania: '',
+      dataOtrzymania: null,
+      dataPrzyjecia: null,
+      dataPrzekazania: null,
+      dataOdebrania: null,
       osobaPrzek: { numer: 0, identyfikator: '' },
       statusPrzek: TSprStatusPrzek.sps_oczek,
       odrzucona: false,
