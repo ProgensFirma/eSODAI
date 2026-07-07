@@ -36,6 +36,7 @@ export interface Sprawa {
   wykOsoba: TOsobaInfo;
   uprawPoziom: string;
   opis?: string;
+  notatkaPrzek?: string;
 
   oper: TBazaOper;
   status: TeSodStatus;
