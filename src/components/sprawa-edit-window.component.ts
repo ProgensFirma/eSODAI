@@ -834,7 +834,7 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
       znak_rok: new Date().getFullYear(),
       sprawaGlowna: 0,
       etapOstatni: 0,
-      glowna: false,
+      glowna: true,
       dataStart: '',
       dataStop: '',
       terminPlan: '',
