@@ -10,6 +10,7 @@ import { PracownicyService } from '../services/pracownicy.service';
 import { WykazAktService } from '../services/wykaz-akt.service';
 import { SprawyService } from '../services/sprawy.service';
 import { AuthService } from '../services/auth.service';
+import { EmptyObjectsService } from '../services/empty-objects.service';
 import { WykazAkt } from '../models/wykaz-akt.model';
 import { TBazaOper, TeSodStatus, TSprStatusPrzek } from '../models/enums.model';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
@@ -587,7 +588,8 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
     private pracownicyService: PracownicyService,
     private wykazAktService: WykazAktService,
     private sprawyService: SprawyService,
-    private authService: AuthService
+    private authService: AuthService,
+    private emptyObjects: EmptyObjectsService
   ) {}
 
   ngOnInit() {
@@ -823,55 +825,8 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
   }
 
   private getEmptySprawa(): Sprawa {
-    return {
-      numer: 0,
-      nazwa: '',
-      typ: { nazwa: '', rWA: '' },
-      znakDef: '',
-      znakSprawy: '',
-      znak_wydzial: '',
-      znak_RWA: '',
-      znak_rok: new Date().getFullYear(),
-      sprawaGlowna: 0,
-      etapOstatni: 0,
-      glowna: true,
-      dataStart: '',
-      dataStop: null,
-      terminPlan: '',
-      terminAlarm: '',
-      dataOtrzymania: null,
-      dataPrzyjecia: null,
-      dataPrzekazania: null,
-      dataOdebrania: null,
-      osobaPrzek: { numer: 0, identyfikator: '' },
-      statusPrzek: TSprStatusPrzek.sps_oczek,
-      odrzucona: false,
-      kontrahent: {
-        numer: 0,
-        identyfikator: '',
-        firma: false,
-        nip: '',
-        adres: ''
-      },
-      nadzorWydzial: {
-        symbol: '',
-        nazwa: '',
-        kod: '',
-        stanowisko: false
-      },
-      nadzorOsoba: { numer: 0, identyfikator: '' },
-      wykWydzial: {
-        symbol: '',
-        nazwa: '',
-        kod: '',
-        stanowisko: false
-      },
-      wykOsoba: { numer: 0, identyfikator: '' },
-      uprawPoziom: '',
-      oper: TBazaOper.tboSelect,
-      status: TeSodStatus.sBrak,
-      statusDane: '',
-      opis: ''
-    };
+    const s = this.emptyObjects.getEmptySprawa();
+    s.glowna = true;
+    return s;
   }
 }

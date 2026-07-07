@@ -7,6 +7,7 @@ import { DokumentPodpiszService } from '../services/dokument-podpisz.service';
 import { DokumentWyslijService } from '../services/dokument-wyslij.service';
 import { DokWyjRodzajWysylkiService } from '../services/dok-wyj-rodzaj-wysylki.service';
 import { SprawyService } from '../services/sprawy.service';
+import { EmptyObjectsService } from '../services/empty-objects.service';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
@@ -1178,7 +1179,8 @@ export class DocumentsGridComponent implements OnChanges {
     private dokumentPodpiszService: DokumentPodpiszService,
     private dokumentWyslijService: DokumentWyslijService,
     private rodzajWysylkiService: DokWyjRodzajWysylkiService,
-    private sprawyService: SprawyService
+    private sprawyService: SprawyService,
+    private emptyObjects: EmptyObjectsService
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -1459,40 +1461,7 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   private getEmptySprawa(): Sprawa {
-    return {
-      numer: 0,
-      nazwa: '',
-      typ: { nazwa: '', rWA: '' },
-      znakDef: '',
-      znakSprawy: '',
-      znak_wydzial: '',
-      znak_RWA: '',
-      znak_rok: new Date().getFullYear(),
-      sprawaGlowna: 0,
-      etapOstatni: 0,
-      glowna: false,
-      dataStart: '',
-      dataStop: null,
-      terminPlan: '',
-      terminAlarm: '',
-      dataOtrzymania: null,
-      dataPrzyjecia: null,
-      dataPrzekazania: null,
-      dataOdebrania: null,
-      osobaPrzek: { numer: 0, identyfikator: '' },
-      statusPrzek: TSprStatusPrzek.sps_oczek,
-      odrzucona: false,
-      kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: '' },
-      nadzorWydzial: { symbol: '', nazwa: '', kod: '', stanowisko: false },
-      nadzorOsoba: { numer: 0, identyfikator: '' },
-      wykWydzial: { symbol: '', nazwa: '', kod: '', stanowisko: false },
-      wykOsoba: { numer: 0, identyfikator: '' },
-      uprawPoziom: '',
-      oper: TBazaOper.tboSelect,
-      status: TeSodStatus.sBrak,
-      statusDane: '',
-      opis: ''
-    };
+    return this.emptyObjects.getEmptySprawa();
   }
 
   showPrzekazButton(): boolean {

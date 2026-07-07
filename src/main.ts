@@ -34,6 +34,7 @@ import { Sprawa } from './models/sprawa.model';
 import { TZadNaDzisItem, TZadNaDzisTyp } from './models/dozrobienia.model';
 import { ConfigService } from './services/config.service';
 import { LicencjaService, LicencjaResponse } from './services/licencja.service';
+import { EmptyObjectsService } from './services/empty-objects.service';
 
 @Component({
   selector: 'app-root',
@@ -1135,7 +1136,8 @@ export class App implements OnInit, OnDestroy {
     private http: HttpClient,
     private configService: ConfigService,
     private errorService: ErrorNotificationService,
-    private licencjaService: LicencjaService
+    private licencjaService: LicencjaService,
+    private emptyObjects: EmptyObjectsService
   ) {}
 
   ngOnInit() {
@@ -1185,24 +1187,11 @@ export class App implements OnInit, OnDestroy {
       return;
     }
 
-    const targetSkrzynka: Skrzynka = {
-      sql: '',
-      sqlOrder: '',
-      skrzynka: item.skrzynka,
-      poziom: 1,
-      typ: this.getSkrzynkaTyp(item.typ),
-      nazwa: this.getSkrzynkaNazwa(item.skrzynka),
-      zliczana: false,
-      ilosc: 0,
-      suma: 0,
-      zmiana: false,
-      doWgl: false,
-      doUsun: false,
-      korEl: false,
-      skrDef: 0,
-      dokFinPoziom: 0,
-      dokFinZmiana: false
-    };
+    const targetSkrzynka: Skrzynka = this.emptyObjects.getEmptySkrzynka(
+      item.skrzynka,
+      this.getSkrzynkaTyp(item.typ),
+      this.getSkrzynkaNazwa(item.skrzynka)
+    );
 
     this.selectedSkrzynka = targetSkrzynka;
     this.selectedDocument = null;
@@ -1473,57 +1462,11 @@ export class App implements OnInit, OnDestroy {
   }
 
   private createEmptyDokument(): Dokument {
-    const currentDate = new Date().toISOString().split('T')[0];
-    const currentDateTime = new Date().toISOString();
     const osobaNumer = this.sessionData?.osoba || 0;
     const jednostkaSymbol = this.sessionData?.jednostkaAkt?.symbol || '';
     const jednostkaNazwa = this.sessionData?.jednostkaAkt?.nazwa || '';
     const jednostkaKod = this.sessionData?.jednostkaAkt?.kod || '';
-
-    return {
-      numer: 0,
-      archiwum: false,
-      dokGlowny: 0,
-      wersja: 0,
-      aktualny: true,
-      statusEdycji: TDokStatusEdycji.se_Zmieniany,
-      doWgladu: false,
-      typ: { nazwa: '', finansowy: false, poleceniezaplaty: false },
-      szablon: null,
-      nazwa: '',
-      sprawa: null,
-      rejestr: '',
-      rejestrNumer: 0,
-      rejestrRok: new Date().getFullYear(),
-      rejestrNrPozycji: '',
-      dataCzasWplywu: '',
-      kanalWe: TKanalTyp.tk_papierowy,
-      kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: null },
-      przekazujacy: { numer: osobaNumer, identyfikator: '' },
-      przekazujacyWydzial: { stanowisko: false, symbol: jednostkaSymbol, nazwa: jednostkaNazwa, kod: jednostkaKod },
-      dataPrzekazania: currentDateTime,
-      prowadzacy: { numer: osobaNumer, identyfikator: '' },
-      prowadzacyWydzial: { stanowisko: false, symbol: jednostkaSymbol, nazwa: jednostkaNazwa, kod: jednostkaKod },
-      odpowiedzialny: { numer: 0, identyfikator: '' },
-      dataPrzyjecia: currentDateTime,
-      uprawPoziom: '0',
-      statusPrzek: TDokStatusPrzek.spd_oczek,
-      dataAlert: new Date(new Date().setDate(new Date().getDate() + 30 - 3)).toISOString().split('T')[0],
-      dataPlan: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0],
-      daneFinansowe: null,
-      grupa1: '',
-      grupa2: '',
-      grupa3: '',
-      publiczny: false,
-      dokGuid: '',
-      jrwa: '',
-      obcyNumer: '',
-      zalaczniki: [],
-      
-      oper: TBazaOper.tboSelect,
-      status: TeSodStatus.sBrak,
-      statusDane: ''
-    };
+    return this.emptyObjects.getEmptyDokument(osobaNumer, jednostkaSymbol, jednostkaNazwa, jednostkaKod);
   }
 
   startSessionTimer() {

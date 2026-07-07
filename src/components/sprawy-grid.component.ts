@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SprawyService } from '../services/sprawy.service';
+import { EmptyObjectsService } from '../services/empty-objects.service';
 import { Sprawa } from '../models/sprawa.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
@@ -518,7 +519,7 @@ export class SprawyGridComponent implements OnChanges {
   showZakonczWindow = false;
   actionSprawa: Sprawa | null = null;
 
-  constructor(private sprawyService: SprawyService) {}
+  constructor(private sprawyService: SprawyService, private emptyObjects: EmptyObjectsService) {}
 
   get showPrzekazZakoncz(): boolean {
     return !!this.selectedSkrzynka && SKRZYNKI_PRZEKAZ_ZAKONCZ.has(this.selectedSkrzynka.skrzynka);
@@ -618,40 +619,7 @@ export class SprawyGridComponent implements OnChanges {
   }
 
   private getEmptySprawa(): Sprawa {
-    return {
-      numer: 0,
-      nazwa: '',
-      typ: { nazwa: '', rWA: '' },
-      znakDef: '',
-      znakSprawy: '',
-      znak_wydzial: '',
-      znak_RWA: '',
-      znak_rok: new Date().getFullYear(),
-      sprawaGlowna: 0,
-      etapOstatni: 0,
-      glowna: false,
-      dataStart: '',
-      dataStop: null,
-      terminPlan: '',
-      terminAlarm: '',
-      dataOtrzymania: null,
-      dataPrzyjecia: null,
-      dataPrzekazania: null,
-      dataOdebrania: null,
-      osobaPrzek: { numer: 0, identyfikator: '' },
-      statusPrzek: TSprStatusPrzek.sps_oczek,
-      odrzucona: false,
-      kontrahent: { numer: 0, identyfikator: '', firma: false, nip: '', adres: '' },
-      nadzorWydzial: { symbol: '', nazwa: '', kod: '', stanowisko: false },
-      nadzorOsoba: { numer: 0, identyfikator: '' },
-      wykWydzial: { symbol: '', nazwa: '', kod: '', stanowisko: false },
-      wykOsoba: { numer: 0, identyfikator: '' },
-      uprawPoziom: '',
-      oper: TBazaOper.tboSelect,
-      status: TeSodStatus.sBrak,
-      statusDane: '',
-      opis: ''
-    };
+    return this.emptyObjects.getEmptySprawa();
   }
 
   onSprawaSaved(): void {
