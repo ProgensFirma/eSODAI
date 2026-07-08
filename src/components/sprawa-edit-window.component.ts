@@ -45,7 +45,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
           <select class="form-select" [(ngModel)]="selectedTypSprawyId" (change)="onTypSprawyChange()">
             <option [value]="null">Wybierz typ sprawy</option>
             <option *ngFor="let typSprawy of sprawyTypy" [value]="typSprawy.typ">
-              {{ typSprawy.typ }}{{ typSprawy.rWA ? ' - RWA: ' + typSprawy.rWA : '' }}
+              {{ typSprawy.typ }}{{ typSprawy.rWA ? ' : [RWA: ' + typSprawy.rWA + ']' : '' }}
             </option>
           </select>
         </div>
