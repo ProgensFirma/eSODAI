@@ -681,6 +681,11 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
         if (!this.sprawa.nazwa || this.sprawa.nazwa.trim() === '') {
           this.sprawa.nazwa = selectedTyp.typ;
         }
+
+        if (this.sprawa.znak_RWA !== selectedTyp.rWA) {
+          this.sprawa.znak_RWA = selectedTyp.rWA;
+          this.selectedRWAId = selectedTyp.rWA;
+        }
       }
     }
   }
