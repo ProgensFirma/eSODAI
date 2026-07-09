@@ -35,7 +35,7 @@ export interface Sprawa {
   wykWydzial: TWydzialInfo;
   wykOsoba: TOsobaInfo;
   uprawPoziom: string;
-  opis?: string;
+  opis: string;
   notatkaPrzek?: string;
 
   oper: TBazaOper;

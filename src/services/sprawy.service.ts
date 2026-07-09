@@ -138,6 +138,32 @@ export class SprawyService {
     );
   }
 
+  dolaczDokumentDoEtapuSprawy(sprawaNumer: number, etapNumer: number, dokumentNumer: number): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
+
+    return this.http.post(`${this.configService.apiBaseUrl}/sprawy/dokumenty`, {
+      Sprawa: sprawaNumer,
+      Etap: etapNumer,
+      Dokument: dokumentNumer
+    }, { params }).pipe(
+      catchError(error => {
+        console.error('Error dolacz dokument do etapu sprawy:', error);
+        if (!environment.production) {
+          return of({});
+        }
+        this.errorService.showError(
+          'Błąd dołączania dokumentu',
+          'Nie udało się dołączyć dokumentu do sprawy.'
+        );
+        return throwError(() => error);
+      })
+    );
+  }
+
   dolaczDokumentDoSprawy(dokumentNumer: number, sprawaNumer: number): Observable<any> {
     const session = this.authService.getCurrentSession();
     const sesjaId = session?.sesja;
@@ -219,6 +245,7 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
+        "opis": "",
 
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
@@ -281,6 +308,7 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
+        "opis": "",
 
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
@@ -343,6 +371,7 @@ export class SprawyService {
           "identyfikator": "KUŚ DOROTA"
         },
         "uprawPoziom": "",
+        "opis": "",
 
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
@@ -405,6 +434,7 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
+        "opis": "",
 
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
@@ -467,6 +497,7 @@ export class SprawyService {
           "identyfikator": "KONIECZNA TERESA"
         },
         "uprawPoziom": "",
+        "opis": "",
 
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
@@ -529,6 +560,7 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
+        "opis": "",
         
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,
@@ -591,6 +623,7 @@ export class SprawyService {
           "identyfikator": "BLICHARZ JOANNA"
         },
         "uprawPoziom": "",
+        "opis": "",
         
         "oper": TBazaOper.tboSelect,
         "status": TeSodStatus.sOK,

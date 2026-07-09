@@ -805,8 +805,20 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
     this.sprawyService.createSprawa(this.sprawa).subscribe({
       next: (response) => {
         if (response.status === 'OK') {
-          this.sprawa.znakSprawy = response.znakSprawy || '';
+          const nowaSprawa: Sprawa = response.nowaSprawa;
+          this.sprawa.znakSprawy = response.znakSprawy || (nowaSprawa?.znakSprawy ?? '');
           this.sprawaCreated = true;
+
+          if (this.attachedDocument && nowaSprawa) {
+            this.sprawyService.dolaczDokumentDoEtapuSprawy(
+              nowaSprawa.sprawaGlowna,
+              nowaSprawa.numer,
+              this.attachedDocument.numer
+            ).subscribe({
+              error: (err) => console.error('Error dolacz dokument do sprawy:', err)
+            });
+          }
+
           this.sprawaSaved.emit();
         }
       },
