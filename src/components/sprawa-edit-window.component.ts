@@ -216,6 +216,9 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
         </div>
 
         <div class="modal-footer">
+          <div class="success-message" *ngIf="sprawaCreated">
+            Pomyślnie założono sprawę {{ sprawa.znakSprawy }}
+          </div>
           <button
             *ngIf="!sprawaCreated"
             class="btn btn-primary"
@@ -232,7 +235,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
             *ngIf="sprawaCreated"
             class="btn btn-primary"
             (click)="onClose()">
-            ✕ Wyjście
+            Zamknij
           </button>
         </div>
       </div>
@@ -345,9 +348,17 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       display: flex;
       gap: 0.5rem;
       justify-content: flex-end;
+      align-items: center;
       padding: 1rem 1.5rem;
       border-top: 1px solid var(--border-default);
       background-color: var(--bg-subtle);
+    }
+
+    .success-message {
+      flex: 1;
+      color: #16a34a;
+      font-weight: 600;
+      font-size: 0.9rem;
     }
 
     .form-container {
@@ -803,24 +814,22 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
     }
 
     this.sprawyService.createSprawa(this.sprawa).subscribe({
-      next: (response) => {
-        if (response.status === 'OK') {
-          const nowaSprawa: Sprawa = response.nowaSprawa;
-          this.sprawa.znakSprawy = response.znakSprawy || (nowaSprawa?.znakSprawy ?? '');
-          this.sprawaCreated = true;
+      next: (nowaSprawa: Sprawa) => {
+        this.sprawa.numer = nowaSprawa.numer;
+        this.sprawa.znakSprawy = nowaSprawa.znakSprawy || '';
+        this.sprawaCreated = true;
 
-          if (this.attachedDocument && nowaSprawa) {
-            this.sprawyService.dolaczDokumentDoEtapuSprawy(
-              nowaSprawa.sprawaGlowna,
-              nowaSprawa.numer,
-              this.attachedDocument.numer
-            ).subscribe({
-              error: (err) => console.error('Error dolacz dokument do sprawy:', err)
-            });
-          }
-
-          this.sprawaSaved.emit();
+        if (this.attachedDocument) {
+          this.sprawyService.dolaczDokumentDoEtapuSprawy(
+            nowaSprawa.sprawaGlowna,
+            nowaSprawa.numer,
+            this.attachedDocument.numer
+          ).subscribe({
+            error: (err) => console.error('Error dolacz dokument do sprawy:', err)
+          });
         }
+
+        this.sprawaSaved.emit();
       },
       error: (err) => console.error('Error saving sprawa:', err)
     });
