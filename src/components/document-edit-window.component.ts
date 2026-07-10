@@ -912,12 +912,14 @@ export class DocumentEditWindowComponent implements OnInit {
   }
 
   isFormValid(): boolean {
-    return !!(this.selectedTypNazwa && this.dokument.nazwa);
+    return !!(this.selectedTypNazwa && this.dokument.nazwa && this.dataCzasWplywuStr);
   }
 
   onSave() {
     if (!this.isFormValid()) {
-      this.errorMessage = 'Wypełnij wszystkie wymagane pola';
+      this.errorMessage = !this.dataCzasWplywuStr
+        ? 'Uzupełnij datę wpływu'
+        : 'Wypełnij wszystkie wymagane pola';
       return;
     }
 
