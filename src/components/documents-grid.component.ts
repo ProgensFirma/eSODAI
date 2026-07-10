@@ -277,9 +277,14 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
                 (click)="selectedSprawaInModal = sprawa"
               >
                 <span class="dolacz-znak">{{ sprawa.znakSprawy }}</span>
+                <span class="dolacz-kontr" *ngIf="sprawa.kontrahent?.identyfikator">{{ sprawa.kontrahent!.identyfikator }}</span>
                 <span class="dolacz-nazwa">{{ sprawa.nazwa }}</span>
               </div>
             </div>
+          </div>
+
+          <div class="dolacz-success" *ngIf="dolaczSuccessMessage">
+            <span>&#10003;</span> {{ dolaczSuccessMessage }}
           </div>
 
           <div class="dolacz-footer">
@@ -1078,6 +1083,27 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       white-space: nowrap;
     }
 
+    .dolacz-kontr {
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .dolacz-success {
+      margin: 0 24px 4px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .dolacz-footer {
       display: flex;
       justify-content: flex-end;
@@ -1144,6 +1170,7 @@ export class DocumentsGridComponent implements OnChanges {
   sprawyListLoading = false;
   selectedSprawaInModal: Sprawa | null = null;
   dolaczLoading = false;
+  dolaczSuccessMessage = '';
 
   wyslijLoading = false;
   wyslijPosting = false;
@@ -1445,11 +1472,17 @@ export class DocumentsGridComponent implements OnChanges {
   onDolaczConfirm() {
     if (!this.selectedDocument || !this.selectedSprawaInModal) return;
     this.dolaczLoading = true;
+    const znakSprawy = this.selectedSprawaInModal.znakSprawy;
     this.sprawyService.dolaczDokumentDoSprawy(this.selectedDocument.numer, this.selectedSprawaInModal.numer).subscribe({
       next: () => {
         this.dolaczLoading = false;
-        this.showDolaczModal = false;
+        this.dolaczSuccessMessage = `Dodano dokument do sprawy ${znakSprawy}`;
         this.loadDocuments();
+        setTimeout(() => {
+          this.showDolaczModal = false;
+          this.dolaczSuccessMessage = '';
+          this.selectedSprawaInModal = null;
+        }, 2000);
       },
       error: () => { this.dolaczLoading = false; }
     });
@@ -1458,6 +1491,7 @@ export class DocumentsGridComponent implements OnChanges {
   onDolaczCancel() {
     this.showDolaczModal = false;
     this.selectedSprawaInModal = null;
+    this.dolaczSuccessMessage = '';
   }
 
   private getEmptySprawa(): Sprawa {
