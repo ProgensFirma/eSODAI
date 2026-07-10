@@ -76,14 +76,27 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
         </div>
 
         <div class="field-group">
-          <div class="field">
+          <div class="field" [class.success-field]="sprawaCreated">
             <label for="znakSprawy">Znak sprawy</label>
-            <input
-              id="znakSprawy"
-              [(ngModel)]="sprawa.znakSprawy"
-              type="text"
-              readonly
-              class="form-input" />
+            <div class="input-with-button" *ngIf="sprawaCreated; else normalZnak">
+              <input
+                id="znakSprawy"
+                [value]="sprawa.znakSprawy"
+                type="text"
+                readonly
+                class="form-input" />
+              <button class="copy-button" type="button" (click)="copyZnakToClipboard()" title="Kopiuj znak sprawy">
+                <span class="button-icon">📋</span>
+              </button>
+            </div>
+            <ng-template #normalZnak>
+              <input
+                id="znakSprawy"
+                [(ngModel)]="sprawa.znakSprawy"
+                type="text"
+                readonly
+                class="form-input" />
+            </ng-template>
           </div>
 
           <div class="field">
@@ -217,7 +230,8 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
         <div class="modal-footer">
           <div class="success-message" *ngIf="sprawaCreated">
-            Pomyślnie założono sprawę {{ sprawa.znakSprawy }}
+            <span class="success-icon">&#10003;</span>
+            Sprawa została założona
           </div>
           <button
             *ngIf="!sprawaCreated"
@@ -352,13 +366,6 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       padding: 1rem 1.5rem;
       border-top: 1px solid var(--border-default);
       background-color: var(--bg-subtle);
-    }
-
-    .success-message {
-      flex: 1;
-      color: #16a34a;
-      font-weight: 600;
-      font-size: 0.9rem;
     }
 
     .form-container {
@@ -562,6 +569,60 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     .documents-buttons {
       display: flex;
       gap: 0.5rem;
+    }
+
+    .success-field .form-input {
+      background: #f0fdf4;
+      border-color: #86efac;
+      font-weight: 600;
+      color: #166534;
+    }
+
+    .input-with-button {
+      display: flex;
+      gap: 8px;
+    }
+
+    .input-with-button .form-input {
+      flex: 1;
+    }
+
+    .copy-button {
+      padding: 8px 14px;
+      background: #10b981;
+      border: 1px solid #059669;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .copy-button:hover {
+      background: #059669;
+      transform: scale(1.05);
+    }
+
+    .copy-button:active {
+      transform: scale(0.95);
+    }
+
+    .success-message {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 0.4rem 0.75rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .success-icon {
+      font-size: 18px;
     }
   `]
 })
@@ -841,6 +902,12 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
 
   detachDocument() {
     console.log('Detach document - to be implemented');
+  }
+
+  copyZnakToClipboard() {
+    if (this.sprawa.znakSprawy) {
+      navigator.clipboard.writeText(this.sprawa.znakSprawy);
+    }
   }
 
   onClose() {
