@@ -44,10 +44,6 @@ export class PowiadomieniaService {
           });
           return of(mockResponse);
         } else {
-          this.errorService.showError(
-            'Błąd pobierania powiadomień',
-            'Nie udało się pobrać listy powiadomień z serwera.'
-          );
           return throwError(() => error);
         }
       })

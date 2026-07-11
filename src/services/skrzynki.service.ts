@@ -40,10 +40,6 @@ export class SkrzynkiService {
         if (!environment.production) {
           return of(this.getMockData());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania skrzynek',
-            'Nie udało się pobrać listy skrzynek z serwera. Sprawdź połączenie z serwerem.'
-          );
           return throwError(() => error);
         }
       })

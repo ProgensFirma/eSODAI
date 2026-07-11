@@ -43,10 +43,6 @@ export class WykazAktService {
         if (!environment.production) {
           return of(this.getMockWykazAkt());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania wykazu akt',
-            'Nie udało się pobrać wykazu akt z serwera.'
-          );
           return throwError(() => error);
         }
       })

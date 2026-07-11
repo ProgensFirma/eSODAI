@@ -40,10 +40,6 @@ export class SprawyService {
         if (!environment.production) {
           return of(this.getMockData());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania spraw',
-            'Nie udało się pobrać listy spraw z serwera.'
-          );
           return throwError(() => error);
         }
       })
@@ -60,10 +56,6 @@ export class SprawyService {
     return this.http.post(`${this.configService.apiBaseUrl}/sprawy/sprawa`, sprawa, { params }).pipe(
       catchError(error => {
         console.error('Error creating sprawa:', error);
-        this.errorService.showError(
-          'Błąd tworzenia sprawy',
-          'Nie udało się utworzyć sprawy.'
-        );
         return throwError(() => error);
       })
     );
@@ -87,10 +79,6 @@ export class SprawyService {
     return this.http.post(`${this.configService.apiBaseUrl}/sprawa/przekaz`, body, { params }).pipe(
       catchError(error => {
         console.error('Error przekaz sprawa:', error);
-        this.errorService.showError(
-          'Błąd przekazania sprawy',
-          'Nie udało się przekazać sprawy.'
-        );
         return throwError(() => error);
       })
     );
@@ -106,10 +94,6 @@ export class SprawyService {
     return this.http.post(`${this.configService.apiBaseUrl}/sprawa/przyjmij`, { sprawa, odrzuc: false }, { params }).pipe(
       catchError(error => {
         console.error('Error przyjmij sprawa:', error);
-        this.errorService.showError(
-          'Błąd przyjmowania sprawy',
-          'Nie udało się przyjąć sprawy.'
-        );
         return throwError(() => error);
       })
     );
@@ -129,10 +113,6 @@ export class SprawyService {
     return this.http.post(`${this.configService.apiBaseUrl}/sprawa/zakoncz`, body, { params }).pipe(
       catchError(error => {
         console.error('Error zakoncz sprawa:', error);
-        this.errorService.showError(
-          'Błąd kończenia sprawy',
-          'Nie udało się zakończyć sprawy.'
-        );
         return throwError(() => error);
       })
     );
@@ -155,10 +135,6 @@ export class SprawyService {
         if (!environment.production) {
           return of({});
         }
-        this.errorService.showError(
-          'Błąd dołączania dokumentu',
-          'Nie udało się dołączyć dokumentu do sprawy.'
-        );
         return throwError(() => error);
       })
     );
@@ -177,10 +153,6 @@ export class SprawyService {
         if (!environment.production) {
           return of({});
         }
-        this.errorService.showError(
-          'Błąd dołączania do sprawy',
-          'Nie udało się dołączyć dokumentu do sprawy.'
-        );
         return throwError(() => error);
       })
     );

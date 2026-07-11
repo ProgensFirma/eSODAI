@@ -497,10 +497,6 @@ export class EDoreczService {
         if (!environment.production) {
           return of(this.mockData);
         } else {
-          this.errorService.showError(
-            'Błąd pobierania eDoręczeń',
-            'Nie udało się pobrać listy eDoręczeń przychodzących z serwera.'
-          );
           return throwError(() => error);
         }
       })
@@ -513,10 +509,6 @@ export class EDoreczService {
       if (!environment.production) {
         return of(this.mockWyslaneData);
       } else {
-        this.errorService.showError(
-          'Błąd sesji',
-          'Brak aktywnej sesji użytkownika.'
-        );
         return throwError(() => new Error('No active session'));
       }
     }
@@ -536,10 +528,6 @@ export class EDoreczService {
         if (!environment.production) {
           return of(this.mockWyslaneData);
         } else {
-          this.errorService.showError(
-            'Błąd pobierania eDoręczeń',
-            'Nie udało się pobrać listy eDoręczeń wysłanych z serwera.'
-          );
           return throwError(() => error);
         }
       })

@@ -39,10 +39,6 @@ export class ZalacznikiService {
         if (!environment.production) {
           return of(this.getMockData(dokument, numer));
         } else {
-          this.errorService.showError(
-            'Błąd pobierania załącznika',
-            'Nie udało się pobrać treści załącznika z serwera.'
-          );
           return throwError(() => error);
         }
       })

@@ -3,6 +3,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors, HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from './environments/environment';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { AuthService } from './services/auth.service';
 import { ErrorNotificationService, ErrorNotification } from './services/error-notification.service';
@@ -327,6 +328,20 @@ import { EmptyObjectsService } from './services/empty-objects.service';
             <div class="error-message">
               <h3>{{ currentError?.message }}</h3>
               <p *ngIf="currentError?.details">{{ currentError?.details }}</p>
+              <div class="error-api-details" *ngIf="currentError?.blad || currentError?.opis || (env.pokazPelnyOpisBledu && currentError?.serwis)">
+                <div class="error-api-row" *ngIf="currentError?.blad">
+                  <span class="error-api-label">Błąd:</span>
+                  <span class="error-api-value">{{ currentError?.blad }}</span>
+                </div>
+                <div class="error-api-row" *ngIf="currentError?.opis">
+                  <span class="error-api-label">Opis:</span>
+                  <span class="error-api-value">{{ currentError?.opis }}</span>
+                </div>
+                <div class="error-api-row" *ngIf="env.pokazPelnyOpisBledu && currentError?.serwis">
+                  <span class="error-api-label">Serwis:</span>
+                  <span class="error-api-value error-api-serwis">{{ currentError?.serwis }}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -948,6 +963,39 @@ import { EmptyObjectsService } from './services/empty-objects.service';
       line-height: 1.5;
     }
 
+    .error-api-details {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-default);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .error-api-row {
+      display: flex;
+      gap: 6px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .error-api-label {
+      font-weight: 600;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .error-api-value {
+      color: var(--text-primary);
+      word-break: break-word;
+    }
+
+    .error-api-serwis {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
     .error-modal-footer {
       padding: 0.75rem 1.25rem;
       border-top: 1px solid var(--border-default);
@@ -1106,6 +1154,7 @@ export class App implements OnInit, OnDestroy {
   showErrorDialog = false;
   showDoZrobieniaPanel = false;
   currentError: ErrorNotification | null = null;
+  readonly env = environment;
   showInfoWindow = false;
   showParametryWindow = false;
   showUprawnienieWindow = false;

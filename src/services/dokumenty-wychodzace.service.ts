@@ -44,10 +44,6 @@ export class DokumentyWychodzaceService {
           if (!environment.production) {
             return of(this.getMockData());
           } else {
-            this.errorService.showError(
-              'Błąd pobierania dokumentów wychodzących',
-              'Nie udało się pobrać listy dokumentów wychodzących z serwera.'
-            );
             return throwError(() => error);
           }
         })

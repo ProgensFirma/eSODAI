@@ -38,10 +38,6 @@ export class JednostkiService {
         if (!environment.production) {
           return of([]);
         } else {
-          this.errorService.showError(
-            'Błąd pobierania jednostek',
-            'Nie udało się pobrać listy jednostek z serwera.'
-          );
           return throwError(() => error);
         }
       })

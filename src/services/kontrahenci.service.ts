@@ -57,10 +57,6 @@ export class KontrahenciService {
         if (!environment.production) {
           return of(this.getMockData(rekStart, rekIlosc));
         } else {
-          this.errorService.showError(
-            'Błąd pobierania kontrahentów',
-            'Nie udało się pobrać listy kontrahentów z serwera.'
-          );
           return throwError(() => error);
         }
       })

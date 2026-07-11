@@ -39,10 +39,6 @@ export class PracownicyService {
         if (!environment.production) {
           return of(this.getMockPracownicy());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania pracowników',
-            'Nie udało się pobrać listy pracowników z serwera.'
-          );
           return throwError(() => error);
         }
       })
@@ -65,10 +61,6 @@ export class PracownicyService {
         if (!environment.production) {
           return of(this.getMockPracownicy());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania pracowników jednostki',
-            'Nie udało się pobrać listy pracowników z serwera.'
-          );
           return throwError(() => error);
         }
       })

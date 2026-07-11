@@ -51,10 +51,6 @@ export class ParametryService {
         if (!environment.production) {
           return of(this.getMockData());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania parametrów',
-            'Nie udało się pobrać listy parametrów z serwera.'
-          );
           return throwError(() => error);
         }
       })

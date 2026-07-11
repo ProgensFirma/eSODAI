@@ -65,10 +65,6 @@ export class EdoreczKopertaService {
         if (!environment.production) {
           return of(this.mockPunktyNadawcze);
         } else {
-          this.errorService.showError(
-            'Błąd pobierania punktów nadawczych',
-            'Nie udało się pobrać listy punktów nadawczych z serwera.'
-          );
           return throwError(() => error);
         }
       })

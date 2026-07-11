@@ -71,10 +71,6 @@ export class KontrahWewService {
           const mockData = this.mockDaneNadawcy[punktNumer] || this.mockDaneNadawcy[1];
           return of(mockData);
         } else {
-          this.errorService.showError(
-            'Błąd pobierania danych nadawcy',
-            'Nie udało się pobrać danych nadawcy z serwera.'
-          );
           return throwError(() => error);
         }
       })

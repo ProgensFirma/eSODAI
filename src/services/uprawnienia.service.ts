@@ -32,10 +32,6 @@ export class UprawnienieService {
         if (!environment.production) {
           return of(this.getMockUprawnienia());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania uprawnień',
-            'Nie udało się pobrać listy uprawnień z serwera.'
-          );
           return throwError(() => error);
         }
       })

@@ -47,10 +47,6 @@ export class DokumentyService {
         if (!environment.production) {
           return of(this.getMockData());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania dokumentów',
-            'Nie udało się pobrać listy dokumentów z serwera.'
-          );
           return throwError(() => error);
         }
       })
@@ -76,10 +72,6 @@ export class DokumentyService {
           const dokument = mockData.find(d => d.numer === numer);
           return of(dokument || mockData[0]);
         } else {
-          this.errorService.showError(
-            'Błąd pobierania dokumentu',
-            `Nie udało się pobrać dokumentu nr ${numer} z serwera.`
-          );
           return throwError(() => error);
         }
       })
@@ -103,10 +95,6 @@ export class DokumentyService {
         if (!environment.production) {
           return of(this.getMockData());
         } else {
-          this.errorService.showError(
-            'Błąd pobierania dokumentów sprawy',
-            `Nie udało się pobrać dokumentów dla sprawy nr ${sprawaNumer}.`
-          );
           return throwError(() => error);
         }
       })
@@ -129,10 +117,6 @@ export class DokumentyService {
         if (!environment.production) {
           return of({ Rejestr: 'RPP' });
         } else {
-          this.errorService.showError(
-            'Błąd pobierania rejestru osoby',
-            'Nie udało się pobrać rejestru osoby z serwera.'
-          );
           return throwError(() => error);
         }
       })
