@@ -126,9 +126,9 @@ export class SprawyService {
     const params = new HttpParams().set('sesja', sesjaId.toString());
 
     return this.http.post(`${this.configService.apiBaseUrl}/sprawy/dokumenty`, {
-      Sprawa: sprawaNumer,
-      Etap: etapNumer,
-      Dokument: dokumentNumer
+      sprawa: sprawaNumer,
+      etap: etapNumer,
+      dokument: dokumentNumer
     }, { params }).pipe(
       catchError(error => {
         console.error('Error dolacz dokument do etapu sprawy:', error);
