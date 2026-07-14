@@ -1444,8 +1444,7 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   onSprawaFromDocSaved() {
-    this.showSprawaEditFromDoc = false;
-    this.attachedDoc = null;
+    this.loadDocuments();
   }
 
   toggleSprawaMenu(event: MouseEvent) {
