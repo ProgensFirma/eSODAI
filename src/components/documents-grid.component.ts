@@ -285,10 +285,6 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
             </div>
           </div>
 
-          <div class="dolacz-success" *ngIf="dolaczSuccessMessage">
-            <span>&#10003;</span> {{ dolaczSuccessMessage }}
-          </div>
-
           <div class="dolacz-footer">
             <button class="dolacz-btn dolacz-btn-secondary" (click)="onDolaczCancel()">Anuluj</button>
             <button
@@ -299,6 +295,22 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
               {{ dolaczLoading ? 'Przetwarzanie...' : 'Wybierz' }}
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Potwierdzenie dołączenia dokumentu do sprawy -->
+    <div class="dolacz-success-overlay" *ngIf="showDolaczSuccessModal" (click)="onDolaczSuccessOk()">
+      <div class="dolacz-success-modal" (click)="$event.stopPropagation()">
+        <div class="dolacz-success-icon">
+          <svg viewBox="0 0 24 24" fill="none" width="40" height="40">
+            <circle cx="12" cy="12" r="11" fill="#16a34a" />
+            <path d="M7 12.5l3.5 3.5L17 9" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+          </svg>
+        </div>
+        <div class="dolacz-success-message">{{ dolaczSuccessMessage }}</div>
+        <div class="dolacz-success-footer">
+          <button class="dolacz-btn dolacz-btn-primary" (click)="onDolaczSuccessOk()">OK</button>
         </div>
       </div>
     </div>
@@ -1092,20 +1104,6 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       flex-shrink: 0;
     }
 
-    .dolacz-success {
-      margin: 0 24px 4px;
-      padding: 10px 14px;
-      border-radius: 6px;
-      background: #f0fdf4;
-      color: #166534;
-      border: 1px solid #bbf7d0;
-      font-size: 13px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
     .dolacz-footer {
       display: flex;
       justify-content: flex-end;
@@ -1141,6 +1139,53 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
     }
 
     .dolacz-btn-primary:hover:not(:disabled) { background: rgba(37,99,235,0.1); }
+
+    .dolacz-success-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2100;
+    }
+
+    .dolacz-success-modal {
+      background: #fff;
+      border-radius: 10px;
+      padding: 28px 32px 22px;
+      width: 420px;
+      max-width: calc(100vw - 32px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .dolacz-success-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dolacz-success-message {
+      font-size: 15px;
+      color: #1f2937;
+      text-align: center;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+
+    .dolacz-success-footer {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .dolacz-success-footer .dolacz-btn {
+      min-width: 96px;
+    }
   `]
 })
 export class DocumentsGridComponent implements OnChanges {
@@ -1173,6 +1218,7 @@ export class DocumentsGridComponent implements OnChanges {
   selectedSprawaInModal: Sprawa | null = null;
   dolaczLoading = false;
   dolaczSuccessMessage = '';
+  showDolaczSuccessModal = false;
 
   wyslijLoading = false;
   wyslijPosting = false;
@@ -1481,16 +1527,20 @@ export class DocumentsGridComponent implements OnChanges {
     ).subscribe({
       next: () => {
         this.dolaczLoading = false;
-        this.dolaczSuccessMessage = `Dodano dokument do sprawy ${znakSprawy}`;
-        this.loadDocuments();
-        setTimeout(() => {
-          this.showDolaczModal = false;
-          this.dolaczSuccessMessage = '';
-          this.selectedSprawaInModal = null;
-        }, 2000);
+        const nrRejestr = this.selectedDocument?.rejestrNrPozycji || String(this.selectedDocument?.numer || '');
+        this.dolaczSuccessMessage = `Dokument ${nrRejestr} został dołączony do sprawy ${znakSprawy}`;
+        this.showDolaczModal = false;
+        this.showDolaczSuccessModal = true;
       },
       error: () => { this.dolaczLoading = false; }
     });
+  }
+
+  onDolaczSuccessOk() {
+    this.showDolaczSuccessModal = false;
+    this.dolaczSuccessMessage = '';
+    this.selectedSprawaInModal = null;
+    this.loadDocuments();
   }
 
   onDolaczCancel() {
