@@ -1474,7 +1474,11 @@ export class DocumentsGridComponent implements OnChanges {
     if (!this.selectedDocument || !this.selectedSprawaInModal) return;
     this.dolaczLoading = true;
     const znakSprawy = this.selectedSprawaInModal.znakSprawy;
-    this.sprawyService.dolaczDokumentDoSprawy(this.selectedDocument.numer, this.selectedSprawaInModal.numer).subscribe({
+    this.sprawyService.dolaczDokumentDoEtapuSprawy(
+      this.selectedSprawaInModal.sprawaGlowna,
+      this.selectedSprawaInModal.numer,
+      this.selectedDocument.numer
+    ).subscribe({
       next: () => {
         this.dolaczLoading = false;
         this.dolaczSuccessMessage = `Dodano dokument do sprawy ${znakSprawy}`;
