@@ -1170,7 +1170,7 @@ export class App implements OnInit, OnDestroy {
   availableWydzialy: TWydzialInfo[] = [];
   private hideMenuTimeout: any;
   sessionData: SessionData | null = null;
-  documentEditMode: 'add' | 'edit' = 'add';
+  documentEditMode: 'add' | 'edit' | 'readonly' = 'add';
   editingDocument: Dokument | null = null;
 
   sessionTimeLeft = 1800;
@@ -1465,7 +1465,7 @@ export class App implements OnInit, OnDestroy {
   }
 
   onEditDocumentRequested(dokument: Dokument) {
-    this.documentEditMode = 'edit';
+    this.documentEditMode = this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoWgladu ? 'readonly' : 'edit';
     this.editingDocument = { ...dokument };
     this.showDocumentEditWindow = true;
   }

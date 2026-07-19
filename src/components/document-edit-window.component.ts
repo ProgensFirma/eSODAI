@@ -5,7 +5,7 @@ import { Dokument } from '../models/dokument.model';
 import { DokumentTyp } from '../models/dokument-typ.model';
 import { DokumentTypyService } from '../services/dokument-typy.service';
 import { DokumentyService } from '../services/dokumenty.service';
-import { TKontrahentInfo } from '../models/typy-info.model';
+import { TKontrahentInfo, TZalacznikInfo } from '../models/typy-info.model';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 import { WykazAkt } from '../models/wykaz-akt.model';
 import { WykazAktService } from '../services/wykaz-akt.service';
@@ -198,10 +198,28 @@ import { AuthService } from '../services/auth.service';
             <div class="form-group full-width" *ngIf="(mode === 'edit' || mode === 'readonly') && dokument.zalaczniki && dokument.zalaczniki.length > 0">
               <label class="form-label">Załączniki ({{ dokument.zalaczniki.length }})</label>
               <div class="attachments-list">
-                <div class="attachment-item" *ngFor="let zalacznik of dokument.zalaczniki">
+                <div class="attachment-item clickable" *ngFor="let zalacznik of dokument.zalaczniki" (click)="onAttachmentClick(zalacznik)">
                   <span class="attachment-icon">📎</span>
                   <span class="attachment-name">{{ zalacznik.plik }}</span>
                   <span class="attachment-number">#{{ zalacznik.numer }}</span>
+                  <span class="attachment-view-icon" *ngIf="!previewLoading[zalacznik.numer]">👁️</span>
+                  <span class="spinner" *ngIf="previewLoading[zalacznik.numer]"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group full-width" *ngIf="previewZalacznik">
+              <label class="form-label">Podgląd: {{ previewZalacznik.plik }}</label>
+              <div class="attachment-preview">
+                <button class="preview-close" type="button" (click)="closePreview()">✕</button>
+                <div class="preview-content" *ngIf="previewImageUrl" >
+                  <img [src]="previewImageUrl" [alt]="previewZalacznik.plik" class="preview-image" />
+                </div>
+                <div class="preview-content" *ngIf="previewPdfUrl">
+                  <iframe [src]="previewPdfUrl" class="preview-iframe" title="Podgląd PDF"></iframe>
+                </div>
+                <div class="preview-content" *ngIf="!previewImageUrl && !previewPdfUrl">
+                  <pre class="preview-text">{{ previewText }}</pre>
                 </div>
               </div>
             </div>
@@ -643,9 +661,84 @@ import { AuthService } from '../services/auth.service';
       transition: all 0.2s ease;
     }
 
-    .attachment-item:hover {
-      border-color: var(--border-muted);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    .attachment-item.clickable {
+      cursor: pointer;
+    }
+
+    .attachment-item.clickable:hover {
+      border-color: #2563eb;
+      background: var(--bg-subtle);
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.15);
+    }
+
+    .attachment-view-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-left: auto;
+    }
+
+    .attachment-preview {
+      position: relative;
+      border: 1px solid var(--border-default);
+      border-radius: 8px;
+      background: var(--bg-surface);
+      max-height: 400px;
+      overflow: auto;
+      padding: 16px;
+    }
+
+    .preview-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px 8px;
+      z-index: 10;
+      transition: all 0.2s ease;
+    }
+
+    .preview-close:hover {
+      background: var(--bg-muted);
+    }
+
+    .preview-content {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 200px;
+    }
+
+    .preview-image {
+      max-width: 100%;
+      max-height: 360px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .preview-iframe {
+      width: 100%;
+      height: 360px;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .preview-text {
+      width: 100%;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--text-primary);
+      margin: 0;
+      padding: 8px;
+      background: var(--bg-subtle);
+      border-radius: 4px;
+      max-height: 360px;
+      overflow: auto;
     }
 
     .attachment-icon {
@@ -816,6 +909,11 @@ export class DocumentEditWindowComponent implements OnInit {
   selectedFile: File | null = null;
   selectedFileName: string = '';
   documentSavedSuccessfully = false;
+  previewZalacznik: ZalacznikTresc | null = null;
+  previewImageUrl: string = '';
+  previewPdfUrl: string = '';
+  previewText: string = '';
+  previewLoading: { [key: number]: boolean } = {};
 
   constructor(
     private dokumentTypyService: DokumentTypyService,
@@ -965,7 +1063,80 @@ export class DocumentEditWindowComponent implements OnInit {
   }
 
   onClose() {
+    this.closePreview();
     this.closeRequested.emit();
+  }
+
+  onAttachmentClick(zalacznik: TZalacznikInfo) {
+    if (this.previewLoading[zalacznik.numer]) return;
+    this.previewLoading[zalacznik.numer] = true;
+
+    const session = this.authService.getCurrentSession();
+    if (!session?.sesja) {
+      this.previewLoading[zalacznik.numer] = false;
+      this.errorMessage = 'Brak sesji — nie można pobrać załącznika';
+      return;
+    }
+
+    this.zalacznikiService.getZalacznikTresc(session.sesja, this.dokument.numer, zalacznik.numer)
+      .subscribe({
+        next: (tresc) => {
+          this.previewLoading[zalacznik.numer] = false;
+          this.showPreview(tresc);
+        },
+        error: (err) => {
+          this.previewLoading[zalacznik.numer] = false;
+          console.error('Error loading attachment:', err);
+          this.errorMessage = 'Nie udało się pobrać załącznika';
+        }
+      });
+  }
+
+  private showPreview(zalacznik: ZalacznikTresc) {
+    this.closePreview();
+    this.previewZalacznik = zalacznik;
+
+    const fileName = (zalacznik.plik || '').toLowerCase();
+    const base64 = zalacznik.tresc || '';
+
+    if (!base64) {
+      this.previewText = '(Brak treści załącznika)';
+      return;
+    }
+
+    const isPdf = fileName.endsWith('.pdf');
+    const isImage = fileName.endsWith('.png') || fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.gif') || fileName.endsWith('.webp');
+
+    if (isPdf) {
+      const byteChars = atob(base64);
+      const byteNumbers = new Array(byteChars.length);
+      for (let i = 0; i < byteChars.length; i++) {
+        byteNumbers[i] = byteChars.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      this.previewPdfUrl = URL.createObjectURL(blob);
+    } else if (isImage) {
+      const ext = fileName.split('.').pop() || 'png';
+      const mime = ext === 'jpg' ? 'jpeg' : ext;
+      this.previewImageUrl = `data:image/${mime};base64,${base64}`;
+    } else {
+      try {
+        this.previewText = atob(base64);
+      } catch {
+        this.previewText = base64;
+      }
+    }
+  }
+
+  closePreview() {
+    if (this.previewPdfUrl) {
+      URL.revokeObjectURL(this.previewPdfUrl);
+    }
+    this.previewZalacznik = null;
+    this.previewImageUrl = '';
+    this.previewPdfUrl = '';
+    this.previewText = '';
   }
 
   onOverlayClick(event: MouseEvent) {

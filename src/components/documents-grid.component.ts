@@ -32,6 +32,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
         <div class="header-buttons">
           <ng-container *ngIf="!isPrzyjmijSkrzynka() && !isPodpisuSkrzynka()">
             <button
+              *ngIf="!isDoWgladuSkrzynka()"
               class="action-button button-new"
               (click)="onNewDocument()"
               [disabled]="!selectedSkrzynka"
@@ -44,8 +45,9 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
               (click)="onEditDocument()"
               [disabled]="!selectedDocument"
             >
-              <span class="button-icon">✏️</span>
-              Edycja
+              <span class="button-icon" *ngIf="!isDoWgladuSkrzynka()">✏️</span>
+              <span class="button-icon" *ngIf="isDoWgladuSkrzynka()">📄</span>
+              {{ isDoWgladuSkrzynka() ? 'Podgląd' : 'Edycja' }}
             </button>
             <button
               *ngIf="showPrzekazButton()"
@@ -1517,6 +1519,10 @@ export class DocumentsGridComponent implements OnChanges {
 
   isPodpisuSkrzynka(): boolean {
     return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoPodpisu;
+  }
+
+  isDoWgladuSkrzynka(): boolean {
+    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoWgladu;
   }
 
   onPodpiszDocument(tylkoOznacz: boolean) {
