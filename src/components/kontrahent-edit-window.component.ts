@@ -625,6 +625,14 @@ export class KontrahentEditWindowComponent implements OnInit {
   }
 
   saveKontrahent() {
+    if (this.formData.type === 'person' && !this.formData.identyfikator.trim()) {
+      const imie = this.formData.imie.trim();
+      const nazwisko = this.formData.nazwa.trim();
+      if (imie && nazwisko) {
+        this.formData.identyfikator = `${imie} ${nazwisko}`;
+      }
+    }
+
     if (!this.formData.identyfikator.trim()) {
       alert('Identyfikator jest wymagany');
       return;
