@@ -922,14 +922,15 @@ export class KontrahenciWindowComponent implements OnInit {
     this.showNewKontrahent = false;
   }
 
-  onKontrahentSaved(formData: any) {
-    console.log('Nowy kontrahent:', formData);
-    this.loadKontrahenci();
+  onKontrahentSaved(saved: any) {
+    this.currentPage = 1;
+    this.loadKontrahenciAndSelect(saved.numer);
   }
 
   openEditKontrahent() {
     if (this.selectedKontrahent) {
       this.editingKontrahent = {
+        numer: this.selectedKontrahent.numer,
         type: this.selectedKontrahent.firma ? 'company' : 'person',
         identyfikator: this.selectedKontrahent.identyfikator,
         imie: this.selectedKontrahent.imie || '',
@@ -958,9 +959,31 @@ export class KontrahenciWindowComponent implements OnInit {
     this.editingKontrahent = null;
   }
 
-  onKontrahentUpdated(formData: any) {
-    console.log('Zaktualizowany kontrahent:', formData);
-    this.loadKontrahenci();
+  onKontrahentUpdated(saved: any) {
+    this.loadKontrahenciAndSelect(saved.numer);
+  }
+
+  loadKontrahenciAndSelect(numer: number) {
+    this.loading = true;
+    const rekStart = (this.currentPage - 1) * this.pageSize + 1;
+    this.kontrahenciService.getKontrahenci(rekStart, this.pageSize, this.filterText).subscribe({
+      next: (response) => {
+        this.kontrahenci = response.data;
+        if (response.wynikIlosc !== undefined) {
+          this.totalCount = response.wynikIlosc;
+          this.totalPages = Math.ceil(this.totalCount / this.pageSize);
+        } else {
+          this.totalPages = Math.ceil(this.totalCount / this.pageSize);
+        }
+        this.loading = false;
+        const found = this.kontrahenci.find(k => k.numer === numer);
+        this.selectedKontrahent = found || (this.kontrahenci.length > 0 ? this.kontrahenci[0] : null);
+      },
+      error: (error) => {
+        console.error('Error loading kontrahenci:', error);
+        this.loading = false;
+      }
+    });
   }
 
   closeWindow() {

@@ -63,6 +63,36 @@ export class KontrahenciService {
     );
   }
 
+  addKontrahent(kontrahent: KontrahentDetailed): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
+
+    return this.http.post(`${this.configService.apiBaseUrl}/kontrahent`, kontrahent, { params }).pipe(
+      catchError(error => {
+        console.error('Error adding kontrahent:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  updateKontrahent(kontrahent: KontrahentDetailed): Observable<any> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams().set('sesja', sesjaId.toString());
+
+    return this.http.put(`${this.configService.apiBaseUrl}/kontrahent`, kontrahent, { params }).pipe(
+      catchError(error => {
+        console.error('Error updating kontrahent:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
   private getMockData(rekStart: number, rekIlosc: number): KontrahenciResponse {
     const mockData: KontrahentDetailed[] = [
       {

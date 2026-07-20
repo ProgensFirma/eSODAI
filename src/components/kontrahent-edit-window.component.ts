@@ -1,6 +1,9 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { KontrahenciService } from '../services/kontrahenci.service';
+import { KontrahentDetailed } from '../models/kontrahent.model';
+import { TBazaOper, TeSodStatus } from '../models/enums.model';
 
 @Component({
   selector: 'app-kontrahent-edit-window',
@@ -283,9 +286,9 @@ import { FormsModule } from '@angular/forms';
           <button class="button button-cancel" (click)="closeWindow()">
             Anuluj
           </button>
-          <button class="button button-save" (click)="saveKontrahent()">
+          <button class="button button-save" (click)="saveKontrahent()" [disabled]="saving">
             <span class="button-icon">💾</span>
-            Zapisz
+            {{ saving ? 'Zapisywanie...' : 'Zapisz' }}
           </button>
         </div>
       </div>
@@ -593,8 +596,12 @@ export class KontrahentEditWindowComponent implements OnInit {
   @Output() kontrahentSaved = new EventEmitter<any>();
 
   isEditMode = false;
+  saving = false;
+
+  constructor(private kontrahenciService: KontrahenciService) {}
 
   formData = {
+    numer: 0,
     type: 'person',
     identyfikator: '',
     imie: '',
@@ -636,6 +643,78 @@ export class KontrahentEditWindowComponent implements OnInit {
     }
   }
 
+  private buildKontrahentBody(): KontrahentDetailed {
+    const isCompany = this.formData.type === 'company';
+    const sentinel = '1899-12-30T00:00:00.000Z';
+    const dataUrodzenia = this.formData.dataUrodzenia
+      ? `${this.formData.dataUrodzenia}T00:00:00.000Z`
+      : sentinel;
+    return {
+      numer: this.formData.numer || 0,
+      archiwum: false,
+      identyfikator: this.formData.identyfikator,
+      nazwa: this.formData.nazwa,
+      imie: isCompany ? '' : this.formData.imie,
+      imie2: '',
+      imieOjca: '',
+      imieMatki: '',
+      dataUrodzenia: isCompany ? sentinel : dataUrodzenia,
+      dataZgonu: sentinel,
+      firma: isCompany,
+      grupa: '',
+      pesel: this.formData.pesel || '',
+      nip: this.formData.nip || '',
+      regon: this.formData.regon || '',
+      kRS: this.formData.krs || '',
+      odID: '',
+      kontakt: {
+        telefon: this.formData.telefon || '',
+        telefon2: '',
+        email: this.formData.email || '',
+        wWW: this.formData.www || '',
+        epuapAdres: '',
+        eDoreczAdres: '',
+        sMSZgoda: false,
+        emailZgoda: false,
+        pushZgoda: false
+      },
+      opis: '',
+      nazwaDluga: '',
+      uwagi: this.formData.uwagi || '',
+      adresStaly: {
+        kraj: 'Polska',
+        woj: '',
+        powiat: '',
+        gmina: '',
+        ulicaTyp: '',
+        typ: 'ta_zamieszkania',
+        kodPoczta: this.formData.kodPoczta || '',
+        poczta: '',
+        miejscowosc: this.formData.miejscowosc || '',
+        ulica: this.formData.ulica || '',
+        nrDomu: this.formData.nrDomu || '',
+        nrLokalu: this.formData.nrLokalu || ''
+      },
+      adresKoresp: {
+        kraj: 'Polska',
+        woj: '',
+        powiat: '',
+        gmina: '',
+        ulicaTyp: '',
+        typ: 'ta_koresp',
+        kodPoczta: this.formData.kodPoczta || '',
+        poczta: '',
+        miejscowosc: this.formData.miejscowosc || '',
+        ulica: this.formData.ulica || '',
+        nrDomu: this.formData.nrDomu || '',
+        nrLokalu: this.formData.nrLokalu || ''
+      },
+      oper: this.isEditMode ? TBazaOper.tboZmien : TBazaOper.tboDodaj,
+      status: TeSodStatus.sBrak,
+      statusDane: ''
+    };
+  }
+
   saveKontrahent() {
     if (this.formData.type === 'person' && !this.formData.identyfikator.trim()) {
       const imie = this.formData.imie.trim();
@@ -650,7 +729,24 @@ export class KontrahentEditWindowComponent implements OnInit {
       return;
     }
 
-    this.kontrahentSaved.emit(this.formData);
-    this.closeWindow();
+    this.saving = true;
+    const body = this.buildKontrahentBody();
+    const request$ = this.isEditMode
+      ? this.kontrahenciService.updateKontrahent(body)
+      : this.kontrahenciService.addKontrahent(body);
+
+    request$.subscribe({
+      next: (response) => {
+        this.saving = false;
+        const saved: KontrahentDetailed = (response && typeof response === 'object')
+          ? { ...body, ...response }
+          : body;
+        this.kontrahentSaved.emit(saved);
+        this.closeWindow();
+      },
+      error: () => {
+        this.saving = false;
+      }
+    });
   }
 }
