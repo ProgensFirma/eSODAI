@@ -52,6 +52,14 @@ import { TKontrahentInfo } from '../models/typy-info.model';
                   placeholder="Filtruj kontrahentów..."
                 />
                 <button
+                  class="clear-filter-button"
+                  (click)="clearFilter()"
+                  [disabled]="loading || !filterText"
+                  title="Wyczyść filtr"
+                >
+                  <span class="clear-filter-icon">✕</span>
+                </button>
+                <button
                   class="refresh-button"
                   (click)="loadKontrahenci()"
                   [disabled]="loading"
@@ -434,6 +442,30 @@ import { TKontrahentInfo } from '../models/typy-info.model';
       outline: none;
       border-color: #2563eb;
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .clear-filter-button {
+      background: #64748b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .clear-filter-button:hover:not(:disabled) {
+      background: #475569;
+    }
+
+    .clear-filter-button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .clear-filter-icon {
+      font-size: 14px;
+      font-weight: 700;
     }
 
     .refresh-button {
@@ -830,6 +862,13 @@ export class KontrahenciWindowComponent implements OnInit {
   }
 
   onFilterChange() {
+    this.currentPage = 1;
+    this.selectedKontrahent = null;
+    this.loadKontrahenci();
+  }
+
+  clearFilter() {
+    this.filterText = '';
     this.currentPage = 1;
     this.selectedKontrahent = null;
     this.loadKontrahenci();
