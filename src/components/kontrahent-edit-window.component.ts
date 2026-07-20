@@ -76,6 +76,7 @@ import { FormsModule } from '@angular/forms';
                     [(ngModel)]="formData.imie"
                     name="imie"
                     placeholder="Imię"
+                    (ngModelChange)="autoFillIdentyfikator()"
                   />
                 </div>
 
@@ -87,6 +88,7 @@ import { FormsModule } from '@angular/forms';
                     [(ngModel)]="formData.nazwa"
                     name="nazwa"
                     [placeholder]="formData.type === 'person' ? 'Nazwisko' : 'Pełna nazwa'"
+                    (ngModelChange)="autoFillIdentyfikator()"
                   />
                 </div>
               </div>
@@ -622,6 +624,16 @@ export class KontrahentEditWindowComponent implements OnInit {
 
   closeWindow() {
     this.closeRequested.emit();
+  }
+
+  autoFillIdentyfikator() {
+    if (this.formData.type !== 'person') return;
+    if (this.formData.identyfikator.trim()) return;
+    const imie = this.formData.imie.trim();
+    const nazwisko = this.formData.nazwa.trim();
+    if (imie && nazwisko) {
+      this.formData.identyfikator = `${imie} ${nazwisko}`;
+    }
   }
 
   saveKontrahent() {
