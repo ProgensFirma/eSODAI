@@ -647,10 +647,10 @@ export class KontrahentEditWindowComponent implements OnInit {
 
   private buildKontrahentBody(): KontrahentDetailed {
     const isCompany = this.formData.type === 'company';
-    const sentinel = '1899-12-30T00:00:00.000Z';
+    const sentinel = '1899-12-30';
     const rawDate = this.formData.dataUrodzenia || '';
-    const dataUrodzenia = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) && rawDate !== '1899-12-30'
-      ? `${rawDate}T00:00:00.000Z`
+    const dataUrodzenia = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) && rawDate !== sentinel
+      ? rawDate
       : sentinel;
     return {
       numer: this.formData.numer || 0,
