@@ -626,6 +626,8 @@ export class KontrahentEditWindowComponent implements OnInit {
     if (this.kontrahent) {
       this.isEditMode = true;
       this.formData = { ...this.kontrahent };
+      const rawDate = (this.formData.dataUrodzenia || '').substring(0, 10);
+      this.formData.dataUrodzenia = rawDate && rawDate !== '1899-12-30' ? rawDate : '';
     }
   }
 
@@ -646,8 +648,9 @@ export class KontrahentEditWindowComponent implements OnInit {
   private buildKontrahentBody(): KontrahentDetailed {
     const isCompany = this.formData.type === 'company';
     const sentinel = '1899-12-30T00:00:00.000Z';
-    const dataUrodzenia = this.formData.dataUrodzenia
-      ? `${this.formData.dataUrodzenia}T00:00:00.000Z`
+    const rawDate = this.formData.dataUrodzenia || '';
+    const dataUrodzenia = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) && rawDate !== '1899-12-30'
+      ? `${rawDate}T00:00:00.000Z`
       : sentinel;
     return {
       numer: this.formData.numer || 0,
