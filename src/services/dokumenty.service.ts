@@ -156,7 +156,8 @@ export class DokumentyService {
           "identyfikator": "POWIAT MIELECKI",
           "firma": true,
           "nip": "",
-          "adres": null
+          "adres": null,
+          "eDoreczAdres": null
         },
         "przekazujacy": {
           "numer": 1059948,
@@ -233,7 +234,8 @@ export class DokumentyService {
           "identyfikator": "SAMORZĄDOWE KOLEGIUM ODWOŁAWCZE",
           "firma": true,
           "nip": "",
-          "adres": null
+          "adres": null,
+          "eDoreczAdres": "ADE-XXX"
         },
         "przekazujacy": {
           "numer": 1059948,
@@ -310,7 +312,8 @@ export class DokumentyService {
           "identyfikator": "\"APKON\" SP. Z O.O.",
           "firma": false,
           "nip": "",
-          "adres": null
+          "adres": null,
+          "eDoreczAdres": null
         },
         "przekazujacy": {
           "numer": 861528,
@@ -402,7 +405,8 @@ export class DokumentyService {
           "identyfikator": "ALDESA CONSTRUCCIONES POLSKA",
           "firma": true,
           "nip": "1234567890",
-          "adres": null
+          "adres": null,
+          "eDoreczAdres": null
         },
         "przekazujacy": {
           "numer": 1059948,
@@ -484,7 +488,8 @@ export class DokumentyService {
           "identyfikator": "WIOŚ W GDAŃSKU",
           "firma": false,
           "nip": "",
-          "adres": null
+          "adres": null,
+          "eDoreczAdres": null
         },
         "przekazujacy": {
           "numer": 1059948,
@@ -561,7 +566,8 @@ export class DokumentyService {
           "identyfikator": "SZPOJNAROWICZ JÓZEFA",
           "firma": false,
           "nip": "",
-          "adres": null
+          "adres": null,
+          "eDoreczAdres": null
         },
         "przekazujacy": {
           "numer": 861490,
