@@ -1,3 +1,5 @@
+import { TAdresTyp } from './enums.model';
+
 export interface TAdresDrukLinia {
   Linia1: string;
   Linia2: string;
