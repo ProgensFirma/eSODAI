@@ -216,7 +216,8 @@ export class EDoreczService {
           "identyfikator": "ALDESA CONSTRUCCIONES POLSKA",
           "firma": true,
           "nIP": "1234567890",
-          "adres": " 38-422 ISKRZYNIA PODKARPACKA 99A "
+          "adres": " 38-422 ISKRZYNIA PODKARPACKA 99A ",
+          "eDoreczAdres": null
         }
       },
       "dokWyjscia": {
@@ -280,7 +281,8 @@ export class EDoreczService {
           "identyfikator": "WIOŚ W GDAŃSKU",
           "firma": true,
           "nIP": "5842738392",
-          "adres": " 80-387 GDAŃSK NORWIDA CYPRIANA KAMILA 4 "
+          "adres": " 80-387 GDAŃSK NORWIDA CYPRIANA KAMILA 4 ",
+          "eDoreczAdres": null
         }
       },
       "dokWyjscia": {
@@ -352,7 +354,8 @@ export class EDoreczService {
           "identyfikator": "SZPOJNAROWICZ JÓZEFA",
           "firma": false,
           "nIP": "",
-          "adres": " 38-604 LESKO HOCZEW 49 "
+          "adres": " 38-604 LESKO HOCZEW 49 ",
+          "eDoreczAdres": null
         }
       },
       "dokWyjscia": {
@@ -435,7 +438,8 @@ export class EDoreczService {
           "identyfikator": "SAMORZĄDOWE KOLEGIUM ODWOŁAWCZE",
           "firma": true,
           "nIP": "8133476589",
-          "adres": " 35-959 RZESZÓW GRUNWALDZKA 15 "
+          "adres": " 35-959 RZESZÓW GRUNWALDZKA 15 ",
+          "eDoreczAdres": null
         }
       },
       "dokWyjscia": {
