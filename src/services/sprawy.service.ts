@@ -194,7 +194,8 @@ export class SprawyService {
           "identyfikator": "PRZEDSIĘBIORSTWO GOSPODARKI KOMUNALNEJ I MIESZKANI",
           "firma": true,
           "nip": "8670003134",
-          "adres": ""
+          "adres": "",
+          "eDoreczAdres": null
         },
         "nadzorWydzial": {
           "symbol": "1E1",
@@ -257,7 +258,8 @@ export class SprawyService {
           "identyfikator": "ALDESA CONSTRUCCIONES POLSKA",
           "firma": true,
           "nip": "1234567890",
-          "adres": ""
+          "adres": "",
+          "eDoreczAdres": null
         },
         "nadzorWydzial": {
           "symbol": "1E1",
@@ -320,7 +322,8 @@ export class SprawyService {
           "identyfikator": "SZPOJNAROWICZ JÓZEFA",
           "firma": false,
           "nip": "",
-          "adres": ""
+          "adres": "",
+          "eDoreczAdres": null
         },
         "nadzorWydzial": {
           "symbol": "1E1",
@@ -383,7 +386,8 @@ export class SprawyService {
           "identyfikator": "PRZEDSIĘBIORSTWO GOSPODARKI KOMUNALNEJ I MIESZKANI",
           "firma": true,
           "nip": "8670003134",
-          "adres": ""
+          "adres": "",
+          "eDoreczAdres": null
         },
         "nadzorWydzial": {
           "symbol": "1E1",
@@ -446,7 +450,8 @@ export class SprawyService {
           "identyfikator": "POWIAT MIELECKI",
           "firma": true,
           "nip": "",
-          "adres": ""
+          "adres": "",
+          "eDoreczAdres": null
         },
         "nadzorWydzial": {
           "symbol": "1E1",
@@ -509,7 +514,8 @@ export class SprawyService {
           "identyfikator": "WIOŚ W GDAŃSKU",
           "firma": false,
           "nip": "",
-          "adres": ""
+          "adres": "",
+          "eDoreczAdres": null
         },
         "nadzorWydzial": {
           "symbol": "1E1",
@@ -572,7 +578,8 @@ export class SprawyService {
           "identyfikator": "WIOŚ W GDAŃSKU",
           "firma": false,
           "nip": "",
-          "adres": ""
+          "adres": "",
+          "eDoreczAdres": null
         },
         "nadzorWydzial": {
           "symbol": "1E1",
