@@ -25,6 +25,13 @@ export enum TDBSerwer {
   bdFD_SQLServer = 'bdFD_SQLServer'
 }
 
+//ogólne
+export enum TAdresTyp {
+  ta_brak = "ta_brak",
+  ta_zamieszkania = "ta_zamieszkania",
+  ta_koresp = "ta_koresp",
+}
+
 //dokument
 export enum TDokStatusEdycji {
   se_DoWgladu = 'se_DoWgladu',
