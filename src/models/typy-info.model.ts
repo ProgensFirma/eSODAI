@@ -1,3 +1,26 @@
+export interface TAdresDrukLinia {
+  Linia1: string;
+  Linia2: string;
+}
+
+export interface TAdres {
+  Typ: TAdresTyp;
+  KodPoczta: string;
+  Poczta: string;
+  Miejscowosc: string;
+  Ulica: string;
+  NrDomu: string;
+  NrLokalu: string;
+}
+
+export interface TAdresPelny extends TAdres {
+  Kraj: string;
+  Woj: string;
+  Powiat: string;
+  Gmina: string;
+  UlicaTyp: string;
+}
+
 export interface TOsobaInfo {
   numer: number;
   identyfikator: string;
