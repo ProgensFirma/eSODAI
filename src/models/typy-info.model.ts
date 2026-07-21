@@ -41,7 +41,8 @@ export interface TKontrahentInfo {
   firma: boolean;
   nip: string;
   adres: string | null;
-}
+  eDoreczAdres: string;
+} 
 
 export interface TSprawaInfo {
   numer: number;
