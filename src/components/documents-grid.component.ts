@@ -209,6 +209,9 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
                   <i class="pi pi-search"></i>
                 </button>
               </div>
+              <div class="wyslij-edorecz-adres" *ngIf="adresatKontrahent?.eDoreczAdres">
+                Adres eDoręczeń: {{ adresatKontrahent!.eDoreczAdres }}
+              </div>
             </div>
             <div class="wyslij-field">
               <label class="wyslij-label">Rodzaj wysyłki</label>
@@ -911,6 +914,13 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       border-radius: 4px;
     }
 
+    .wyslij-edorecz-adres {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--text-muted, #6b7280);
+      padding-left: 2px;
+    }
+
     /* Dropdown "Sprawa" */
     .sprawa-menu-wrap {
       position: relative;
@@ -1407,7 +1417,20 @@ export class DocumentsGridComponent implements OnChanges {
     });
   }
 
+  private hasKontrahentEDoreczAdres(): boolean {
+    return !!this.adresatKontrahent?.eDoreczAdres;
+  }
+
   private autoSelectRodzaj() {
+    if (this.hasKontrahentEDoreczAdres()) {
+      const match = this.rodzajeWysylki.find(r => r.kanalWy === TKanalTyp.tk_eDorecz);
+      if (match) {
+        this.selectedRodzaj = match;
+        this.selectedRodzajKanal = match.kanalWy;
+        return;
+      }
+    }
+
     const kanal = this.wyslijDomKanalWy;
     if (!kanal || kanal === TKanalTyp.tk_brak) return;
     const match = this.rodzajeWysylki.find(r => r.kanalWy === kanal);
@@ -1428,6 +1451,9 @@ export class DocumentsGridComponent implements OnChanges {
   onKontrahentSelectedWyslij(kontrahent: TKontrahentInfo) {
     this.adresatKontrahent = kontrahent;
     this.showKontrahentWindowWyslij = false;
+    if (this.rodzajeWysylki.length > 0) {
+      this.autoSelectRodzaj();
+    }
   }
 
   closeWyslijKanalDialog() {
