@@ -157,7 +157,7 @@ export class DokumentyService {
           "firma": true,
           "nip": "",
           "adres": null,
-          "eDoreczAdres": null
+          "eDoreczAdres": "ADE-xxx"
         },
         "przekazujacy": {
           "numer": 1059948,
