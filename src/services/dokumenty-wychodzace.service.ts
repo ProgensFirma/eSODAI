@@ -77,7 +77,8 @@ export class DokumentyWychodzaceService {
           identyfikator: "\"APKON\" SP. Z O.O.",
           firma: false,
           nip: "",
-          adres: " 37-700 PRZEMYŚL BOHATERÓW GETTA 63 "
+          adres: " 37-700 PRZEMYŚL BOHATERÓW GETTA 63 ",
+          eDoreczAdres: null
         },
         wprowadzil: {
           numer: 861528,
@@ -101,7 +102,8 @@ export class DokumentyWychodzaceService {
               identyfikator: "\"ALTA\" PPHU. OSTROWSKA A.",
               firma: true,
               nip: "",
-              adres: " 37-700  ŻOŁNIERZY I ARMII WP 1/44  "
+              adres: " 37-700  ŻOŁNIERZY I ARMII WP 1/44  ",
+              eDoreczAdres: null
             },
             osoba: null,
             wysylkaEpuap: null,
@@ -117,7 +119,8 @@ export class DokumentyWychodzaceService {
               identyfikator: "\"DONSERV\" APARATURA LABORATORYJNA-SERWIS-DORACZTWO",
               firma: true,
               nip: "",
-              adres: " 02-436 WARSZAWA GLOBUSOWA 38  "
+              adres: " 02-436 WARSZAWA GLOBUSOWA 38  ",
+              eDoreczAdres: null
             },
             osoba: null,
             wysylkaEpuap: null,
@@ -133,7 +136,8 @@ export class DokumentyWychodzaceService {
               identyfikator: "\"ALTA\" PPHU. OSTROWSKA A.",
               firma: true,
               nip: "",
-              adres: " 37-700  ŻOŁNIERZY I ARMII WP 1/44  "
+              adres: " 37-700  ŻOŁNIERZY I ARMII WP 1/44  ",
+              eDoreczAdres: null
             },
             osoba: {
               numer: 2827822,
@@ -165,7 +169,8 @@ export class DokumentyWychodzaceService {
           identyfikator: "MOSKITO SYLWESTER KOŁECZEK",
           firma: true,
           nip: "8171865969",
-          adres: " 39-300 MIELEC GŁOWACKIEGO 4 "
+          adres: " 39-300 MIELEC GŁOWACKIEGO 4 ",
+          eDoreczAdres: null
         },
         wprowadzil: {
           numer: 1059948,
@@ -212,7 +217,8 @@ export class DokumentyWychodzaceService {
           identyfikator: "PREZYDENT MIASTA KROSNA",
           firma: true,
           nip: "",
-          adres: " 38-400 KROSNO LWOWSKA 28A "
+          adres: " 38-400 KROSNO LWOWSKA 28A ",
+          eDoreczAdres: null
         },
         wprowadzil: {
           numer: 861490,
@@ -259,7 +265,8 @@ export class DokumentyWychodzaceService {
           identyfikator: "SZPOJNAROWICZ JÓZEFA",
           firma: false,
           nip: "",
-          adres: " 38-604 LESKO HOCZEW 49 "
+          adres: " 38-604 LESKO HOCZEW 49 ",
+          eDoreczAdres: null
         },
         wprowadzil: {
           numer: 861490,
@@ -306,7 +313,8 @@ export class DokumentyWychodzaceService {
           identyfikator: "WIOŚ W GDAŃSKU",
           firma: true,
           nip: "5842738392",
-          adres: " 80-387 GDAŃSK NORWIDA CYPRIANA KAMILA 4 "
+          adres: " 80-387 GDAŃSK NORWIDA CYPRIANA KAMILA 4 ",
+          eDoreczAdres: null
         },
         wprowadzil: {
           numer: 1059948,
@@ -353,7 +361,8 @@ export class DokumentyWychodzaceService {
           identyfikator: "ALDESA CONSTRUCCIONES POLSKA",
           firma: true,
           nip: "1234567890",
-          adres: " 38-422 ISKRZYNIA PODKARPACKA 99A "
+          adres: " 38-422 ISKRZYNIA PODKARPACKA 99A ",
+          eDoreczAdres: null
         },
         wprowadzil: {
           numer: 861528,

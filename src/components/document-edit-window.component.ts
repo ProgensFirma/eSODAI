@@ -1159,7 +1159,8 @@ export class DocumentEditWindowComponent implements OnInit {
       identyfikator: kontrahentInfo.identyfikator,
       firma: kontrahentInfo.firma,
       nip: kontrahentInfo.nip,
-      adres: kontrahentInfo.adres
+      adres: kontrahentInfo.adres,
+      eDoreczAdres: kontrahentInfo.eDoreczAdres
     };
   }
 

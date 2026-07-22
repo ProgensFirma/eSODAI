@@ -4,6 +4,7 @@ export interface EDoreczKontrahent {
   firma: boolean;
   nIP: string;
   adres: string;
+  eDoreczAdres?: string | null;
 }
 
 export interface EDoreczZalacznik {

@@ -804,7 +804,8 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
       identyfikator: kontrahentInfo.identyfikator,
       firma: kontrahentInfo.firma,
       nip: kontrahentInfo.nip,
-      adres: kontrahentInfo.adres
+      adres: kontrahentInfo.adres,
+      eDoreczAdres: kontrahentInfo.eDoreczAdres
     };
   }
 
