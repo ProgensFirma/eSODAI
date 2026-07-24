@@ -13,6 +13,7 @@ import { ZalacznikTresc } from '../models/zalacznik.model';
 import { TBazaOper, TeSodStatus } from '../models/enums.model';
 import { ZalacznikiService } from '../services/zalaczniki.service';
 import { AuthService } from '../services/auth.service';
+import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
 
 @Component({
   selector: 'app-document-edit-window',
@@ -204,22 +205,6 @@ import { AuthService } from '../services/auth.service';
                   <span class="attachment-number">#{{ zalacznik.numer }}</span>
                   <span class="attachment-view-icon" *ngIf="!previewLoading[zalacznik.numer]">👁️</span>
                   <span class="spinner" *ngIf="previewLoading[zalacznik.numer]"></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group full-width" *ngIf="previewZalacznik">
-              <label class="form-label">Podgląd: {{ previewZalacznik.plik }}</label>
-              <div class="attachment-preview">
-                <button class="preview-close" type="button" (click)="closePreview()">✕</button>
-                <div class="preview-content" *ngIf="previewImageUrl" >
-                  <img [src]="previewImageUrl" [alt]="previewZalacznik.plik" class="preview-image" />
-                </div>
-                <div class="preview-content" *ngIf="previewPdfUrl">
-                  <iframe [src]="previewPdfUrl" class="preview-iframe" title="Podgląd PDF"></iframe>
-                </div>
-                <div class="preview-content" *ngIf="!previewImageUrl && !previewPdfUrl">
-                  <pre class="preview-text">{{ previewText }}</pre>
                 </div>
               </div>
             </div>
@@ -909,10 +894,6 @@ export class DocumentEditWindowComponent implements OnInit {
   selectedFile: File | null = null;
   selectedFileName: string = '';
   documentSavedSuccessfully = false;
-  previewZalacznik: ZalacznikTresc | null = null;
-  previewImageUrl: string = '';
-  previewPdfUrl: string = '';
-  previewText: string = '';
   previewLoading: { [key: number]: boolean } = {};
 
   constructor(
@@ -1063,7 +1044,6 @@ export class DocumentEditWindowComponent implements OnInit {
   }
 
   onClose() {
-    this.closePreview();
     this.closeRequested.emit();
   }
 
@@ -1082,7 +1062,9 @@ export class DocumentEditWindowComponent implements OnInit {
       .subscribe({
         next: (tresc) => {
           this.previewLoading[zalacznik.numer] = false;
-          this.showPreview(tresc);
+          if (tresc.tresc) {
+            openOrDownloadBase64File(zalacznik.plik, tresc.tresc);
+          }
         },
         error: (err) => {
           this.previewLoading[zalacznik.numer] = false;
@@ -1090,53 +1072,6 @@ export class DocumentEditWindowComponent implements OnInit {
           this.errorMessage = 'Nie udało się pobrać załącznika';
         }
       });
-  }
-
-  private showPreview(zalacznik: ZalacznikTresc) {
-    this.closePreview();
-    this.previewZalacznik = zalacznik;
-
-    const fileName = (zalacznik.plik || '').toLowerCase();
-    const base64 = zalacznik.tresc || '';
-
-    if (!base64) {
-      this.previewText = '(Brak treści załącznika)';
-      return;
-    }
-
-    const isPdf = fileName.endsWith('.pdf');
-    const isImage = fileName.endsWith('.png') || fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.gif') || fileName.endsWith('.webp');
-
-    if (isPdf) {
-      const byteChars = atob(base64);
-      const byteNumbers = new Array(byteChars.length);
-      for (let i = 0; i < byteChars.length; i++) {
-        byteNumbers[i] = byteChars.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: 'application/pdf' });
-      this.previewPdfUrl = URL.createObjectURL(blob);
-    } else if (isImage) {
-      const ext = fileName.split('.').pop() || 'png';
-      const mime = ext === 'jpg' ? 'jpeg' : ext;
-      this.previewImageUrl = `data:image/${mime};base64,${base64}`;
-    } else {
-      try {
-        this.previewText = atob(base64);
-      } catch {
-        this.previewText = base64;
-      }
-    }
-  }
-
-  closePreview() {
-    if (this.previewPdfUrl) {
-      URL.revokeObjectURL(this.previewPdfUrl);
-    }
-    this.previewZalacznik = null;
-    this.previewImageUrl = '';
-    this.previewPdfUrl = '';
-    this.previewText = '';
   }
 
   onOverlayClick(event: MouseEvent) {
