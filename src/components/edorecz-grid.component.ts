@@ -15,7 +15,7 @@ import { DokumentyService } from '../services/dokumenty.service';
     <div class="edorecz-container">
       <div class="grid-section">
         <div class="grid-header">
-          <h3 class="grid-title">Dokumenty eDoreczenia</h3>
+          <h3 class="grid-title">eDoreczenia przychodzące</h3>
           <div class="header-buttons">
             <button class="action-button" (click)="onDokument()" [disabled]="!selectedDokument">Dokument</button>
             <button class="refresh-button" (click)="loadData()" [disabled]="loading">
