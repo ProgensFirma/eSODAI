@@ -129,7 +129,7 @@ import { EmptyObjectsService } from './services/empty-objects.service';
               </div>
               <div class="menu-item" (click)="openJednPrzek()">
                 <span class="item-icon">🔁</span>
-                <span class="item-text">Jednostki przekazan</span>
+                <span class="item-text">Jednostki przekazań</span>
               </div>
               <div class="menu-separator"></div>
               <div class="menu-item" (click)="openInstrukcja()">
