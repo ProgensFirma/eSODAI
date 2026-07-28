@@ -26,7 +26,7 @@ import { TJednPrzek } from '../models/jedn-przek.model';
                   <th class="col-edorecz">Adres eDoręczeń</th>
                   <th class="col-flag">Główna</th>
                   <th class="col-flag">Własna</th>
-                  <th class="col-flag">SSOD</th>
+                  <th class="col-flag">NSSOD</th>
                 </tr>
               </thead>
               <tbody>
