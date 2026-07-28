@@ -29,7 +29,7 @@ export class DokumentPodpiszService {
     );
   }
 
-  podpiszDokument(dokument: number, tylkoOznacz: boolean = false): Observable<any> {
+  podpiszDokument(dokument: number, tylkoOznacz: boolean = false, pieczec: boolean = false): Observable<any> {
     const session = this.authService.getCurrentSession();
     const sesjaId = session?.sesja;
     if (!sesjaId) return throwError(() => new Error('Brak sesji'));
@@ -40,6 +40,9 @@ export class DokumentPodpiszService {
     const body: any = { dokument };
     if (tylkoOznacz) {
       body.tylkoOznacz = true;
+    }
+    if (pieczec) {
+      body.pieczec = true;
     }
 
     return this.http.post(this.apiUrl, body, { headers, params });

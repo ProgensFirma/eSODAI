@@ -8,6 +8,8 @@ import { DokumentWyslijService } from '../services/dokument-wyslij.service';
 import { DokWyjRodzajWysylkiService } from '../services/dok-wyj-rodzaj-wysylki.service';
 import { SprawyService } from '../services/sprawy.service';
 import { EmptyObjectsService } from '../services/empty-objects.service';
+import { AuthService } from '../services/auth.service';
+import { Ustawienia } from '../models/ustawienia.model';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
@@ -85,19 +87,39 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
             </div>
           </ng-container>
           <ng-container *ngIf="isPodpisuSkrzynka()">
+            <div class="sprawa-menu-wrap" *ngIf="showPodpiszMenuButton()">
+              <button
+                class="action-button button-podpisz-menu"
+                (click)="togglePodpiszMenu($event)"
+                [disabled]="!selectedDocument || podpiszLoading"
+              >
+                <span class="button-icon">✍</span>
+                Podpisz
+                <span class="dropdown-caret">▾</span>
+              </button>
+              <div class="sprawa-dropdown" *ngIf="showPodpiszMenu" (click)="$event.stopPropagation()">
+                <div
+                  class="sprawa-dropdown-item"
+                  *ngIf="podpisObsluga"
+                  (click)="onPodpiszDocument(false, false)"
+                >Podpisz</div>
+                <div
+                  class="sprawa-dropdown-item"
+                  *ngIf="pieczecObsluga"
+                  (click)="onPodpiszDocument(false, true)"
+                >Pieczęć</div>
+                <div class="sprawa-dropdown-separator"></div>
+                <div
+                  class="sprawa-dropdown-item"
+                  (click)="onPodpiszDocument(true, false)"
+                >Oznacz podpisanie</div>
+              </div>
+              <div class="sprawa-menu-backdrop" *ngIf="showPodpiszMenu" (click)="showPodpiszMenu = false"></div>
+            </div>
             <button
-              class="action-button button-podpisz"
-              [class.usluga-nieaktywna]="!podpisuUslugaAktywna"
-              (click)="onPodpiszDocument(false)"
-              [disabled]="!selectedDocument || podpiszLoading || !podpisuUslugaAktywna"
-              [title]="!podpisuUslugaAktywna ? 'Usługa podpisu niedostępna' : ''"
-            >
-              <span class="button-icon">✍</span>
-              {{ podpiszLoading ? 'Podpisywanie...' : 'Podpisz' }}
-            </button>
-            <button
+              *ngIf="!showPodpiszMenuButton()"
               class="action-button button-oznacz"
-              (click)="onPodpiszDocument(true)"
+              (click)="onPodpiszDocument(true, false)"
               [disabled]="!selectedDocument || podpiszLoading"
             >
               <span class="button-icon">✔</span>
@@ -439,21 +461,23 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       transform: translateY(-1px);
     }
 
-    .button-podpisz {
+    .button-podpisz-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       border-color: #16a34a;
       color: #16a34a;
     }
 
-    .button-podpisz:hover:not(:disabled) {
+    .button-podpisz-menu:hover:not(:disabled) {
       background: rgba(22, 163, 74, 0.12);
       transform: translateY(-1px);
     }
 
-    .button-podpisz.usluga-nieaktywna {
-      border-color: #6b7280;
-      color: #6b7280;
-      opacity: 0.6;
-      cursor: not-allowed;
+    .sprawa-dropdown-separator {
+      height: 1px;
+      background: var(--border-default);
+      margin: 4px 0;
     }
 
     .button-oznacz {
@@ -1216,6 +1240,9 @@ export class DocumentsGridComponent implements OnChanges {
   przyjmijLoading = false;
   podpiszLoading = false;
   podpisuUslugaAktywna = true;
+  showPodpiszMenu = false;
+  podpisObsluga = false;
+  pieczecObsluga = false;
 
   showSprawaEditFromDoc = false;
   nowaSprawaFromDoc: Sprawa = this.getEmptySprawa();
@@ -1265,8 +1292,14 @@ export class DocumentsGridComponent implements OnChanges {
     private dokumentWyslijService: DokumentWyslijService,
     private rodzajWysylkiService: DokWyjRodzajWysylkiService,
     private sprawyService: SprawyService,
-    private emptyObjects: EmptyObjectsService
-  ) {}
+    private emptyObjects: EmptyObjectsService,
+    private authService: AuthService
+  ) {
+    this.authService.ustawienia$.subscribe((ustawienia: Ustawienia | null) => {
+      this.podpisObsluga = ustawienia?.podpisObsluga ?? false;
+      this.pieczecObsluga = ustawienia?.pieczecObsluga ?? false;
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedSkrzynka'] && this.selectedSkrzynka && !this.waitForSprawa) {
@@ -1598,18 +1631,28 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   isPodpisuSkrzynka(): boolean {
-    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoPodpisu;
+    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoPodpisu || this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PBiezace;
+  }
+
+  showPodpiszMenuButton(): boolean {
+    return this.podpisObsluga || this.pieczecObsluga;
+  }
+
+  togglePodpiszMenu(event: Event) {
+    event.stopPropagation();
+    this.showPodpiszMenu = !this.showPodpiszMenu;
   }
 
   isDoWgladuSkrzynka(): boolean {
     return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoWgladu;
   }
 
-  onPodpiszDocument(tylkoOznacz: boolean) {
+  onPodpiszDocument(tylkoOznacz: boolean, pieczec: boolean = false) {
     if (!this.selectedDocument) return;
 
+    this.showPodpiszMenu = false;
     this.podpiszLoading = true;
-    this.dokumentPodpiszService.podpiszDokument(this.selectedDocument.numer, tylkoOznacz).subscribe({
+    this.dokumentPodpiszService.podpiszDokument(this.selectedDocument.numer, tylkoOznacz, pieczec).subscribe({
       next: () => {
         this.podpiszLoading = false;
         this.loadDocuments();
