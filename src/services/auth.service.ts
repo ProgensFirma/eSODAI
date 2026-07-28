@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, catchError, throwError, map } from 'rxjs';
 import { LoginRequest, SessionData, LoginResponse } from '../models/session.model';
-import { TSystem, TDBSerwer } from '../models/enums.model';
+import { Ustawienia } from '../models/ustawienia.model';
+import { TSystem, TDBSerwer, TeSodStatus } from '../models/enums.model';
 import { ConfigService } from './config.service';
 import { environment } from '../environments/environment';
 
@@ -17,9 +18,11 @@ export class AuthService {
 
   private sessionSubject = new BehaviorSubject<SessionData | null>(null);
   private appServerVersionSubject = new BehaviorSubject<string>('');
+  private ustawieniaSubject = new BehaviorSubject<Ustawienia | null>(null);
 
   public session$ = this.sessionSubject.asObservable();
   public appServerVersion$ = this.appServerVersionSubject.asObservable();
+  public ustawienia$ = this.ustawieniaSubject.asObservable();
 
   constructor(private http: HttpClient, private configService: ConfigService) {}
 
@@ -55,6 +58,7 @@ export class AuthService {
         this.sessionSubject.next(sessionData);
         this.appServerVersionSubject.next(appServerVersion);
         this.saveLastLogin(loginData.login);
+        this.loadUstawienia(sessionData.sesja);
 
         return {
           sessionData,
@@ -104,6 +108,7 @@ export class AuthService {
           this.sessionSubject.next(mockSessionData);
           this.appServerVersionSubject.next(mockAppServerVersion);
           this.saveLastLogin(loginData.login);
+          this.loadUstawienia(mockSessionData.sesja);
 
           return new Observable<LoginResponse>(observer => {
             observer.next({
@@ -121,11 +126,13 @@ export class AuthService {
   logout(): void {
     this.sessionSubject.next(null);
     this.appServerVersionSubject.next('');
+    this.ustawieniaSubject.next(null);
   }
 
   clearSession(): void {
     this.sessionSubject.next(null);
     this.appServerVersionSubject.next('');
+    this.ustawieniaSubject.next(null);
   }
 
   getCurrentSession(): SessionData | null {
@@ -134,6 +141,39 @@ export class AuthService {
 
   getCurrentAppServerVersion(): string {
     return this.appServerVersionSubject.value;
+  }
+
+  getCurrentUstawienia(): Ustawienia | null {
+    return this.ustawieniaSubject.value;
+  }
+
+  private loadUstawienia(sesja: number): void {
+    const params = new HttpParams().append('sesja', sesja.toString());
+    this.http.get<Ustawienia>(`${this.configService.apiBaseUrl}/ustawienia`, { params }).pipe(
+      catchError(error => {
+        console.error('Error fetching ustawienia:', error);
+        if (!environment.production) {
+          const mockUstawienia: Ustawienia = {
+            pieczecObsluga: true,
+            podpisObsluga: false,
+            powiadomieniaObsluga: true,
+            eDoreczObsluga: true,
+            kSeFObsluga: false,
+            jednPrzekObsluga: false,
+            maxRozmiarPliku: 50,
+            dokumentSpecUpraw: false,
+            sprawaZamkDolaczPismo: true,
+            status: TeSodStatus.sOK,
+            statusDane: ''
+          };
+          return new Observable<Ustawienia>(obs => { obs.next(mockUstawienia); obs.complete(); });
+        }
+        return throwError(() => error);
+      })
+    ).subscribe({
+      next: (ustawienia) => this.ustawieniaSubject.next(ustawienia),
+      error: (err) => console.error('Failed to load ustawienia:', err)
+    });
   }
 
   isLoggedIn(): boolean {
