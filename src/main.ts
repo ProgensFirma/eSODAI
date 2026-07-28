@@ -25,6 +25,7 @@ import { EDoreczGridComponent } from './components/edorecz-grid.component';
 import { EDoreczWysGridComponent } from './components/edorecz-wys-grid.component';
 import { PowiadomieniaWindowComponent } from './components/powiadomienia-window.component';
 import { PracownicyWindowComponent } from './components/pracownicy-window.component';
+import { JednPrzekWindowComponent } from './components/jedn-przek-window.component';
 import { DoZrobieniaComponent } from './components/dozrobienia-panel.component';
 import { Dokument } from './models/dokument.model';
 import { TBazaOper, TeSodStatus, TDokStatusEdycji, TDokStatusPrzek, TSkrzynki, TKanalTyp } from './models/enums.model';
@@ -41,7 +42,7 @@ import { EmptyObjectsService } from './services/empty-objects.service';
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, LoginWindowComponent, InfoWindowComponent, ParametryWindowComponent, UprawnienieWindowComponent, WykazAktWindowComponent, SkrzynkiTreeComponent, DocumentsGridComponent, DocumentDetailsComponent,
-      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent, PowiadomieniaWindowComponent, PracownicyWindowComponent, DoZrobieniaComponent],
+      KontrahenciWindowComponent, DocumentEditWindowComponent, WydzialSelectWindowComponent, SprawyGridComponent, DokumentyWychodzaceWindowComponent, DokumentPrzekazWindowComponent, EDoreczGridComponent, EDoreczWysGridComponent, PowiadomieniaWindowComponent, PracownicyWindowComponent, DoZrobieniaComponent, JednPrzekWindowComponent],
   template: `
     <app-login-window
       *ngIf="!isLoggedIn"
@@ -125,6 +126,10 @@ import { EmptyObjectsService } from './services/empty-objects.service';
               <div class="menu-item" (click)="openUprawnienia()">
                 <span class="item-icon">🔐</span>
                 <span class="item-text">Uprawnienia</span>
+              </div>
+              <div class="menu-item" (click)="openJednPrzek()">
+                <span class="item-icon">🔁</span>
+                <span class="item-text">Jednostki przekazan</span>
               </div>
               <div class="menu-separator"></div>
               <div class="menu-item" (click)="openInstrukcja()">
@@ -248,6 +253,11 @@ import { EmptyObjectsService } from './services/empty-objects.service';
       *ngIf="showUprawnienieWindow"
       (closeRequested)="closeUprawnienieWindow()"
     ></app-uprawnienia-window>
+
+    <app-jedn-przek-window
+      *ngIf="showJednPrzekWindow"
+      (closeRequested)="closeJednPrzekWindow()"
+    ></app-jedn-przek-window>
 
     <app-wykaz-akt-window
       *ngIf="showWykazAktWindow"
@@ -1158,6 +1168,7 @@ export class App implements OnInit, OnDestroy {
   showInfoWindow = false;
   showParametryWindow = false;
   showUprawnienieWindow = false;
+  showJednPrzekWindow = false;
   showWykazAktWindow = false;
   showDocumentEditWindow = false;
   showDokumentyWychodzaceWindow = false;
@@ -1393,6 +1404,15 @@ export class App implements OnInit, OnDestroy {
     this.showUprawnienieWindow = false;
   }
 
+  openJednPrzek() {
+    this.showJednPrzekWindow = true;
+    this.showMenu = false;
+  }
+
+  closeJednPrzekWindow() {
+    this.showJednPrzekWindow = false;
+  }
+
   openDokumentyWychodzace() {
     this.dokumentyWychodzaceDokumentNumer = null;
     this.showDokumentyWychodzaceWindow = true;
@@ -1575,6 +1595,7 @@ export class App implements OnInit, OnDestroy {
     this.showInfoWindow = false;
     this.showParametryWindow = false;
     this.showUprawnienieWindow = false;
+    this.showJednPrzekWindow = false;
     this.showWykazAktWindow = false;
     this.showDocumentEditWindow = false;
     this.showWydzialSelect = false;
