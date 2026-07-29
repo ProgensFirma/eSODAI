@@ -87,7 +87,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
             </div>
           </ng-container>
           <ng-container *ngIf="isPodpisuSkrzynka()">
-            <div class="sprawa-menu-wrap" *ngIf="showPodpiszMenuButton()">
+            <div class="sprawa-menu-wrap">
               <button
                 class="action-button button-podpisz-menu"
                 (click)="togglePodpiszMenu($event)"
@@ -100,13 +100,13 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
               <div class="sprawa-dropdown" *ngIf="showPodpiszMenu" (click)="$event.stopPropagation()">
                 <div
                   class="sprawa-dropdown-item"
-                  *ngIf="podpisObsluga"
-                  (click)="onPodpiszDocument(false, false)"
+                  [class.sprawa-dropdown-item-disabled]="!podpisObsluga"
+                  (click)="podpisObsluga && onPodpiszDocument(false, false)"
                 >Podpisz</div>
                 <div
                   class="sprawa-dropdown-item"
-                  *ngIf="pieczecObsluga"
-                  (click)="onPodpiszDocument(false, true)"
+                  [class.sprawa-dropdown-item-disabled]="!pieczecObsluga"
+                  (click)="pieczecObsluga && onPodpiszDocument(false, true)"
                 >Pieczęć</div>
                 <div class="sprawa-dropdown-separator"></div>
                 <div
@@ -116,15 +116,6 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
               </div>
               <div class="sprawa-menu-backdrop" *ngIf="showPodpiszMenu" (click)="showPodpiszMenu = false"></div>
             </div>
-            <button
-              *ngIf="!showPodpiszMenuButton()"
-              class="action-button button-oznacz"
-              (click)="onPodpiszDocument(true, false)"
-              [disabled]="!selectedDocument || podpiszLoading"
-            >
-              <span class="button-icon">✔</span>
-              {{ podpiszLoading ? 'Oznaczanie...' : 'Oznacz podpisanie' }}
-            </button>
           </ng-container>
           <button
             *ngIf="isPrzyjmijSkrzynka()"
@@ -478,6 +469,12 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       height: 1px;
       background: var(--border-default);
       margin: 4px 0;
+    }
+
+    .sprawa-dropdown-item-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      pointer-events: none;
     }
 
     .button-oznacz {
@@ -1632,10 +1629,6 @@ export class DocumentsGridComponent implements OnChanges {
 
   isPodpisuSkrzynka(): boolean {
     return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoPodpisu || this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PBiezace;
-  }
-
-  showPodpiszMenuButton(): boolean {
-    return this.podpisObsluga || this.pieczecObsluga;
   }
 
   togglePodpiszMenu(event: Event) {
