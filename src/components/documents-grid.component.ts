@@ -1236,7 +1236,6 @@ export class DocumentsGridComponent implements OnChanges {
   loading = false;
   przyjmijLoading = false;
   podpiszLoading = false;
-  podpisuUslugaAktywna = true;
   showPodpiszMenu = false;
   podpisObsluga = false;
   pieczecObsluga = false;
@@ -1300,22 +1299,11 @@ export class DocumentsGridComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['selectedSkrzynka'] && this.selectedSkrzynka && !this.waitForSprawa) {
-      if (this.isPodpisuSkrzynka()) {
-        this.sprawdzUslugePodpisu();
-      } else {
-        this.podpisuUslugaAktywna = true;
-      }
       this.loadDocuments();
     }
     if (changes['selectedSprawa'] && this.selectedSprawa) {
       this.loadDocuments();
     }
-  }
-
-  private sprawdzUslugePodpisu() {
-    this.dokumentPodpiszService.checkUslugaPodpisu().subscribe(aktywna => {
-      this.podpisuUslugaAktywna = aktywna;
-    });
   }
 
   loadDocuments() {
