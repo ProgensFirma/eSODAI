@@ -86,7 +86,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
               <div class="sprawa-menu-backdrop" *ngIf="showSprawaMenu" (click)="showSprawaMenu = false"></div>
             </div>
           </ng-container>
-          <ng-container *ngIf="isPodpisuSkrzynka()">
+          <ng-container *ngIf="showPodpiszButton()">
             <div class="sprawa-menu-wrap">
               <button
                 class="action-button button-podpisz-menu"
@@ -1616,6 +1616,10 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   isPodpisuSkrzynka(): boolean {
+    return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoPodpisu;
+  }
+
+  showPodpiszButton(): boolean {
     return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PDoPodpisu || this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PBiezace;
   }
 
