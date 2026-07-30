@@ -515,6 +515,7 @@ import { TZalacznikInfo } from '../models/typy-info.model';
 })
 export class EdoreczKopertaWindowComponent implements OnInit {
   @Input() dokumentWychodzacy: DokumentWychodzacy | null = null;
+  @Input() mj = false;
   @Output() closeRequested = new EventEmitter<void>();
 
   punktyNadawcze: EdoreczPunktNadawczy[] = [];
@@ -538,6 +539,7 @@ export class EdoreczKopertaWindowComponent implements OnInit {
   ngOnInit() {
     this.loadData();
     this.initializeFromDokument();
+    this.loadTytulTresc();
   }
 
   loadData() {
@@ -597,6 +599,21 @@ export class EdoreczKopertaWindowComponent implements OnInit {
     if (this.dokumentWychodzacy.dokument?.zalaczniki) {
       this.zalaczniki = this.dokumentWychodzacy.dokument.zalaczniki;
     }
+  }
+
+  loadTytulTresc() {
+    if (!this.dokumentWychodzacy?.dokument?.numer) return;
+
+    const dokumentNumer = this.dokumentWychodzacy.dokument.numer;
+    this.edoreczKopertaService.getTytulTresc(dokumentNumer, this.mj).subscribe({
+      next: (data) => {
+        if (data?.temat) this.tytul = data.temat;
+        if (data?.tresc) this.tresc = data.tresc;
+      },
+      error: (error) => {
+        console.error('Error loading tytul/tresc:', error);
+      }
+    });
   }
 
   onWyslij() {

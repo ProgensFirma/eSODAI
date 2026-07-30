@@ -249,6 +249,7 @@ import { EdoreczKopertaWindowComponent } from './edorecz-koperta-window.componen
     <app-edorecz-koperta-window
       *ngIf="showEdoreczKoperta"
       [dokumentWychodzacy]="selectedDokument"
+      [mj]="miedzyJednostkami"
       (closeRequested)="closeEdoreczKoperta()"
     ></app-edorecz-koperta-window>
   `,
@@ -765,6 +766,7 @@ export class DokumentyWychodzaceWindowComponent implements OnInit {
 
   sessionData!: SessionData;
   showEdoreczKoperta = false;
+  miedzyJednostkami = false;
 
   constructor(
     private dokumentyWychodzaceService: DokumentyWychodzaceService,

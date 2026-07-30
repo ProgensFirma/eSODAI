@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { EdoreczPunktNadawczy } from '../models/edorecz-punkt-nadawczy.model';
+import { TeDorTytTresc } from '../models/edorecz-tyt-tresc.model';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
 
@@ -69,5 +70,19 @@ export class EdoreczKopertaService {
         }
       })
     );
+  }
+
+  getTytulTresc(dokument: number, mj: boolean): Observable<TeDorTytTresc> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString())
+      .append('dokument', dokument.toString())
+      .append('mj', mj.toString());
+
+    const apiUrl = this.configService.apiBaseUrl;
+    return this.http.get<TeDorTytTresc>(`${apiUrl}/eDorecz/tytulTresc`, { params });
   }
 }
