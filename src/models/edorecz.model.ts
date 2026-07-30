@@ -42,6 +42,11 @@ export interface EDoreczDokument {
 export interface TeDoreczHybryda {
 }
 
+export interface TeDorTytTresc {
+  temat: string;
+  tresc: string;
+}
+
 export interface EDoreczWyslana {
   numer: number;
   kopertaGlowna: number;

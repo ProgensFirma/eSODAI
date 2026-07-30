@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { EdoreczPunktNadawczy } from '../models/edorecz-punkt-nadawczy.model';
-import { TeDorTytTresc } from '../models/edorecz-tyt-tresc.model';
+import { TeDorTytTresc } from '../models/edorecz.model';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
 
