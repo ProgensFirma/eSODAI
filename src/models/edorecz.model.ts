@@ -37,8 +37,8 @@ export interface EDoreczDokument {
   zalaczniki: EDoreczZalacznik[];
   potwierdzenia: EDoreczPotwierdzenie[];
   
-  oper: string;
-  status: string;
+  oper: TBazaOper;
+  status: TeSodStatus;
   statusDane: string;
 }
 
@@ -90,7 +90,7 @@ export interface EDoreczWyslana {
   zalaczniki: EDoreczZalacznik[];
   potwierdzenia: EDoreczPotwierdzenie[];
   
-  oper: string;
-  status: string;
+  oper: TBazaOper;
+  status: TeSodStatus;
   statusDane: string;  
 }
