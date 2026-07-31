@@ -1,3 +1,5 @@
+import { TBazaOper, TeSodStatus, TeDorTypMJ } from './enums.model';
+
 export interface EDoreczKontrahent {
   numer: number;
   identyfikator: string;
@@ -34,6 +36,7 @@ export interface EDoreczDokument {
   notatka: string;
   zalaczniki: EDoreczZalacznik[];
   potwierdzenia: EDoreczPotwierdzenie[];
+  
   oper: string;
   status: string;
   statusDane: string;
@@ -82,10 +85,12 @@ export interface EDoreczWyslana {
   taskId: string;
   statusDoreczenia: number;
   statusDoreczeniaOpis: string;
+  trybMiedzyJedn: TeDorTypMJ;
+  
   zalaczniki: EDoreczZalacznik[];
   potwierdzenia: EDoreczPotwierdzenie[];
+  
   oper: string;
   status: string;
-  statusDane: string;
-  trybMiedzyJedn: TeDorTypMJ;
+  statusDane: string;  
 }
