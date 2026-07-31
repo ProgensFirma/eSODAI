@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { TBazaOper, TeSodStatus, TeDorTypMJ } from '../models/enums.model';
 import { EDoreczDokument, EDoreczWyslana } from '../models/edorecz.model';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
