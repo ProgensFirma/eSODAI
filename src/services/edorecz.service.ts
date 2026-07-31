@@ -248,6 +248,7 @@ export class EDoreczService {
       "taskId": "",
       "statusDoreczenia": 0,
       "statusDoreczeniaOpis": "Przygotowana do wysłania",
+      "trybMiedzyJedn": "tmj_brak",
       "zalaczniki": [
         {
           "numer": 2827801,
@@ -313,6 +314,7 @@ export class EDoreczService {
       "taskId": "TASK-12345",
       "statusDoreczenia": 3,
       "statusDoreczeniaOpis": "Dostarczone",
+      "trybMiedzyJedn": "tmj_brak",
       "zalaczniki": [],
       "potwierdzenia": [
         {
@@ -386,6 +388,7 @@ export class EDoreczService {
       "taskId": "TASK-67890",
       "statusDoreczenia": 3,
       "statusDoreczeniaOpis": "Dostarczone",
+      "trybMiedzyJedn": "tmj_brak",
       "zalaczniki": [
         {
           "numer": 2827901,
@@ -470,6 +473,7 @@ export class EDoreczService {
       "taskId": "",
       "statusDoreczenia": 0,
       "statusDoreczeniaOpis": "Przygotowana do wysłania",
+      "trybMiedzyJedn": "tmj_brak",
       "zalaczniki": [],
       "potwierdzenia": [],
       "oper": "tboSelect",
