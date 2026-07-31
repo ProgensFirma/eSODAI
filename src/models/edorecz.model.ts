@@ -87,4 +87,5 @@ export interface EDoreczWyslana {
   oper: string;
   status: string;
   statusDane: string;
+  trybMiedzyJedn: TeDorTypMJ;
 }
