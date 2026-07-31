@@ -25,7 +25,6 @@ export enum TDBSerwer {
   bdFD_SQLServer = 'bdFD_SQLServer'
 }
 
-//ogólne
 export enum TAdresTyp {
   ta_brak = "ta_brak",
   ta_zamieszkania = "ta_zamieszkania",
@@ -154,4 +153,12 @@ export enum TSkrzynki {
   tfs_MojKomp ='tfs_MojKomp',
   
   txx_Brak = 'txx_Brak'
+}
+
+//eDoreczenia
+
+export enum TeDorTypMJ {
+  tmj_brak = 0,
+  tmj_przekaz = 1,
+  tmj_podpis = 2
 }
