@@ -65,7 +65,7 @@ export class EDoreczService {
           "data": "2025-11-28T11:12:45.986Z"
         }
       ],
-      "oper": "tboSelect",
+      "oper": TBazaOper.tboSelect,
       "status": "sOK",
       "statusDane": ""
     },
@@ -126,7 +126,7 @@ export class EDoreczService {
           "data": "2025-11-28T10:58:45.265Z"
         }
       ],
-      "oper": "tboSelect",
+      "oper": TBazaOper.tboSelect,
       "status": "sOK",
       "statusDane": ""
     },
@@ -187,7 +187,7 @@ export class EDoreczService {
           "data": "2025-11-28T10:07:42.979Z"
         }
       ],
-      "oper": "tboSelect",
+      "oper": TBazaOper.tboSelect,
       "status": "sOK",
       "statusDane": ""
     }
@@ -256,7 +256,7 @@ export class EDoreczService {
         }
       ],
       "potwierdzenia": [],
-      "oper": "tboSelect",
+      "oper": TBazaOper.tboSelect,
       "status": "sOK",
       "statusDane": ""
     },
@@ -330,7 +330,7 @@ export class EDoreczService {
           "data": "2024-12-18T14:23:15.234Z"
         }
       ],
-      "oper": "tboSelect",
+      "oper": TBazaOper.tboSelect,
       "status": "sOK",
       "statusDane": ""
     },
@@ -415,7 +415,7 @@ export class EDoreczService {
           "data": "2024-12-17T18:45:32.789Z"
         }
       ],
-      "oper": "tboSelect",
+      "oper": TBazaOper.tboSelect,
       "status": "sOK",
       "statusDane": ""
     },
@@ -476,7 +476,7 @@ export class EDoreczService {
       "trybMiedzyJedn": "tmj_brak",
       "zalaczniki": [],
       "potwierdzenia": [],
-      "oper": "tboSelect",
+      "oper": TBazaOper.tboSelect,
       "status": "sOK",
       "statusDane": ""
     }
