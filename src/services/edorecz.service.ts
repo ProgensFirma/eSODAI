@@ -66,7 +66,7 @@ export class EDoreczService {
         }
       ],
       "oper": TBazaOper.tboSelect,
-      "status": "sOK",
+      "status": TeSodStatus.sOK,
       "statusDane": ""
     },
     {
@@ -127,7 +127,7 @@ export class EDoreczService {
         }
       ],
       "oper": TBazaOper.tboSelect,
-      "status": "sOK",
+      "status": TeSodStatus.sOK,
       "statusDane": ""
     },
     {
@@ -188,7 +188,7 @@ export class EDoreczService {
         }
       ],
       "oper": TBazaOper.tboSelect,
-      "status": "sOK",
+      "status": TeSodStatus.sOK,
       "statusDane": ""
     }
   ];
@@ -256,8 +256,9 @@ export class EDoreczService {
         }
       ],
       "potwierdzenia": [],
+      
       "oper": TBazaOper.tboSelect,
-      "status": "sOK",
+      "status": TeSodStatus.sOK,
       "statusDane": ""
     },
     {
@@ -331,7 +332,7 @@ export class EDoreczService {
         }
       ],
       "oper": TBazaOper.tboSelect,
-      "status": "sOK",
+      "status": TeSodStatus.sOK,
       "statusDane": ""
     },
     {
@@ -416,7 +417,7 @@ export class EDoreczService {
         }
       ],
       "oper": TBazaOper.tboSelect,
-      "status": "sOK",
+      "status": TeSodStatus.sOK,
       "statusDane": ""
     },
     {
@@ -477,7 +478,7 @@ export class EDoreczService {
       "zalaczniki": [],
       "potwierdzenia": [],
       "oper": TBazaOper.tboSelect,
-      "status": "sOK",
+      "status": TeSodStatus.sOK,
       "statusDane": ""
     }
   ];
