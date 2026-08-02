@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { EdoreczPunktNadawczy } from '../models/edorecz-punkt-nadawczy.model';
-import { TeDorTytTresc } from '../models/edorecz.model';
+import { TeDorTytTresc, EDoreczWyslana } from '../models/edorecz.model';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
 
@@ -84,5 +84,17 @@ export class EdoreczKopertaService {
 
     const apiUrl = this.configService.apiBaseUrl;
     return this.http.get<TeDorTytTresc>(`${apiUrl}/eDorecz/tytulTresc`, { params });
+  }
+
+  wyslijKoperte(koperta: EDoreczWyslana): Observable<EDoreczWyslana> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString());
+
+    const apiUrl = this.configService.apiBaseUrl;
+    return this.http.post<EDoreczWyslana>(`${apiUrl}/eDorecz/Koperta`, koperta, { params });
   }
 }

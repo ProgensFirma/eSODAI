@@ -7,6 +7,8 @@ import { EdoreczPunktNadawczy } from '../models/edorecz-punkt-nadawczy.model';
 import { KontrahWew } from '../models/kontrah-wew.model';
 import { DokumentWychodzacy } from '../models/dokument-wychodzacy.model';
 import { TZalacznikInfo } from '../models/typy-info.model';
+import { EDoreczWyslana, EDoreczKontrahent } from '../models/edorecz.model';
+import { TBazaOper, TeSodStatus, TeDorTypMJ } from '../models/enums.model';
 
 @Component({
   selector: 'app-edorecz-koperta-window',
@@ -617,13 +619,87 @@ export class EdoreczKopertaWindowComponent implements OnInit {
   }
 
   onWyslij() {
-    console.log('Wysyłanie koperty eDoręczenia:', {
-      punktNadawczy: this.selectedPunktNumer,
-      typWiadomosci: this.typWiadomosci,
+    if (!this.dokumentWychodzacy || !this.selectedPunktNumer) {
+      console.error('Brak wymaganych danych do wysłania koperty');
+      return;
+    }
+
+    const dok = this.dokumentWychodzacy;
+    const punkt = this.punktyNadawcze.find(p => p.numer === this.selectedPunktNumer);
+
+    const kontrahentDoc = dok.dokument?.kontrahent;
+    const mapKontrahent = (k: typeof kontrahentDoc): EDoreczKontrahent | null => {
+      if (!k) return null;
+      return {
+        numer: k.numer,
+        identyfikator: k.identyfikator,
+        firma: k.firma,
+        nIP: k.nip,
+        adres: k.adres ?? '',
+        eDoreczAdres: k.eDoreczAdres ?? null
+      };
+    };
+
+    const adresatKontrahent = mapKontrahent(kontrahentDoc)!;
+
+    const koperta: EDoreczWyslana = {
+      numer: 0,
+      kopertaGlowna: 0,
+      punktNadawczy: {
+        numer: punkt?.numer ?? 0,
+        nazwa: punkt?.nazwa ?? ''
+      },
+      wyslana: false,
+      dokument: {
+        numer: dok.dokument?.numer ?? 0,
+        typ: {
+          nazwa: dok.dokument?.typ?.nazwa ?? '',
+          finansowy: dok.dokument?.typ?.finansowy ?? false,
+          polecenieZaplaty: dok.dokument?.typ?.poleceniezaplaty ?? false
+        },
+        nazwa: dok.dokument?.nazwa ?? '',
+        rejestrNrPozycji: dok.dokument?.rejestrNrPozycji ?? '',
+        kontrahent: mapKontrahent(kontrahentDoc)!
+      },
+      dokWyjscia: {
+        numer: dok.numer,
+        rejestrNrPozycji: dok.rejestrNrPozycji
+      },
       adresatSkrzynka: this.adresatSkrzynka,
-      adresat: this.adresat,
+      adresat: adresatKontrahent,
+      nadawcaSkrzynka: this.nadawca?.epuapSkrytka ?? '',
+      nadawca: {
+        numer: this.nadawca?.numer ?? 0,
+        identyfikator: this.nadawca?.nazwa ?? '',
+        firma: true,
+        nIP: '',
+        adres: this.nadawca?.aDE ?? '',
+        eDoreczAdres: null
+      },
       tytul: this.tytul,
-      tresc: this.tresc
+      tresc: this.tresc,
+      typ: this.typWiadomosci,
+      hybryda: this.typWiadomosci === 'hybrydowa' ? {} : null,
+      msgId: '',
+      taskId: '',
+      statusDoreczenia: 0,
+      statusDoreczeniaOpis: '',
+      trybMiedzyJedn: TeDorTypMJ.tmj_brak,
+      zalaczniki: (this.zalaczniki ?? []).map(z => ({ numer: z.numer, plik: z.plik })),
+      potwierdzenia: [],
+      oper: TBazaOper.tboDodaj,
+      status: TeSodStatus.sBrak,
+      statusDane: ''
+    };
+
+    this.edoreczKopertaService.wyslijKoperte(koperta).subscribe({
+      next: (response) => {
+        console.log('Koperta eDoręczenia wysłana:', response);
+        this.closeRequested.emit();
+      },
+      error: (error) => {
+        console.error('Błąd wysyłania koperty:', error);
+      }
     });
   }
 
