@@ -94,7 +94,8 @@ export class EdoreczKopertaService {
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
-      .append('numer', numer.toString());
+      .append('numer', numer.toString())
+      .append('zalInfo', true.toString());
 
     const apiUrl = this.configService.apiBaseUrl;
     return this.http.get<Dokument>(`${apiUrl}/dokumenty`, { params }).pipe(
