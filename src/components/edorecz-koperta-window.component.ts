@@ -7,6 +7,7 @@ import { EdoreczPunktNadawczy } from '../models/edorecz-punkt-nadawczy.model';
 import { KontrahWew } from '../models/kontrah-wew.model';
 import { DokumentWychodzacy } from '../models/dokument-wychodzacy.model';
 import { TZalacznikInfo } from '../models/typy-info.model';
+import { Dokument } from '../models/dokument.model';
 import { EDoreczWyslana, EDoreczKontrahent } from '../models/edorecz.model';
 import { TBazaOper, TeSodStatus, TeDorTypMJ } from '../models/enums.model';
 
@@ -120,8 +121,15 @@ import { TBazaOper, TeSodStatus, TeDorTypMJ } from '../models/enums.model';
               <h3 class="panel-title">Załączniki ({{ zalaczniki.length }})</h3>
               <div class="zalaczniki-list">
                 <div class="zalacznik-item" *ngFor="let zalacznik of zalaczniki">
-                  <span class="zalacznik-icon">📎</span>
-                  <span class="zalacznik-name">{{ zalacznik.plik }}</span>
+                  <label class="zalacznik-checkbox">
+                    <input
+                      type="checkbox"
+                      [checked]="zalacznikiZaznaczone[zalacznik.numer]"
+                      (change)="zalacznikiZaznaczone[zalacznik.numer] = !zalacznikiZaznaczone[zalacznik.numer]"
+                    />
+                    <span class="zalacznik-icon">📎</span>
+                    <span class="zalacznik-name">{{ zalacznik.plik }}</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -404,6 +412,21 @@ import { TBazaOper, TeSodStatus, TeDorTypMJ } from '../models/enums.model';
       border-radius: 6px;
     }
 
+    .zalacznik-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .zalacznik-checkbox input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #2563eb;
+    }
+
     .zalacznik-icon {
       font-size: 16px;
     }
@@ -532,6 +555,7 @@ export class EdoreczKopertaWindowComponent implements OnInit {
   tytul = '';
   tresc = '';
   zalaczniki: TZalacznikInfo[] = [];
+  zalacznikiZaznaczone: Record<number, boolean> = {};
 
   constructor(
     private edoreczKopertaService: EdoreczKopertaService,
@@ -600,7 +624,24 @@ export class EdoreczKopertaWindowComponent implements OnInit {
 
     if (this.dokumentWychodzacy.dokument?.zalaczniki) {
       this.zalaczniki = this.dokumentWychodzacy.dokument.zalaczniki;
+      this.zalaczniki.forEach(z => this.zalacznikiZaznaczone[z.numer] = true);
+    } else if (this.dokumentWychodzacy.dokument?.numer) {
+      this.loadDokument(this.dokumentWychodzacy.dokument.numer);
     }
+  }
+
+  loadDokument(numer: number) {
+    this.edoreczKopertaService.getDokument(numer).subscribe({
+      next: (dokument) => {
+        if (dokument?.zalaczniki) {
+          this.zalaczniki = dokument.zalaczniki;
+          this.zalaczniki.forEach(z => this.zalacznikiZaznaczone[z.numer] = true);
+        }
+      },
+      error: (error) => {
+        console.error('Error loading dokument for zalaczniki:', error);
+      }
+    });
   }
 
   loadTytulTresc() {
@@ -685,7 +726,9 @@ export class EdoreczKopertaWindowComponent implements OnInit {
       statusDoreczenia: 0,
       statusDoreczeniaOpis: '',
       trybMiedzyJedn: TeDorTypMJ.tmj_brak,
-      zalaczniki: (this.zalaczniki ?? []).map(z => ({ numer: z.numer, plik: z.plik })),
+      zalaczniki: (this.zalaczniki ?? [])
+        .filter(z => this.zalacznikiZaznaczone[z.numer])
+        .map(z => ({ numer: z.numer, plik: z.plik })),
       potwierdzenia: [],
       oper: TBazaOper.tboDodaj,
       status: TeSodStatus.sBrak,

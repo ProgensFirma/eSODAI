@@ -6,6 +6,7 @@ import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { EdoreczPunktNadawczy } from '../models/edorecz-punkt-nadawczy.model';
 import { TeDorTytTresc, EDoreczWyslana } from '../models/edorecz.model';
+import { Dokument } from '../models/dokument.model';
 import { ErrorNotificationService } from './error-notification.service';
 import { environment } from '../environments/environment';
 
@@ -84,6 +85,24 @@ export class EdoreczKopertaService {
 
     const apiUrl = this.configService.apiBaseUrl;
     return this.http.get<TeDorTytTresc>(`${apiUrl}/eDorecz/tytulTresc`, { params });
+  }
+
+  getDokument(numer: number): Observable<Dokument> {
+    const session = this.authService.getCurrentSession();
+    const sesjaId = session?.sesja;
+    if (!sesjaId) return throwError(() => new Error('Brak sesji'));
+
+    const params = new HttpParams()
+      .append('sesja', sesjaId.toString())
+      .append('numer', numer.toString());
+
+    const apiUrl = this.configService.apiBaseUrl;
+    return this.http.get<Dokument>(`${apiUrl}/dokumenty`, { params }).pipe(
+      catchError(error => {
+        console.error('Error fetching dokument:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   wyslijKoperte(koperta: EDoreczWyslana): Observable<EDoreczWyslana> {
