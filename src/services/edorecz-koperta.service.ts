@@ -94,11 +94,10 @@ export class EdoreczKopertaService {
 
     const params = new HttpParams()
       .append('sesja', sesjaId.toString())
-      .append('numer', numer.toString())
-      .append('zalInfo', true.toString());
+      .append('numer', numer.toString());
 
     const apiUrl = this.configService.apiBaseUrl;
-    return this.http.get<Dokument>(`${apiUrl}/dokumenty`, { params }).pipe(
+    return this.http.get<Dokument>(`${apiUrl}/dokumenty/dokument`, { params }).pipe(
       catchError(error => {
         console.error('Error fetching dokument:', error);
         return throwError(() => error);
