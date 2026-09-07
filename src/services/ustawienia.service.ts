@@ -57,7 +57,7 @@ export class UstawieniaService {
       powiadomieniaObsluga: true,
       eDoreczObsluga: true,
       kSeFObsluga: false,
-      jednPrzekObsluga: false,
+      jednPrzekObsluga: true,
       maxRozmiarPliku: 50,
       dokumentSpecUpraw: false,
       sprawaZamkDolaczPismo: true,
