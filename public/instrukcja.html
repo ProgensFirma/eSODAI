@@ -132,7 +132,7 @@ tr:hover td{background:#fafafa}
 <div class="cover">
   <h1>e<span>SOD</span></h1>
   <p>System Obiegu Dokumentów – Instrukcja użytkownika</p>
-  <div class="ver">Wersja 1.0 &nbsp;|&nbsp; 2026</div>
+  <div class="ver">Wersja 2.0 &nbsp;|&nbsp; 2026</div>
 </div>
 
 <!-- SPIS TREŚCI -->
@@ -152,6 +152,10 @@ tr:hover td{background:#fafafa}
     <li><a href="#s11">Powiadomienia</a></li>
     <li><a href="#s12">Uprawnienia</a></li>
     <li><a href="#s13">Parametry systemowe</a></li>
+    <li><a href="#s14">Pracownicy</a></li>
+    <li><a href="#s15">Wykaz akt</a></li>
+    <li><a href="#s16">Jednostki przekazań</a></li>
+    <li><a href="#s17">Podpisywanie i wysyłanie dokumentów</a></li>
   </ol>
 </div>
 
@@ -172,6 +176,7 @@ tr:hover td{background:#fafafa}
           <div class="lf"><label>Hasło</label><input type="password" value="password"></div>
           <div class="lbtn">Zaloguj się</div>
           <div class="lver">Frontend: v1.0.0 &nbsp;|&nbsp; Backend: v2.4.1</div>
+          <div style="text-align:center;font-size:10px;color:#64748b;margin-top:6px">Tryb: <span style="cursor:pointer;text-decoration:underline">☀ Jasny</span> / <span style="cursor:pointer;text-decoration:underline">☾ Ciemny</span></div>
         </div>
       </div>
     </div>
@@ -223,7 +228,7 @@ tr:hover td{background:#fafafa}
         <div class="topbar-r">
           <span>Jan Kowalski</span><span>Wydział Administracyjny</span>
           <span style="color:#fbbf24">⏱ 09:42</span>
-          <div class="tbtn">ℹ Info</div><div class="tbtn">🔔 Powiadomienia</div><div class="tbtn">🚪 Wyloguj</div>
+          <div class="tbtn">☾ Ciemny</div><div class="tbtn">ℹ Info</div><div class="tbtn">🔔 Powiadomienia</div><div class="tbtn">🚪 Wyloguj</div>
         </div>
       </div>
       <div class="layout">
@@ -238,6 +243,12 @@ tr:hover td{background:#fafafa}
           <div class="ni">📧 eDoręczenia</div>
           <div class="ni i1">📥 Odebrane <span class="nbadge">4</span></div>
           <div class="ni i1">📤 Wysłane</div>
+          <div class="ni" style="margin-top:4px">▼ 🧾 KSEF</div>
+          <div class="ni i1">📥 Przychodzące</div>
+          <div class="ni i1">📤 Do wysłania</div>
+          <div class="ni" style="margin-top:4px">▼ 📁 Foldery</div>
+          <div class="ni i1">📂 Moje dokumenty</div>
+          <div class="ni i1">📂 Pulpit</div>
         </div>
         <div class="main">
           <div class="hgrid" style="overflow:auto;flex:1">
@@ -383,7 +394,7 @@ tr:hover td{background:#fafafa}
       <tr><td><strong>Zał.</strong></td><td>Liczba załączonych plików</td></tr>
     </tbody>
   </table>
-  <div class="callout tip"><div class="callout-text"><strong>Dokumenty finansowe</strong> oznaczone są zielonym paskiem po lewej stronie wiersza.</div></div>
+  <div class="callout tip"><div class="callout-text"><strong>Dokumenty finansowe</strong> oznaczone są zielonym paskiem po lewej stronie wiersza. Dodatkowe ikony statusu: 💰 finansowy, 🗄️ archiwum, 🌐 publiczny.</div></div>
 </div>
 
 <!-- ===== 5. EDYCJA DOKUMENTU ===== -->
@@ -453,8 +464,13 @@ tr:hover td{background:#fafafa}
           <div class="mh">Przekaż dokument</div>
           <div class="mb">
             <p style="font-size:12px;color:#475569;margin-bottom:14px">Dokument: <strong>Faktura FV/04/2026 za usługi IT</strong></p>
+            <div style="margin-bottom:10px;display:flex;gap:6px;border-bottom:1px solid #e2e8f0;padding-bottom:8px">
+              <div class="btn btn-b" style="font-size:10px">Wewnątrz</div>
+              <div class="btn btn-l" style="font-size:10px">Do zewnętrznej jednostki</div>
+            </div>
             <div style="margin-bottom:12px"><div class="fl">Jednostka <span class="req">*</span></div><select class="fsel" style="width:100%"><option>Wydział Finansowy</option></select></div>
-            <div><div class="fl">Pracownik</div><select class="fsel" style="width:100%"><option>Anna Nowak</option><option>Piotr Zając</option></select></div>
+            <div style="margin-bottom:12px"><div class="fl">Pracownik</div><select class="fsel" style="width:100%"><option>Anna Nowak</option><option>Piotr Zając</option></select></div>
+            <div style="margin-bottom:12px;display:flex;align-items:center;gap:6px"><input type="checkbox" checked><span style="font-size:11px;color:#475569">Przekaż do wydziału</span></div>
           </div>
           <div class="mf"><div class="btn btn-l">✗ Anuluj</div><div class="btn btn-g">✓ Przekaż</div></div>
         </div>
@@ -689,7 +705,8 @@ tr:hover td{background:#fafafa}
     <span class="es es-p">⏳ Oczekuje</span>
     <span class="es es-e">✕ Błąd wysyłki</span>
   </div>
-  <div class="callout info"><div class="callout-text"><strong>eDoręczenia</strong> są prawnie równoważne z listem poleconym za potwierdzeniem odbioru. Do każdej wiadomości generowane jest potwierdzenie doręczenia.</div></div>
+  <div class="callout info"><div class="callout-text"><strong>eDoręczenia</strong> są prawnie równoważne z listem poleconym za potwierdzeniem odbioru. Do każdej wiadomości generowane jest potwierdzenie doręczenia. W widoku wysłanych można pobrać załączniki i potwierdzenia.</div></div>
+  <div class="callout tip"><div class="callout-text"><strong>Tryb międzyjednostkowy:</strong> wiadomość może działać w trybie braku specjalnego trybu, przekazania albo podpisu. Wiadomość hybrydowa jest widoczna jako opcja przygotowywana do uruchomienia.</div></div>
 </div>
 
 <!-- ===== 11. POWIADOMIENIA ===== -->
@@ -821,8 +838,57 @@ tr:hover td{background:#fafafa}
   <div class="callout warn"><div class="callout-text"><strong>Parametry systemowe</strong> modyfikowane przez administratora. Nieprawidłowe zmiany mogą wpłynąć na działanie całej aplikacji.</div></div>
 </div>
 
+<!-- ===== 14. PRACOWNICY ===== -->
+<div class="card pb" id="s14">
+  <h2>14. Pracownicy</h2>
+  <p>Okno pracowników wyświetla osoby należące do aktualnie wybranej jednostki.</p>
+  <div class="mock">
+    <div class="mock-label">Lista pracowników</div>
+    <div class="screen">
+      <div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <div class="toolbar"><span class="tt">Pracownicy</span><div class="fi" style="width:180px">Szukaj po numerze lub identyfikatorze...</div><div class="btn btn-b">🔍 Filtruj</div><div class="btn btn-l" style="margin-left:auto">↻ Odśwież</div></div>
+      <table><thead><tr><th>Numer</th><th>Identyfikator</th></tr></thead><tbody><tr class="sel"><td>861528</td><td>BLICHARZ JOANNA</td></tr><tr><td>1059948</td><td>KUŚ DOROTA</td></tr><tr><td>861490</td><td>KONIECZNA TERESA</td></tr></tbody></table>
+      <div style="padding:8px 12px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;color:#64748b;font-size:10px"><span>Pozycje 1–3 z 24</span><span>‹ Poprzednia &nbsp; Strona 1/8 &nbsp; Następna ›</span></div>
+    </div>
+  </div>
+  <div class="callout info"><div class="callout-text">Lista obsługuje filtrowanie po identyfikatorze lub numerze, odświeżanie i stronicowanie wyników.</div></div>
+</div>
+
+<!-- ===== 15. WYKAZ AKT ===== -->
+<div class="card pb" id="s15">
+  <h2>15. Wykaz akt</h2>
+  <p>Wykaz akt służy do wyboru klasyfikacji JRWA dla dokumentów i RWA dla spraw.</p>
+  <div class="mock">
+    <div class="mock-label">Drzewo wykazu akt</div>
+    <div class="screen">
+      <div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <div style="display:flex;height:260px"><div style="width:270px;border-right:1px solid #e2e8f0;padding:8px;background:#f8fafc;font-size:11px;line-height:2"><strong>Wykaz akt</strong><br>▼ 0 Zarządzanie<br>&nbsp;&nbsp;▼ 07 Sprawy organizacyjne<br>&nbsp;&nbsp;&nbsp;&nbsp;<span style="background:#dbeafe;padding:3px">0725 Korespondencja</span><br>&nbsp;&nbsp;&nbsp;&nbsp;0730 Zamówienia</div><div style="flex:1;padding:16px"><div class="dl">Symbol</div><div class="dv">0725</div><div class="dl" style="margin-top:12px">Poziom archiwum</div><div class="dv">Jednostka macierzysta</div><div class="dl" style="margin-top:12px">Uwagi</div><div class="dv">Dokumentacja przechowywana zgodnie z JRWA</div></div></div>
+    </div>
+  </div>
+  <div class="callout tip"><div class="callout-text">Wybierz pozycję w drzewie, aby zobaczyć jej poziom archiwum i uwagi.</div></div>
+</div>
+
+<!-- ===== 16. JEDNOSTKI PRZEKAZAŃ ===== -->
+<div class="card pb" id="s16">
+  <h2>16. Jednostki przekazań</h2>
+  <p>Katalog zawiera jednostki, do których można przekazywać dokumenty zewnętrzne.</p>
+  <div class="mock"><div class="mock-label">Katalog jednostek przekazań</div><div class="screen"><div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><table><thead><tr><th>Symbol</th><th>Nazwa</th><th>Adres eDoręczeń</th><th>Główna</th><th>Własna</th><th>NSSOD</th></tr></thead><tbody><tr class="sel"><td>UMK</td><td>Urząd Miejski Kraków</td><td>PL/UM/12345</td><td>✓</td><td></td><td>✓</td></tr><tr><td>USK</td><td>Urząd Skarbowy Kraków</td><td>PL/US/67890</td><td></td><td></td><td>✓</td></tr></tbody></table><div class="mf"><div class="btn btn-l">Zamknij</div></div></div></div>
+  <div class="callout info"><div class="callout-text">Katalog jest używany w zakładce „Do zewnętrznej jednostki” podczas przekazywania dokumentu.</div></div>
+</div>
+
+<!-- ===== 17. PODPISYWANIE I WYSYŁANIE ===== -->
+<div class="card pb" id="s17">
+  <h2>17. Podpisywanie i wysyłanie dokumentów</h2>
+  <p>Dokumenty mogą wymagać podpisu lub wysłania wybranym kanałem.</p>
+  <h3>Podpisywanie</h3>
+  <ul><li><strong>Podpisz</strong> – podpisz dokument.</li><li><strong>Tylko oznacz</strong> – oznacz dokument bez składania podpisu.</li><li><strong>Pieczęć</strong> – zastosuj pieczęć dokumentu.</li></ul>
+  <h3>Wysyłanie</h3>
+  <p>Przed wysłaniem system sprawdza dokument. Dostępne kanały obejmują przesyłkę papierową, e-mail, ePUAP, eDoręczenia i Portal.</p>
+  <div class="callout warn"><div class="callout-text">Jeżeli kontrola przed wysłaniem wykryje brakujące dane, dokument nie zostanie wysłany do czasu ich uzupełnienia.</div></div>
+</div>
+
 <div class="footer no-print">
-  <p>eSOD – System Obiegu Dokumentów &nbsp;|&nbsp; Instrukcja użytkownika v1.0 &nbsp;|&nbsp; 2026</p>
+  <p>eSOD – System Obiegu Dokumentów &nbsp;|&nbsp; Instrukcja użytkownika v2.0 &nbsp;|&nbsp; 2026</p>
   <p style="margin-top:5px">Aby zapisać jako PDF: Ctrl+P w przeglądarce → Zapisz jako PDF</p>
 </div>
 
