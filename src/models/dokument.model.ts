@@ -1,6 +1,6 @@
 import { TOsobaInfo, TWydzialInfo, TKontrahentInfo, TDokTypInfo, TSzablonInfo, TZalacznikInfo, TSprawaInfo } from './typy-info.model';
 import { DaneFinansowe } from './dane-finansowe.model';
-import { TBazaOper, TeSodStatus, TDokStatusEdycji, TKanalTyp, TDokStatusPrzek } from './enums.model';
+import { TBazaOper, TeSodStatus, TDokStatusEdycji, TKanalTyp, TDokStatusPrzek, TeDorTypMJ } from './enums.model';
 
 export interface Dokument {
   numer: number;
@@ -34,6 +34,7 @@ export interface Dokument {
   dataPrzyjecia?: string;
   uprawPoziom: string;
   statusPrzek: TDokStatusPrzek;
+  trybMJ: TeDorTypMJ;
   dataAlert?: string;
   dataPlan?: string;
   daneFinansowe: DaneFinansowe | null;

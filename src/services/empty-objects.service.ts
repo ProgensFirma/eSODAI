@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Sprawa } from '../models/sprawa.model';
 import { Dokument } from '../models/dokument.model';
 import { Skrzynka } from '../models/skrzynka.model';
-import { TBazaOper, TeSodStatus, TSprStatusPrzek, TDokStatusEdycji, TDokStatusPrzek, TKanalTyp, TSkrzynki } from '../models/enums.model';
+import { TBazaOper, TeSodStatus, TSprStatusPrzek, TDokStatusEdycji, TDokStatusPrzek, TKanalTyp, TSkrzynki, TeDorTypMJ } from '../models/enums.model';
 
 @Injectable({ providedIn: 'root' })
 export class EmptyObjectsService {
@@ -74,6 +74,7 @@ export class EmptyObjectsService {
       dataPrzyjecia: currentDateTime,
       uprawPoziom: '0',
       statusPrzek: TDokStatusPrzek.spd_oczek,
+      trybMJ: TeDorTypMJ.tmj_brak,
       dataAlert: new Date(new Date().setDate(new Date().getDate() + 27)).toISOString().split('T')[0],
       dataPlan: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0],
       daneFinansowe: null,
