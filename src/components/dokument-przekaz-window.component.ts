@@ -5,7 +5,10 @@ import { JednostkiService } from '../services/jednostki.service';
 import { PracownicyService } from '../services/pracownicy.service';
 import { DokumentPrzekazService } from '../services/dokument-przekaz.service';
 import { ParametryService } from '../services/parametry.service';
+import { JednPrzekService } from '../services/jedn-przek.service';
+import { UstawieniaService } from '../services/ustawienia.service';
 import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
+import { TJednPrzek } from '../models/jedn-przek.model';
 
 @Component({
   selector: 'app-dokument-przekaz-window',
@@ -21,45 +24,79 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
           </button>
         </div>
 
+        <div class="tab-bar" *ngIf="jednPrzekObsluga">
+          <button
+            class="tab-button"
+            [class.active]="activeTab === 'wewnatrz'"
+            (click)="activeTab = 'wewnatrz'"
+          >
+            Wewnątrz
+          </button>
+          <button
+            class="tab-button"
+            [class.active]="activeTab === 'zewnatrz'"
+            (click)="activeTab = 'zewnatrz'"
+          >
+            Do zewnętrznej jednostki
+          </button>
+        </div>
+
         <div class="window-content">
-          <div class="form-group">
-            <label class="form-label">Jednostka:</label>
-            <select
-              class="form-select"
-              [(ngModel)]="selectedJednostka"
-              (ngModelChange)="onJednostkaChange()"
-            >
-              <option [ngValue]="null">-- Wybierz jednostkę --</option>
-              <option *ngFor="let jednostka of jednostki" [ngValue]="jednostka">
-                {{ jednostka.symbol }} - {{ jednostka.nazwa }}
-              </option>
-            </select>
+          <div *ngIf="activeTab === 'wewnatrz'">
+            <div class="form-group">
+              <label class="form-label">Jednostka:</label>
+              <select
+                class="form-select"
+                [(ngModel)]="selectedJednostka"
+                (ngModelChange)="onJednostkaChange()"
+              >
+                <option [ngValue]="null">-- Wybierz jednostkę --</option>
+                <option *ngFor="let jednostka of jednostki" [ngValue]="jednostka">
+                  {{ jednostka.symbol }} - {{ jednostka.nazwa }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Pracownik:</label>
+              <select
+                class="form-select"
+                [(ngModel)]="selectedOsoba"
+                [disabled]="!selectedJednostka || loadingPracownicy || przekazDoWydzialu"
+              >
+                <option [ngValue]="null">-- Wybierz pracownika --</option>
+                <option *ngFor="let osoba of pracownicy" [ngValue]="osoba">
+                  {{ osoba.identyfikator }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group checkbox-group" [style.visibility]="pokazCheckWydzialu ? 'visible' : 'hidden'">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  class="checkbox-input"
+                  [(ngModel)]="przekazDoWydzialu"
+                  (ngModelChange)="onPrzekazDoWydzialu()"
+                />
+                <span class="checkbox-text">Przekaż do wydziału</span>
+              </label>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Pracownik:</label>
-            <select
-              class="form-select"
-              [(ngModel)]="selectedOsoba"
-              [disabled]="!selectedJednostka || loadingPracownicy || przekazDoWydzialu"
-            >
-              <option [ngValue]="null">-- Wybierz pracownika --</option>
-              <option *ngFor="let osoba of pracownicy" [ngValue]="osoba">
-                {{ osoba.identyfikator }}
-              </option>
-            </select>
-          </div>
-
-          <div class="form-group checkbox-group" [style.visibility]="pokazCheckWydzialu ? 'visible' : 'hidden'">
-            <label class="checkbox-label">
-              <input
-                type="checkbox"
-                class="checkbox-input"
-                [(ngModel)]="przekazDoWydzialu"
-                (ngModelChange)="onPrzekazDoWydzialu()"
-              />
-              <span class="checkbox-text">Przekaż do wydziału</span>
-            </label>
+          <div *ngIf="activeTab === 'zewnatrz'">
+            <div class="form-group">
+              <label class="form-label">Jednostka zewnętrzna:</label>
+              <select
+                class="form-select"
+                [(ngModel)]="selectedJednPrzek"
+              >
+                <option [ngValue]="null">-- Wybierz jednostkę zewnętrzną --</option>
+                <option *ngFor="let jednPrzek of jednPrzekList" [ngValue]="jednPrzek">
+                  {{ jednPrzek.symbol }} - {{ jednPrzek.nazwa }}
+                </option>
+              </select>
+            </div>
           </div>
 
           <div class="loading-message" *ngIf="loadingPracownicy">
@@ -171,6 +208,36 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
 
     .close-icon {
       line-height: 1;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--border-default);
+      background: var(--bg-subtle);
+    }
+
+    .tab-button {
+      padding: 12px 24px;
+      border: none;
+      border-bottom: 3px solid transparent;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-button:hover {
+      color: var(--text-primary);
+      background: var(--bg-muted);
+    }
+
+    .tab-button.active {
+      color: #2563eb;
+      border-bottom-color: #2563eb;
     }
 
     .window-content {
@@ -337,6 +404,15 @@ import { TJednostka, TOsobaInfo } from '../models/typy-info.model';
         font-size: 20px;
       }
 
+      .tab-bar {
+        padding: 0 16px;
+      }
+
+      .tab-button {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+
       .window-content {
         padding: 24px;
       }
@@ -358,6 +434,9 @@ export class DokumentPrzekazWindowComponent implements OnInit {
   @Output() closeRequested = new EventEmitter<void>();
   @Output() dokumentPrzekazany = new EventEmitter<void>();
 
+  activeTab: 'wewnatrz' | 'zewnatrz' = 'wewnatrz';
+  jednPrzekObsluga = false;
+
   jednostki: TJednostka[] = [];
   pracownicy: TOsobaInfo[] = [];
   selectedJednostka: TJednostka | null = null;
@@ -369,18 +448,50 @@ export class DokumentPrzekazWindowComponent implements OnInit {
   przekazDoWydzialu = false;
   pokazCheckWydzialu = false;
 
+  jednPrzekList: TJednPrzek[] = [];
+  selectedJednPrzek: TJednPrzek | null = null;
+
   private readonly OSOBA_WYDZIALU = 1410;
 
   constructor(
     private jednostkiService: JednostkiService,
     private pracownicyService: PracownicyService,
     private dokumentPrzekazService: DokumentPrzekazService,
-    private parametryService: ParametryService
+    private parametryService: ParametryService,
+    private jednPrzekService: JednPrzekService,
+    private ustawieniaService: UstawieniaService
   ) {}
 
   ngOnInit() {
     this.loadJednostki();
     this.checkParamWydzialu();
+    this.loadUstawienia();
+  }
+
+  private loadUstawienia() {
+    this.ustawieniaService.getUstawienia().subscribe({
+      next: (ustawienia) => {
+        this.jednPrzekObsluga = ustawienia.jednPrzekObsluga;
+        if (this.jednPrzekObsluga) {
+          this.loadJednPrzek();
+        }
+      },
+      error: () => {
+        this.jednPrzekObsluga = false;
+      }
+    });
+  }
+
+  private loadJednPrzek() {
+    this.jednPrzekService.getJednPrzek().subscribe({
+      next: (list) => {
+        this.jednPrzekList = list.filter(j => !j.wlasna);
+      },
+      error: (error) => {
+        console.error('Error loading jednPrzek:', error);
+        this.errorMessage = 'Błąd podczas ładowania jednostek zewnętrznych';
+      }
+    });
   }
 
   private checkParamWydzialu() {
@@ -436,6 +547,9 @@ export class DokumentPrzekazWindowComponent implements OnInit {
   }
 
   canPrzekaz(): boolean {
+    if (this.activeTab === 'zewnatrz') {
+      return this.selectedJednPrzek !== null;
+    }
     if (!this.selectedJednostka) return false;
     if (this.przekazDoWydzialu) return true;
     return this.selectedOsoba !== null;
@@ -447,6 +561,31 @@ export class DokumentPrzekazWindowComponent implements OnInit {
     this.submitting = true;
     this.errorMessage = '';
     this.successMessage = '';
+
+    if (this.activeTab === 'zewnatrz') {
+      const request = {
+        Dokument: this.dokumentNumer,
+        Jednostka: this.selectedJednPrzek!.symbol,
+        Osoba: 0
+      };
+
+      this.dokumentPrzekazService.przekazDokument(request).subscribe({
+        next: () => {
+          this.successMessage = 'Dokument przekazany do jednostki zewnętrznej';
+          this.submitting = false;
+          setTimeout(() => {
+            this.dokumentPrzekazany.emit();
+            this.close();
+          }, 1500);
+        },
+        error: (error) => {
+          console.error('Error przekazywania dokumentu do jednostki zewnętrznej:', error);
+          this.errorMessage = 'Błąd podczas przekazywania dokumentu';
+          this.submitting = false;
+        }
+      });
+      return;
+    }
 
     const request = {
       Dokument: this.dokumentNumer,
