@@ -1398,8 +1398,13 @@ export class DocumentsGridComponent implements OnChanges {
     const numer = this.selectedDocument.numer;
     this.wyslijLoading = true;
     this.dokumentWyslijService.sprawdzWyslij(numer).subscribe({
-      next: () => {
+      next: (result) => {
         this.wyslijLoading = false;
+        if (result?.wysylkaIstnieje) {
+          this.wyslijDokumentNumer = numer;
+          this.showWyslijKonfliktDialog = true;
+          return;
+        }
         this.wyslijDokumentNumer = numer;
         this.selectedRodzaj = null;
         this.selectedRodzajKanal = null;
@@ -1412,12 +1417,8 @@ export class DocumentsGridComponent implements OnChanges {
         }
         this.loadRodzajeWysylki();
       },
-      error: (err) => {
+      error: () => {
         this.wyslijLoading = false;
-        if (err?.status === 400) {
-          this.wyslijDokumentNumer = numer;
-          this.showWyslijKonfliktDialog = true;
-        }
       }
     });
   }

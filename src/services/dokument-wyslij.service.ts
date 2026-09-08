@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { AuthService } from './auth.service';
 import { environment } from '../environments/environment';
@@ -31,13 +31,11 @@ export class DokumentWyslijService {
       .set('sesja', sesjaId.toString())
       .set('dokument', dokument.toString());
 
-    return this.http.get(`${this.apiUrl}/sprawdz`, { params }).pipe(
-      catchError((err) => {
-        if (!environment.production) {
-          return of({});
-        }
-        throw err;
-      })
+    return this.http.get(`${this.apiUrl}/sprawdz`, { params, observe: 'response' }).pipe(
+      map((resp) => ({
+        wysylkaIstnieje: resp.status === 200,
+        dokWy: resp.status === 200 ? resp.body : null
+      }))
     );
   }
 
