@@ -15,7 +15,7 @@ import { Skrzynka } from '../models/skrzynka.model';
 import { Sprawa } from '../models/sprawa.model';
 import { TDokWyjRodzajWysylki } from '../models/dok-wyj-rodzaj-wysylki.model';
 import { TBazaOper, TeSodStatus, TSprStatusPrzek, TSkrzynki, TKanalTyp } from '../models/enums.model';
-import { TKontrahentInfo } from '../models/typy-info.model';
+import { TKontrahentInfo, TZalacznikInfo } from '../models/typy-info.model';
 import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
@@ -117,6 +117,35 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
               <div class="sprawa-menu-backdrop" *ngIf="showPodpiszMenu" (click)="showPodpiszMenu = false"></div>
             </div>
           </ng-container>
+
+          <!-- Dialog: wybór załącznika do podpisu/pieczęci -->
+          <div class="wyslij-overlay" *ngIf="showPodpiszZalacznikDialog" (click)="closePodpiszZalacznikDialog()">
+            <div class="wyslij-modal" (click)="$event.stopPropagation()">
+              <div class="wyslij-modal-header">
+                <h3>Wybierz załącznik</h3>
+                <button class="wyslij-close" (click)="closePodpiszZalacznikDialog()">✕</button>
+              </div>
+              <div class="wyslij-modal-body">
+                <p class="wyslij-konflikt-msg">Wybierz załącznik do podpisania/opieczętowania:</p>
+                <div class="dolacz-list" style="margin-top: 12px;">
+                  <div
+                    *ngFor="let zal of podpiszZalaczniki"
+                    class="dolacz-row"
+                    [class.dolacz-row-selected]="selectedPodpiszZalacznik?.numer === zal.numer"
+                    (click)="selectedPodpiszZalacznik = zal"
+                  >
+                    <span class="dolacz-nazwa">📎 {{ zal.plik }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="wyslij-modal-footer">
+                <button class="wyslij-btn wyslij-btn-secondary" (click)="closePodpiszZalacznikDialog()">Anuluj</button>
+                <button class="wyslij-btn wyslij-btn-primary" (click)="onPodpiszZalacznikConfirm()" [disabled]="!selectedPodpiszZalacznik">
+                  Potwierdź
+                </button>
+              </div>
+            </div>
+          </div>
           <button
             *ngIf="isPrzyjmijSkrzynka()"
             class="action-button button-przyjmij"
@@ -1239,6 +1268,10 @@ export class DocumentsGridComponent implements OnChanges {
   showPodpiszMenu = false;
   podpisObsluga = false;
   pieczecObsluga = false;
+  showPodpiszZalacznikDialog = false;
+  podpiszZalaczniki: TZalacznikInfo[] = [];
+  selectedPodpiszZalacznik: TZalacznikInfo | null = null;
+  podpiszPendingParams: { tylkoOznacz: boolean; pieczec: boolean } | null = null;
 
   showSprawaEditFromDoc = false;
   nowaSprawaFromDoc: Sprawa = this.getEmptySprawa();
@@ -1637,8 +1670,23 @@ export class DocumentsGridComponent implements OnChanges {
     if (!this.selectedDocument) return;
 
     this.showPodpiszMenu = false;
+    const zalaczniki = this.selectedDocument.zalaczniki ?? [];
+
+    if (zalaczniki.length === 1) {
+      this.executePodpisz(zalaczniki[0].numer, tylkoOznacz, pieczec);
+    } else if (zalaczniki.length > 1) {
+      this.podpiszZalaczniki = zalaczniki;
+      this.selectedPodpiszZalacznik = null;
+      this.podpiszPendingParams = { tylkoOznacz, pieczec };
+      this.showPodpiszZalacznikDialog = true;
+    } else {
+      this.executePodpisz(undefined, tylkoOznacz, pieczec);
+    }
+  }
+
+  private executePodpisz(zalacznik: number | undefined, tylkoOznacz: boolean, pieczec: boolean) {
     this.podpiszLoading = true;
-    this.dokumentPodpiszService.podpiszDokument(this.selectedDocument.numer, tylkoOznacz, pieczec).subscribe({
+    this.dokumentPodpiszService.podpiszDokument(this.selectedDocument!.numer, tylkoOznacz, pieczec, zalacznik).subscribe({
       next: () => {
         this.podpiszLoading = false;
         this.loadDocuments();
@@ -1648,6 +1696,21 @@ export class DocumentsGridComponent implements OnChanges {
         this.podpiszLoading = false;
       }
     });
+  }
+
+  onPodpiszZalacznikConfirm() {
+    if (!this.selectedPodpiszZalacznik || !this.podpiszPendingParams) return;
+    const zalacznikNumer = this.selectedPodpiszZalacznik.numer;
+    const { tylkoOznacz, pieczec } = this.podpiszPendingParams;
+    this.showPodpiszZalacznikDialog = false;
+    this.podpiszPendingParams = null;
+    this.executePodpisz(zalacznikNumer, tylkoOznacz, pieczec);
+  }
+
+  closePodpiszZalacznikDialog() {
+    this.showPodpiszZalacznikDialog = false;
+    this.podpiszPendingParams = null;
+    this.selectedPodpiszZalacznik = null;
   }
 
   onPrzyjmijDocument() {
