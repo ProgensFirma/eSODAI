@@ -163,6 +163,7 @@ export class AuthService {
             maxRozmiarPliku: 50,
             dokumentSpecUpraw: false,
             sprawaZamkDolaczPismo: true,
+            dekretacja: true,
             status: TeSodStatus.sOK,
             statusDane: ''
           };
