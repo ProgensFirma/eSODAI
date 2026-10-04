@@ -61,6 +61,7 @@ export class UstawieniaService {
       maxRozmiarPliku: 50,
       dokumentSpecUpraw: false,
       sprawaZamkDolaczPismo: true,
+      dekretacja: false,
       status: TeSodStatus.sOK,
       statusDane: ''
     };
