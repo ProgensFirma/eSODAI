@@ -10,6 +10,7 @@ export interface Ustawienia {
   maxRozmiarPliku: number;
   dokumentSpecUpraw: boolean;
   sprawaZamkDolaczPismo: boolean;
+  dekretacja: boolean;
   status: TeSodStatus;
   statusDane: string;
 }
