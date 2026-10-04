@@ -45,6 +45,7 @@ export interface Dokument {
   dokGuid?: string;
   jrwa?: string;
   obcyNumer?: string;
+  nrDekretacji?: number;
   zalaczniki: TZalacznikInfo[];
   
   oper: TBazaOper;
