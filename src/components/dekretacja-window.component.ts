@@ -638,7 +638,7 @@ export class DekretacjaWindowComponent implements OnInit {
       kontrahent: this.dokument.kontrahent ?? null
     };
 
-    const inne: TDekretacja[] = this.inneDekretacje
+    const inneRows = this.inneDekretacje
       .filter(r => r.komPrzyj && r.osobaPrzyj)
       .map(r => ({
         numer: 0,
@@ -659,7 +659,7 @@ export class DekretacjaWindowComponent implements OnInit {
       dekretowal: dekretowal,
       uwagi: this.uwagi,
       innaDoWgladu: false,
-      inne: inne
+      inne: inneRows.length > 0 ? inneRows : null
     };
 
     this.submitting = true;
