@@ -44,6 +44,12 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
               title="Publiczny"
               *ngIf="document.publiczny"
             >🌐</span>
+            <span
+              class="status-icon icon-dekretacja"
+              [class.icon-dekretacja-tak]="isDekretowany()"
+              [class.icon-dekretacja-nie]="!isDekretowany()"
+              [title]="isDekretowany() ? 'Zadekretowany' : 'Niezadekretowany'"
+            >{{ isDekretowany() ? '⚖' : '⊘' }}</span>
           </div>
         </div>
       </div>
@@ -263,6 +269,9 @@ import { openOrDownloadBase64File } from '../functions/fun-zalacznikow';
     .icon-fin       { background: #fef3c7; color: #92400e; }
     .icon-archiwum  { background: var(--badge-gray-bg); color: var(--badge-gray-text); }
     .icon-publiczny { background: var(--badge-blue-bg); color: var(--badge-blue-text); }
+
+    .icon-dekretacja-tak { background: #ede9fe; color: #6d28d9; }
+    .icon-dekretacja-nie { background: var(--badge-gray-bg); color: var(--badge-gray-text); opacity: 0.5; }
 
     .details-content {
       flex: 1;
@@ -755,6 +764,10 @@ export class DocumentDetailsComponent {
 
   getStatusClass(): string {
     return '';
+  }
+
+  isDekretowany(): boolean {
+    return !!(this.document?.nrDekretacji && this.document.nrDekretacji > 0);
   }
 
   getTypeClass(typeName: string): string {
