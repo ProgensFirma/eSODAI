@@ -18,11 +18,12 @@ import { TBazaOper, TeSodStatus, TSprStatusPrzek, TSkrzynki, TKanalTyp } from '.
 import { TKontrahentInfo, TZalacznikInfo } from '../models/typy-info.model';
 import { SprawaEditWindowComponent } from './sprawa-edit-window.component';
 import { KontrahenciWindowComponent } from './kontrahenci-window.component';
+import { DekretacjaWindowComponent } from './dekretacja-window.component';
 
 @Component({
   selector: 'app-documents-grid',
   standalone: true,
-  imports: [CommonModule, FormsModule, SprawaEditWindowComponent, KontrahenciWindowComponent],
+  imports: [CommonModule, FormsModule, SprawaEditWindowComponent, KontrahenciWindowComponent, DekretacjaWindowComponent],
   template: `
     <div class="documents-container">
       <div class="documents-header">
@@ -68,6 +69,15 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
             >
               <span class="button-icon">📨</span>
               {{ wyslijLoading ? 'Sprawdzanie...' : 'Wyślij' }}
+            </button>
+            <button
+              *ngIf="showDekretujButton()"
+              class="action-button button-dekretuj"
+              (click)="onDekretuj()"
+              [disabled]="!selectedDocument"
+            >
+              <span class="button-icon">⚖</span>
+              Dekretuj
             </button>
             <div class="sprawa-menu-wrap" *ngIf="showUtworzSpraweButton()">
               <button
@@ -232,6 +242,13 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
         [attachedDocument]="attachedDoc"
         (sprawaSaved)="onSprawaFromDocSaved()">
       </app-sprawa-edit-window>
+
+      <app-dekretacja-window
+        *ngIf="showDekretacjaWindow"
+        [dokument]="selectedDocument!"
+        (closeRequested)="showDekretacjaWindow = false"
+        (dokumentDekretowany)="onDekretacjaSaved()">
+      </app-dekretacja-window>
 
       <!-- Dialog: wybór rodzaju wysyłki -->
       <div class="wyslij-overlay" *ngIf="showWyslijKanalDialog" (click)="closeWyslijKanalDialog()">
@@ -468,6 +485,16 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
 
     .button-wyslij:hover:not(:disabled) {
       background: rgba(217, 119, 6, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .button-dekretuj {
+      border-color: #7c3aed;
+      color: #7c3aed;
+    }
+
+    .button-dekretuj:hover:not(:disabled) {
+      background: rgba(124, 58, 237, 0.12);
       transform: translateY(-1px);
     }
 
@@ -1300,6 +1327,9 @@ export class DocumentsGridComponent implements OnChanges {
   selectedRodzajKanal: TKanalTyp | null = null;
   wyslijDomKanalWy: TKanalTyp | null = null;
 
+  dekretacjaObsluga = false;
+  showDekretacjaWindow = false;
+
   onRodzajChange(r: TDokWyjRodzajWysylki | null) {
     this.selectedRodzaj = r;
     this.selectedRodzajKanal = r ? r.kanalWy : null;
@@ -1327,6 +1357,7 @@ export class DocumentsGridComponent implements OnChanges {
     this.authService.ustawienia$.subscribe((ustawienia: Ustawienia | null) => {
       this.podpisObsluga = ustawienia?.podpisObsluga ?? false;
       this.pieczecObsluga = ustawienia?.pieczecObsluga ?? false;
+      this.dekretacjaObsluga = ustawienia?.dekretacja ?? false;
     });
   }
 
@@ -1424,6 +1455,20 @@ export class DocumentsGridComponent implements OnChanges {
 
   showWyslijButton(): boolean {
     return this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PBiezace;
+  }
+
+  showDekretujButton(): boolean {
+    return this.dekretacjaObsluga && this.selectedSkrzynka?.skrzynka === TSkrzynki.tps_PBiezace;
+  }
+
+  onDekretuj() {
+    if (!this.selectedDocument) return;
+    this.showDekretacjaWindow = true;
+  }
+
+  onDekretacjaSaved() {
+    this.showDekretacjaWindow = false;
+    this.loadDocuments();
   }
 
   onWyslij() {
