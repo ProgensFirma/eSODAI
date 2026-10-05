@@ -648,7 +648,7 @@ export class DekretacjaWindowComponent implements OnInit {
         dekretowal: null,
         uwagi: '',
         innaDoWgladu: r.innaDoWgladu,
-        inne: []
+        inne: null
       }));
 
     const dekretacja: TDekretacja = {
