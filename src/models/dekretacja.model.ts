@@ -8,5 +8,5 @@ export interface TDekretacja {
   dekretowal: TOsobaInfo | null;
   uwagi: string;
   innaDoWgladu: boolean;
-  inne: TDekretacja[];
+  inne: TDekretacja[] | null;
 }
