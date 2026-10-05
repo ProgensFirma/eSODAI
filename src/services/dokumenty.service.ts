@@ -198,6 +198,7 @@ export class DokumentyService {
         "dokGuid": "",
         "jrwa": "",
         "obcyNumer": "",
+        "nrDekretacji": 5,
         "zalaczniki": [],
         
         "oper": TBazaOper.tboSelect,

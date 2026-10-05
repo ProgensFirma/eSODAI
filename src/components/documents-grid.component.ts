@@ -74,7 +74,7 @@ import { DekretacjaWindowComponent } from './dekretacja-window.component';
               *ngIf="showDekretujButton()"
               class="action-button button-dekretuj"
               (click)="onDekretuj()"
-              [disabled]="!selectedDocument"
+              [disabled]="!selectedDocument || isDekretowany()"
             >
               <span class="button-icon">⚖</span>
               Dekretuj
@@ -1464,6 +1464,10 @@ export class DocumentsGridComponent implements OnChanges {
   onDekretuj() {
     if (!this.selectedDocument) return;
     this.showDekretacjaWindow = true;
+  }
+
+  isDekretowany(): boolean {
+    return !!(this.selectedDocument?.nrDekretacji && this.selectedDocument.nrDekretacji > 0);
   }
 
   onDekretacjaSaved() {
