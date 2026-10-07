@@ -734,6 +734,8 @@ export class DekretacjaWindowComponent implements OnInit {
       };
       if (row.innaDoWgladu) {
         req.doWgladu = true;
+      } else {
+        req.kopia = true;
       }
       requests.push(req);
     }
