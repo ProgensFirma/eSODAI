@@ -733,9 +733,9 @@ export class DekretacjaWindowComponent implements OnInit {
         Osoba: row.osobaPrzyj!.numer
       };
       if (row.innaDoWgladu) {
-        req.doWgladu = true;
+        req.dekrDoWgladu = true;
       } else {
-        req.kopia = true;
+        req.dekrKopia = true;
       }
       requests.push(req);
     }
