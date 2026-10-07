@@ -666,7 +666,7 @@ export class DekretacjaWindowComponent implements OnInit {
     this.dekretujService.dekretuj(dekretacja).subscribe({
       next: () => {
         this.submitting = false;
-        this.successMessage = 'Dokument zdekretny';
+        this.successMessage = 'Dokument zadekretowany';
         setTimeout(() => {
           this.dokumentDekretowany.emit();
           this.close();
