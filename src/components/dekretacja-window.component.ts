@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { JednostkiService } from '../services/jednostki.service';
 import { PracownicyService } from '../services/pracownicy.service';
 import { DokumentDekretujService } from '../services/dokument-dekretuj.service';
+import { DokumentPrzekazService, DokumentPrzekazRequest } from '../services/dokument-przekaz.service';
 import { AuthService } from '../services/auth.service';
 import { TJednostka, TOsobaInfo, TWydzialInfo } from '../models/typy-info.model';
 import { TDekretacja } from '../models/dekretacja.model';
@@ -85,6 +86,13 @@ interface InnaDekretacjaRow {
               rows="3"
               placeholder="Wpisz uwagi..."
             ></textarea>
+          </div>
+
+          <div class="form-group form-group-checkbox">
+            <label class="checkbox-label">
+              <input type="checkbox" class="checkbox-input" [(ngModel)]="przekazWgDekretacji" />
+              <span>Przekaz wg dekretacji</span>
+            </label>
           </div>
 
           <div class="section-title">Inne dekretacje</div>
@@ -411,6 +419,21 @@ interface InnaDekretacjaRow {
       background: #eff6ff;
     }
 
+    .form-group-checkbox {
+      display: flex;
+      align-items: center;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-primary);
+      cursor: pointer;
+      user-select: none;
+    }
+
     .add-icon {
       font-size: 18px;
       font-weight: 300;
@@ -519,6 +542,7 @@ export class DekretacjaWindowComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
   uwagi = '';
+  przekazWgDekretacji = false;
 
   inneDekretacje: InnaDekretacjaRow[] = [];
 
@@ -526,6 +550,7 @@ export class DekretacjaWindowComponent implements OnInit {
     private jednostkiService: JednostkiService,
     private pracownicyService: PracownicyService,
     private dekretujService: DokumentDekretujService,
+    private dokumentPrzekazService: DokumentPrzekazService,
     private authService: AuthService
   ) {}
 
@@ -665,12 +690,23 @@ export class DekretacjaWindowComponent implements OnInit {
     this.submitting = true;
     this.dekretujService.dekretuj(dekretacja).subscribe({
       next: () => {
-        this.submitting = false;
-        this.successMessage = 'Dokument zadekretowany';
-        setTimeout(() => {
-          this.dokumentDekretowany.emit();
-          this.close();
-        }, 1200);
+        if (this.przekazWgDekretacji) {
+          this.przekazDokumentyPoDekretacji(inneRows, () => {
+            this.submitting = false;
+            this.successMessage = 'Dokument zadekretowany i przekazany';
+            setTimeout(() => {
+              this.dokumentDekretowany.emit();
+              this.close();
+            }, 1200);
+          });
+        } else {
+          this.submitting = false;
+          this.successMessage = 'Dokument zadekretowany';
+          setTimeout(() => {
+            this.dokumentDekretowany.emit();
+            this.close();
+          }, 1200);
+        }
       },
       error: (err) => {
         console.error('Error dekretacja:', err);
@@ -678,6 +714,51 @@ export class DekretacjaWindowComponent implements OnInit {
         this.submitting = false;
       }
     });
+  }
+
+  private przekazDokumentyPoDekretacji(inneRows: TDekretacja[], onComplete: () => void) {
+    const dokumentNumer = this.dokument.numer;
+    const requests: DokumentPrzekazRequest[] = [];
+
+    requests.push({
+      Dokument: dokumentNumer,
+      Jednostka: this.selectedJednostka!.symbol,
+      Osoba: this.selectedOsoba!.numer
+    });
+
+    for (const row of inneRows) {
+      const req: DokumentPrzekazRequest = {
+        Dokument: dokumentNumer,
+        Jednostka: row.komPrzyj!.symbol,
+        Osoba: row.osobaPrzyj!.numer
+      };
+      if (row.innaDoWgladu) {
+        req.doWgladu = true;
+      }
+      requests.push(req);
+    }
+
+    let completed = 0;
+    let hadError = false;
+
+    for (const req of requests) {
+      this.dokumentPrzekazService.przekazDokument(req).subscribe({
+        next: () => {
+          completed++;
+          if (completed === requests.length && !hadError) {
+            onComplete();
+          }
+        },
+        error: (err) => {
+          if (!hadError) {
+            hadError = true;
+            console.error('Error przekaz dokumentu:', err);
+            this.errorMessage = 'Błąd podczas przekazywania dokumentu';
+            this.submitting = false;
+          }
+        }
+      });
+    }
   }
 
   close() {

@@ -8,6 +8,7 @@ export interface DokumentPrzekazRequest {
   Dokument: number;
   Jednostka: string;
   Osoba: number;
+  doWgladu?: boolean;
 }
 
 @Injectable({
