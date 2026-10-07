@@ -88,13 +88,6 @@ interface InnaDekretacjaRow {
             ></textarea>
           </div>
 
-          <div class="form-group form-group-checkbox">
-            <label class="checkbox-label">
-              <input type="checkbox" class="checkbox-input" [(ngModel)]="przekazWgDekretacji" />
-              <span>Przekaz wg dekretacji</span>
-            </label>
-          </div>
-
           <div class="section-title">Inne dekretacje</div>
 
           <div class="inne-table">
@@ -152,18 +145,24 @@ interface InnaDekretacjaRow {
         </div>
 
         <div class="window-footer">
-          <button
-            class="action-button button-save"
-            (click)="onDekretuj()"
-            [disabled]="!canDekretuj() || submitting"
-          >
-            <span class="button-icon">✓</span>
-            {{ submitting ? 'Dekretowanie...' : 'Dekretuj' }}
-          </button>
-          <button class="action-button button-cancel" (click)="close()">
-            <span class="button-icon">✗</span>
-            Anuluj
-          </button>
+          <label class="footer-checkbox-label">
+            <input type="checkbox" class="checkbox-input" [(ngModel)]="przekazWgDekretacji" />
+            <span>Przekaż po dekretacji</span>
+          </label>
+          <div class="footer-buttons">
+            <button
+              class="action-button button-save"
+              (click)="onDekretuj()"
+              [disabled]="!canDekretuj() || submitting"
+            >
+              <span class="button-icon">✓</span>
+              {{ submitting ? 'Dekretowanie...' : 'Dekretuj' }}
+            </button>
+            <button class="action-button button-cancel" (click)="close()">
+              <span class="button-icon">✗</span>
+              Anuluj
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -462,8 +461,28 @@ interface InnaDekretacjaRow {
       border-top: 1px solid var(--border-default);
       display: flex;
       gap: 12px;
-      justify-content: flex-end;
+      align-items: center;
+      justify-content: space-between;
       background: var(--bg-subtle);
+    }
+
+    .footer-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+
+    .footer-checkbox-label span {
+      font-size: 14px;
+    }
+
+    .footer-buttons {
+      display: flex;
+      gap: 12px;
     }
 
     .action-button {
@@ -519,7 +538,9 @@ interface InnaDekretacjaRow {
       .window-header { padding: 16px 20px; }
       .window-title { font-size: 18px; }
       .window-content { padding: 20px; }
-      .window-footer { padding: 16px 20px; flex-direction: column-reverse; }
+      .window-footer { padding: 16px 20px; flex-direction: column; align-items: stretch; gap: 12px; }
+      .footer-buttons { flex-direction: column-reverse; }
+      .footer-checkbox-label { justify-content: center; }
       .action-button { width: 100%; justify-content: center; }
 
       .inne-col-kom { flex: 0 0 30%; }
