@@ -75,7 +75,7 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
           </div>
         </div>
 
-        <div class="field-group">
+        <div class="field-group-3">
           <div class="field" [class.success-field]="sprawaCreated">
             <label for="znakSprawy">Znak sprawy</label>
             <div class="input-with-button" *ngIf="sprawaCreated; else normalZnak">
@@ -97,6 +97,17 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
                 readonly
                 class="form-input" />
             </ng-template>
+          </div>
+
+          <div class="field">
+            <label for="znakNumer">Numer sprawy</label>
+            <input
+              id="znakNumer"
+              [(ngModel)]="znakNumerModel"
+              type="number"
+              class="form-input"
+              [disabled]="sprawaCreated"
+              placeholder="Auto" />
           </div>
 
           <div class="field">
@@ -392,6 +403,12 @@ import { KontrahenciWindowComponent } from './kontrahenci-window.component';
       gap: 1rem;
     }
 
+    .field-group-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+
     .form-input, .form-select, .form-textarea {
       width: 100%;
       padding: 0.5rem 0.75rem;
@@ -650,6 +667,7 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
   dataStopModel: string = '';
   terminPlanModel: string = '';
   terminAlarmModel: string = '';
+  znakNumerModel: number | null = null;
 
   sprawaCreated: boolean = false;
   showKontrahentWindow = false;
@@ -709,6 +727,7 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
     today.setHours(12, 0, 0, 0);
     this.dataStartModel = today.toISOString().split('T')[0];
     this.sprawa.dataStart = today.toISOString();
+    this.znakNumerModel = null;
 
     const planDate = new Date(today);
     planDate.setDate(planDate.getDate() + 21);
@@ -862,6 +881,12 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
       }
     }
 
+    if (this.znakNumerModel !== null && this.znakNumerModel !== undefined) {
+      this.sprawa.znak_numer = this.znakNumerModel;
+    } else {
+      this.sprawa.znak_numer = 0;
+    }
+
     if (this.dataStartModel) {
       this.sprawa.dataStart = new Date(this.dataStartModel).toISOString();
     }
@@ -915,6 +940,7 @@ export class SprawaEditWindowComponent implements OnInit, OnChanges {
     this.visible = false;
     this.visibleChange.emit(false);
     this.sprawaCreated = false;
+    this.znakNumerModel = null;
     this.sprawa = this.getEmptySprawa();
   }
 

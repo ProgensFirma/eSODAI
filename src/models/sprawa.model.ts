@@ -12,6 +12,7 @@ export interface Sprawa {
   typ: SprawaTyp;
   znakDef: string;
   znakSprawy: string;
+  znak_numer: number;
   znak_wydzial: string;
   znak_RWA: string;
   znak_rok: number;

@@ -14,6 +14,7 @@ export class EmptyObjectsService {
       typ: { nazwa: '', rWA: '' },
       znakDef: '',
       znakSprawy: '',
+      znak_numer: 0,
       znak_wydzial: '',
       znak_RWA: '',
       znak_rok: new Date().getFullYear(),
