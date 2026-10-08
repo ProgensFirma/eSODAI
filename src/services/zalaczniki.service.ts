@@ -53,7 +53,14 @@ export class ZalacznikiService {
     const params = new HttpParams()
       .append('sesja', sesjaId.toString());
 
-    return this.http.post(this.apiUrl, zalacznik, { params });
+   if (zalacznik.oper === TBazaOper.tboDodaj) {
+      return this.http.post(this.apiUrl, zalacznik, { params });
+    }
+    else if (zalacznik.oper === TBazaOper.tboZmien) {
+      return this.http.put(this.apiUrl, zalacznik, { params });
+    } else {
+      return throwError(() => new Error('uploadZalacznik - Nieobsługiwana operacja'));
+    }
   }
 
   private getMockData(dokument: number, numer: number): ZalacznikTresc {
