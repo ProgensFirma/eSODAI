@@ -53,7 +53,7 @@ export class ZalacznikiService {
     const params = new HttpParams()
       .append('sesja', sesjaId.toString());
 
-   if (zalacznik.oper === TBazaOper.tboDodaj) {
+    if (zalacznik.oper === TBazaOper.tboDodaj) {
       return this.http.post(this.apiUrl, zalacznik, { params });
     }
     else if (zalacznik.oper === TBazaOper.tboZmien) {
