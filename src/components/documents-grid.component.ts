@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DokumentyService } from '../services/dokumenty.service';
 import { DokumentPrzyjmijService } from '../services/dokument-przyjmij.service';
 import { DokumentPodpiszService } from '../services/dokument-podpisz.service';
+import { DokumentPieczecService } from '../services/dokument-pieczec.service';
 import { DokumentWyslijService } from '../services/dokument-wyslij.service';
 import { DokWyjRodzajWysylkiService } from '../services/dok-wyj-rodzaj-wysylki.service';
 import { SprawyService } from '../services/sprawy.service';
@@ -174,7 +175,12 @@ import { DekretacjaWindowComponent } from './dekretacja-window.component';
           </button>
         </div>
       </div>
-      
+
+      <div class="pieczec-toast" *ngIf="pieczecMessage">
+        <span class="pieczec-toast-icon">✓</span>
+        <span class="pieczec-toast-msg">{{ pieczecMessage }}</span>
+      </div>
+
       <div class="documents-content" *ngIf="!loading && documents.length > 0">
         <div class="documents-table">
           <div class="table-header">
@@ -397,6 +403,42 @@ import { DekretacjaWindowComponent } from './dekretacja-window.component';
       background: linear-gradient(135deg, var(--bg-subtle), var(--border-default));
       border-bottom: 1px solid var(--border-default);
       transition: var(--transition-theme);
+    }
+
+    .pieczec-toast {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      margin: 12px 24px 0;
+      animation: pieczec-slide-in 0.3s ease;
+    }
+
+    .pieczec-toast-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #16a34a;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .pieczec-toast-msg {
+      font-size: 14px;
+      font-weight: 500;
+      color: #14532d;
+    }
+
+    @keyframes pieczec-slide-in {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .documents-title {
@@ -1292,6 +1334,7 @@ export class DocumentsGridComponent implements OnChanges {
   loading = false;
   przyjmijLoading = false;
   podpiszLoading = false;
+  pieczecMessage: string | null = null;
   showPodpiszMenu = false;
   podpisObsluga = false;
   pieczecObsluga = false;
@@ -1348,6 +1391,7 @@ export class DocumentsGridComponent implements OnChanges {
     private dokumentyService: DokumentyService,
     private dokumentPrzyjmijService: DokumentPrzyjmijService,
     private dokumentPodpiszService: DokumentPodpiszService,
+    private dokumentPieczecService: DokumentPieczecService,
     private dokumentWyslijService: DokumentWyslijService,
     private rodzajWysylkiService: DokWyjRodzajWysylkiService,
     private sprawyService: SprawyService,
@@ -1721,6 +1765,21 @@ export class DocumentsGridComponent implements OnChanges {
     this.showPodpiszMenu = false;
     const zalaczniki = this.selectedDocument.zalaczniki ?? [];
 
+    if (pieczec && !tylkoOznacz) {
+      if (zalaczniki.length === 1) {
+        this.executePieczec(zalaczniki[0].numer, zalaczniki[0].plik);
+      } else if (zalaczniki.length > 1) {
+        this.podpiszZalaczniki = zalaczniki;
+        this.selectedPodpiszZalacznik = null;
+        this.podpiszPendingParams = { tylkoOznacz, pieczec };
+        this.showPodpiszZalacznikDialog = true;
+      } else {
+        this.pieczecMessage = 'Brak załącznika do opieczętowania';
+        setTimeout(() => { this.pieczecMessage = null; }, 4000);
+      }
+      return;
+    }
+
     if (zalaczniki.length === 1) {
       this.executePodpisz(zalaczniki[0].numer, tylkoOznacz, pieczec);
     } else if (zalaczniki.length > 1) {
@@ -1731,6 +1790,22 @@ export class DocumentsGridComponent implements OnChanges {
     } else {
       this.executePodpisz(undefined, tylkoOznacz, pieczec);
     }
+  }
+
+  private executePieczec(zalacznikNumer: number, zalacznikNazwa: string) {
+    this.podpiszLoading = true;
+    this.dokumentPieczecService.pieczecZalacznik(this.selectedDocument!.numer, zalacznikNumer).subscribe({
+      next: () => {
+        this.podpiszLoading = false;
+        this.pieczecMessage = `Załącznik „${zalacznikNazwa}” został opieczętowany`;
+        setTimeout(() => { this.pieczecMessage = null; }, 4000);
+        this.loadDocuments();
+      },
+      error: (error) => {
+        console.error('Błąd opieczętowania załącznika:', error);
+        this.podpiszLoading = false;
+      }
+    });
   }
 
   private executePodpisz(zalacznik: number | undefined, tylkoOznacz: boolean, pieczec: boolean) {
@@ -1750,10 +1825,15 @@ export class DocumentsGridComponent implements OnChanges {
   onPodpiszZalacznikConfirm() {
     if (!this.selectedPodpiszZalacznik || !this.podpiszPendingParams) return;
     const zalacznikNumer = this.selectedPodpiszZalacznik.numer;
+    const zalacznikNazwa = this.selectedPodpiszZalacznik.plik;
     const { tylkoOznacz, pieczec } = this.podpiszPendingParams;
     this.showPodpiszZalacznikDialog = false;
     this.podpiszPendingParams = null;
-    this.executePodpisz(zalacznikNumer, tylkoOznacz, pieczec);
+    if (pieczec && !tylkoOznacz) {
+      this.executePieczec(zalacznikNumer, zalacznikNazwa);
+    } else {
+      this.executePodpisz(zalacznikNumer, tylkoOznacz, pieczec);
+    }
   }
 
   closePodpiszZalacznikDialog() {
